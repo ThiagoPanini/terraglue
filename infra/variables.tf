@@ -30,5 +30,5 @@ variable "local_data_path" {
 variable "flag_upload_data_files" {
   description = "Flag para realização do upload de bases de dados"
   type        = bool
-  default     = true
+  default     = false
 }

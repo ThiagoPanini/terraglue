@@ -22,9 +22,20 @@ data "aws_caller_identity" "current" {}
 
 # Chamando módulo storage
 module "storage" {
-  source = "./modules/storage"
-
+  source                 = "./modules/storage"
   bucket_name            = "sbx-sor-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
   local_data_path        = var.local_data_path
   flag_upload_data_files = var.flag_upload_data_files
+}
+
+# Definindo lista com databases a serem criados no catálogo com base em diretório local
+locals {
+  glue_databases = [for f in fileset(var.local_data_path, "**") : split("/", dirname(f))[0]]
+}
+
+# Chamando módulo analytics
+module "analytics" {
+  source          = "./modules/analytics"
+  glue_databases  = local.glue_databases
+  local_data_path = var.local_data_path
 }
