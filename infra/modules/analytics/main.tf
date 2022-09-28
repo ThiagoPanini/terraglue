@@ -13,6 +13,7 @@ RESOURCES: Os recursos aqui implantados serão:
 
 # Criando database no glue catalog
 resource "aws_glue_catalog_database" "source" {
-  for_each = toset(var.glue_databases)
-  name     = each.value
+  for_each    = toset(var.glue_databases)
+  name        = each.value
+  description = "Database para alocação de tabelas do schema ${each.value}"
 }
