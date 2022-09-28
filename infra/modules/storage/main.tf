@@ -6,12 +6,13 @@ específica da infraestrutura cabível ao contexto do
 módulo em questão.
 
 GOAL: O objetivo deste arquivo é consolidar a criação
-de um bucket s3 alvo de todo o armazemaneto dos
-objetos a serem utilizados no toolkit de capacitação
-aqui proposto.
+de um bucket s3 alvo de todo o armazemaneto das fontes
+de dados a serem utilizadas como origens do script
+glue implantado.
 
 RESOURCES: Os recursos aqui implantados serão:
   - Bucket S3
+  - Arquivos de fontes de dados com prefixos
 -------------------------------------------------- */
 
 # Definindo bucket s3
