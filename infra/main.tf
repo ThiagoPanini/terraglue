@@ -20,17 +20,19 @@ arquivos main.tf
 data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
 
+# Definindo lista com databases a serem criados no catálogo com base em diretório local
+locals {
+  glue_databases = distinct([for f in fileset(var.local_data_path, "**") : split("/", dirname(f))[0]])
+}
+
 # Chamando módulo storage
 module "storage" {
   source                 = "./modules/storage"
   bucket_name            = "sbx-sor-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
   local_data_path        = var.local_data_path
   flag_upload_data_files = var.flag_upload_data_files
-}
 
-# Definindo lista com databases a serem criados no catálogo com base em diretório local
-locals {
-  glue_databases = [for f in fileset(var.local_data_path, "**") : split("/", dirname(f))[0]]
+  # Criar buckets para query results do Athena e para scripts do Glue
 }
 
 # Chamando módulo analytics
