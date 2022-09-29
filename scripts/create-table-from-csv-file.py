@@ -46,29 +46,7 @@ import os
 
 """---------------------------------------------------
 ---------- 1. PREPARAÇÃO INICIAL DO SCRIPT -----------
-          1.2 Configuração do objeto logger
----------------------------------------------------"""
-
-# Instanciando objeto de logging
-logger = logging.getLogger(__file__)
-logger.setLevel(logging.DEBUG)
-
-# Configurando formato das mensagens no objeto
-log_format = "%(levelname)s;%(asctime)s;%(filename)s;"
-log_format += "%(lineno)d;%(message)s"
-date_format = "%Y-%m-%d %H:%M:%S"
-formatter = logging.Formatter(log_format,
-                              datefmt=date_format)
-
-# Configurando stream handler do objeto de log
-stream_handler = logging.StreamHandler()
-stream_handler.setFormatter(formatter)
-logger.addHandler(stream_handler)
-
-
-"""---------------------------------------------------
----------- 1. PREPARAÇÃO INICIAL DO SCRIPT -----------
-        1.3 Definição e coleta dos argumentos
+        1.2 Definição e coleta dos argumentos
 ---------------------------------------------------"""
 
 # Criando objeto para parse dos argumentos
@@ -88,6 +66,17 @@ parser.add_argument(
     version=f"{os.path.splitext(parser.prog)[0]} 0.1"
 )
 
+# Adicionando argumento: --log-level
+parser.add_argument(
+    "-l", "--log-level",
+    dest="log_level",
+    type=str,
+    default="INFO",
+    choices=["INFO", "DEBUG", "WARNING", "ERROR", "CRITICAL"],
+    help="Nível de configuração do objeto de log do script",
+    required=False
+)
+
 # Adicionando argumento: --data-path
 parser.add_argument(
     "-d", "--data-path",
@@ -100,7 +89,7 @@ parser.add_argument(
 
 # Adicionando argumento: --command-format
 parser.add_argument(
-    "-cf", "--command-format",
+    "-f", "--command-format",
     dest="command_format",
     type=str,
     default="sql",
@@ -123,6 +112,29 @@ parser.add_argument(
 args = parser.parse_args()
 
 
+"""---------------------------------------------------
+---------- 1. PREPARAÇÃO INICIAL DO SCRIPT -----------
+          1.3 Configuração do objeto logger
+---------------------------------------------------"""
+
+# Instanciando objeto de logging
+logger = logging.getLogger(__file__)
+level = logging.getLevelName(args.log_level.upper())
+logger.setLevel(level)
+
+# Configurando formato das mensagens no objeto
+log_format = "%(levelname)s;%(asctime)s;%(filename)s;"
+log_format += "%(lineno)d;%(message)s"
+date_format = "%Y-%m-%d %H:%M:%S"
+formatter = logging.Formatter(log_format,
+                              datefmt=date_format)
+
+# Configurando stream handler do objeto de log
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+logger.addHandler(stream_handler)
+
+
 if __name__ == "__main__":
 
     """-----------------------------------------------
@@ -130,32 +142,77 @@ if __name__ == "__main__":
           2.1 Gerando listas com informações locais
     -----------------------------------------------"""
 
-    # Iterando sobre diretório de dados e extraindo informações relevantes
-    files_path = [os.path.join(dirs, files[0])
-                  for dirs, _, files in os.walk(args.data_path) if files != []]
-    glue_databases = [p.removeprefix(args.data_path)[1:]
-                      .split("/")[0] for p in files_path]
-    table_names = [p.removeprefix(args.data_path)[1:]
-                   .split("/")[1].replace('-', '_') for p in files_path]
+    logger.debug(f"Iterando sobre diretório {args.data_path}")
+    try:
+        # Gerando lista de caminhos de arquivos do diretório alvo
+        files_path = [os.path.join(dirs, files[0])
+                      for dirs, _, files in os.walk(args.data_path)
+                      if files != []]
+
+        # Gerando lista apenas com diretórios raíz (databases) do alvo
+        glue_databases = [p.removeprefix(args.data_path)[1:]
+                          .split("/")[0] for p in files_path]
+
+        # Gerando lista apenas com subdiretórios (tabelas) do alvo
+        table_names = [p.removeprefix(args.data_path)[1:]
+                       .split("/")[1].replace('-', '_') for p in files_path]
+
+        logger.info("Informações extraídas e armazenadas em objetos listas")
+    except Exception as e:
+        logger.error("Erro ao extrair informações do diretório alvo")
+        raise e
+
+    # Validando a existência do diretório de saída
+    out_path = args.output_path
+    if not os.path.isdir(out_path):
+        logger.debug(f"Diretório de saída {out_path} inexistente. " +
+                     "Realizando a criação do mesmo.")
+        try:
+            os.makedirs(out_path)
+            logger.info(f"Diretório de saída {out_path} criado com sucesso")
+        except Exception as e:
+            logger.error(f"Erro ao criar diretório de saída {out_path}")
+            raise e
 
     """-----------------------------------------------
     ------------- 2. PROGRAMA PRINCIPAL --------------
        2.2 Gerando e salvando comandos CREATE TABLE
     -----------------------------------------------"""
 
-    # Iterando sobre informações dos arquivos
-    for db, tbl, path in zip(glue_databases, table_names, files_path):
-        # Realizando leitura de arquivo e coletando header
-        with open(path, "r") as raw:
-            header = raw.readline()
+    logger.debug("Iterando sobre conjunto de listas com informações extraídas")
 
-        # Preparando header e gerando lista de colunas
-        header_prep = header.replace("\n", "").replace('"', "").split(',')
-        columns = ',\n'.join(["\t" + h.lower() + " STRING"
-                              for h in header_prep])
+    # Iterando sobre elemento zipado com diretórios, subdiretórios e caminhos
+    for db, tbl, path in zip(glue_databases, table_names, files_path):
+        
+        # Referenciando nome de tabela a partir de infos de arquivos
+        tbl_name = f"{db}.{tbl}"
+
+        logger.debug(f"Coletando informação de header da tabela {tbl_name}")
+        try:
+            # Realizando leitura de arquivo e lendo apenas a primeira linha
+            with open(path, "r") as raw:
+                header = raw.readline()
+            logger.info(f"Header obtido com sucesso da tabela {tbl_name}")
+        except Exception as e:
+            logger.error(f"Erro ao ler header da tabela {tbl_name}")
+            raise e
+
+        logger.debug(f"Aplicando transformações no header de {tbl_name}")
+        try:
+            # Retirando quebra de linha, aspas e transformando string em lista
+            header_prep = header.replace("\n", "").replace('"', "").split(',')
+
+            # Adicionando tipo primitivo para cada atributo do cabeçalho
+            columns = ',\n'.join(["\t" + h.lower() + " STRING"
+                                  for h in header_prep])
+
+            logger.info(f"Transformações aplicadas ao header de {tbl_name}")
+        except Exception as e:
+            logger.error(f"Erro transformar header da tabela {tbl_name}")
+            raise e
 
         # Gerando comando de criação de tabelas
-        create_table = f'CREATE EXTERNAL TABLE {db}.{tbl} (\n{columns}\n)' \
+        create_table = f'CREATE EXTERNAL TABLE {tbl_name} (\n{columns}\n)' \
             + '\nCOMMENT "Tabela criada para fins de validação e testes"' \
             + '\nROW FORMAT DELIMITED' \
             + '\n\tFIELDS TERMINATED BY ","' \
@@ -164,8 +221,20 @@ if __name__ == "__main__":
             + f'\nLOCATION "s3://<bucket_name>/{db}/{tbl}"' \
             + '\nTBLPROPERTIES ("skip.header.line.count"="1")'
 
-        # Salvando comandos em arquivos locais
+        # Definindo variáveis para salvamento de script
         command_filename = f"{db}_{tbl}.{args.command_format}"
         output_command_path = os.path.join(args.output_path, command_filename)
-        with open(output_command_path, "w") as c:
-            c.write(create_table)
+
+        logger.debug(f"Salvando script de CREATE TABLE da tabela {tbl_name}")
+        try:
+            with open(output_command_path, "w") as c:
+                c.write(create_table)
+            logger.info(f"Script de CREATE TABLE para a tabela {tbl_name} " +
+                        f"salvo com sucesso em {output_command_path}")
+        except Exception as e:
+            logger.error("Erro ao salvar script de CREATE TABLE da tabela " +
+                         f"{tbl_name}")
+            raise e
+
+    # Comunicando encerrando do script
+    logger.info("Script finalizado com sucesso")
