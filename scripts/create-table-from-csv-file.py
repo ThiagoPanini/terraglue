@@ -183,7 +183,7 @@ if __name__ == "__main__":
 
     # Iterando sobre elemento zipado com diretórios, subdiretórios e caminhos
     for db, tbl, path in zip(glue_databases, table_names, files_path):
-        
+
         # Referenciando nome de tabela a partir de infos de arquivos
         tbl_name = f"{db}.{tbl}"
 
