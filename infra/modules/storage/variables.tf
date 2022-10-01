@@ -10,9 +10,9 @@ de variáveis para toda a construção do ambiente de
 armazenamento dos dados e insumos no s3
 -------------------------------------------------- */
 
-variable "bucket_name" {
-  description = "Nome do bucket s3 a ser criado para consolidação dos objetos do tookit de capacitação"
-  type        = string
+variable "bucket_names_map" {
+  description = "Map contendo chaves e nomes de todos os buckets a serem criados no projeto"
+  type        = map(string)
 }
 
 variable "local_data_path" {
