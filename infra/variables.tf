@@ -32,3 +32,58 @@ variable "flag_upload_data_files" {
   type        = bool
   default     = true
 }
+
+variable "catalog_table_parameters" {
+  description = "Parâmetros adicionais de criação da tabela (semelhante à cláusula TBLPROPERTIES do comando CREATE TABLE do Apache Hive)"
+  type        = map(string)
+  default = {
+    "EXTERNAL"               = "TRUE"
+    "skip.header.line.count" = "1"
+  }
+}
+
+variable "catalog_table_input_format" {
+  description = "Formato de entrada para armazenamento da tabela de acordo com classe Hive"
+  type        = string
+  default     = "org.apache.hadoop.mapred.TextInputFormat"
+}
+
+variable "catalog_table_output_format" {
+  description = "Formato de saída para armazenamento da tabela de acordo com classe Hive"
+  type        = string
+  default     = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+}
+
+variable "catalog_table_serialization_library" {
+  description = "Biblioteca principal de serialização para criação e especificação dos metadados da tabela no catálogo"
+  type        = string
+  default     = "org.apache.hadoop.hive.serde2.OpenCSVSerde"
+}
+
+variable "catalog_table_ser_de_parameters" {
+  description = "Parâmetros de serialização e deserialização com base na biblioteca de serialização definida"
+  type        = map(string)
+  default = {
+    "separatorChar" = ","
+    "quoteChar"     = "\"",
+    "escapeChar"    = "\\"
+  }
+}
+
+variable "flag_create_athena_workgroup" {
+  description = "Flag para guiar a criação opção de um workgroup pré configurado para o Amazon Athena"
+  type        = bool
+  default     = true
+}
+
+variable "athena_workgroup_name" {
+  description = "Nome do workgoup a ser criado para o Athena (apenas caso var.flag_create_athena_workgroup=true)"
+  type        = string
+  default     = "sbx-analytics-workgroup"
+}
+
+variable "s3_kms_key_alias" {
+  description = "Alias de chave KMS a ser utilizada na criptografia dos resultados de query no bucket do Athena"
+  type        = string
+  default     = "alias/aws/s3"
+}

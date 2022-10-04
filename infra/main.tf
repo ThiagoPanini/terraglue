@@ -73,7 +73,7 @@ locals {
   ]
 
   # Criando estruturas para mapeamento dos tipos primitivos
-  column_names = [for c in local.file_headers : split(",", c)]
+  column_names = [for c in local.file_headers : split(",", lower(c))]
 
   # Criando lista de localizações dos arquivos físicos no s3
   s3_locations = [
@@ -97,10 +97,20 @@ locals {
 module "analytics" {
   source = "./modules/analytics"
 
-  glue_databases   = local.db_names
-  glue_catalog_map = local.glue_catalog_map
+  # Variáveis para criação de entradas no catálogo de dados
+  glue_databases                      = local.db_names
+  glue_catalog_map                    = local.glue_catalog_map
+  catalog_table_parameters            = var.catalog_table_parameters
+  catalog_table_input_format          = var.catalog_table_input_format
+  catalog_table_output_format         = var.catalog_table_input_format
+  catalog_table_serialization_library = var.catalog_table_serialization_library
+  catalog_table_ser_de_parameters     = var.catalog_table_ser_de_parameters
 
-  #ToDo: pensar em uma regra para inserir nomes das colunas
+  # Variáveis de configuração do athena para consultas nos dados
+  flag_create_athena_workgroup     = var.flag_create_athena_workgroup
+  athena_workgroup_name            = var.athena_workgroup_name
+  athena_workgroup_output_location = "s3://${module.storage.bucket_name_athena}"
+  s3_kms_key_alias                 = var.s3_kms_key_alias
 
   depends_on = [
     module.storage
