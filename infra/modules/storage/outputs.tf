@@ -16,6 +16,6 @@ output "bucket_name_sor" {
   value = aws_s3_bucket.this["sor"].bucket
 }
 
-output "bucket_arn_sor" {
-  value = aws_s3_bucket.this["sor"].arn
+output "bucket_name_athena" {
+  value = aws_s3_bucket.this["athena"].bucket
 }
