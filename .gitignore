@@ -3,7 +3,7 @@ notebooks/
 
 # Local .terraform directories
 **/.terraform/*
-**.lock.hcl
+infra/.terraform.lock.hcl
 
 # .tfstate files
 *.tfstate

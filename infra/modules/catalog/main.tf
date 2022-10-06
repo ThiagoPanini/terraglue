@@ -79,7 +79,7 @@ resource "aws_athena_workgroup" "analytics" {
       output_location = var.athena_workgroup_output_location
 
       encryption_configuration {
-        encryption_option = "SS3_KMS"
+        encryption_option = "SSE_KMS"
         kms_key_arn       = data.aws_kms_key.s3.arn
       }
     }

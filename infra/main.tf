@@ -10,7 +10,8 @@ nos providers declarados.
 GOAL: 
 
 MODULES: A organização da infra comporta os módulos:
-  - ./modules/<a definir>
+  - ./modules/storage
+  - ./modules/analytics
 
 Especificações e detalhes sobre o conteúdo de cada
 módulo poderá ser encontrado em seus respectivos
@@ -94,15 +95,15 @@ locals {
 }
 
 # Chamando módulo analytics
-module "analytics" {
-  source = "./modules/analytics"
+module "catalog" {
+  source = "./modules/catalog"
 
   # Variáveis para criação de entradas no catálogo de dados
   glue_databases                      = local.db_names
   glue_catalog_map                    = local.glue_catalog_map
   catalog_table_parameters            = var.catalog_table_parameters
   catalog_table_input_format          = var.catalog_table_input_format
-  catalog_table_output_format         = var.catalog_table_input_format
+  catalog_table_output_format         = var.catalog_table_output_format
   catalog_table_serialization_library = var.catalog_table_serialization_library
   catalog_table_ser_de_parameters     = var.catalog_table_ser_de_parameters
 
