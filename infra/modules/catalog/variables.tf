@@ -1,5 +1,5 @@
 /* --------------------------------------------------
-FILE: variables.tf @ analytics module
+FILE: variables.tf @ catalog module
 
 CONTEXT: Arquivo de declaração de variáveis a ser 
 utilizado nos recursos criados especificamente neste

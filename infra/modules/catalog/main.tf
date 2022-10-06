@@ -1,5 +1,5 @@
 /* --------------------------------------------------
-FILE: main.tf @ analytics module
+FILE: main.tf @ catalog module
 
 CONTEXT: Arquivo principal de construção de parte
 específica da infraestrutura cabível ao contexto do
@@ -17,6 +17,7 @@ arquivos presentes.
 RESOURCES: Os recursos aqui implantados serão:
   - Databases no glue data catalog
   - Tabelas pré configuradas no glue data catalog
+  - Workgroup no athena
 -------------------------------------------------- */
 
 # Criando databases no catálogo de dados
