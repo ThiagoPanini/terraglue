@@ -34,7 +34,7 @@ locals {
     "sor"    = "sbx-sor-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
     "sot"    = "sbx-sot-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
     "athena" = "sbx-athena-query-results-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-    "glue"   = "sbx-glue-scripts-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    "glue"   = "aws-glue-assets-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
   }
 }
 

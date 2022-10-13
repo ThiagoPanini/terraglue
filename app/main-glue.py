@@ -38,10 +38,16 @@ TABLE OF CONTENTS:
 ---------------------------------------------------"""
 
 # Bibliotecas da aplicação
+import sys
+from awsglue.transforms import *
+from awsglue.utils import getResolvedOptions
+from pyspark.context import SparkContext
+from awsglue.context import GlueContext
+from awsglue.job import Job
+from awsglue.dynamicframe import DynamicFrame
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, count, avg,\
-    sum, round, count_distinct, max
-from src.local import read_local_data
+    sum, round, countDistinct, max
 import logging
 
 
@@ -72,15 +78,22 @@ logger.addHandler(stream_handler)
         1.3 Definindo variáveis da aplicação
 ---------------------------------------------------"""
 
-# Criando sessão Spark
-logger.debug("Criando e obtendo objeto de sessão Spark")
+# Preparando elementos da aplicação Spark
+logger.debug("Criando e obtendo elementos da Spark Application")
 try:
-    spark = SparkSession\
-        .builder\
-        .appName("ecommerce-data-processing")\
-        .getOrCreate()
+    # Coletando argumentos da aplicação
+    args = getResolvedOptions(sys.argv, ['JOB_NAME'])
+
+    # Gerando SparkContext e GlueContext
+    sc = SparkContext()
+    glueContext = GlueContext(sc)
+    spark = glueContext.spark_session
+
+    # Gerando job no contexto do Glue com argumentos coletados
+    job = Job(glueContext)
+    job.init(args['JOB_NAME'], args)
 except Exception as e:
-    logger.error(f"Erro ao obter objeto de sessão Spark. Exception: {e}")
+    logger.error(f"Erro ao obter elementos da aplicação. Exception: {e}")
 
 
 """---------------------------------------------------
@@ -88,10 +101,39 @@ except Exception as e:
           2.1 Lendo dados e obtendo DataFrames
 ---------------------------------------------------"""
 
-# Obtendo DataFrames a serem utilizados
-df_orders, df_reviews,\
-    df_payments, df_customers, _ = read_local_data(spark=spark)
+# Criando DynamicFrame: orders
+dynamicf_orders = glueContext.create_dynamic_frame.from_catalog(
+    database="ra8",
+    table_name="orders",
+    transformation_ctx="dynamicf_orders",
+)
 
+# Criando DynamicFrame: customers
+dynamicf_customers = glueContext.create_dynamic_frame.from_catalog(
+    database="ra8",
+    table_name="customers",
+    transformation_ctx="dynamicf_customers",
+)
+
+# Criando DynamicFrame: payments
+dynamicf_payments = glueContext.create_dynamic_frame.from_catalog(
+    database="ra8",
+    table_name="payments",
+    transformation_ctx="dynamicf_payments",
+)
+
+# Criando DynamicFramde: reviews
+dynamicf_reviews = glueContext.create_dynamic_frame.from_catalog(
+    database="ra8",
+    table_name="reviews",
+    transformation_ctx="dynamicf_reviews",
+)
+
+# Convertendo DynamicFrames em DataFrames
+df_orders = dynamicf_orders.toDF()
+df_customers = dynamicf_customers.toDF()
+df_payments = dynamicf_payments.toDF()
+df_reviews = dynamicf_reviews.toDF()
 
 """---------------------------------------------------
 -------- 2. TRANSFORMAÇÕES NA APLICAÇÃO SPARK --------
@@ -113,7 +155,7 @@ try:
         count("order_id").alias("installments"),
         round(sum("payment_value"), 2).alias("sum_payments"),
         round(avg("payment_value"), 2).alias("avg_payment_value"),
-        count_distinct("payment_type").alias("distinct_payment_types")
+        countDistinct("payment_type").alias("distinct_payment_types")
     )
 
     # Enriquecendo base de pagamentos com tipo de pagamento mais comum
@@ -187,3 +229,42 @@ try:
 except Exception as e:
     logger.error(f"Erro ao preparar DAG para tabela final. Exception: {e}")
 
+
+"""---------------------------------------------------
+-------- 2. TRANSFORMAÇÕES NA APLICAÇÃO SPARK --------
+      2.5 Escrita de base final em bucket do s3
+---------------------------------------------------"""
+
+# Transformando DataFrame em DynamicFrame
+dynamicf_sot_ecommerce = DynamicFrame.fromDF(df_sot_ecommerce, glueContext, "dynamicf_sot_ecommerce")
+
+# Criando sincronização com bucket s3
+s3_data = glueContext.getSink(
+    path="s3://sbx-sot-data-729186614334-us-east-1/rg10/tbsot_ecommerce_br",
+    connection_type="s3",
+    updateBehavior="UPDATE_IN_DATABASE",
+    partitionKeys=[],
+    compression="snappy",
+    enableUpdateCatalog=True,
+    transformation_ctx="glue_s3_sink",
+)
+
+# Configurando informações do catálogo de dados
+s3_data.setCatalogInfo(
+    catalogDatabase="rg10", catalogTableName="tbsot_ecommerce_br"
+)
+s3_data.setFormat("glueparquet")
+s3_data.writeFrame(dynamicf_sot_ecommerce)
+job.commit()
+
+"""
+ToDos
+
+- Aplicar os try/Except nos blocos de obtenção de DynamicFrame e conversão para DataFrame
+- Entender as classes, funções e métodos da biblioteca awsglue
+- Entender alguns métodos especiais, como:
+    glueContext.getSink()
+        .setCataloginfo()
+        .setFormat()
+        .writeFrame()
+"""
