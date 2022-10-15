@@ -34,7 +34,7 @@ locals {
     "sor"    = "sbx-sor-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
     "sot"    = "sbx-sot-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
     "athena" = "sbx-athena-query-results-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-    "glue"   = "aws-glue-assets-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    "glue"   = "sbx-glue-assets-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
   }
 }
 
@@ -66,7 +66,7 @@ locals {
     "${local.db_names[i]}_${local.tbl_names[i]}"
   ]
 
-  # Criando lista de headers de cada um dos arquivos
+  # [ALTERAR] Criando lista de headers de cada um dos arquivos
   file_headers = [
     for f in local.data_files : replace([
       for line in split("\n", file("${var.local_data_path}${f}")) :
@@ -74,7 +74,7 @@ locals {
     ][0], "\"", "")
   ]
 
-  # Criando estruturas para mapeamento dos tipos primitivos
+  # [VERIFICAR] Criando estruturas para mapeamento dos tipos primitivos
   column_names = [for c in local.file_headers : split(",", lower(c))]
 
   # Criando lista de localizações dos arquivos físicos no s3
