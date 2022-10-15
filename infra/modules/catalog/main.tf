@@ -51,7 +51,7 @@ resource "aws_glue_catalog_table" "all" {
 
     # Bloco dinâmico para iterar sobre a lista de atributos de cada tabela
     dynamic "columns" {
-      for_each = toset(each.value.columns)
+      for_each = each.value.columns
       content {
         name = columns.value
         type = "string"
@@ -73,7 +73,8 @@ data "aws_kms_key" "s3" {
 resource "aws_athena_workgroup" "analytics" {
   count = var.flag_create_athena_workgroup ? 1 : 0
 
-  name = var.athena_workgroup_name
+  name          = var.athena_workgroup_name
+  force_destroy = true
 
   configuration {
     result_configuration {
