@@ -31,10 +31,11 @@ data "aws_caller_identity" "current" {}
 # Definindo variáveis locais para uso no módulo
 locals {
   bucket_names_map = {
-    "sor"    = "sbx-sor-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-    "sot"    = "sbx-sot-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-    "athena" = "sbx-athena-query-results-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-    "glue"   = "sbx-glue-assets-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    "sor"    = "aws-sor-data-sbx-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    "sot"    = "aws-sot-data-sbx-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    "spec"   = "aws-spec-data-sbx-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    "athena" = "aws-athena-query-results-sbx-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    "glue"   = "aws-glue-assets-sbx-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
   }
 }
 
@@ -117,4 +118,16 @@ module "catalog" {
   depends_on = [
     module.storage
   ]
+}
+
+
+/* --------------------------------------------------
+--------------- MÓDULO TERRAFORM: iam ---------------
+      Políticas e role de acessos de serviços
+-------------------------------------------------- */
+
+# Chamando módulo iam
+module "iam" {
+  source            = "./modules/iam"
+  iam_policies_path = var.iam_policies_path
 }

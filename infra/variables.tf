@@ -87,3 +87,9 @@ variable "s3_kms_key_alias" {
   type        = string
   default     = "alias/aws/s3"
 }
+
+variable "iam_policies_path" {
+  description = "Caminho no sistema onde as políticas do IAM estão armazenadas em formato JSON"
+  type        = string
+  default     = "./modules/iam/policy"
+}
