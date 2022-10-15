@@ -18,8 +18,9 @@ RESOURCES: Os recursos aqui implantados serão:
 
 # Definindo bucket s3
 resource "aws_s3_bucket" "this" {
-  for_each = var.bucket_names_map
-  bucket   = each.value
+  for_each      = var.bucket_names_map
+  bucket        = each.value
+  force_destroy = true
 }
 
 # Definindo bloqueio de acesso público ao bucket
