@@ -39,13 +39,11 @@ TABLE OF CONTENTS:
 
 # Bibliotecas da aplicação
 import sys
-from awsglue.transforms import *
 from awsglue.utils import getResolvedOptions
 from pyspark.context import SparkContext
 from awsglue.context import GlueContext
 from awsglue.job import Job
 from awsglue.dynamicframe import DynamicFrame
-from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, count, avg,\
     sum, round, countDistinct, max
 import logging
@@ -94,6 +92,7 @@ try:
     job.init(args['JOB_NAME'], args)
 except Exception as e:
     logger.error(f"Erro ao obter elementos da aplicação. Exception: {e}")
+    raise e
 
 
 """---------------------------------------------------
@@ -177,6 +176,7 @@ try:
 except Exception as e:
     logger.error("Erro ao preparar DAG de transformações para dados " +
                  f"de pagamentos. Exception: {e}")
+    raise e
 
 
 """---------------------------------------------------
@@ -203,6 +203,7 @@ try:
 except Exception as e:
     logger.error("Erro ao preparar DAG de transformações " +
                  f"de reviews de pedidos. Exception: {e}")
+    raise e
 
 
 """---------------------------------------------------
@@ -228,6 +229,7 @@ try:
     ).drop(df_reviews_prep.order_id)
 except Exception as e:
     logger.error(f"Erro ao preparar DAG para tabela final. Exception: {e}")
+    raise e
 
 
 """---------------------------------------------------
@@ -240,18 +242,18 @@ dynamicf_sot_ecommerce = DynamicFrame.fromDF(df_sot_ecommerce, glueContext, "dyn
 
 # Criando sincronização com bucket s3
 s3_data = glueContext.getSink(
-    path="s3://sbx-sot-data-729186614334-us-east-1/rg10/tbsot_ecommerce_br",
+    path="s3://sbx-sot-data-857126229905-us-east-1/ra8/tbsot_ecommerce_br",
     connection_type="s3",
     updateBehavior="UPDATE_IN_DATABASE",
     partitionKeys=[],
     compression="snappy",
     enableUpdateCatalog=True,
-    transformation_ctx="glue_s3_sink",
+    transformation_ctx="s3_data",
 )
 
 # Configurando informações do catálogo de dados
 s3_data.setCatalogInfo(
-    catalogDatabase="rg10", catalogTableName="tbsot_ecommerce_br"
+    catalogDatabase="ra8", catalogTableName="tbsot_ecommerce_br"
 )
 s3_data.setFormat("glueparquet")
 s3_data.writeFrame(dynamicf_sot_ecommerce)
@@ -267,4 +269,18 @@ ToDos
         .setCataloginfo()
         .setFormat()
         .writeFrame()
+"""
+
+"""
+Definir variáveis de output:
+    Nome do bucket
+    Database
+    Nome da tabela
+    Demais parâmetros do método getSink
+"""
+
+"""
+Corrigir:
+    - Posição das colunas na hora de criar entrada no Catálogo de Dados
+    - Provavelmente a função terraform para leitura e separação dos headers esteja ordenando algo automaticamente
 """
