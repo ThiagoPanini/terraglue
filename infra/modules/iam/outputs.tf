@@ -9,7 +9,6 @@ recursos definidos neste projeto possam utilizar
 policies e roles IAM aqui descritas.
 -------------------------------------------------- */
 
-variable "iam_policies_path" {
-  description = "Caminho no sistema onde as políticas do IAM estão armazenadas em formato JSON"
-  type        = string
+output "iam_glue_role_arn" {
+  value = aws_iam_role.glue_role.arn
 }

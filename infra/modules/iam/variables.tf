@@ -11,3 +11,7 @@ responsáveis por permitir acessos aos recursos
 utilizados neste projeto
 -------------------------------------------------- */
 
+variable "iam_policies_path" {
+  description = "Caminho no sistema onde as políticas do IAM estão armazenadas em formato JSON"
+  type        = string
+}
