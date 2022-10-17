@@ -44,8 +44,8 @@ from pyspark.context import SparkContext
 from awsglue.context import GlueContext
 from awsglue.job import Job
 from awsglue.dynamicframe import DynamicFrame
-from pyspark.sql.functions import col, count, avg,\
-    sum, round, countDistinct, max, lit
+from pyspark.sql.functions import col, count, avg, sum,\
+    round, countDistinct, max, lit
 import logging
 from datetime import datetime
 
@@ -250,7 +250,7 @@ except Exception as e:
 logger.info("Adicionando coluna de partição como parte das transformações")
 try:
     df_sot_ecommerce_partitioned = df_sot_ecommerce\
-        .withColumn(PARTITION_NAME,
+        .withColumn(PARTITION_NAME, 
                     lit(datetime.now().strftime("%Y%m%d_%H%M%S")))
 except Exception as e:
     logger.error("Erro ao adicionar coluna de partição no DataFrame " +
