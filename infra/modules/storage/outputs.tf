@@ -19,3 +19,8 @@ output "bucket_name_sor" {
 output "bucket_name_athena" {
   value = aws_s3_bucket.this["athena"].bucket
 }
+
+output "bucket_name_glue" {
+  value = aws_s3_bucket.this["glue"].bucket
+}
+
