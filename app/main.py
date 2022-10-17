@@ -250,7 +250,7 @@ except Exception as e:
 logger.info("Adicionando coluna de partição como parte das transformações")
 try:
     df_sot_ecommerce_partitioned = df_sot_ecommerce\
-        .withColumn(PARTITION_NAME, 
+        .withColumn(PARTITION_NAME,
                     lit(datetime.now().strftime("%Y%m%d_%H%M%S")))
 except Exception as e:
     logger.error("Erro ao adicionar coluna de partição no DataFrame " +
@@ -309,3 +309,39 @@ except Exception as e:
 
 logger.info("Commitando job")
 job.commit()
+
+"""
+ToDo
+- [] Aplicar transformação de datas no dataset df_orders
+- [] Analisar se vale a pena quebrar script em múltiplos módulos, classes, funções ou métodos. Ex:
+    class GlueJobManager():
+        def __init__(self):
+            # inicializa GlueContext
+
+        def partition_config(**vars):
+            # Define variáveis de partição e cria expressões
+
+        def get_data()
+        # este pode ser um método genérico dessa classe
+
+        def convert_to_dataframe()
+
+        def add_dataframe_partition()
+
+        def convert_to_dynamicframe()
+
+    class GlueJobTransformation(GlueJobManager):
+        # herda os atributos da classe genérica para aplicar transformações
+        def transform_orders()
+
+        def transform_payments()
+        inserir docstring em todos os métodos para melhor documentação
+
+        def add_dataframe_partition()
+
+        etc...
+        
+        def run():
+            df = self._transform_orders()
+            df = self._transform_payments()
+"""
