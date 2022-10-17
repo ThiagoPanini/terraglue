@@ -9,8 +9,8 @@
                 "s3:ListBucket"
             ],
             "Resource": [
-                "arn:aws:s3:::sbx-sor-data-*",
-                "arn:aws:s3:::sbx-sor-data-*/*"
+                "arn:aws:s3:::aws-sor-data-*",
+                "arn:aws:s3:::aws-sor-data-*/*"
             ]
         },
         {
@@ -22,8 +22,8 @@
                 "s3:ListBucket"
             ],
             "Resource": [
-                "arn:aws:s3:::sbx-sot-data-*",
-                "arn:aws:s3:::sbx-sot-data-*/*"
+                "arn:aws:s3:::aws-sot-data-*",
+                "arn:aws:s3:::aws-sot-data-*/*"
             ]
         },
         {
