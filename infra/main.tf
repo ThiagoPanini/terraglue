@@ -31,11 +31,11 @@ data "aws_caller_identity" "current" {}
 # Definindo variáveis locais para uso no módulo
 locals {
   bucket_names_map = {
-    "sor"    = "aws-sor-data-sbx-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-    "sot"    = "aws-sot-data-sbx-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-    "spec"   = "aws-spec-data-sbx-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-    "athena" = "aws-athena-query-results-sbx-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-    "glue"   = "aws-glue-assets-sbx-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    "sor"    = "aws-sor-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    "sot"    = "aws-sot-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    "spec"   = "aws-spec-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    "athena" = "aws-athena-query-results-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    "glue"   = "aws-glue-assets-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
   }
 }
 
@@ -50,8 +50,8 @@ module "storage" {
 
 
 /* --------------------------------------------------
------------- MÓDULO TERRAFORM: analytics ------------
-      Recursos para consolidação de pipelines
+------------- MÓDULO TERRAFORM: catalog -------------
+        Configurando e preparando o Data Catalog
 -------------------------------------------------- */
 
 # Variáveis locais para um melhor gerenciamento dos recursos do módulo
@@ -130,4 +130,33 @@ module "catalog" {
 module "iam" {
   source            = "./modules/iam"
   iam_policies_path = var.iam_policies_path
+}
+
+
+/* --------------------------------------------------
+-------------- MÓDULO TERRAFORM: glue ---------------
+      Definição e configuração de job do Glue
+-------------------------------------------------- */
+
+# Chamando módulo glue
+module "glue" {
+  source = "./modules/glue"
+
+  # Variáveis para ingestão do script do job no s3
+  glue_job_bucket_name        = module.storage.bucket_name_glue
+  glue_job_bucket_scripts_key = var.glue_job_bucket_scripts_key
+  glue_job_script_file        = var.glue_job_script_file
+
+  # Variáveis de configuração do job do glue
+  glue_job_name                = var.glue_job_name
+  glue_job_description         = var.glue_job_description
+  glue_job_role_arn            = module.iam.iam_glue_role_arn
+  glue_job_version             = var.glue_job_version
+  glue_job_max_retries         = var.glue_job_max_retries
+  glue_job_timeout             = var.glue_job_timeout
+  glue_job_worker_type         = var.glue_job_worker_type
+  glue_job_number_of_workers   = var.glue_job_number_of_workers
+  glue_job_python_version      = var.glue_job_python_version
+  glue_job_max_concurrent_runs = var.glue_job_max_concurrent_runs
+  glue_job_default_arguments   = var.glue_job_default_arguments
 }

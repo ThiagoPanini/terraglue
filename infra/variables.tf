@@ -93,3 +93,93 @@ variable "iam_policies_path" {
   type        = string
   default     = "./modules/iam/policy"
 }
+
+
+/* --------------------------------------------------
+-------------- VARIÁVEIS: módulo glue ---------------
+-------------------------------------------------- */
+
+variable "glue_job_script_file" {
+  description = "Localização física do script .py a ser implantado como um job do glue"
+  type        = string
+  default     = "../app/main.py"
+}
+
+
+variable "glue_job_bucket_scripts_key" {
+  description = "Chave de armazenamento do script do job do glue no bucket s3 de referência"
+  type        = string
+  default     = "scripts/"
+}
+
+variable "glue_job_name" {
+  description = "Nome ou referência do job do glue a ser criado"
+  type        = string
+  default     = "gluejob-sot-ecommerce-br"
+}
+
+variable "glue_job_description" {
+  description = "Descrição do job do glue criado no projeto"
+  type        = string
+  default     = "Job criado para construção de tabela na camada SoT contendo dados preparados de vendas online do e-commerce brasileiro"
+}
+
+variable "glue_job_version" {
+  description = "Versão do glue a ser utilizada na execução do job"
+  type        = string
+  default     = "3.0"
+}
+
+variable "glue_job_max_retries" {
+  description = "Tentativas máximas de execução do job em caso de falhas"
+  type        = string
+  default     = "0"
+}
+
+variable "glue_job_timeout" {
+  description = "Tempo máximo (em minutos) de execução do job até retornar um erro de timeout"
+  type        = number
+  default     = 10
+}
+
+variable "glue_job_worker_type" {
+  description = "Tipo do nó worker responsável por processar os dados no job"
+  type        = string
+  default     = "G.1X"
+}
+
+variable "glue_job_number_of_workers" {
+  description = "Número de workers utilizados para processamento e execução do job"
+  type        = number
+  default     = 10
+}
+
+variable "glue_job_python_version" {
+  description = "Versão do Python a ser utilizada na implantação do job"
+  type        = string
+  default     = "3"
+}
+
+variable "glue_job_max_concurrent_runs" {
+  description = "Número máximo de execuções concorrrentes permitida para o job"
+  type        = number
+  default     = 2
+}
+
+# https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html
+variable "glue_job_default_arguments" {
+  description = "Dicionário contendo mapeamentos para todos os argumentos e seus respectivos valores configurados para o job do glue"
+  type        = map(string)
+  default = {
+    "--job-language"                     = "python"
+    "--job-bookmark-option"              = "job-bookmark-disable"
+    "--TempDir"                          = "s3://aws-glue-assets-405873723470-us-east-1/temporary/"
+    "--enable-metrics"                   = true
+    "--enable-continuous-cloudwatch-log" = true
+    "--enable-spark-ui"                  = true
+    "--spark-event-logs-path"            = "s3://aws-glue-assets-405873723470-us-east-1/sparkHistoryLogs/"
+    "--encryption-type"                  = "sse-s3"
+    "--enable-glue-datacatalog"          = true
+    "--enable-job-insights"              = true
+  }
+}
