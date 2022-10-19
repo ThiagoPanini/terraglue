@@ -102,7 +102,7 @@ variable "iam_policies_path" {
 variable "glue_job_script_file" {
   description = "Localização física do script .py a ser implantado como um job do glue"
   type        = string
-  default     = "../app/main.py"
+  default     = "../app/main-terraglue.py"
 }
 
 
@@ -167,6 +167,8 @@ variable "glue_job_max_concurrent_runs" {
 }
 
 # https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html
+
+# Mudar variable para locals para poder coletar o nome do bucket de forma automática (id da conta)
 variable "glue_job_default_arguments" {
   description = "Dicionário contendo mapeamentos para todos os argumentos e seus respectivos valores configurados para o job do glue"
   type        = map(string)
