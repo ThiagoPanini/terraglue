@@ -165,23 +165,3 @@ variable "glue_job_max_concurrent_runs" {
   type        = number
   default     = 2
 }
-
-# https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html
-
-# Mudar variable para locals para poder coletar o nome do bucket de forma automática (id da conta)
-variable "glue_job_default_arguments" {
-  description = "Dicionário contendo mapeamentos para todos os argumentos e seus respectivos valores configurados para o job do glue"
-  type        = map(string)
-  default = {
-    "--job-language"                     = "python"
-    "--job-bookmark-option"              = "job-bookmark-disable"
-    "--TempDir"                          = "s3://aws-glue-assets-405873723470-us-east-1/temporary/"
-    "--enable-metrics"                   = true
-    "--enable-continuous-cloudwatch-log" = true
-    "--enable-spark-ui"                  = true
-    "--spark-event-logs-path"            = "s3://aws-glue-assets-405873723470-us-east-1/sparkHistoryLogs/"
-    "--encryption-type"                  = "sse-s3"
-    "--enable-glue-datacatalog"          = true
-    "--enable-job-insights"              = true
-  }
-}
