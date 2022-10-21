@@ -140,9 +140,16 @@ class GlueJobManager():
 
     # Obtendo argumentos do job
     def get_args(self) -> None:
+        """
+        """
+
         logger.info(f"Obtendo argumentos do job ({self.argv_list})")
         try:
             self.args = getResolvedOptions(sys.argv, self.argv_list)
+
+            args_formatted = "".join([f'--{k}: "{v}"\n'
+                                      for k, v in self.args.items()])
+            logger.info(f"Argumentos do job:\n\n{args_formatted}")
         except Exception as e:
             logger.error("Erro ao retornar argumentos do job dentro da "
                          f"lista informada. Exception: {e}")
@@ -150,6 +157,8 @@ class GlueJobManager():
 
     # Obtendo elementos de contexto e sessão da aplicação
     def get_context_and_session(self) -> None:
+        """
+        """
         logger.info("Criando SparkContext, GlueContext e SparkSession")
         try:
             self.sc = SparkContext()
@@ -162,13 +171,12 @@ class GlueJobManager():
 
     # Inicializando objeto de job a partir de contexto do Glue
     def init_job(self) -> Job:
+        """
+        """
+
         # Obtendo argumentos e objetos de sessão
         self.get_args()
         self.get_context_and_session()
-
-        print(self.sc)
-        print(self.glueContext)
-        print(self.spark)
 
         logger.info("Inicializando job a partir de GlueContext")
         try:
