@@ -31,11 +31,11 @@ data "aws_caller_identity" "current" {}
 # Definindo variáveis locais para uso no módulo
 locals {
   bucket_names_map = {
-    "sor"    = "aws-sor-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-    "sot"    = "aws-sot-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-    "spec"   = "aws-spec-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-    "athena" = "aws-athena-query-results-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-    "glue"   = "aws-glue-assets-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    "sor"    = "terraglue-sor-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    "sot"    = "terraglue-sot-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    "spec"   = "terraglue-spec-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    "athena" = "terraglue-athena-query-results-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    "glue"   = "terraglue-glue-assets-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
   }
 }
 
@@ -67,7 +67,7 @@ locals {
     "${local.db_names[i]}_${local.tbl_names[i]}"
   ]
 
-  # [ALTERAR] Criando lista de headers de cada um dos arquivos
+  # Criando lista de headers de cada um dos arquivos
   file_headers = [
     for f in local.data_files : replace([
       for line in split("\n", file("${var.local_data_path}${f}")) :
@@ -75,7 +75,7 @@ locals {
     ][0], "\"", "")
   ]
 
-  # [VERIFICAR] Criando estruturas para mapeamento dos tipos primitivos
+  # Criando estruturas para mapeamento dos tipos primitivos
   column_names = [for c in local.file_headers : split(",", lower(c))]
 
   # Criando lista de localizações dos arquivos físicos no s3
@@ -138,6 +138,36 @@ module "iam" {
       Definição e configuração de job do Glue
 -------------------------------------------------- */
 
+# Variáveis locais para um melhor gerenciamento dos recursos do módulo
+# https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html
+locals {
+  # Definindo argumentos do job Glue a ser criado
+  glue_job_general_arguments = {
+    "--job-language"                     = "python"
+    "--job-bookmark-option"              = "job-bookmark-disable"
+    "--enable-metrics"                   = true
+    "--enable-continuous-cloudwatch-log" = true
+    "--enable-spark-ui"                  = true
+    "--encryption-type"                  = "sse-s3"
+    "--enable-glue-datacatalog"          = true
+    "--enable-job-insights"              = true
+  }
+
+  # Modificando dicionário de argumentos e incluindo referências de URIs do s3 para assets
+  glue_job_assets_arguments = {
+    "--scriptLocation"        = "s3://${local.bucket_names_map["glue"]}/scripts/"
+    "--spark-event-logs-path" = "s3://${local.bucket_names_map["glue"]}/sparkHistoryLogs/"
+    "--TempDir"               = "s3://${local.bucket_names_map["glue"]}/temporary/"
+  }
+
+  # Juntando maps e criando dicionário único e definitivo de argumentos do job
+  glue_job_default_arguments = merge(
+    local.glue_job_general_arguments,
+    local.glue_job_assets_arguments
+  )
+}
+
+
 # Chamando módulo glue
 module "glue" {
   source = "./modules/glue"
@@ -158,5 +188,5 @@ module "glue" {
   glue_job_number_of_workers   = var.glue_job_number_of_workers
   glue_job_python_version      = var.glue_job_python_version
   glue_job_max_concurrent_runs = var.glue_job_max_concurrent_runs
-  glue_job_default_arguments   = var.glue_job_default_arguments
+  glue_job_default_arguments   = local.glue_job_default_arguments
 }
