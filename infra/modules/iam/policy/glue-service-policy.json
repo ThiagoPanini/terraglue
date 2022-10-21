@@ -33,7 +33,7 @@
                 "s3:PutBucketPublicAccessBlock"
             ],
             "Resource": [
-                "arn:aws:s3:::aws-glue-*"
+                "arn:aws:s3:::terraglue-glue-*"
             ]
         },
         {
@@ -44,8 +44,8 @@
                 "s3:DeleteObject"				
             ],
             "Resource": [
-                "arn:aws:s3:::aws-glue-*/*",
-                "arn:aws:s3:::*/*aws-glue-*/*"
+                "arn:aws:s3:::terraglue-glue-*/*",
+                "arn:aws:s3:::*/*terraglue-glue-*/*"
             ]
         },
         {
@@ -55,7 +55,7 @@
             ],
             "Resource": [
                 "arn:aws:s3:::crawler-public*",
-                "arn:aws:s3:::aws-glue-*"
+                "arn:aws:s3:::terraglue-glue-*"
             ]
         },
         {
@@ -67,7 +67,7 @@
                 "logs:AssociateKmsKey"                
             ],
             "Resource": [
-                "arn:aws:logs:*:*:/aws-glue/*"
+                "arn:aws:logs:*:*:/terraglue-glue/*"
             ]
         },
         {
