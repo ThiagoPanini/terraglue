@@ -67,7 +67,7 @@
                 "logs:AssociateKmsKey"                
             ],
             "Resource": [
-                "arn:aws:logs:*:*:/terraglue-glue/*"
+                "arn:aws:logs:*:*:/aws-glue/*"
             ]
         },
         {
