@@ -21,6 +21,10 @@ variable "aws_provider_config" {
   }
 }
 
+/* --------------------------------------------------
+--------------- VARIÁVEIS: módulo s3 ----------------
+-------------------------------------------------- */
+
 variable "local_data_path" {
   description = "Caminho local de armazenamento dos arquivos a serem inseridos no bucket s3"
   type        = string
@@ -32,6 +36,10 @@ variable "flag_upload_data_files" {
   type        = bool
   default     = true
 }
+
+/* --------------------------------------------------
+------------- VARIÁVEIS: módulo catalog -------------
+-------------------------------------------------- */
 
 variable "catalog_table_parameters" {
   description = "Parâmetros adicionais de criação da tabela (semelhante à cláusula TBLPROPERTIES do comando CREATE TABLE do Apache Hive)"
@@ -88,10 +96,21 @@ variable "s3_kms_key_alias" {
   default     = "alias/aws/s3"
 }
 
+
+/* --------------------------------------------------
+--------------- VARIÁVEIS: módulo iam ---------------
+-------------------------------------------------- */
+
 variable "iam_policies_path" {
   description = "Caminho no sistema onde as políticas do IAM estão armazenadas em formato JSON"
   type        = string
   default     = "./modules/iam/policy"
+}
+
+variable "iam_glue_role_name" {
+  description = "Nome da role criada para execução de jobs do Glue"
+  type        = string
+  default     = "terraglue-glue-execution-role"
 }
 
 

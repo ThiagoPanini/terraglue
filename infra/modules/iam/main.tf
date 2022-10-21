@@ -38,7 +38,7 @@ resource "aws_iam_policy" "glue_policies" {
 
 # Criando role de acesso do Glue
 resource "aws_iam_role" "glue_role" {
-  name               = "glue-execution-role"
+  name               = var.iam_glue_role_name
   assume_role_policy = data.aws_iam_policy_document.glue_trust.json
   managed_policy_arns = [
     for p in aws_iam_policy.glue_policies : p.arn

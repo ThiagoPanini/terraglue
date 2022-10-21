@@ -15,3 +15,8 @@ variable "iam_policies_path" {
   description = "Caminho no sistema onde as políticas do IAM estão armazenadas em formato JSON"
   type        = string
 }
+
+variable "iam_glue_role_name" {
+  description = "Nome da role criada para execução de jobs do Glue"
+  type = string
+}

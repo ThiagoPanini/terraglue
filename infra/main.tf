@@ -130,6 +130,7 @@ module "catalog" {
 module "iam" {
   source            = "./modules/iam"
   iam_policies_path = var.iam_policies_path
+  iam_glue_role_name = var.iam_glue_role_name
 }
 
 
