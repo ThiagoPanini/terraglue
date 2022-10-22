@@ -6,7 +6,7 @@ específica da infraestrutura cabível ao contexto do
 módulo em questão.
 
 GOAL: Este módulo tem por objetivo consolidar todas
-as implantações relacionadas ao universo de analytics
+as implantações relacionadas ao universo de catalogação
 do projeto, incluindo os insumos e recursos necessários
 para a execução completa de um job do glue contando
 com uma simulação fidedigna de um data lake com
