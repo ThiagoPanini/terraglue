@@ -30,6 +30,33 @@ ___
 
 Uma vez apresentado o projeto, é importante destacar que o **terraglue** possui uma essência altamente dinâmica, isto é, suas funcionalidades abrem margem para uma série de possibilidades e ganhos. Para que se tenha uma ideia de todas as suas possíveis aplicações, as perguntas abaixo representam alguns obstáculos, dores e desafios reais que podem ser devidamente solucionados pelo **terraglue**:
 
+<details>
+  <summary>"Como consigo criar um job do Glue no console AWS e quais as configurações adequadas?"</summary>
+
+  > 💡 *Com o terraglue, os usuários podem implantar toda a infraestrutura necessária para a criação de um job do Glue com a execução de apenas um comando.*
+</details>
+
+<details>
+  <summary>"Mesmo que eu consiga criar um job, quais dados de exemplo posso utilizar para meu processo de ETL?"</summary>
+
+  > 💡 *No projeto, diferentes arquivos da base de dados [Brazilian E-Commerce]() são utilizados para servirem de exemplos de execução de um job responsável por simular um processo de especialização de dados.*
+</details>
+
+<details>
+  <summary>"GlueContext? DynamicFrame? Como todos esses elementos se encaixam na dinâmica de um job do Glue?"</summary>
+
+  > 💡 *No script de aplicação do repositório, é possível encontrar toda a lógica de implementação de um job Glue com todas as documentações necessárias para um claro entendimento de como os elementos de contexto e sessão se relacionam em um processo de ETL.*
+</details>
+
+<details>
+  <summary>"No final de tudo, eu consigo automatizar toda a infraestrutura necessária para implantar um job do Glue na AWS?"</summary>
+
+  > 💡 *Ao ter em mãos as funcionalidades do terraglue, o usuário poderá implantar toda a infraestrutura necessária para a execução de um job de ETL responsável pela especialização de um conjunto de dados na AWS através de **um único comando**.*
+</details>
+
+___
+
+
 > *"Como consigo criar um job do Glue no console AWS e quais as configurações adequadas?"*
 
 - 💡 Com o terraglue, os usuários podem implantar toda a infraestrutura necessária para a criação de um job do Glue com a execução de apenas um comando.
