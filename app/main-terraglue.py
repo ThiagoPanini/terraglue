@@ -1,5 +1,5 @@
 """
-MÓDULO: terraglue.py
+JOB: terraglue-job-sot-ecommerce-br.py
 
 CONTEXTO:
 ---------
@@ -77,27 +77,19 @@ logger.addHandler(stream_handler)
 ---------------------------------------------------"""
 
 # Argumentos do job
-ARGV_LIST = ['JOB_NAME']
-
-# Definindo partição
-PARTITION_NAME = "anomesdia_hms"
-PARTITION_FORMAT = "%Y%m%d_%H%M%S"
-PARTITION_VALUE = datetime.now().strftime(PARTITION_FORMAT)
-
-# Variáveis de escrita da tabela final
-OUTPUT_BUCKET = "terraglue-sot-data-325483233520-us-east-1" # Automatizar via envio de argumentos pelo Terraform
-OUTPUT_DB = "ra8"
-OUTPUT_TABLE = "tbsot_ecommerce_br"
-OUTPUT_PATH = f"s3://{OUTPUT_BUCKET}/{OUTPUT_DB}/{OUTPUT_TABLE}"
-CONNECTION_TYPE = "s3"
-UPDATE_BEHAVIOR = "UPDATE_IN_DATABASE"
-PARTITION_KEYS = [PARTITION_NAME]
-DATA_FORMAT = "glueparquet"
-COMPRESSION = "snappy"
-ENABLE_UPDATE_CATALOG = True
-
-# Variáveis de controle das classes
-VERBOSE = -1
+ARGV_LIST = [
+    "JOB_NAME",
+    "OUTPUT_BUCKET",
+    "OUTPUT_DB",
+    "OUTPUT_TABLE",
+    "CONNECTION_TYPE",
+    "UPDATE_BEHAVIOR",
+    "PARTITION_NAME",
+    "PARTITION_FORMAT",
+    "DATA_FORMAT",
+    "COMPRESSION",
+    "ENABLE_UPDATE_CATALOG"
+]
 
 # Definindo dicionário para mapeamento dos dados
 DATA_DICT = {
@@ -132,24 +124,65 @@ DATA_DICT = {
 
 class GlueJobManager():
     """
+    Classe responsável por gerenciar e fornecer todos os insumos
+    necessários para a utilização de um job do Glue na dinâmica
+    de processamento de dados. Com ela, o usuário final possui
+    uma maior facilidade relacionada aos processos de obtenção
+    de argumentos e geração dos contextos (GlueContext, SparkContext)
+    e sessões (GlueContext.spark_session) necessárias para
+    execução do job.
+
+    Atributos requeridos:
+    --------------------
+    :attr: argv_list
+        Lista contendo a referência nominal de todos os argumentos
+        a serem utilizados durante o job a partir da função
+        getResolvedOptions()
+        [type: list, required=True]
+
+    Atributos obtidos automaticamente:
+    ----------------------------------
+    :attr: args
+        Dicionário contendo os argumentos do job extraídos pela
+        função getResolvedOptions().
+        [type: dict, required=False]
+
+    :attr: sc
+        Contexto do Spark criado durante os procedimentos internos da
+        classe para posterior utilização nas etapas de construção
+        de um job do Glue.
+        [type: pyspark.context.SparkContext]
+
+    :attr: glueContext
+        Contexto do Glue criado a partir do contexto do Spark
+        inicializado previamente. Este elemento é fundamental para
+        operações internas de construção de um job do Glue.
+        [type: awsglue.context.GlueContext]
+
+    :attr spark
+        Sessão Spark criada a partir do contexto do Glue para
+        eventuais utilizações específicas dentro dos propósitos
+        estabelecidos e as regras definidas no job.
+        [type: SparkSession]
     """
 
     def __init__(self, argv_list: list) -> None:
-
         self.argv_list = argv_list
+        self.args = getResolvedOptions(sys.argv, self.argv_list)
 
     # Obtendo argumentos do job
-    def get_args(self) -> None:
+    def print_args(self) -> None:
         """
+        Método responsável por mostrar ao usuário, como uma mensagem
+        de log, todos os argumentos utilizados no referido job e
+        seus respectivos valores.
         """
 
-        logger.info(f"Obtendo argumentos do job ({self.argv_list})")
         try:
-            self.args = getResolvedOptions(sys.argv, self.argv_list)
-
             args_formatted = "".join([f'--{k}: "{v}"\n'
                                       for k, v in self.args.items()])
             logger.info(f"Argumentos do job:\n\n{args_formatted}")
+            sleep(0.01)
         except Exception as e:
             logger.error("Erro ao retornar argumentos do job dentro da "
                          f"lista informada. Exception: {e}")
@@ -158,7 +191,10 @@ class GlueJobManager():
     # Obtendo elementos de contexto e sessão da aplicação
     def get_context_and_session(self) -> None:
         """
+        Método responsável por criar e associar atributos da classe
+        para os elementos SparkContext, GlueContext e SparkSession.
         """
+
         logger.info("Criando SparkContext, GlueContext e SparkSession")
         try:
             self.sc = SparkContext()
@@ -172,10 +208,20 @@ class GlueJobManager():
     # Inicializando objeto de job a partir de contexto do Glue
     def init_job(self) -> Job:
         """
+        Método criado para consolidar todas as etapas de inicialização
+        de um job do Glue a partir da visualização dos argumentos e
+        obtenção dos elementos de contexto e sessão. Com a execução
+        deste método, o usuário poderá ter uma porta única de entrada
+        para todos os processos relativamente burocráticos de configuração
+        de um job do Glue.
+
+        :return: job
+            Elemento de job utilizado pelo Glue para configurações gerais
+            [type: awsglue.job.Job]
         """
 
         # Obtendo argumentos e objetos de sessão
-        self.get_args()
+        self.print_args()
         self.get_context_and_session()
 
         logger.info("Inicializando job a partir de GlueContext")
@@ -196,51 +242,180 @@ class GlueJobManager():
 
 class GlueTransformationManager(GlueJobManager):
     """
+    Classe responsável por gerenciar e fornecer métodos típicos
+    de transformação de um job do Glue a serem detalhadamente
+    adaptados por seus usuários para que as operações nos dados
+    possam ser aplicadas de acordo com as necessidades exigidas.
+
+    Em essência, essa classe herda os atributos e métodos da
+    classe GlueJobManager para que todas as operações de
+    inicialização e configuração de um job do Glue possam ser
+    aplicadas em conjunto às operações de transformação, mantendo
+    uma porta única de entrada ao usuário final em meio à todos
+    os processos exigidos para a construção de um job.
+
+    Em linhas gerais, a classe GlueTransformationManager traz
+    consigo dois tipos de métodos:
+        1. Métodos gerais que podem ser aplicados em diferentes
+    cenários
+        2. Métodos específicos utilizados de acordo com as
+    necessidades de transformações de dados de cada job
+
+    Dessa forma, o usuário final possui em mãos algumas
+    funcionalidades genéricas que podem ser reaproveitadas para
+    grande parte dos jobs do Glue. Entretanto, métodos específicos
+    de transformação devem ser modificados e adaptados conforme
+    as regras definidas a serem aplicadas pelo usuário de acordo
+    com os objetivos estabelecidos. Considerando a versão natural
+    desta classe, os métodos específicos de transformação podem
+    ser identificados através do decorator @staticmethod, indicando
+    assim que o método em questão é um método específico de
+    transformação que não utiliza ou acessa nenhum atributo da classe.
+
+    Atributos requeridos:
+    --------------------
+    :attr: argv_list
+        Lista contendo a referência nominal de todos os argumentos
+        a serem utilizados durante o job a partir da função
+        getResolvedOptions()
+        [type: list, required=True]
+
+    :attr: data_dict
+        Dicionário contento todas as especifidades dos dados de
+        origem a serem utilizados como fontes de dados do job. Tal
+        dinâmica visa proporcionar uma maior facilidade ao usuário
+        para gerenciar todos os processos de leitura e obtenção de
+        DynamicFrames do Glue ou DataFrames do Spark através de
+        métodos únicos. Um exemplo de configuração deste atributo
+        pode ser visualizado abaixo:
+
+        {
+            "orders": {
+                "database": "ra8",
+                "table_name": "orders",
+                "transformation_ctx": "dyf_orders",
+            },
+            "customers": {
+                "database": "ra8",
+                "table_name": "customers",
+                "transformation_ctx": "dyf_customers"
+            },
+            "payments": {
+                "database": "ra8",
+                "table_name": "payments",
+                "transformation_ctx": "dyf_payments"
+            },
+            "reviews": {
+                "database": "ra8",
+                "table_name": "reviews",
+                "transformation_ctx": "dyf_reviews"
+            }
+        }
+
+        Caso o usuário deseje uma configuração específica, basta
+        consultar os argumentos do método
+        glueContext.create_dynamic_frame.from_catalog para que o
+        dicionário seja passado corretamente. Parâmetros como
+        push_down_predicate, additional_options e catalog_id
+        também podem ser configurados como chaves deste dicionário e,
+        caso não informados, seus respectivos valores default,
+        presentes na documentação, serão utilizados. 
     """
 
-    def __init__(self,
-                 argv_list: list,
-                 data_dict: dict,
-                 output_bucket: str,
-                 output_db: str,
-                 output_table: str,
-                 connection_type: str,
-                 update_behavior: str,
-                 data_format: str,
-                 partition_keys: list,
-                 compression: str,
-                 enable_update_catalog: bool) -> None:
-
+    def __init__(self, argv_list, data_dict) -> None:
         self.argv_list = argv_list
         self.data_dict = data_dict
-        self.output_bucket = output_bucket
-        self.output_db = output_db
-        self.output_table = output_table
-        self.output_path = f"s3://{self.output_bucket}" \
-            f"/{self.output_db}/{self.output_table}"
-        self.connection_type = connection_type
-        self.update_behavior = update_behavior
-        self.data_format = data_format
-        self.partition_keys = partition_keys
-        self.compression = compression
-        self.enable_update_catalog = enable_update_catalog
 
         # Herdando atributos de classe de gerenciamento de job
         GlueJobManager.__init__(self, argv_list=self.argv_list)
 
     # Gerando dicionário de DynamicFrames do projeto
     def generate_dynamic_frames_dict(self) -> dict:
+        """
+        Método responsável por utilizar o atributo data_dict da classe
+        para leitura e obtenção de todos os DynamicFrames configurados
+        no referido dicionário de acordo com as especificações
+        fornecidas. A grande vantagem deste método é a disponibilização
+        dos DynamicFrames como elementos de um dicionário Python que,
+        posteriormente, podem ser acessados em outras etapas do código
+        para o mapeamento das operações. Esta dinâmica evita que o
+        usuário precise codificar um bloco específico de leitura para
+        cada origem de dados do job, possibilitando que o usuário apenas
+        acesse cada uma das suas origens através de uma indexação.
+
+        :return: dynamic_dict
+            Dicionário Python contendo um mapeamento de cada uma das
+            origens configuradas no atributo self.data_dict e seus
+            respectivos objetos do tipo DynamicFrame. Para proporcionar
+            uma visão clara sobre o retorno deste método, considere,
+            como exemplo, a seguinte configuração para o atributo
+            self.data_dict:
+
+            {
+                "orders": {
+                    "database": "ra8",
+                    "table_name": "orders",
+                    "transformation_ctx": "dyf_orders",
+                },
+                "customers": {
+                    "database": "ra8",
+                    "table_name": "customers",
+                    "transformation_ctx": "dyf_customers"
+                }
+            }
+
+            O retorno do método generate_dynamic_frames_dict() será
+            no seguinte formato:
+
+            {
+                "orders": <DynamicFrame>
+                "customers": <DynamicFrame>
+            }
+
+            onde as tags <DynamicFrame> representam o objeto do tipo
+            DynamicFrame lido para cada origem, utilizando as
+            configurações apresentadas no dicionário do atributo
+            self.data_dict e disponibilizado ao usuário dentro da
+            respectiva chave que representa a origem.
+        """
+
         logger.info("Iterando sobre dicionário de dados fornecido para " +
                     "leitura de DynamicFrames do Glue")
         try:
-            # Lendo DynamicFrames e salvando em lista
-            dynamic_frames = [
-                self.glueContext.create_dynamic_frame.from_catalog(
-                    database=self.data_dict[t]["database"],
-                    table_name=self.data_dict[t]["table_name"],
-                    transformation_ctx=self.data_dict[t]["transformation_ctx"]
-                ) for t in self.data_dict.keys()
-            ]
+            dynamic_frames = []
+            for t in self.data_dict.keys():
+                # Coletando argumentos obrigatórios: database, table_name, ctx
+                database = self.data_dict[t]["database"]
+                table_name = self.data_dict[t]["table_name"]
+                transformation_ctx = self.data_dict[t]["transformation_ctx"]
+
+                # Coletando argumento não obrigatório: push_down_predicate
+                push_down_predicate = self.data_dict[t]["push_down_predicate"]\
+                    if "push_down_predicate" in self.data_dict[t].keys()\
+                    else ""
+
+                # Coletando argumento não obrigatório: additional_options
+                additional_options = self.data_dict[t]["additional_options"] \
+                    if "additional_options" in self.data_dict[t].keys()\
+                    else {}
+
+                # Coletando argumento não obrigatório: catalog_id
+                catalog_id = self.data_dict[t]["catalog_id"] \
+                    if "catalog_id" in self.data_dict[t].keys()\
+                    else None
+
+                # Lendo DynamicFrame
+                dyf = self.glueContext.create_dynamic_frame.from_catalog(
+                        database=database,
+                        table_name=table_name,
+                        transformation_ctx=transformation_ctx,
+                        push_down_predicate=push_down_predicate,
+                        additional_options=additional_options,
+                        catalog_id=catalog_id
+                )
+
+                # Adicionando à lista de DynamicFrames
+                dynamic_frames.append(dyf)
         except Exception as e:
             logger.error("Erro ao gerar lista de DynamicFrames com base " +
                          f"em dicionário. Exception: {e}")
@@ -265,6 +440,52 @@ class GlueTransformationManager(GlueJobManager):
 
     # Gerando dicionário de DataFrames Spark do projeto
     def generate_dataframes_dict(self) -> dict:
+        """
+        Método responsável por consolidar os processos necessários
+        para disponibilização, ao usuário, de objetos do tipo DataFrame
+        Spark capazes de serem utilizados nas mais variadas etapas
+        de transformação do job Glue. Na prática, este método chama o
+        método generate_dynamic_frames_dict() para coleta dos objetos do
+        tipo DynamicFrame (ver documentação acima) e, na sequência, aplica
+        o método toDF() para transformação de tais objetos em objetos
+        do tipo DataFrame Spark.
+
+        :return: dataframe_dict
+            Dicionário Python contendo um mapeamento de cada uma das
+            origens configuradas no atributo self.data_dict e seus
+            respectivos objetos do tipo DataFrame. Para proporcionar
+            uma visão clara sobre o retorno deste método, considere,
+            como exemplo, a seguinte configuração para o atributo
+            self.data_dict:
+
+            {
+                "orders": {
+                    "database": "ra8",
+                    "table_name": "orders",
+                    "transformation_ctx": "dyf_orders",
+                },
+                "customers": {
+                    "database": "ra8",
+                    "table_name": "customers",
+                    "transformation_ctx": "dyf_customers"
+                }
+            }
+
+            O retorno do método generate_dataframes_dict() será
+            no seguinte formato:
+
+            {
+                "orders": <DataFrame>
+                "customers": <DataFrame>
+            }
+
+            onde as tags <DataFrame> representam o objeto do tipo
+            DataFrame lido para cada origem, utilizando as
+            configurações apresentadas no dicionário do atributo
+            self.data_dict e disponibilizado ao usuário dentro da
+            respectiva chave que representa a origem.
+        """
+
         # Gerando dicionário de DynamicFrames
         dyf_dict = self.generate_dynamic_frames_dict()
 
@@ -287,6 +508,21 @@ class GlueTransformationManager(GlueJobManager):
     @staticmethod
     def transform_payments(df: DataFrame) -> DataFrame:
         """
+        Método de transformação específico para uma das origens
+        do job do Glue.
+
+        Parâmetros
+        ----------
+        :param: df
+            DataFrame Spark alvo das transformações aplicadas.
+            [type: pyspark.sql.DataFrame]
+
+        Retorno
+        -------
+        :return: df_prep
+            Elemento do tipo DataFrame Spark após as transformações
+            definidas pelos métodos aplicadas dentro da DAG.
+            [type: DataFrame]
         """
 
         logger.info("Preparando DAG de transformações para a base df_payments")
@@ -336,6 +572,21 @@ class GlueTransformationManager(GlueJobManager):
     @staticmethod
     def transform_reviews(df: DataFrame) -> DataFrame:
         """
+        Método de transformação específico para uma das origens
+        do job do Glue.
+
+        Parâmetros
+        ----------
+        :param: df
+            DataFrame Spark alvo das transformações aplicadas.
+            [type: pyspark.sql.DataFrame]
+
+        Retorno
+        -------
+        :return: df_prep
+            Elemento do tipo DataFrame Spark após as transformações
+            definidas pelos métodos aplicadas dentro da DAG.
+            [type: DataFrame]
         """
 
         logger.info("Preparando DAG de transformações para a base df_reviews")
@@ -366,6 +617,21 @@ class GlueTransformationManager(GlueJobManager):
     @staticmethod
     def transform_sot(**kwargs) -> DataFrame:
         """
+        Método de transformação específico para uma das origens
+        do job do Glue.
+
+        Parâmetros
+        ----------
+        :param: df
+            DataFrame Spark alvo das transformações aplicadas.
+            [type: pyspark.sql.DataFrame]
+
+        Retorno
+        -------
+        :return: df_prep
+            Elemento do tipo DataFrame Spark após as transformações
+            definidas pelos métodos aplicadas dentro da DAG.
+            [type: DataFrame]
         """
 
         # Desempacotando DataFrames dos argumentos da função
@@ -405,6 +671,27 @@ class GlueTransformationManager(GlueJobManager):
                       partition_name: str,
                       partition_value) -> DataFrame:
         """
+        Método responsável por adicionar uma coluna ao DataFrame
+        resultante para funcionar como partição da tabela gerada.
+        Na prática, este método utiliza o método .withColumn() do
+        pyspark para adição de uma coluna considerando um nome
+        de atributo (partition_name) e seu respectivo valor
+        (partition_value).
+
+        Parâmetros
+        ----------
+        :param: df
+            DataFrame Spark alvo das transformações aplicadas.
+            [type: pyspark.sql.DataFrame]
+
+        :param: partition_name
+            Nome da partição considerada como um novo atributo da
+            base de dados alvo.
+            [type: string]
+
+        :param: partition_value
+            Valor para a respectiva partição.
+            [type: any]
         """
 
         logger.info("Adicionando partição na tabela "
@@ -422,6 +709,32 @@ class GlueTransformationManager(GlueJobManager):
     # Escrevendo e catalogando resultado final
     def write_data_to_catalog(self, df: DataFrame or DynamicFrame) -> None:
         """
+        Método responsável por consolidar todas as etapas necessárias
+        para escrita de dados no s3 e a subsequente catalogação no Data
+        Catalog. Para toda a configuração necessária para execução das
+        etapas de escrita e catalogação, parâmetros do job são utilizados
+        diretamente do atributo self.args da classe instanciada. Dessa
+        forma, é extremamente importante validar se todos os atributos
+        aplicados neste método foram devidamente fornecidos ou configurados
+        pelo usuário, seja pelo próprio script ou por um pipeline de IaC
+        (ex: terraform). Em essência, este método realiza as seguintes
+        operações:
+            1. Verificação se o conjunto de dados fornecido como argumento
+            é do tipo DynamicFrame (caso contrário, converte)
+            2. Faz um sink com o catálogo de dado
+            3. Escreve dados no s3 e atualiza catálogo de dados
+
+        Parâmetros
+        ----------
+        :param: df
+            Objeto do tipo DataFrame ou DynamicFrame a ser utilizado como
+            alvo de escrita e catalogação. Os métodos utilizados para
+            escrita e catalogação consideram um objeto do tipo DynamicFrame
+            como alvo e, assim sendo, existe uma validação inicial neste
+            método codificada para validar se o objeto passado é do tipo
+            DynamicFrame. Caso contrário, uma conversão é realizada para que
+            os métodos subsequentes possam ser executados.
+            [type: DataFrame or DynamicFrame]
         """
 
         # Convertendo DataFrame em DynamicFrame
@@ -439,13 +752,18 @@ class GlueTransformationManager(GlueJobManager):
         # Criando sincronização com bucket s3
         logger.info("Preparando e sincronizando elementos de saída da tabela")
         try:
+            # Criando variável de saída com base em argumentos do job
+            output_path = f"s3://{self.args['OUTPUT_BUCKET']}/"\
+                f"{self.args['OUTPUT_DB']}/{self.args['OUTPUT_TABLE']}"
+
+            # Criando relação de escrita de dados
             data_sink = self.glueContext.getSink(
-                path=self.output_path,
-                connection_type=self.connection_type,
-                updateBehavior=self.update_behavior,
-                partitionKeys=self.partition_keys,
-                compression=self.compression,
-                enableUpdateCatalog=self.enable_update_catalog,
+                path=output_path,
+                connection_type=self.args["CONNECTION_TYPE"],
+                updateBehavior=self.args["UPDATE_BEHAVIOR"],
+                partitionKeys=[self.args["PARTITION_NAME"]],
+                compression=self.args["COMPRESSION"],
+                enableUpdateCatalog=self.args["ENABLE_UPDATE_CATALOG"],
                 transformation_ctx="data_sink",
             )
         except Exception as e:
@@ -457,15 +775,16 @@ class GlueTransformationManager(GlueJobManager):
         logger.info("Adicionando entrada para tabela no catálogo de dados")
         try:
             data_sink.setCatalogInfo(
-                catalogDatabase=self.output_db,
-                catalogTableName=self.output_table
+                catalogDatabase=self.args["OUTPUT_DB"],
+                catalogTableName=self.args["OUTPUT_TABLE"]
             )
-            data_sink.setFormat(self.data_format)
+            data_sink.setFormat(self.args["DATA_FORMAT"])
             data_sink.writeFrame(dyf)
 
-            logger.info(f"Tabela {self.output_db}.{self.output_table} "
+            logger.info(f"Tabela {self.args['OUTPUT_DB']}."
+                        f"{self.args['OUTPUT_TABLE']} "
                         "atualizada com sucesso no catálogo. Seus dados estão "
-                        f"armazenados em {self.output_path}")
+                        f"armazenados em {output_path}")
         except Exception as e:
             logger.error("Erro ao adicionar entrada para tabela no catálogo "
                          f"de dados. Exception: {e}")
@@ -474,6 +793,21 @@ class GlueTransformationManager(GlueJobManager):
     # Encapsulando método único para execução do job
     def run(self) -> None:
         """
+        Método responsável por consolidar todas as etapas de execução
+        do job do Glue, permitindo assim uma maior facilidade e
+        organização ao usuário final. Este método pode ser devidamente
+        adaptado de acordo com as necessidades de cada usuário e de
+        cada job a ser codificado, possibilitando uma centralização
+        de todos os processos operacionais a serem realizados. Com isso,
+        um melhor gerenciamento do job pode ser obtido, visto que, no
+        programa principal, o usuário terá apenas que executar o método
+        run(). Na prática, este método realiza as seguintes operações:
+            
+            1. Inicializa o job e obtém todos os insumos necessários
+            2. Realiza a leitura dos objetos DataFrame
+            3. Aplica as transformações necessárias
+            4. Adiciona uma partição de data aos dados
+            5. Escreve o resultado no s3 e cataloga no Data Catalog
         """
 
         # Preparando insumos do job
@@ -501,10 +835,11 @@ class GlueTransformationManager(GlueJobManager):
         )
 
         # Adicionando partição ao DataFrame
+        partition_value = datetime.now().strftime(self.args["PARTITION_FORMAT"])
         df_sot_prep_partitioned = self.add_partition(
             df=df_sot_prep,
-            partition_name=PARTITION_NAME,
-            partition_value=PARTITION_VALUE
+            partition_name=self.args["PARTITION_NAME"],
+            partition_value=partition_value
         )
 
         # Escrevendo e catalogando dados
@@ -524,21 +859,8 @@ if __name__ == "__main__":
     # Inicializando objeto para gerenciar o job e as transformações
     glue_manager = GlueTransformationManager(
         argv_list=ARGV_LIST,
-        data_dict=DATA_DICT,
-        output_bucket=OUTPUT_BUCKET,
-        output_db=OUTPUT_DB,
-        output_table=OUTPUT_TABLE,
-        connection_type=CONNECTION_TYPE,
-        update_behavior=UPDATE_BEHAVIOR,
-        data_format=DATA_FORMAT,
-        partition_keys=PARTITION_KEYS,
-        compression=COMPRESSION,
-        enable_update_catalog=ENABLE_UPDATE_CATALOG
+        data_dict=DATA_DICT
     )
 
     # Executando todas as lógicas mapeadas do job
     glue_manager.run()
-
-
-# Inserir argumentos do job direto via terraform
-# Printar argumentos do job como mensagem de log no início do projeto (--JOB_NAME=X --OUTPUT_BUCKET=1)
