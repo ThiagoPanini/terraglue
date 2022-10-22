@@ -7,11 +7,16 @@ através das informações contidas nos outros arquivos
 a especificação dos elementos a serem implantados
 nos providers declarados.
 
-GOAL: 
+GOAL: Consolidar as chamdas de todos os módulos utilizados
+neste projeto de IaC para a completa implantação de um
+ambiente analítico capaz de ser utilizado como uma rica
+fonte de aprendizado para a criação de jobs do Glue.
 
 MODULES: A organização da infra comporta os módulos:
   - ./modules/storage
-  - ./modules/analytics
+  - ./modules/catalog
+  - ./modules/iam
+  - ./modules/glue
 
 Especificações e detalhes sobre o conteúdo de cada
 módulo poderá ser encontrado em seus respectivos
@@ -128,8 +133,8 @@ module "catalog" {
 
 # Chamando módulo iam
 module "iam" {
-  source            = "./modules/iam"
-  iam_policies_path = var.iam_policies_path
+  source             = "./modules/iam"
+  iam_policies_path  = var.iam_policies_path
   iam_glue_role_name = var.iam_glue_role_name
 }
 
@@ -142,29 +147,19 @@ module "iam" {
 # Variáveis locais para um melhor gerenciamento dos recursos do módulo
 # https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html
 locals {
-  # Definindo argumentos do job Glue a ser criado
-  glue_job_general_arguments = {
-    "--job-language"                     = "python"
-    "--job-bookmark-option"              = "job-bookmark-disable"
-    "--enable-metrics"                   = true
-    "--enable-continuous-cloudwatch-log" = true
-    "--enable-spark-ui"                  = true
-    "--encryption-type"                  = "sse-s3"
-    "--enable-glue-datacatalog"          = true
-    "--enable-job-insights"              = true
-  }
-
   # Modificando dicionário de argumentos e incluindo referências de URIs do s3 para assets
-  glue_job_assets_arguments = {
+  glue_job_dynamic_arguments = {
     "--scriptLocation"        = "s3://${local.bucket_names_map["glue"]}/scripts/"
     "--spark-event-logs-path" = "s3://${local.bucket_names_map["glue"]}/sparkHistoryLogs/"
     "--TempDir"               = "s3://${local.bucket_names_map["glue"]}/temporary/"
+    "--OUTPUT_BUCKET"         = local.bucket_names_map["sot"]
   }
 
   # Juntando maps e criando dicionário único e definitivo de argumentos do job
   glue_job_default_arguments = merge(
-    local.glue_job_general_arguments,
-    local.glue_job_assets_arguments
+    var.glue_job_general_arguments,
+    local.glue_job_dynamic_arguments,
+    var.glue_job_user_arguments
   )
 }
 
