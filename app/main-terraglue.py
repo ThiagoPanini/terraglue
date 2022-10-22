@@ -319,7 +319,7 @@ class GlueTransformationManager(GlueJobManager):
         push_down_predicate, additional_options e catalog_id
         também podem ser configurados como chaves deste dicionário e,
         caso não informados, seus respectivos valores default,
-        presentes na documentação, serão utilizados. 
+        presentes na documentação, serão utilizados.
     """
 
     def __init__(self, argv_list, data_dict) -> None:
@@ -802,7 +802,7 @@ class GlueTransformationManager(GlueJobManager):
         um melhor gerenciamento do job pode ser obtido, visto que, no
         programa principal, o usuário terá apenas que executar o método
         run(). Na prática, este método realiza as seguintes operações:
-            
+
             1. Inicializa o job e obtém todos os insumos necessários
             2. Realiza a leitura dos objetos DataFrame
             3. Aplica as transformações necessárias
@@ -835,7 +835,9 @@ class GlueTransformationManager(GlueJobManager):
         )
 
         # Adicionando partição ao DataFrame
-        partition_value = datetime.now().strftime(self.args["PARTITION_FORMAT"])
+        partition_value = datetime.now().strftime(
+            self.args["PARTITION_FORMAT"]
+        )
         df_sot_prep_partitioned = self.add_partition(
             df=df_sot_prep,
             partition_name=self.args["PARTITION_NAME"],
