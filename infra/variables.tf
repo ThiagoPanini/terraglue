@@ -184,3 +184,34 @@ variable "glue_job_max_concurrent_runs" {
   type        = number
   default     = 2
 }
+
+variable "glue_job_general_arguments" {
+  description = "Conjunto de argumentos padrão a serem associados ao job do glue"
+  type        = map(string)
+  default = {
+    "--job-language"                     = "python"
+    "--job-bookmark-option"              = "job-bookmark-disable"
+    "--enable-metrics"                   = true
+    "--enable-continuous-cloudwatch-log" = true
+    "--enable-spark-ui"                  = true
+    "--encryption-type"                  = "sse-s3"
+    "--enable-glue-datacatalog"          = true
+    "--enable-job-insights"              = true
+  }
+}
+
+variable "glue_job_user_arguments" {
+  description = "Conjunto de argumentos personalizados do usuário a serem associados ao job do glue"
+  type        = map(string)
+  default = {
+    "--OUTPUT_DB"             = "ra8"
+    "--OUTPUT_TABLE"          = "tbsot_ecommerce_br"
+    "--CONNECTION_TYPE"       = "s3"
+    "--UPDATE_BEHAVIOR"       = "UPDATE_IN_DATABASE"
+    "--PARTITION_NAME"        = "anomesdia_hms"
+    "--PARTITION_FORMAT"      = "%Y%m%d_%H%M%S"
+    "--DATA_FORMAT"           = "glueparquet"
+    "--COMPRESSION"           = "snappy"
+    "--ENABLE_UPDATE_CATALOG" = "True"
+  }
+}
