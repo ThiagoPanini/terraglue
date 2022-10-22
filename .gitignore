@@ -1,5 +1,6 @@
 # Diretório exploratório para Jupyter Notebooks
 notebooks/
+scrips/
 
 # Local .terraform directories
 **/.terraform/*
