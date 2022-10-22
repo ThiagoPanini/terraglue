@@ -45,7 +45,9 @@ ___
 
 ## Visão de arquitetura
 
-Agora que você já conhece um pouco mais sobre o projeto, é chegado o momento de apresentar toda a arquitetura que está por trás das funcionalidades exemplificadas. Em essência, o **terraglue** é um projeto de IaC (*Infrastructure as Code*) construído com o *runtime* [Terraform](https://www.terraform.io/) e dividido em módulos responsáveis pelas implantações de serviços AWS como:
+Agora que você já conhece um pouco mais sobre o projeto, é chegado o momento de apresentar toda a arquitetura que está por trás das funcionalidades exemplificadas. Em essência, o **terraglue** é um projeto de IaC (*Infrastructure as Code*) construído com o *runtime* [Terraform](https://www.terraform.io/) e dividido em módulos responsáveis por implantar diferentes serviços AWS que, juntos, formam toda a dinâmica de consumo do projeto.
+
+pelas implantações de serviços AWS como:
   - Buckets S3 para armazenamento de dados e *assets*
   - Policies e role IAM para gerenciamento de acessos
   - Catalogação de dados e workgroup do Athena
@@ -53,6 +55,17 @@ Agora que você já conhece um pouco mais sobre o projeto, é chegado o momento 
 
 <div align="center">
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-diagram-user-view.png" alt="terraglue-user-view">
+</div>
+
+Em uma visão mais técnica, os serviços declarados nos módulos Terraform são representados por:
+
+  - Buckets S3 para armazenamento de dados e *assets*
+  - Policies e role IAM para gerenciamento de acessos
+  - Catalogação de dados e workgroup do Athena
+  - Job do Glue parametrizado com exemplo prático de uso
+
+<div align="center">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-diagram-resources.png?raw=true" alt="terraglue-resources">
 </div>
 
 
