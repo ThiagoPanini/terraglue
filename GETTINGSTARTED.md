@@ -8,6 +8,8 @@
   - [Configurando credenciais AWS](#configurando-credenciais-aws)
   - [Clonando o repositório](#clonando-o-repositório)
   - [Instalação dos módulos Terraform](#instalação-dos-módulos-terraform)
+  - [Visualizando plano de implantação](#visualizando-plano-de-implantação)
+  - [Implantando recursos no ambiente AWS](#implantando-recursos-no-ambiente-aws)
 
 ___
 
@@ -52,9 +54,13 @@ Dessa forma, com as chaves `access_key_id` e `secret_access_key` em mãos, execu
 aws configure
 ```
 
-<div align="center">
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-gettingstarted-aws-configure.png" alt="terraglue-aws-configure">
-</div>
+    </div>
+</details>
+<br>
 
 **Obs:** as configurações demonstradas pela imagem acima funcionam apenas como um exemplo. O usuário deve informar suas próprias configurações de acordo com as especificidades de seu próprio ambiente. Caso o usuário já tenha realizado as etapas de configuração do AWS CLI, este passo pode tranquilamente ser ignorado.
 
@@ -69,15 +75,22 @@ Uma vez garantida a configuração do AWS CLI para as devidas chamadas de implan
 git clone git@github.com:ThiagoPanini/terraglue.git
 ```
 
-<div align="center">
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-gettingstarted-git-clone.png" alt="terraglue-git-clone">
-</div>
+  </div>
+</details>
+<br>
 
 Com isso, todos os códigos alocados no projeto, em sua versão mais recente, poderão ser acessados da forma mais cômoda para o usuário, seja através da própria linha de comando ou até mesmo utilizando uma IDE.
 
-<div align="center">
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-gettingstarted-ls-terraglue.png" alt="terraglue-ls">
-</div>
+  </div>
+</details>
 
 ___
 
@@ -95,6 +108,55 @@ terraform init
 
 Com isso, para validar o sucesso da operação, uma mensagem próxima à exemplificada pela imagem à seguir é esperada:
 
-<div align="center">
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-gettingstarted-terraform-init.png" alt="terraglue-terraform-init">
-</div>
+  </div>
+</details>
+<br>
+
+___
+
+### Visualizando plano de implantação
+
+Após a inicialização dos módulos do projeto e a obtenção dos insumos necessários para a plena utilização do Terraform, é possível executar o comando abaixo para visualizar todo o plano de implantação considerado dentro das funcionalidades do **terraglue**:
+
+```bash
+# Visualizando plano de implantação
+terraform plan
+```
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-gettingstarted-terraform-plan.png" alt="terraglue-terraform-plan">
+  </div>
+</details>
+<br>
+
+> ⚠️ Como o **terraglue** comporta uma série de declaração de recursos, o *output* do comando `terraform plan` comporta uma série de detalhes. Se julgar necessário, analise com cuidado todas as implantações a serem realizadas em sua conta alvo. Ter controle sobre este passo garante uma total autonomia sobre tudo o que está sendo realizado, incluindo possíveis gastos na provedora cloud. Em caso de dúvidas, verifique a [documentação]() do projeto.
+
+___
+
+### Implantando recursos no ambiente AWS
+
+Por fim, ao visualizar e concordar com o plano de implantação proporcionado pelo Terraform, o usuário pode finalmente executar o comando abaixo para realizar todo o processo de preparação de infraestrutura direto na conta AWS alvo:
+
+```bash
+# Implantando recursos terraglue
+terraform apply
+```
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-gettingstarted-terraform-apply.png" alt="terraglue-terraform-apply">
+  </div>
+</details>
+<br>
+
+Após um determinado período, espera-se que uma mensagem de sucesso seja entregue ao usuário, garantindo assim que todas as inclusões e todos os recursos foram devidamente implantados no ambiente AWS. A partir deste ponto, o usuário terá em mãos todas as funcionalidades do **terraglue** disponíveis para uso!
+
+___
+
