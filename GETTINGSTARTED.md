@@ -10,6 +10,14 @@
   - [Instalação dos módulos Terraform](#instalação-dos-módulos-terraform)
   - [Visualizando plano de implantação](#visualizando-plano-de-implantação)
   - [Implantando recursos no ambiente AWS](#implantando-recursos-no-ambiente-aws)
+- [Exemplos práticos de funcionalidades](#exemplos-práticos-de-funcionalidades)
+  - [Buckets SoR, SoT, Spec e outros](#buckets-sor-sot-spec-e-outros)
+  - [Dados na camada SoR](#dados-na-camada-sor)
+  - [Catalogação no Data Catalog](#catalogação-no-data-catalog)
+  - [Athena workgroup](#athena-workgroup)
+  - [IAM policies e roles](#iam-policies-e-roles)
+  - [Glue job](#glue-job)
+  - [Dados na camada SoT](#dados-na-camada-sot)
 
 ___
 
@@ -114,7 +122,6 @@ Com isso, para validar o sucesso da operação, uma mensagem próxima à exempli
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-gettingstarted-terraform-init.png" alt="terraglue-terraform-init">
   </div>
 </details>
-<br>
 
 ___
 
@@ -160,3 +167,64 @@ Após um determinado período, espera-se que uma mensagem de sucesso seja entreg
 
 ___
 
+## Exemplos práticos de funcionalidades
+
+E assim, visando proporcionar ao usuário alguns exemplos das principais funcionalidades embutidas no **terraglue**, esta seção consolida detalhes técnicos sobre os cenários práticos de aplicação.
+
+Considerando a essência do projeto, os insumos a serem detalhados se fazem presente após a execução do comando `terraform apply` para implantação dos recursos e serviços declarados em seu código fonte.
+
+### Buckets SoR, SoT, Spec e outros
+
+O primeiro ponto a ser destacado no *kit* de funcionalidades está relacionado à criação automática de buckets S3 na conta AWS alvo de implantação para simular toda uma organização de **Data Lake** presente em grandes corporações.
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-buckets-s3.png?raw=true" alt="terraglue-practical-buckets-s3">
+</div>
+</details>
+<br>
+
+| **Bucket** | **Descrição** |
+| :-- | :-- |
+| `terraglue-athena-query-results` | Bucket criado para armazenar os resultados de query do Athena |
+| `terraglue-glue-assets` | Bucket responsável por armazenar todos os *assets* do Glue, incluindo o script Python utilizado como alvo do job e demais logs |
+| `terraglue-sor-data` | Armazenamento de dados SoR do projeto de acordo com a organização local presente no diretório `./data` |
+| `terraglue-sot-data` | Bucket responsável por armazenar possíveis dados gerados a partir de jobs do Glue caracterizados na camada SoT |
+| `terraglue-spec-data` | Bucket responsável por armazenar possíveis dados gerados a partir de jobs do Glue caracterizados na camada Spec |
+
+___
+
+### Dados na camada SoR
+
+Além da criação automática de buckets s3 simulando uma organização de Data Lake, o **terraglue** também considera a inserção de dados presentes no diretório `./data` na raíz do repositório respeitando a organização local considerada. Isto significa que, ao posicionar um arquivo de qualquer extensão em uma hierarquia de pastas adequada para representar tal arquivo em uma estrutura de Data Lake, este será automaticamente ingerido no bucket `terraglue-sor-data` da conta.
+
+Para visualizar melhor esta funcionalidade, considere o seguinte arquivo presente na raíz do repositório do projeto:
+
+```./data/ra8/customers/olist_customers_dataset.csv```
+
+Ao executar o comando terraform para implantação dos recursos, este mesmo arquivo estará presente no bucket SoR no seguinte caminho:
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-data-customers.png?raw=true" alt="terraglue-practical-buckets-s3">
+</div>
+</details>
+<br>
+
+| **Caminho local** | **ARN de objeto na AWS** |
+| :-- | :-- |
+| | |
+| | |
+
+
+### Catalogação no Data Catalog
+
+### Athena workgroup
+
+### IAM policies e roles
+
+### Glue job
+
+### Dados na camada SoT
