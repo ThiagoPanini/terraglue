@@ -1,0 +1,100 @@
+*Este é um tutorial básico sobre como utilizar as funcionalidades do terraglue*
+
+## Table of Contents
+- [Table of Contents](#table-of-contents)
+- [Pré requisitos](#pré-requisitos)
+- [Passo a passo resumido](#passo-a-passo-resumido)
+- [Passo a passo detalhado](#passo-a-passo-detalhado)
+  - [Configurando credenciais AWS](#configurando-credenciais-aws)
+  - [Clonando o repositório](#clonando-o-repositório)
+  - [Instalação dos módulos Terraform](#instalação-dos-módulos-terraform)
+
+___
+
+## Pré requisitos
+
+Como informado no [README.md](https://github.com/ThiagoPanini/terraglue/tree/develop#pr%C3%A9-requisitos) do projeto, os pré requisitos de utilização do **terraglue** incluem:
+
+- ☁️ [Conta AWS](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/) disponível para uso
+- 🔑 [Acesso programático](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html) à conta através das chaves `access_key_id` e `secret_access_key`
+- ⛏ [Terraform](https://www.terraform.io/) instalado (versão >=1.0)
+
+Se a lista de requisitos acima foi cumprida, siga adiante para as próximas etapas de instalação e uso do projeto em seu ambiente de trabalho.
+
+___
+
+## Passo a passo resumido
+
+Visando proporcionar uma versão ágil de utilização, o consumo do **terraglue** pode ser resumido às seguintes etapas:
+
+1. Configuração das credenciais AWS via `aws configure`
+2. Clonagem do repositório para o ambiente local
+3. Instalação dos módulos terraform via `terraform init` no diretório `./infra`
+4. Planejamento e visualização das implantações via `terraform plan`
+5. Implantação dos recursos na conta AWS alvo via `terraform apply`
+
+Pronto! Com essas etapas será possível navegar e explorar toda a infraestrutura implantada automaticamente na AWS de acordo com os objetivos de aprendizado estabelecidos.
+
+Tem dúvidas sobre como realizar alguma das etapas acima? Siga o passo a passo detalhado abaixo para explicações mais aprofundada sobre cada processo envolvido.
+
+## Passo a passo detalhado
+
+Nesta seção, as etapas de instalação e uso do **terraglue** serão exemplificadas em uma maior riqueza de detalhes, garantindo assim que todos os usuários, experientes ou não, consigam aproveitar de todo esse conjunto extremamente útil de funcionalidades.
+
+### Configurando credenciais AWS
+
+Como o **terraglue** possui a AWS como principal *provider*, é natural garantir que o ambiente está acessível e existem permissões básicas para a criação dos recursos declarados. Neste momento, o primeiro e o segundo pré requisitos se fazem presentes: além da conta alvo de implantação, é preciso possuir acesso a um usuário com acesso programático suficiente para a realização das chamadas necessárias.
+
+Dessa forma, com as chaves `access_key_id` e `secret_access_key` em mãos, execute o comando abaixo no terminal e siga os passos solicitados para que a [configuração do AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) seja concluída com sucesso.
+
+```bash
+# Configurando credenciais do AWS CLI
+aws configure
+```
+
+<div align="center">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-gettingstarted-aws-configure.png" alt="terraglue-aws-configure">
+</div>
+
+**Obs:** as configurações demonstradas pela imagem acima funcionam apenas como um exemplo. O usuário deve informar suas próprias configurações de acordo com as especificidades de seu próprio ambiente. Caso o usuário já tenha realizado as etapas de configuração do AWS CLI, este passo pode tranquilamente ser ignorado.
+
+___
+
+### Clonando o repositório
+
+Uma vez garantida a configuração do AWS CLI para as devidas chamadas de implantação na AWS, o repositório com o código fonte do projeto **terraglue** pode devidamente ser clonado para o repositório local através do comando:
+
+```bash
+# Clonando repositório via SSH
+git clone git@github.com:ThiagoPanini/terraglue.git
+```
+
+<div align="center">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-gettingstarted-git-clone.png" alt="terraglue-git-clone">
+</div>
+
+Com isso, todos os códigos alocados no projeto, em sua versão mais recente, poderão ser acessados da forma mais cômoda para o usuário, seja através da própria linha de comando ou até mesmo utilizando uma IDE.
+
+<div align="center">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-gettingstarted-ls-terraglue.png" alt="terraglue-ls">
+</div>
+
+___
+
+### Instalação dos módulos Terraform
+
+Como parte do processo de utilização do Terraform como ferramenta de IaC, é preciso inicializar os módulos presentes no projeto em um primeiro uso. Para isso, basta navegar até o diretório de infra do projeto e executar o comando próprio para a inicialização e obtenção dos insumos necessários do Terraform:
+
+```bash
+# Navegando até o diretório de infra
+cd infra
+
+# Inicializando os módulos
+terraform init
+```
+
+Com isso, para validar o sucesso da operação, uma mensagem próxima à exemplificada pela imagem à seguir é esperada:
+
+<div align="center">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-gettingstarted-terraform-init.png" alt="terraglue-terraform-init">
+</div>

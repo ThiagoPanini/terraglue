@@ -188,6 +188,17 @@ Ao executar o comando terraform para implantação dos recursos, este mesmo arqu
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-data-customers.png?raw=true" alt="terraglue-practical-buckets-s3">
 </div>
 
+<details>
+  <summary>Clique para ver detalhes de cada arquivo bruto</summary>
+
+  | **Caminho local** | **ARN de objeto na AWS** |
+  | :-- | :-- |
+  | | |
+  | |
+
+</details>
+
+
 ### Catalogação no Data Catalog
 
 ### Athena workgroup
