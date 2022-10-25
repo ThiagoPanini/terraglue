@@ -13,9 +13,9 @@
     - [Organização do repositório](#organização-do-repositório)
     - [Detalhes de construção da infraestrutura](#detalhes-de-construção-da-infraestrutura)
   - [Utilizando o projeto](#utilizando-o-projeto)
-  - [Referências](#referências)
-  - [Contatos](#contatos)
   - [Contribuindo](#contribuindo)
+  - [Contatos](#contatos)
+  - [Referências](#referências)
 
 ___
 
@@ -142,10 +142,27 @@ Visando dispor de um lugar específico para detalhar o tutorial de utilização 
 
 ___
 
-## Referências
+## Contribuindo
+
+Todos são muito bem vindos a contribuírem com evoluções e novas funcionalidades deste projeto carinhosamente disponibilizado para a comunidade. Para maiores detalhes sobre esse processo, visite o arquivo [CONTRIBUTING.md](https://github.com/ThiagoPanini/terraglue/blob/main/CONTRIBUTING.md)
 
 ___
 
 ## Contatos
 
-## Contribuindo
+- [Thiago Panini - LinkedIn](https://www.linkedin.com/in/thiago-panini/)
+- [paninitechlab @ hashnode](https://panini.hashnode.dev/)
+
+___
+
+## Referências
+
+- [AWS Glue Official Page](https://aws.amazon.com/glue/)
+- [Hashicorp Terraform](https://www.terraform.io/)
+- [Differences between System of Record and Source of Truth](https://www.linkedin.com/pulse/difference-between-system-record-source-truth-santosh-kudva/)
+- [Olist Brazilian E-Commerce Data](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
+- [Jobs parameters used by AWS Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html)
+- [GlueContext class](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-crawler-pyspark-extensions-glue-context.html#aws-glue-api-crawler-pyspark-extensions-glue-context-create_dynamic_frame_from_catalog)
+- [AWS Glue DynamicFrame class](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-crawler-pyspark-extensions-dynamic-frame.html)
+- [Calling AWS Glue APIs in Python](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html)
+- [Job failing by job bookmark issue - empty DataFrame](https://stackoverflow.com/questions/50992655/etl-job-failing-with-pyspark-sql-utils-analysisexception-in-aws-glue)
