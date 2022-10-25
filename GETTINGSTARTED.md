@@ -1,0 +1,230 @@
+*Este é um tutorial básico sobre como utilizar as funcionalidades do terraglue*
+
+## Table of Contents
+- [Table of Contents](#table-of-contents)
+- [Pré requisitos](#pré-requisitos)
+- [Passo a passo resumido](#passo-a-passo-resumido)
+- [Passo a passo detalhado](#passo-a-passo-detalhado)
+  - [Configurando credenciais AWS](#configurando-credenciais-aws)
+  - [Clonando o repositório](#clonando-o-repositório)
+  - [Instalação dos módulos Terraform](#instalação-dos-módulos-terraform)
+  - [Visualizando plano de implantação](#visualizando-plano-de-implantação)
+  - [Implantando recursos no ambiente AWS](#implantando-recursos-no-ambiente-aws)
+- [Exemplos práticos de funcionalidades](#exemplos-práticos-de-funcionalidades)
+  - [Buckets SoR, SoT, Spec e outros](#buckets-sor-sot-spec-e-outros)
+  - [Dados na camada SoR](#dados-na-camada-sor)
+  - [Catalogação no Data Catalog](#catalogação-no-data-catalog)
+  - [Athena workgroup](#athena-workgroup)
+  - [IAM policies e roles](#iam-policies-e-roles)
+  - [Glue job](#glue-job)
+  - [Dados na camada SoT](#dados-na-camada-sot)
+
+___
+
+## Pré requisitos
+
+Como informado no [README.md](https://github.com/ThiagoPanini/terraglue/tree/develop#pr%C3%A9-requisitos) do projeto, os pré requisitos de utilização do **terraglue** incluem:
+
+- ☁️ [Conta AWS](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/) disponível para uso
+- 🔑 [Acesso programático](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html) à conta através das chaves `access_key_id` e `secret_access_key`
+- ⛏ [Terraform](https://www.terraform.io/) instalado (versão >=1.0)
+
+Se a lista de requisitos acima foi cumprida, siga adiante para as próximas etapas de instalação e uso do projeto em seu ambiente de trabalho.
+
+___
+
+## Passo a passo resumido
+
+Visando proporcionar uma versão ágil de utilização, o consumo do **terraglue** pode ser resumido às seguintes etapas:
+
+1. Configuração das credenciais AWS via `aws configure`
+2. Clonagem do repositório para o ambiente local
+3. Instalação dos módulos terraform via `terraform init` no diretório `./infra`
+4. Planejamento e visualização das implantações via `terraform plan`
+5. Implantação dos recursos na conta AWS alvo via `terraform apply`
+
+Pronto! Com essas etapas será possível navegar e explorar toda a infraestrutura implantada automaticamente na AWS de acordo com os objetivos de aprendizado estabelecidos.
+
+Tem dúvidas sobre como realizar alguma das etapas acima? Siga o passo a passo detalhado abaixo para explicações mais aprofundada sobre cada processo envolvido.
+
+## Passo a passo detalhado
+
+Nesta seção, as etapas de instalação e uso do **terraglue** serão exemplificadas em uma maior riqueza de detalhes, garantindo assim que todos os usuários, experientes ou não, consigam aproveitar de todo esse conjunto extremamente útil de funcionalidades.
+
+### Configurando credenciais AWS
+
+Como o **terraglue** possui a AWS como principal *provider*, é natural garantir que o ambiente está acessível e existem permissões básicas para a criação dos recursos declarados. Neste momento, o primeiro e o segundo pré requisitos se fazem presentes: além da conta alvo de implantação, é preciso possuir acesso a um usuário com acesso programático suficiente para a realização das chamadas necessárias.
+
+Dessa forma, com as chaves `access_key_id` e `secret_access_key` em mãos, execute o comando abaixo no terminal e siga os passos solicitados para que a [configuração do AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) seja concluída com sucesso.
+
+```bash
+# Configurando credenciais do AWS CLI
+aws configure
+```
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-gettingstarted-aws-configure.png" alt="terraglue-aws-configure">
+    </div>
+</details>
+<br>
+
+**Obs:** as configurações demonstradas pela imagem acima funcionam apenas como um exemplo. O usuário deve informar suas próprias configurações de acordo com as especificidades de seu próprio ambiente. Caso o usuário já tenha realizado as etapas de configuração do AWS CLI, este passo pode tranquilamente ser ignorado.
+
+___
+
+### Clonando o repositório
+
+Uma vez garantida a configuração do AWS CLI para as devidas chamadas de implantação na AWS, o repositório com o código fonte do projeto **terraglue** pode devidamente ser clonado para o repositório local através do comando:
+
+```bash
+# Clonando repositório via SSH
+git clone git@github.com:ThiagoPanini/terraglue.git
+```
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-gettingstarted-git-clone.png" alt="terraglue-git-clone">
+  </div>
+</details>
+<br>
+
+Com isso, todos os códigos alocados no projeto, em sua versão mais recente, poderão ser acessados da forma mais cômoda para o usuário, seja através da própria linha de comando ou até mesmo utilizando uma IDE.
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-gettingstarted-ls-terraglue.png" alt="terraglue-ls">
+  </div>
+</details>
+
+___
+
+### Instalação dos módulos Terraform
+
+Como parte do processo de utilização do Terraform como ferramenta de IaC, é preciso inicializar os módulos presentes no projeto em um primeiro uso. Para isso, basta navegar até o diretório de infra do projeto e executar o comando próprio para a inicialização e obtenção dos insumos necessários do Terraform:
+
+```bash
+# Navegando até o diretório de infra
+cd infra
+
+# Inicializando os módulos
+terraform init
+```
+
+Com isso, para validar o sucesso da operação, uma mensagem próxima à exemplificada pela imagem à seguir é esperada:
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-gettingstarted-terraform-init.png" alt="terraglue-terraform-init">
+  </div>
+</details>
+
+___
+
+### Visualizando plano de implantação
+
+Após a inicialização dos módulos do projeto e a obtenção dos insumos necessários para a plena utilização do Terraform, é possível executar o comando abaixo para visualizar todo o plano de implantação considerado dentro das funcionalidades do **terraglue**:
+
+```bash
+# Visualizando plano de implantação
+terraform plan
+```
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-gettingstarted-terraform-plan.png" alt="terraglue-terraform-plan">
+  </div>
+</details>
+<br>
+
+> ⚠️ Como o **terraglue** comporta uma série de declaração de recursos, o *output* do comando `terraform plan` comporta uma série de detalhes. Se julgar necessário, analise com cuidado todas as implantações a serem realizadas em sua conta alvo. Ter controle sobre este passo garante uma total autonomia sobre tudo o que está sendo realizado, incluindo possíveis gastos na provedora cloud. Em caso de dúvidas, verifique a [documentação]() do projeto.
+
+___
+
+### Implantando recursos no ambiente AWS
+
+Por fim, ao visualizar e concordar com o plano de implantação proporcionado pelo Terraform, o usuário pode finalmente executar o comando abaixo para realizar todo o processo de preparação de infraestrutura direto na conta AWS alvo:
+
+```bash
+# Implantando recursos terraglue
+terraform apply
+```
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-gettingstarted-terraform-apply.png" alt="terraglue-terraform-apply">
+  </div>
+</details>
+<br>
+
+Após um determinado período, espera-se que uma mensagem de sucesso seja entregue ao usuário, garantindo assim que todas as inclusões e todos os recursos foram devidamente implantados no ambiente AWS. A partir deste ponto, o usuário terá em mãos todas as funcionalidades do **terraglue** disponíveis para uso!
+
+___
+
+## Exemplos práticos de funcionalidades
+
+E assim, visando proporcionar ao usuário alguns exemplos das principais funcionalidades embutidas no **terraglue**, esta seção consolida detalhes técnicos sobre os cenários práticos de aplicação.
+
+Considerando a essência do projeto, os insumos a serem detalhados se fazem presente após a execução do comando `terraform apply` para implantação dos recursos e serviços declarados em seu código fonte.
+
+### Buckets SoR, SoT, Spec e outros
+
+O primeiro ponto a ser destacado no *kit* de funcionalidades está relacionado à criação automática de buckets S3 na conta AWS alvo de implantação para simular toda uma organização de **Data Lake** presente em grandes corporações.
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-buckets-s3.png?raw=true" alt="terraglue-practical-buckets-s3">
+</div>
+</details>
+<br>
+
+| **Bucket** | **Descrição** |
+| :-- | :-- |
+| `terraglue-athena-query-results` | Bucket criado para armazenar os resultados de query do Athena |
+| `terraglue-glue-assets` | Bucket responsável por armazenar todos os *assets* do Glue, incluindo o script Python utilizado como alvo do job e demais logs |
+| `terraglue-sor-data` | Armazenamento de dados SoR do projeto de acordo com a organização local presente no diretório `./data` |
+| `terraglue-sot-data` | Bucket responsável por armazenar possíveis dados gerados a partir de jobs do Glue caracterizados na camada SoT |
+| `terraglue-spec-data` | Bucket responsável por armazenar possíveis dados gerados a partir de jobs do Glue caracterizados na camada Spec |
+
+___
+
+### Dados na camada SoR
+
+Além da criação automática de buckets s3 simulando uma organização de Data Lake, o **terraglue** também considera a inserção de dados presentes no diretório `./data` na raíz do repositório respeitando a organização local considerada. Isto significa que, ao posicionar um arquivo de qualquer extensão em uma hierarquia de pastas adequada para representar tal arquivo em uma estrutura de Data Lake, este será automaticamente ingerido no bucket `terraglue-sor-data` da conta.
+
+Para visualizar melhor esta funcionalidade, considere o seguinte arquivo presente na raíz do repositório do projeto:
+
+```./data/ra8/customers/olist_customers_dataset.csv```
+
+Ao executar o comando terraform para implantação dos recursos, este mesmo arquivo estará presente no bucket SoR no seguinte caminho:
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-data-customers.png?raw=true" alt="terraglue-practical-buckets-s3">
+</div>
+</details>
+<br>
+
+| **Caminho local** | **ARN de objeto na AWS** |
+| :-- | :-- |
+| | |
+| | |
+
+
+### Catalogação no Data Catalog
+
+### Athena workgroup
+
+### IAM policies e roles
+
+### Glue job
+
+### Dados na camada SoT
