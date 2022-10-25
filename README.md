@@ -1,6 +1,10 @@
 # terraglue
 *Auxiliando desenvolvedores, engenheiros e analistas a implantar e testar jobs do Glue na AWS*
 
+<div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/logo-v2.png" alt="terraglue-logo">
+</div>
+<br>
 
 ## Table of Contents
 - [terraglue](#terraglue)
