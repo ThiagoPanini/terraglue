@@ -1,24 +1,23 @@
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/logo-v2.png" width=400 height=400 alt="terraglue-logo">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/logo-v4.png" alt="terraglue-logo">
 </div>
 <div align="center">
     <i>Auxiliando desenvolvedores, engenheiros e analistas a implantar e testar jobs do Glue na AWS</i>
 </div>
 
 ## Table of Contents
-- [terraglue](#terraglue)
-  - [Table of Contents](#table-of-contents)
-  - [O que é o terraglue?](#o-que-é-o-terraglue)
-    - [Motivadores e principais desafios](#motivadores-e-principais-desafios)
-    - [Quem pode utilizar o terraglue?](#quem-pode-utilizar-o-terraglue)
-    - [Pré requisitos](#pré-requisitos)
-  - [Visão de arquitetura](#visão-de-arquitetura)
-    - [Organização do repositório](#organização-do-repositório)
-    - [Detalhes de construção da infraestrutura](#detalhes-de-construção-da-infraestrutura)
-  - [Utilizando o projeto](#utilizando-o-projeto)
-  - [Contribuindo](#contribuindo)
-  - [Contatos](#contatos)
-  - [Referências](#referências)
+- [Table of Contents](#table-of-contents)
+- [O que é o terraglue?](#o-que-é-o-terraglue)
+  - [Motivadores e principais desafios](#motivadores-e-principais-desafios)
+  - [Quem pode utilizar o terraglue?](#quem-pode-utilizar-o-terraglue)
+  - [Pré requisitos](#pré-requisitos)
+- [Visão de arquitetura](#visão-de-arquitetura)
+  - [Organização do repositório](#organização-do-repositório)
+  - [Detalhes de construção da infraestrutura](#detalhes-de-construção-da-infraestrutura)
+- [Utilizando o projeto](#utilizando-o-projeto)
+- [Contribuindo](#contribuindo)
+- [Contatos](#contatos)
+- [Referências](#referências)
 
 ___
 
