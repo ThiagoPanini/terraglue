@@ -1,5 +1,5 @@
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/logo-v3.png" alt="terraglue-logo">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/logo-v4.png" alt="terraglue-logo">
 </div>
 <div align="center">
     <i>Auxiliando desenvolvedores, engenheiros e analistas a implantar e testar jobs do Glue na AWS</i>
