@@ -60,11 +60,11 @@ Uma vez apresentado o projeto, é importante destacar que o **terraglue** possui
 </details>
 
 <details>
+
   <summary>📌 "Já construí jobs do Glue anteriormente seguindo uma lógica própria e tenho muita dificuldade em organizar meu código a medida que novas transformações são programadas."</summary>
 
   > 💡 *O exemplo de aplicação Spark fornecido como padrão no terraglue possui uma organização especificamente pensada na escalabilidade de código. As classes `GlueJobManager` e `GlueTransformationManager` auxiliam usuários com conhecimento prévio a organizarem jobs com um alto número de transformações sem abrir mão das boas práticas.*
 </details>
-
 
 Ansioso para conhecer mais sobre o projeto? Ainda nesta documentação, toda sua arquitetura será apresentada e um completo tutorial de utilização será fornecido. Continue acompanhando!
 ___
@@ -81,6 +81,7 @@ Você verá que utilizar o **terraglue** é extremamente fácil e suas exigênci
 
 - Conta AWS e usuário com acesso programático
 - Terraform instalado no sistema
+
 ___
 
 ## Visão de arquitetura
@@ -137,7 +138,6 @@ Como mencionado (e sugerido pelo próprio nome), o **terraglue** é um projeto T
 
 ___
 
-
 ## Utilizando o projeto
 
 Visando dispor de um lugar específico para detalhar o tutorial de utilização do projeto, todas as etapas estão devidamente exemplificadas no arquivo [GETTINGSTARTED.md](https://github.com/ThiagoPanini/terraglue/blob/develop/GETTINGSTARTED.md)
@@ -168,3 +168,4 @@ ___
 - [AWS Glue DynamicFrame class](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-crawler-pyspark-extensions-dynamic-frame.html)
 - [Calling AWS Glue APIs in Python](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html)
 - [Job failing by job bookmark issue - empty DataFrame](https://stackoverflow.com/questions/50992655/etl-job-failing-with-pyspark-sql-utils-analysisexception-in-aws-glue)
+- [Spark Temporary Tables in Glue Jobs](https://stackoverflow.com/questions/53718221/aws-glue-data-catalog-temporary-tables-and-apache-spark-createorreplacetempview)
