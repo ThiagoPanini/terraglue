@@ -102,7 +102,7 @@ Em uma visão mais técnica, os serviços declarados nos módulos Terraform são
 Assim, ao cumprir os requisitos e as ações evidenciadas pela imagem de arquitetura acima, o usuário poderá ter em mãos seu próprio "ambiente AWS portátil" composto dos seguintes recursos:
 
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-diagram-resources.png?raw=true" alt="terraglue-resources">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-diagram-resources-dark.png?raw=true" alt="terraglue-resources">
 </div>
 <br>
 
