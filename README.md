@@ -60,7 +60,6 @@ Uma vez apresentado o projeto, é importante destacar que o **terraglue** possui
 </details>
 
 <details>
-
   <summary>📌 "Já construí jobs do Glue anteriormente seguindo uma lógica própria e tenho muita dificuldade em organizar meu código a medida que novas transformações são programadas."</summary>
 
   > 💡 *O exemplo de aplicação Spark fornecido como padrão no terraglue possui uma organização especificamente pensada na escalabilidade de código. As classes `GlueJobManager` e `GlueTransformationManager` auxiliam usuários com conhecimento prévio a organizarem jobs com um alto número de transformações sem abrir mão das boas práticas.*
@@ -89,16 +88,16 @@ ___
 Agora que você já conhece um pouco mais sobre o projeto, é chegado o momento de apresentar toda a arquitetura que está por trás das funcionalidades introduzidas. No final do dia, o **terraglue** é um projeto de IaC (*Infrastructure as Code*) construído com o *runtime* [Terraform](https://www.terraform.io/) e dividido em módulos responsáveis por implantar diferentes serviços AWS que, juntos, formam toda a dinâmica de consumo do projeto. Assim, o usuário obtém o código fonte disponibilizado neste repositório e executa os comandos específicos do runtime de IaC utilizado para realizar as implantações necessárias no ambiente alvo.
 
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-diagram-user-view.png" alt="terraglue-user-view">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-diagram-user-view-dark.png" alt="terraglue-user-view">
 </div>
 <br>
 
 Em uma visão mais técnica, os serviços declarados nos módulos Terraform são representados por:
 
-  - Buckets S3 para armazenamento de dados e *assets*
-  - Policies e role IAM para gerenciamento de acessos
-  - Referências no catálogo de dados e workgroup do Athena
-  - Job do Glue parametrizado com exemplo prático de uso
+- Buckets S3 para armazenamento de dados e *assets*
+- Policies e role IAM para gerenciamento de acessos
+- Referências no catálogo de dados e workgroup do Athena
+- Job do Glue parametrizado com exemplo prático de uso
 
 Assim, ao cumprir os requisitos e as ações evidenciadas pela imagem de arquitetura acima, o usuário poderá ter em mãos seu próprio "ambiente AWS portátil" composto dos seguintes recursos:
 
@@ -161,6 +160,7 @@ ___
 
 - [AWS Glue Official Page](https://aws.amazon.com/glue/)
 - [Hashicorp Terraform](https://www.terraform.io/)
+- [Terraform Conditional Expressions](https://developer.hashicorp.com/terraform/language/expressions/conditionals)
 - [Differences between System of Record and Source of Truth](https://www.linkedin.com/pulse/difference-between-system-record-source-truth-santosh-kudva/)
 - [Olist Brazilian E-Commerce Data](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
 - [Jobs parameters used by AWS Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html)
