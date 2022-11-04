@@ -64,6 +64,8 @@ aws configure
 
 **Obs:** as configurações demonstradas pela imagem acima funcionam apenas como um exemplo. O usuário deve informar suas próprias configurações de acordo com as especificidades de seu próprio ambiente. Caso o usuário já tenha realizado as etapas de configuração do AWS CLI, este passo pode tranquilamente ser ignorado.
 
+É importante também citar que, em alguns ambientes, é preciso informar também o AWS Session Token. Dessa forma, ao invés de configurar as credenciais utilizando o comando `aws configure`, o usuário poderia, em posse das chaves e do token, alterar manualmente o arquivo de credenciais utilizando um editor de texto (ex: `nano ~/.aws/credentials`).
+
 ___
 
 ### Clonando o repositório
