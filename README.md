@@ -15,6 +15,7 @@
   - [Organização do repositório](#organização-do-repositório)
   - [Detalhes de construção da infraestrutura](#detalhes-de-construção-da-infraestrutura)
 - [Utilizando o projeto](#utilizando-o-projeto)
+- [Cenários e exemplos de utilização](#cenários-e-exemplos-de-utilização)
 - [Contribuindo](#contribuindo)
 - [Contatos](#contatos)
 - [Referências](#referências)
@@ -140,6 +141,12 @@ ___
 ## Utilizando o projeto
 
 Visando dispor de um lugar específico para detalhar o tutorial de utilização do projeto, todas as etapas estão devidamente exemplificadas no arquivo [GETTINGSTARTED.md](https://github.com/ThiagoPanini/terraglue/blob/develop/GETTINGSTARTED.md)
+
+___
+
+## Cenários e exemplos de utilização
+
+Para ter em mãos cenários práticos de utilização do projeto, toda uma suíte de documentação foi disponibilizada no arquivo [EXAMPLES.md](https://github.com/ThiagoPanini/terraglue/blob/develop/EXAMPLES.md). Esta é, essencialmente, um dos principais blocos de documentação a serem consumidos por novos usuários interessados no `terraglue`.
 
 ___
 
