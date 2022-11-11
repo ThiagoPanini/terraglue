@@ -33,6 +33,14 @@ Antes de navegarmos por exemplos práticos de consumo, é importante garantir qu
 
 Adicionalmente, é válido citar que esta documentação será separada em diferentes **cenários**, cada um trazendo à tona uma possível seara de aplicação do **terraglue** de acordo com um propósito específico. É importante destacar que os cenários contemplam desafios próprios e particulares, sendo direcionados para públicos específicos que podem se beneficiar das funcionalidades deste projeto. Encontre aquele que mais faça sentido dentro de sua jornada de aprendizado e mergulhe fundo!
 
+| 🎬 **Cenário** | **🎯 Público alvo** |
+| :-- | :-- |
+| [#1 Um primeiro passo na análise dos recursos](#cenário-1-um-primeiro-passo-na-análise-dos-recursos) | Todos os usuários |
+| [#2 Aprendendo mais sobre o runtime Terraform](#cenário-2-aprendendo-mais-sobre-o-runtime-terraform) | Usuários com conhecimentos básicos |
+| [#3 Compreendendo detalhes de um job Spark no Glue](#cenário-3-compreendendo-detalhes-de-um-job-spark-no-glue) | Usuários com conhecimentos intermediários |
+| [#4 Implenentando seu próprio conjunto de dados](#cenário-4-implementando-seu-próprio-conjunto-de-dados) | Usuários com conhecimentos intermediários |
+| [#5 Implementando seu próprio conjunto de dados](#cenário-5-implementando-seu-próprio-job-do-glue) | Usuários com conhecimentos intermediários |
+
 ___
 
 ## Cenário 1: um primeiro passo na análise dos recursos
@@ -182,6 +190,28 @@ Para maiores detalhes sobre o conteúdo das *policies* que foram a referida *rol
 ___
 
 ### Glue job
+
+E assim, alcançando o verdadeiro clímax do processo de implantação de recursos na conta AWS alvo, chegamos no **job do Glue** criado como parte da dinâmica de aprendizado que proporcionar um exemplo prático de consulta de dados em uma camada SoR com a subsequente preparação e disponibilização de dados curados na camada SoT.
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-glue-job-01.png?raw=true" alt="terraglue-practical-glue-job-01">
+</div>
+</details>
+<br>
+
+Considerando a lógica definida na ferramenta de IaC, o job do Glue possui todo um arcabolso de parâmetros e configuração estabelecidos de forma automática para que o usuário tenha em mãos um exemplo mais fidedigno possível de um processo de ETL na AWS sem se preocupar com definições adicionais.
+
+Ao acessar o job através do console e navegar até o menu *Job details* (ou detalhes do job), o usuário poderá analisar todas as configurações estabelecidas, como por exemplo, a role IAM, os caminhos no s3 para armazenamento do *script* Python, *assets* e outros objetos. Ao final deste menu, o usuário também poderá verificar todo o *set* de parâmetros do job disponibilizados como padrão para a realização e execução do processo de transformação de dados.
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-glue-job-02.png?raw=true" alt="terraglue-practical-glue-job-02">
+</div>
+</details>
+<br>
 
 ### Dados na camada SoT
 
