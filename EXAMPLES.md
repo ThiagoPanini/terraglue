@@ -12,8 +12,9 @@
   - [Glue job](#glue-job)
   - [Dados na camada SoT](#dados-na-camada-sot)
 - [Cenário 2: compreendendo detalhes de um job Spark no Glue](#cenário-2-compreendendo-detalhes-de-um-job-spark-no-glue)
-  - [A classe GlueJobManager](#a-classe-gluejobmanager)
-  - [A classe GlueTransformationManager](#a-classe-gluetransformationmanager)
+  - [O script main-terraglue.py](#o-script-main-terragluepy)
+  - [Classes GlueJobManager e GlueTransformationManager](#classes-gluejobmanager-e-gluetransformationmanager)
+  - [Ações do usuário para utilizar e adaptar o script](#ações-do-usuário-para-utilizar-e-adaptar-o-script)
 - [Cenário 3: implementando seu próprio conjunto de dados](#cenário-3-implementando-seu-próprio-conjunto-de-dados)
   - [Utilizando dados próprios](#utilizando-dados-próprios)
   - [Visualizando efeitos na conta AWS](#visualizando-efeitos-na-conta-aws)
@@ -54,7 +55,6 @@ O primeiro ponto a ser destacado no *kit* de funcionalidades está relacionado �
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-buckets-s3.png?raw=true" alt="terraglue-practical-buckets-s3">
 </div>
 </details>
-<br>
 
 | **Bucket** | **Descrição** |
 | :-- | :-- |
@@ -84,7 +84,6 @@ Ao executar o comando terraform para implantação dos recursos, este mesmo arqu
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-data-customers.png?raw=true" alt="terraglue-practical-buckets-s3">
 </div>
 </details>
-<br>
 
 Em outras palavras, toda a estrutura de dados (arquivos locais) armazenadas no diretório `./data` do repositório será ingerida no bucket `terraglue-sor` da conta AWS alvo, respeitando toda a hierarquia local de diretórios através da materialização de *folders* no S3. Por padrão, o `terraglue` proporciona alguns conjuntos de dados contendo dados de vendas online no [e-commerce brasileiro](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) e, sem nenhuma alteração por parte do usuário, a tabela abaixo traz uma relação completa dos arquivos locais e suas respectivas ARNs no S3 após a implantação dos recursos.
 
@@ -114,7 +113,6 @@ Na imagem abaixo, é possível visualizar todas as tabelas e bancos de dados cat
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-data-catalog-01.png?raw=true" alt="terraglue-practical-data-catalog-01">
 </div>
 </details>
-<br>
 
 Entrando em maiores detalhes e utilizando a tabela `customers` como exemplo, a imagem abaixo exemplifica os detalhes técnicos catalogados e permite analisar atributos como *location*, *input format*, *output format* e propriedades *SerDe*:
 
@@ -124,7 +122,6 @@ Entrando em maiores detalhes e utilizando a tabela `customers` como exemplo, a i
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-data-catalog-02.png?raw=true" alt="terraglue-practical-data-catalog-02">
 </div>
 </details>
-<br>
 
 Por fim, reforçando de uma vez por todas o poder dessa funcionalidade de catalogação do projeto, a imagem abaixo traz as colunas obtidas automaticamente através de funções Terraform dos arquivos brutos e inseridos automaticamente no Data Catalog como atributos da tabela:
 
@@ -134,7 +131,6 @@ Por fim, reforçando de uma vez por todas o poder dessa funcionalidade de catalo
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-data-catalog-03.png?raw=true" alt="terraglue-practical-data-catalog-03">
 </div>
 </details>
-<br>
 
 ___
 
@@ -148,7 +144,6 @@ Provavelmente uma das primeiras ações realizadas por usuários após a inserç
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-athena-workgroup.png?raw=true" alt="terraglue-practical-athena-workgroup">
 </div>
 </details>
-<br>
 
 Com isso, os usuários já podem iniciar o consumo de dados no Athena sem a necessidade de realizar configurações prévias ou adicionais na conta alvo.
 
@@ -158,7 +153,6 @@ Com isso, os usuários já podem iniciar o consumo de dados no Athena sem a nece
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-athena-query.png?raw=true" alt="terraglue-practical-athena-query">
 </div>
 </details>
-<br>
 
 ___
 
@@ -174,7 +168,6 @@ Dessa forma, o `terraglue` considera, em seus detalhes internos de implantação
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-iam-role.png?raw=true" alt="terraglue-practical-iam-role">
 </div>
 </details>
-<br>
 
 Para maiores detalhes sobre o conteúdo das *policies* que foram a referida *role*, basta acessar os seguintes links:
 
@@ -193,7 +186,6 @@ E assim, alcançando o verdadeiro clímax do processo de implantação de recurs
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-glue-job-01.png?raw=true" alt="terraglue-practical-glue-job-01">
 </div>
 </details>
-<br>
 
 Considerando a lógica definida na ferramenta de IaC, o job do Glue possui todo um arcabolso de parâmetros e configuração estabelecidos de forma automática para que o usuário tenha em mãos um exemplo mais fidedigno possível de um processo de ETL na AWS sem se preocupar com definições adicionais.
 
@@ -205,7 +197,8 @@ Ao acessar o job através do console e navegar até o menu *Job details* (ou det
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-glue-job-02.png?raw=true" alt="terraglue-practical-glue-job-02">
 </div>
 </details>
-<br>
+
+___
 
 ### Dados na camada SoT
 
@@ -217,7 +210,6 @@ E assim, ao acessar o job do Glue criado e realizar sua execução, o usuário p
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-sot-01.png?raw=true" alt="terraglue-practical-glue-sot-01">
 </div>
 </details>
-<br>
 
 Como resultado, o usuário terá disponível uma nova base de dados materializada como uma tabela já catalogada com seus dados armazenados no S3 (bucket SoT) no caminho `s3://terraglue-sot-data-503398944907-us-east-1/ra8/tbsot_ecommerce_br/anomesdia=20221111/`:
 
@@ -227,30 +219,63 @@ Como resultado, o usuário terá disponível uma nova base de dados materializad
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-sot-02.png?raw=true" alt="terraglue-practical-glue-sot-02">
 </div>
 </details>
-<br>
 
 ___
 
 ## Cenário 2: compreendendo detalhes de um job Spark no Glue
 
-Navegando agora pelo segundo cenário prático de uso e entendimento do **terraglue**, é chegado o momento de abordar, em detalhes, o modelo padronizado de uma aplicação Spark totalmente codificado e disponível para o usuário.
-
-O script é formado por basicamente duas classes Python, `GlueJobManager` e `GlueTransformationManager`. O grande objetivo é proporcionar, ao usuário, uma forma fácil, rápida e eficiente de codificar seus próprios *jobs* do Glue através da abstração de grande parte da complexidade relacionada a definição de objetos característicos do próprio Glue.
+Agora que o usuário já passou pelo primeiro cenário de consumo do **terraglue** através do conhecimento geral sobre seus recursos e dinâmica de implantação, é chegado o momento de apresentar, em detalhes, a ideia de modelo padronizado de uma aplicação Spark a ser utilizada em toda e qualquer criação de *job* do Glue.
 
 | 🎯 **Público alvo** | Usuários com conhecimentos básicos |
 | :-- | :-- |
 
-### A classe GlueJobManager
+### O script main-terraglue.py
 
-A classe `GlueJobManager` possui atributos e métodos responsáveis por gerenciar grande parte das operações e instâncias de objetos referentes ao Glue como serviço. Ações como a coleta de argumentos do *job* e a inicialização dos elementos de contexto (`GlueContext` e `SparkContext`) e sessão (`SparkSession`).
+A ideia é ousada e ambiciosa: proporcionar, ao usuário final, um *template* de código muito além de um simples [*boilerplate*](https://pt.wikipedia.org/wiki/Boilerplate_code) e que permita entregar aplicações Spark implantadas como *jobs* do Glue de uma maneira muito mais fácil e ágil através de poucas modificações. Com esse objetivo, faz-se presente o script [main-terraglue.py](https://github.com/ThiagoPanini/terraglue/blob/develop/app/main-terraglue.py) ao qual será alvo da totalidade de exemplificações desta seção. Fique ligado e veja como otimizar seu processo de criação de ETLs na nuvem!
 
-Na prática, é provável que o usuário final não tenha nenhuma interação com a classe `GlueJobManager`, dado seu contexto burocrático de preparação dos elementos que formam um *job* do Glue. Diante disso, a próxima subseção apresenta a classe que, de fato, pode ser alvo de grande utilização por parte dos usuários.
+De início, é válido citar que toda a codificação presente no script `main-terraglue.py` fornecido como exemplo do projeto pode auxiliar grandemente usuários em dois perfis diferentes:
 
-### A classe GlueTransformationManager
+* 🤔 Usuários com pouco ou nenhum conhecimento em Spark, Python e Glue que possuem a intenção de construir processos através de uma adaptação simplória de um código já organizado e bem estruturado.
+* 🤓 Usuários avançados que já possuem *jobs* Glue implantados, mas que percebem que a quantidade de linhas de código ou mesmo a organização adotada não é escalável, prejudicando assim a manutenção de suas aplicações.
 
-Como introduzido, a classe `GlueTransformationManager` possui grandes chances de ser aquela onde os usuários irão, de fato, se debruçarem para a construção efetiva de seus respectivos *jobs* do Glue utilizando o `pyspark` como *framework* de processamento paralelo de dados. Em essência, essa classe herda todos os atributos e métodos da classe `GlueJobManager` para consolidar, de uma maneira única, as principais operações necessárias para a aplicação das transformações de dados.
+No mais, a proposta de padronização de um *job* Glue no script `main-terraglue.py` tem como base a estruturação de duas classes Python codificadas exclusivamente para facilitar o trabalho do usuário final em meio as etapas de construção, configuração e execução de uma aplicação Spark.
 
-A classe conta com métodos extremamente interessantes e úteis para a leitura de objetos do tipo `DynamicFrame` do Glue e `DataFrame` do Spark, métodos estáticos para aplicar transformações para cada fonte de dados e métodos genéricos com as principais operações em um fluxo de preparação de dados, como a adição de partições em uma base, por exemplo.
+### Classes GlueJobManager e GlueTransformationManager
+
+Como introduzido previamente, o script Python presente no projeto é composto por duas classes extremamente úteis:
+
+| **Classe Python** | **Atuação e Importância** |
+| :-- | :-- |
+| `GlueJobManager` | Utilizada para gerenciar toda a construção de um *job* Glue através da inicialização dos argumentos do processo e dos elementos que compõem o contexto (`GlueContext` e `SparkContext`) e sessão (`SparkSession`) de uma aplicação. |
+| `GlueTransformationManager` | Utilizada para consolidar métodos prontos para leitura de `DynamicFrames` e `DataFrames` e transformação destes objetos no contexto de utilização do *job*. |
+
+Para que se tenha uma noção do grande poder de utilização de ambas as classes em um cenário de construção de um *job* do Glue sustentável e com as melhores práticas de código limpo, o bloco abaixo representa a parte principal do script onde o usuário solicita a execução da aplicação com poucas instruções:
+
+```python
+if __name__ == "__main__":
+
+    # Inicializando objeto para gerenciar o job e as transformações
+    glue_manager = GlueTransformationManager(
+        argv_list=ARGV_LIST,
+        data_dict=DATA_DICT
+    )
+
+    # Executando todas as lógicas mapeadas do job
+    glue_manager.run()
+```
+
+Claro que, de maneira intuitiva, o método `run()` atua como um grande consolidador de outros métodos de transformação presentes na classe `GlueTransformationManager`. Mesmo assim, são poucas as atuações necessárias por parte do usuário para adaptar toda a estrutura de código proporcionada para seu respectivo *job*.
+
+### Ações do usuário para utilizar e adaptar o script
+
+Considerando os detalhes demonstrados acima, usuários iniciantes ou experientes que desejam utilizar o template do **terraglue** para construir seus *jobs* Glue deverão, essencialmente, seguir quatro passos importantes no processo de consumo:
+
+1. Adaptar o vetor de argumentos do *job* através da variável `ARGV_LIST`
+2. Adaptar o dicionário com os dados a serem utilizados no *job* através da variável `DATA_DICT`
+3. Criar os métodos de transformação dos dados na classe `GlueTransformationManager`
+4. Adaptar o método `run()` com os dados a serem lidos e os novos métodos gerados
+
+Todas as demais operações já estão inclusas nos métodos internos das classes disponibilizadas ao usuário e não necessitam de alterações. Em outras palavras, o usuário pode focar nas codificações relacionadas às suas próprias transformações de dados ao invés de se preocupar os elementos de configuração do *job*.
 
 > Neste momento, é importante citar que ambas as classes `GlueJobManager` e `GlueTransformationManager` possuem uma vasta documentação no script Python [main-terraglue.py](https://github.com/ThiagoPanini/terraglue/blob/develop/app/main-terraglue.py) disponibilizado. Consulte o arquivo fonte para informações mais detalhadas a respeito deste vasto leque de possibilidades envolvendo a padronização da construção de um job do Glue.
 ___
