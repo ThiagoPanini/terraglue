@@ -11,18 +11,13 @@
   - [IAM policies e roles](#iam-policies-e-roles)
   - [Glue job](#glue-job)
   - [Dados na camada SoT](#dados-na-camada-sot)
-- [Cenário 2: aprendendo mais sobre o runtime Terraform](#cenário-2-aprendendo-mais-sobre-o-runtime-terraform)
-  - [O módulo storage](#o-módulo-storage)
-  - [O módulo catalog](#o-módulo-catalog)
-  - [O módulo iam](#o-módulo-iam)
-  - [O módulo glue](#o-módulo-glue)
-- [Cenário 3: compreendendo detalhes de um job Spark no Glue](#cenário-3-compreendendo-detalhes-de-um-job-spark-no-glue)
+- [Cenário 2: compreendendo detalhes de um job Spark no Glue](#cenário-2-compreendendo-detalhes-de-um-job-spark-no-glue)
   - [A classe GlueJobManager](#a-classe-gluejobmanager)
   - [A classe GlueTransformationManager](#a-classe-gluetransformationmanager)
-- [Cenário 4: implementando seu próprio conjunto de dados](#cenário-4-implementando-seu-próprio-conjunto-de-dados)
+- [Cenário 3: implementando seu próprio conjunto de dados](#cenário-3-implementando-seu-próprio-conjunto-de-dados)
   - [Utilizando dados próprios](#utilizando-dados-próprios)
   - [Visualizando efeitos na conta AWS](#visualizando-efeitos-na-conta-aws)
-- [Cenário 5: implementando seu próprio job do Glue](#cenário-5-implementando-seu-próprio-job-do-glue)
+- [Cenário 4: implementando seu próprio job do Glue](#cenário-4-implementando-seu-próprio-job-do-glue)
   - [Codificando novas transformações](#codificando-novas-transformações)
   - [Executando jobs próprios](#executando-jobs-próprios)
 ___
@@ -36,10 +31,9 @@ Adicionalmente, é válido citar que esta documentação será separada em difer
 | 🎬 **Cenário** | **🎯 Público alvo** |
 | :-- | :-- |
 | [#1 Um primeiro passo na análise dos recursos](#cenário-1-um-primeiro-passo-na-análise-dos-recursos) | Todos os usuários |
-| [#2 Aprendendo mais sobre o runtime Terraform](#cenário-2-aprendendo-mais-sobre-o-runtime-terraform) | Usuários com conhecimentos básicos |
-| [#3 Compreendendo detalhes de um job Spark no Glue](#cenário-3-compreendendo-detalhes-de-um-job-spark-no-glue) | Usuários com conhecimentos intermediários |
-| [#4 Implenentando seu próprio conjunto de dados](#cenário-4-implementando-seu-próprio-conjunto-de-dados) | Usuários com conhecimentos intermediários |
-| [#5 Implementando seu próprio conjunto de dados](#cenário-5-implementando-seu-próprio-job-do-glue) | Usuários com conhecimentos intermediários |
+| [#2 Compreendendo detalhes de um job Spark no Glue](#cenário-2-compreendendo-detalhes-de-um-job-spark-no-glue) | Usuários com conhecimentos básicos |
+| [#3 Implementando seu próprio conjunto de dados](#cenário-3-implementando-seu-próprio-conjunto-de-dados) | Usuários com conhecimentos intermediários |
+| [#4 Implementando seu próprio job do Glue](#cenário-4-implementando-seu-próprio-job-do-glue) | Usuários com conhecimentos intermediários |
 
 ___
 
@@ -215,35 +209,61 @@ Ao acessar o job através do console e navegar até o menu *Job details* (ou det
 
 ### Dados na camada SoT
 
+E assim, ao acessar o job do Glue criado e realizar sua execução, o usuário poderá analisar todos os detalhes de construção envolvidos, incluindo os parâmetros associados, as configurações internas do job e também os logs de execução no CloudWatch.
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-sot-01.png?raw=true" alt="terraglue-practical-glue-sot-01">
+</div>
+</details>
+<br>
+
+Como resultado, o usuário terá disponível uma nova base de dados materializada como uma tabela já catalogada com seus dados armazenados no S3 (bucket SoT) no caminho `s3://terraglue-sot-data-503398944907-us-east-1/ra8/tbsot_ecommerce_br/anomesdia=20221111/`:
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-sot-02.png?raw=true" alt="terraglue-practical-glue-sot-02">
+</div>
+</details>
+<br>
+
 ___
 
-## Cenário 2: aprendendo mais sobre o runtime Terraform
+## Cenário 2: compreendendo detalhes de um job Spark no Glue
 
-### O módulo storage
+Navegando agora pelo segundo cenário prático de uso e entendimento do **terraglue**, é chegado o momento de abordar, em detalhes, o modelo padronizado de uma aplicação Spark totalmente codificado e disponível para o usuário.
 
-### O módulo catalog
+O script é formado por basicamente duas classes Python, `GlueJobManager` e `GlueTransformationManager`. O grande objetivo é proporcionar, ao usuário, uma forma fácil, rápida e eficiente de codificar seus próprios *jobs* do Glue através da abstração de grande parte da complexidade relacionada a definição de objetos característicos do próprio Glue.
 
-### O módulo iam
-
-### O módulo glue
-___
-
-## Cenário 3: compreendendo detalhes de um job Spark no Glue
+| 🎯 **Público alvo** | Usuários com conhecimentos básicos |
+| :-- | :-- |
 
 ### A classe GlueJobManager
 
+A classe `GlueJobManager` possui atributos e métodos responsáveis por gerenciar grande parte das operações e instâncias de objetos referentes ao Glue como serviço. Ações como a coleta de argumentos do *job* e a inicialização dos elementos de contexto (`GlueContext` e `SparkContext`) e sessão (`SparkSession`).
+
+Na prática, é provável que o usuário final não tenha nenhuma interação com a classe `GlueJobManager`, dado seu contexto burocrático de preparação dos elementos que formam um *job* do Glue. Diante disso, a próxima subseção apresenta a classe que, de fato, pode ser alvo de grande utilização por parte dos usuários.
+
 ### A classe GlueTransformationManager
 
+Como introduzido, a classe `GlueTransformationManager` possui grandes chances de ser aquela onde os usuários irão, de fato, se debruçarem para a construção efetiva de seus respectivos *jobs* do Glue utilizando o `pyspark` como *framework* de processamento paralelo de dados. Em essência, essa classe herda todos os atributos e métodos da classe `GlueJobManager` para consolidar, de uma maneira única, as principais operações necessárias para a aplicação das transformações de dados.
+
+A classe conta com métodos extremamente interessantes e úteis para a leitura de objetos do tipo `DynamicFrame` do Glue e `DataFrame` do Spark, métodos estáticos para aplicar transformações para cada fonte de dados e métodos genéricos com as principais operações em um fluxo de preparação de dados, como a adição de partições em uma base, por exemplo.
+
+> Neste momento, é importante citar que ambas as classes `GlueJobManager` e `GlueTransformationManager` possuem uma vasta documentação no script Python [main-terraglue.py](https://github.com/ThiagoPanini/terraglue/blob/develop/app/main-terraglue.py) disponibilizado. Consulte o arquivo fonte para informações mais detalhadas a respeito deste vasto leque de possibilidades envolvendo a padronização da construção de um job do Glue.
 ___
 
-## Cenário 4: implementando seu próprio conjunto de dados
+## Cenário 3: implementando seu próprio conjunto de dados
 
 ### Utilizando dados próprios
 
 ### Visualizando efeitos na conta AWS
+
 ___
 
-## Cenário 5: implementando seu próprio job do Glue
+## Cenário 4: implementando seu próprio job do Glue
 
 ### Codificando novas transformações
 
