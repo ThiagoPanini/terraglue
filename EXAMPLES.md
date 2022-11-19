@@ -11,11 +11,12 @@
   - [IAM policies e roles](#iam-policies-e-roles)
   - [Glue job](#glue-job)
   - [Dados na camada SoT](#dados-na-camada-sot)
-- [Cenário 2: compreendendo detalhes de um job Spark no Glue](#cenário-2-compreendendo-detalhes-de-um-job-spark-no-glue)
+- [Cenário 2: uma proposta de padronização de jobs do Glue](#cenário-2-uma-proposta-de-padronização-de-jobs-do-glue)
   - [O script main-terraglue.py](#o-script-main-terragluepy)
   - [Classes GlueJobManager e GlueTransformationManager](#classes-gluejobmanager-e-gluetransformationmanager)
   - [Ações do usuário para utilizar e adaptar o script](#ações-do-usuário-para-utilizar-e-adaptar-o-script)
 - [Cenário 3: implementando seu próprio conjunto de dados](#cenário-3-implementando-seu-próprio-conjunto-de-dados)
+  - [Sobre os dados de exemplo (Brazilian E-Commerce)](#sobre-os-dados-de-exemplo-brazilian-e-commerce)
   - [Utilizando dados próprios](#utilizando-dados-próprios)
   - [Visualizando efeitos na conta AWS](#visualizando-efeitos-na-conta-aws)
 - [Cenário 4: implementando seu próprio job do Glue](#cenário-4-implementando-seu-próprio-job-do-glue)
@@ -56,7 +57,7 @@ O primeiro ponto a ser destacado no *kit* de funcionalidades está relacionado �
 </div>
 </details>
 
-| **Bucket** | **Descrição** |
+| 🧺 **Bucket** | 📝 **Descrição** |
 | :-- | :-- |
 | `terraglue-athena-query-results` | Bucket criado para armazenar os resultados de query do Athena |
 | `terraglue-glue-assets` | Bucket responsável por armazenar todos os *assets* do Glue, incluindo o script Python utilizado como alvo do job e demais logs |
@@ -222,7 +223,7 @@ Como resultado, o usuário terá disponível uma nova base de dados materializad
 
 ___
 
-## Cenário 2: compreendendo detalhes de um job Spark no Glue
+## Cenário 2: uma proposta de padronização de jobs do Glue
 
 Agora que o usuário já passou pelo primeiro cenário de consumo do **terraglue** através do conhecimento geral sobre seus recursos e dinâmica de implantação, é chegado o momento de apresentar, em detalhes, a ideia de modelo padronizado de uma aplicação Spark a ser utilizada em toda e qualquer criação de *job* do Glue.
 
@@ -244,7 +245,7 @@ No mais, a proposta de padronização de um *job* Glue no script `main-terraglue
 
 Como introduzido previamente, o script Python presente no projeto é composto por duas classes extremamente úteis:
 
-| **Classe Python** | **Atuação e Importância** |
+| 🐍 **Classe Python** | 📌 **Atuação e Importância** |
 | :-- | :-- |
 | `GlueJobManager` | Utilizada para gerenciar toda a construção de um *job* Glue através da inicialização dos argumentos do processo e dos elementos que compõem o contexto (`GlueContext` e `SparkContext`) e sessão (`SparkSession`) de uma aplicação. |
 | `GlueTransformationManager` | Utilizada para consolidar métodos prontos para leitura de `DynamicFrames` e `DataFrames` e transformação destes objetos no contexto de utilização do *job*. |
@@ -282,10 +283,120 @@ ___
 
 ## Cenário 3: implementando seu próprio conjunto de dados
 
+Após uma importante jornada envolvendo um completo entendimento sobre os recursos e as funcionalidades do projeto no [cenário 1](#cenário-1-um-primeiro-passo-na-análise-dos-recursos), além do grande leque de possibilidades técnicas de codificação de aplicações Spark em *jobs* do Glue no [cenário 2](#cenário-2-uma-proposta-de-padronização-de-jobs-do-glue), é chegado o momento de entender como o **terraglue**, como solução dinâmica, pode ser adaptado de acordo com os propósitos de seus usuários.
+
+Com isso em mente, o terceiro cenário de ilustração e exemplificação tem como princípio a substituição dos dados de exemplo, fornecidos por padrão no código fonte do repositório, por outros conjuntos próprios e específicos do usuário, permitindo assim com que o mesmo utilize todas as demais funcionalidades do **terraglue** em cenários de maior valor agregado.
+
+| 🎯 **Público alvo** | Usuários com conhecimentos básicos |
+| :-- | :-- |
+
+### Sobre os dados de exemplo (Brazilian E-Commerce)
+
+Antes de iniciar as discussões desta seção, é imprescindível abordar, de forma resumida, alguns detalhes sobre o conjunto de dados fornecido por padrão no repositório: trata-se de bases que contemplam o famoso dataset [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce).
+
+Originalmente disponível na plataforma [Kaggle](https://www.kaggle.com/), o referido conjunto contempla dados de vendas online no *e-commerce* brasileiro separados em diferentes arquivos de texto, cada um em seu respectivo domínio. Juntos, os arquivos podem ser utilizados e trabalhados para retirar os mais variados *insights* relacionados ao comércio online.
+
+<details>
+  <summary>🎲 Clique para visualizar o schema original dos dados</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/examples-cenario03-schema-br-ecommerce.png?raw=true" alt="br-ecommerce-schema">
+</div>
+</details>
+
+Visando proporcionar uma maior simplicidade no exemplo de geração de SoT, apenas alguns arquivos do conjunto de dados Brazilian E-Commerce foram selecionados como SoRs do projeto, sendo eles:
+
+| 🗂️ **Arquivo** | 📝 **Descrição** |
+| :-- | :-- |
+| `orders.csv` | Contempla dados de pedidos realizados online |
+| `customers.csv` | Contempla dados cadastrais dos clientes que realizaram os pedidos online |
+| `payments.csv` | Contempla dados dos pagamentos utilizados para quitação dos pedidos realizados |
+| `reviews.csv` | Contempla dados das revisões, nota e comentários deixados por clientes para os pedidos realizados |
+
+Assim, os conjuntos citados então são disponibilizados localmente em uma estrutura hierárquica de pastas que simula uma organização de dados em um ambiente Data Lake no formato `db/tbl/file`, sendo esta uma dinâmica **mandatória** para o sucesso de implantação de conjuntos próprios de dados.
+
 ### Utilizando dados próprios
+
+Conhecidos os arquivos que fazem parte do repositório em seu modo natural, o usuário agora poderá adaptar todo o processo de ingestão e catalogação proporcionado no **terraglue** para seus próprios conjuntos.
+
+Em um primeiro momento, é extremamente ressaltar algumas premissas e limitações do processo de catalogação de dados no Data Catalog da conta AWS:
+
+1. Somente arquivos `csv` poderão ser utilizados
+2. Os arquivos `csv` devem possuir o *header* na primeira linha
+3. A estrutura hierárquica deve seguir o modelo `db/tbl/file` a partir do diretório `data/` do repositório
+
+> Avaliar as premissas acima é de suma importância pois, em seus detalhes técnicos de construção, o **terraglue** considera a aplicação de funções do Terraform para iterar sobre os diretórios presentes em `data/`, realizar a leitura da primeira linha dos arquivos CSV para extração dos atributos e catalogação no Data Catalog. Sem o cumprimento das premissas, as funções do Terraform irão retornar erro e o fluxo não será implantado conforme esperado pelo usuário.
+
+Endereçado este ponto, os exemplos ilustrados a seguir simulam a obtenção de novos conjuntos de dados a serem utilizados no processo de ingestão e catalogação em substituição aos dados originais do dataset Brazilian E-Commerce fornecidos como padrão.
+
+Como um primeiro passo, o usuário pode navegar até o repositório do **terraglue** clonado localmente e executar o comando abaixo para remover todo o contéudo presente em `data/` no repositório do projeto. Também é possível excluir os arquivos e diretórios manualmente, se preferir.
+
+```bash
+# Removendo todos os arquivos de /data
+rm -r data/*
+```
+
+Com o diretório `/data` agora vazio, basta obter os novos dados a serem utilizados e organizá-los na estrutura adequada. Como exemplo, utilizarei dados do [naufrágio do Titanic](https://www.kaggle.com/competitions/titanic/data) previamente baixados e armazenados no diretório `~/Downloads` com o nome `titanic.csv`. Antes de realizar a movimentação do arquivo, é importante criar toda a estrutura de pastas locais que simulam a organização de um Data Lake a ser replicado no S3 durante o processo de implantação do **terraglue**. O nome do *database* será escolhido aleatoriamente.
+
+```bash
+# Criando estrutura de pastas locais
+mkdir -p data/tt3/tbl_titanic_data
+```
+
+Onde `tt3` é o nome fictício para o *database* e `tbl_titanic_data` o nome escolhido para a tabela. Com isso, é possível movimentar o arquivo desejado para a estrutura criada.
+
+```bash
+# Movendo arquivo
+mv ~/Downloads/titanic.csv data/tt3/tbl_titanic_data/
+```
+
+Validado que o novo arquivo já consta organizado localmente na estrutura necessária, bastas executar os procedimentos de implantação do **terraglue** através do comando `terraform apply` para implementar todos os processos atrelados.
 
 ### Visualizando efeitos na conta AWS
 
+Uma vez obtido e organizado o(s) novo(s) conjunto(s) de dado(s) a serem inseridos junto com os processos de implantação do **terraglue**, o usuário poderá acessar o S3 para avaliar o sucesso de ingestão dos novos dados dentro do bucket `terraglue-sor`. Na imagem abaixo, é possível verificar que o conjunto de dados `titanic.csv` foi inserido com sucesso com o prefixo `tt3/tbl_titanic_data`, assim como o esperado.
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/examples-cenario03-titanic-data-on-s3.PNG?raw=true" alt="titanic-data-on-s3">
+</div>
+</details>
+
+Além disso, é possível também acessar o serviço Glue e, dentro do menu Data Catalog, validar se o arquivo inserido no S3 também passou pelo processo de catalogação. Na imagem abaixo, é possível verificar que uma entrada no catálogo foi automaticamente criada para os dados do Titanic recém disponibilizados:
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/examples-cenario03-titanic-data-on-data-catalog.PNG?raw=true" alt="titanic-data-on-data-catalog">
+</div>
+</details>
+
+Ao selecionar a tabela no catálogo, será ainda possível perceber que todo o processo de obtenção de atributos pôde ser realizado com sucesso. Essa afirmação tem como base o próprio *schema* da tabela presente no catálogo:
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/examples-cenario03-titanic-schema-on-catalog.PNG?raw=true" alt="titanic-schema-on-data-catalog">
+</div>
+</details>
+
+Por fim, a validação final realizada envolve o acesso ao serviço Athena para execução de uma simples *query* para extração dos dados recém catalogados. A imagem abaixo exemplifica a retirada de 10 registros da base através do comando `SELECT * FROM tt3.tbl_titanic_data LIMIT 10;`:
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/examples-cenario03-titanic-data-on-athena.PNG?raw=true" alt="titanic-data-on-athena">
+</div>
+</details>
+
+Com isso, é possível validar que todo o processo de adaptação do **terraglue** para uso de novas bases de dados em substituição aos dados de e-commerce fornecidos por padrão pode ser tranquilamente realizado.
+
+A partir desta funcionalidade, os usuários poderão:
+
+- Adaptar o uso do **terraglue** para propósitos específicos
+- Ingerir e catalogar amostras de dados em um ambiente corporativo
+- Acelerar o processo de desenvolvimento e testes de seus *jobs*
+- Realizar consultas *ad-hoc* em dados catalogados automaticamente
 ___
 
 ## Cenário 4: implementando seu próprio job do Glue
