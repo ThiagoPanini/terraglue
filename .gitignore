@@ -3,6 +3,9 @@ notebooks/
 scripts/
 .vscode/
 
+# Novos dados utilizados apenas para documentação
+data/tt3/
+
 # Local .terraform directories
 **/.terraform/*
 .terraform.lock.hcl
