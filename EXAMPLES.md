@@ -34,7 +34,7 @@ Adicionalmente, é válido citar que esta documentação será separada em difer
 | :-- | :-- |
 | [#1 Um primeiro passo na análise dos recursos](#cenário-1-um-primeiro-passo-na-análise-dos-recursos) | Todos os usuários |
 | [#2 Compreendendo detalhes de um job Spark no Glue](#cenário-2-compreendendo-detalhes-de-um-job-spark-no-glue) | Usuários com conhecimentos básicos |
-| [#3 Implementando seu próprio conjunto de dados](#cenário-3-implementando-seu-próprio-conjunto-de-dados) | Usuários com conhecimentos intermediários |
+| [#3 Implementando seu próprio conjunto de dados](#cenário-3-implementando-seu-próprio-conjunto-de-dados) | Usuários com conhecimentos básicos |
 | [#4 Implementando seu próprio job do Glue](#cenário-4-implementando-seu-próprio-job-do-glue) | Usuários com conhecimentos intermediários |
 
 ___
@@ -278,7 +278,7 @@ Considerando os detalhes demonstrados acima, usuários iniciantes ou experientes
 
 Todas as demais operações já estão inclusas nos métodos internos das classes disponibilizadas ao usuário e não necessitam de alterações. Em outras palavras, o usuário pode focar nas codificações relacionadas às suas próprias transformações de dados ao invés de se preocupar os elementos de configuração do *job*.
 
-> Neste momento, é importante citar que ambas as classes `GlueJobManager` e `GlueTransformationManager` possuem uma vasta documentação no script Python [main-terraglue.py](https://github.com/ThiagoPanini/terraglue/blob/develop/app/main-terraglue.py) disponibilizado. Consulte o arquivo fonte para informações mais detalhadas a respeito deste vasto leque de possibilidades envolvendo a padronização da construção de um job do Glue.
+> 📌 Neste momento, é importante citar que ambas as classes `GlueJobManager` e `GlueTransformationManager` possuem uma vasta documentação no script Python [main-terraglue.py](https://github.com/ThiagoPanini/terraglue/blob/develop/app/main-terraglue.py) disponibilizado. Consulte o arquivo fonte para informações mais detalhadas a respeito deste vasto leque de possibilidades envolvendo a padronização da construção de um job do Glue.
 ___
 
 ## Cenário 3: implementando seu próprio conjunto de dados
@@ -324,7 +324,7 @@ Em um primeiro momento, é extremamente ressaltar algumas premissas e limitaçõ
 2. Os arquivos `csv` devem possuir o *header* na primeira linha
 3. A estrutura hierárquica deve seguir o modelo `db/tbl/file` a partir do diretório `data/` do repositório
 
-> Avaliar as premissas acima é de suma importância pois, em seus detalhes técnicos de construção, o **terraglue** considera a aplicação de funções do Terraform para iterar sobre os diretórios presentes em `data/`, realizar a leitura da primeira linha dos arquivos CSV para extração dos atributos e catalogação no Data Catalog. Sem o cumprimento das premissas, as funções do Terraform irão retornar erro e o fluxo não será implantado conforme esperado pelo usuário.
+> 📌 Avaliar as premissas acima é de suma importância pois, em seus detalhes técnicos de construção, o **terraglue** considera a aplicação de funções do Terraform para iterar sobre os diretórios presentes em `data/`, realizar a leitura da primeira linha dos arquivos CSV para extração dos atributos e catalogação no Data Catalog. Sem o cumprimento das premissas, as funções do Terraform irão retornar erro e o fluxo não será implantado conforme esperado pelo usuário.
 
 Endereçado este ponto, os exemplos ilustrados a seguir simulam a obtenção de novos conjuntos de dados a serem utilizados no processo de ingestão e catalogação em substituição aos dados originais do dataset Brazilian E-Commerce fornecidos como padrão.
 
@@ -400,6 +400,8 @@ A partir desta funcionalidade, os usuários poderão:
 ___
 
 ## Cenário 4: implementando seu próprio job do Glue
+
+E assim, garantindo que o usuário alcance este cenário com um conhecimento completo sobre o que é o `terraglue` e algumas de suas principais funcionalidades, este cenário envolve a consolidação do processo de adaptação da solução para os propósitos específicos de cada usuário. Se, no [cenário 3](#cenário-3-implementando-seu-próprio-conjunto-de-dados) o usuário pôde aprender como inserir seus próprios conjuntos de dados para ingestão e catalogação automática no ambiente AWS, o cenário exemplificado neste seção traz detalhes sobre como adaptar o script `main-terraglue.py` para incluir transformações e regras próprias de negócio em uma simulação de publicação inédita de um novo *job* Glue na AWS.
 
 ### Codificando novas transformações
 
