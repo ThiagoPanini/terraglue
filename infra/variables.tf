@@ -210,7 +210,7 @@ variable "glue_job_user_arguments" {
     "--UPDATE_BEHAVIOR"        = "UPDATE_IN_DATABASE"
     "--PARTITION_NAME"         = "anomesdia"
     "--PARTITION_FORMAT"       = "%Y%m%d"
-    "--DATA_FORMAT"            = "glueparquet"
+    "--DATA_FORMAT"            = "parquet"
     "--COMPRESSION"            = "snappy"
     "--ENABLE_UPDATE_CATALOG"  = "True"
     "--CREATE_SPARK_TEMP_VIEW" = "True"
