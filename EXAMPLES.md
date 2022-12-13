@@ -410,21 +410,35 @@ O script `main-terraglue.py` comporta uma série de funcionalidades especialment
 
 Para o usuário que inseriu novos dados e deseja codificar suas próprias transformações para testar, validar ou simplesmente entender como um *job* Glue funciona, a lista de tópicos abaixo pode servir como um simples resumo das operações necessárias:
 
-1. Analisar e modificar, se necessário, a variável `ARGV_LIST` presente no script principal para mapear e coletar possíveis novos parâmetros do *job* inseridos pelo usuário
+<details>
+  <summary>1. Analisar e modificar, se necessário, a variável `ARGV_LIST` presente no script principal para mapear e coletar possíveis novos parâmetros do *job* inseridos pelo usuário</summary>
+  
+  > O processo de inclusão de novos parâmetros pode ser feito através da variável Terraform `glue_job_user_arguments` presente no arquivo `./infra/variables.tf`.
+</div>
+</details>
 
-> O processo de inclusão de novos parâmetros pode ser feito através da variável Terraform `glue_job_user_arguments` presente no arquivo `./infra/variables.tf`.
+<details>
+  <summary>2. Modificar, em caso de inclusão de novos dados, a variável `DATA_DICT` com todas as informações necessárias para leitura dos dados a serem trabalhados. 
 
-2. Modificar, em caso de inclusão de novos dados, a variável `DATA_DICT` com todas as informações necessárias para leitura dos dados a serem trabalhados. 
+  > Para este processo, todos os argumentos do método `glueContext.create_dynamic_frame.from_catalog()` são aceitos.
+</div>
+</details>
 
-> Para este processo, todos os argumentos do método `glueContext.create_dynamic_frame.from_catalog()` são aceitos.
+<details>
+  <summary>3. Codificar novos métodos de transformação na classe `GlueTransformationManager` de acordo com as regras de negócio a serem aplicadas na geração das novas tabelas.
 
-3. Codificar novos métodos de transformação na classe `GlueTransformationManager` de acordo com as regras de negócio a serem aplicadas na geração das novas tabelas.
+  > Para fins de organização, os métodos de transformação fornecidos como padrão iniciam com o prefixo "transform_". São esses os métodos que devem ser substituídos para o novo processo de ETL codificado.
+</div>
+</details>
 
-> Para fins de organização, os métodos de transformação fornecidos como padrão iniciam com o prefixo "transform_". São esses os métodos que devem ser substituídos para o novo processo de ETL codificado.
+<details>
+  <summary>4. Modificar o método `run()` da classe `GlueTransformationManager` de acordo com a nova sequênciad e passos necessários até o alcance do objetivo final do *job*.
+</div>
+</details>
 
-4. Modificar o método `run()` da classe `GlueTransformationManager` de acordo com a nova sequênciad e passos necessários até o alcance do objetivo final do *job*.
 
 ### Codificando novas transformações
+
 
 
 ### Executando jobs próprios
