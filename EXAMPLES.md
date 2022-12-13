@@ -20,6 +20,7 @@
   - [Utilizando dados próprios](#utilizando-dados-próprios)
   - [Visualizando efeitos na conta AWS](#visualizando-efeitos-na-conta-aws)
 - [Cenário 4: implementando seu próprio job do Glue](#cenário-4-implementando-seu-próprio-job-do-glue)
+  - [Modificando e configurando o script](#modificando-e-configurando-o-script)
   - [Codificando novas transformações](#codificando-novas-transformações)
   - [Executando jobs próprios](#executando-jobs-próprios)
 ___
@@ -265,7 +266,7 @@ if __name__ == "__main__":
     glue_manager.run()
 ```
 
-Claro que, de maneira intuitiva, o método `run()` atua como um grande consolidador de outros métodos de transformação presentes na classe `GlueTransformationManager`. Mesmo assim, são poucas as atuações necessárias por parte do usuário para adaptar toda a estrutura de código proporcionada para seu respectivo *job*.
+De maneira intuitiva, o método `run()` atua como um grande consolidador de outros métodos de transformação presentes na classe `GlueTransformationManager`. Mesmo assim, são poucas as atuações necessárias por parte do usuário para adaptar toda a estrutura de código proporcionada para seu respectivo *job*.
 
 ### Ações do usuário para utilizar e adaptar o script
 
@@ -403,6 +404,27 @@ ___
 
 E assim, garantindo que o usuário alcance este cenário com um conhecimento completo sobre o que é o `terraglue` e algumas de suas principais funcionalidades, este cenário envolve a consolidação do processo de adaptação da solução para os propósitos específicos de cada usuário. Se, no [cenário 3](#cenário-3-implementando-seu-próprio-conjunto-de-dados) o usuário pôde aprender como inserir seus próprios conjuntos de dados para ingestão e catalogação automática no ambiente AWS, o cenário exemplificado neste seção traz detalhes sobre como adaptar o script `main-terraglue.py` para incluir transformações e regras próprias de negócio em uma simulação de publicação inédita de um novo *job* Glue na AWS.
 
+### Modificando e configurando o script
+
+O script `main-terraglue.py` comporta uma série de funcionalidades especialmente codificadas para facilitar o esforço operacional do usuário em iniciar e configurar os elementos básicos necessários para uso e interação com o Glue. No script, será possível encontrar as classes Python `GlueJobManager` e `GlueTransformationManager`. Maiores detalhes sobre essa proposta de padronização de um *job* Glue podem ser encontradas nesta mesma documentação no [Cenário 2 - Uma proposta de padronização de jobs Glue](#cenário-2-uma-proposta-de-padronização-de-jobs-do-glue).
+
+Para o usuário que inseriu novos dados e deseja codificar suas próprias transformações para testar, validar ou simplesmente entender como um *job* Glue funciona, a lista de tópicos abaixo pode servir como um simples resumo das operações necessárias:
+
+1. Analisar e modificar, se necessário, a variável `ARGV_LIST` presente no script principal para mapear e coletar possíveis novos parâmetros do *job* inseridos pelo usuário
+
+> O processo de inclusão de novos parâmetros pode ser feito através da variável Terraform `glue_job_user_arguments` presente no arquivo `./infra/variables.tf`.
+
+2. Modificar, em caso de inclusão de novos dados, a variável `DATA_DICT` com todas as informações necessárias para leitura dos dados a serem trabalhados. 
+
+> Para este processo, todos os argumentos do método `glueContext.create_dynamic_frame.from_catalog()` são aceitos.
+
+3. Codificar novos métodos de transformação na classe `GlueTransformationManager` de acordo com as regras de negócio a serem aplicadas na geração das novas tabelas.
+
+> Para fins de organização, os métodos de transformação fornecidos como padrão iniciam com o prefixo "transform_". São esses os métodos que devem ser substituídos para o novo processo de ETL codificado.
+
+4. Modificar o método `run()` da classe `GlueTransformationManager` de acordo com a nova sequênciad e passos necessários até o alcance do objetivo final do *job*.
+
 ### Codificando novas transformações
+
 
 ### Executando jobs próprios
