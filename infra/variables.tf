@@ -121,7 +121,7 @@ variable "iam_glue_role_name" {
 variable "glue_job_script_file" {
   description = "Localização física do script .py a ser implantado como um job do glue"
   type        = string
-  default     = "../app/main-terraglue.py"
+  default     = "../app/src/main-terraglue.py"
 }
 
 
