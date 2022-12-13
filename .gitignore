@@ -1,5 +1,6 @@
 # Diretório exploratório para Jupyter Notebooks
 notebooks/
+feature_exploration/
 scripts/
 .vscode/
 
