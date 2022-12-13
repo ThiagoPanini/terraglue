@@ -204,14 +204,15 @@ variable "glue_job_user_arguments" {
   description = "Conjunto de argumentos personalizados do usuário a serem associados ao job do glue"
   type        = map(string)
   default = {
-    "--OUTPUT_DB"             = "ra8"
-    "--OUTPUT_TABLE"          = "tbsot_ecommerce_br"
-    "--CONNECTION_TYPE"       = "s3"
-    "--UPDATE_BEHAVIOR"       = "UPDATE_IN_DATABASE"
-    "--PARTITION_NAME"        = "anomesdia"
-    "--PARTITION_FORMAT"      = "%Y%m%d"
-    "--DATA_FORMAT"           = "glueparquet"
-    "--COMPRESSION"           = "snappy"
-    "--ENABLE_UPDATE_CATALOG" = "True"
+    "--OUTPUT_DB"              = "ra8"
+    "--OUTPUT_TABLE"           = "tbsot_ecommerce_br"
+    "--CONNECTION_TYPE"        = "s3"
+    "--UPDATE_BEHAVIOR"        = "UPDATE_IN_DATABASE"
+    "--PARTITION_NAME"         = "anomesdia"
+    "--PARTITION_FORMAT"       = "%Y%m%d"
+    "--DATA_FORMAT"            = "glueparquet"
+    "--COMPRESSION"            = "snappy"
+    "--ENABLE_UPDATE_CATALOG"  = "True"
+    "--CREATE_SPARK_TEMP_VIEW" = "True"
   }
 }
