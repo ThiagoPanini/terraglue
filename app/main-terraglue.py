@@ -88,7 +88,8 @@ ARGV_LIST = [
     "PARTITION_FORMAT",
     "DATA_FORMAT",
     "COMPRESSION",
-    "ENABLE_UPDATE_CATALOG"
+    "ENABLE_UPDATE_CATALOG",
+    "CREATE_SPARK_TEMP_VIEW"
 ]
 
 # Definindo dicionário para mapeamento dos dados
@@ -495,18 +496,35 @@ class GlueTransformationManager(GlueJobManager):
         try:
             df_dict = {k: dyf.toDF() for k, dyf in dyf_dict.items()}
             logger.info("DataFrames Spark gerados com sucesso")
+            sleep(0.01)
         except Exception as e:
             logger.error("Erro ao transformar DynamicFrames em "
                          f"DataFrames Spark. Exception: {e}")
             raise e
 
+        # Validando parâmetro para criação de temp views para os DataFrames
+        if bool(self.args["CREATE_SPARK_TEMP_VIEW"]):
+            logger.info("Criando tabelas temporárias para os "
+                        f"{len(dyf_dict.keys())} DataFrames Spark")
+        
+            for k, v in self.data_dict.items():
+                try:
+                    # Extraindo variáveis
+                    df = df_dict[k]
+                    table_name = v["table_name"]
+
+                    # Criando tabela temporária
+                    df.createOrReplaceTempView(table_name)
+                except Exception as e:
+                    logger.error("Erro ao criar tabela temporária "
+                                 f"{table_name}. Exception: {e}")
+                    raise e
+
         # Retornando dicionário de DataFrames Spark convertidos
-        sleep(0.01)
         return df_dict
 
     # Método de transformação: payments
-    @staticmethod
-    def transform_payments(df: DataFrame) -> DataFrame:
+    def transform_payments(self, df: DataFrame) -> DataFrame:
         """
         Método de transformação específico para uma das origens
         do job do Glue.
@@ -569,8 +587,7 @@ class GlueTransformationManager(GlueJobManager):
             raise e
 
     # Método de transformação: reviews
-    @staticmethod
-    def transform_reviews(df: DataFrame) -> DataFrame:
+    def transform_reviews(self, df: DataFrame) -> DataFrame:
         """
         Método de transformação específico para uma das origens
         do job do Glue.
@@ -614,8 +631,7 @@ class GlueTransformationManager(GlueJobManager):
             raise e
 
     # Método de transformação: tabela final
-    @staticmethod
-    def transform_sot(**kwargs) -> DataFrame:
+    def transform_sot(self, **kwargs) -> DataFrame:
         """
         Método de transformação específico para uma das origens
         do job do Glue.
@@ -665,11 +681,55 @@ class GlueTransformationManager(GlueJobManager):
         # Retornando base final
         return df_sot_prep
 
+    # Método de transformação: drop de partição física no s3
+    def drop_partition(self, partition_name: str,
+                       partition_value: str,
+                       retention_period: int = 0) -> None:
+        """
+        Método responsável por eliminar partições do s3 através
+        do delete físico dos arquivos armazenados em um
+        determinado prefixo. Em essência, este método pode ser
+        utilizado em conjunto com o método de adição de partições,
+        garantindo a não geração de dados duplicados em uma
+        mesma partição em casos de dupla execução do job.
+        Para o processo de eliminação física dos arquivos, o
+        método purge_s3_path do glueContext é utilizado.
+
+        Parâmetros
+        ----------
+        :param partition_name:
+            Nome da partição (primeira parte do prefixo no s3)
+            a ser eliminada.
+            [type: str]
+        
+        :param partition_value:
+            Valor da partição (segunda parte do prefixo s3)
+            a ser eliminada.
+            [type: str]
+        """
+        
+        # Montando URI da partição a ser eliminada
+        partition_uri = f"s3://{self.args['OUTPUT_BUCKET']}/"\
+            f"{self.args['OUTPUT_DB']}/{self.args['OUTPUT_TABLE']}/"\
+            f"{partition_name}={partition_value}/"
+
+        logger.info(f"Eliminando partição {partition_name}={partition_value} "
+                    f"através da URI {partition_uri}")
+        try:
+            self.glueContext.purge_s3_path(
+                s3_path=partition_uri,
+                options={"retentionPeriod": retention_period}
+            )
+        except Exception as e:
+            logger.error("Erro ao eliminar partição "
+                         f"{partition_name}={partition_value}. Exception: {e}")
+            raise e
+    
     # Método de transformação: adição de partição
     @staticmethod
     def add_partition(df: DataFrame,
                       partition_name: str,
-                      partition_value) -> DataFrame:
+                      partition_value: str) -> DataFrame:
         """
         Método responsável por adicionar uma coluna ao DataFrame
         resultante para funcionar como partição da tabela gerada.
@@ -763,7 +823,7 @@ class GlueTransformationManager(GlueJobManager):
                 updateBehavior=self.args["UPDATE_BEHAVIOR"],
                 partitionKeys=[self.args["PARTITION_NAME"]],
                 compression=self.args["COMPRESSION"],
-                enableUpdateCatalog=self.args["ENABLE_UPDATE_CATALOG"],
+                enableUpdateCatalog=bool(self.args["ENABLE_UPDATE_CATALOG"]),
                 transformation_ctx="data_sink",
             )
         except Exception as e:
