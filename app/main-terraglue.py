@@ -838,7 +838,7 @@ class GlueTransformationManager(GlueJobManager):
                 catalogDatabase=self.args["OUTPUT_DB"],
                 catalogTableName=self.args["OUTPUT_TABLE"]
             )
-            data_sink.setFormat(self.args["DATA_FORMAT"])
+            data_sink.setFormat(self.args["DATA_FORMAT"], useGlueParquetWriter=True)
             data_sink.writeFrame(dyf)
 
             logger.info(f"Tabela {self.args['OUTPUT_DB']}."
