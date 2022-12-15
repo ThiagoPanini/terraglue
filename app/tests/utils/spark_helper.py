@@ -41,11 +41,6 @@ from random import randrange
 # Inicializando faker para geração de dados fictícios
 faker = Faker()
 
-# Inicializando sessão Spark
-spark = SparkSession.builder\
-    .appName("spark_helper")\
-    .getOrCreate()
-
 
 """---------------------------------------------------
 ---------- 2. FUNÇÕES PARA GERAÇÃO DE DADOS ----------
