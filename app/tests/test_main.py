@@ -25,7 +25,6 @@ do projeto.
 ---------------------------------------------------"""
 
 # Importando módulos para uso
-from pytest import mark
 from pyspark.sql import DataFrame
 
 
@@ -37,9 +36,9 @@ from pyspark.sql import DataFrame
 
 def test_geracao_de_dataframe_spark_df_customers(df_customers):
     """
-    Given:
-    When:
-    Then:
+    G: dado que o usuário queira criar um DataFrame para uma base
+    W: quando a função de criação de DataFrames for executada na fixture
+    T: o tipo primitivo do retorno deve ser um DatataFrame Spark
     """
 
     assert type(df_customers) == DataFrame
