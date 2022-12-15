@@ -506,7 +506,7 @@ class GlueTransformationManager(GlueJobManager):
         if bool(self.args["CREATE_SPARK_TEMP_VIEW"]):
             logger.info("Criando tabelas temporárias para os "
                         f"{len(dyf_dict.keys())} DataFrames Spark")
-        
+
             for k, v in self.data_dict.items():
                 try:
                     # Extraindo variáveis
@@ -701,13 +701,13 @@ class GlueTransformationManager(GlueJobManager):
             Nome da partição (primeira parte do prefixo no s3)
             a ser eliminada.
             [type: str]
-        
+
         :param partition_value:
             Valor da partição (segunda parte do prefixo s3)
             a ser eliminada.
             [type: str]
         """
-        
+
         # Montando URI da partição a ser eliminada
         partition_uri = f"s3://{self.args['OUTPUT_BUCKET']}/"\
             f"{self.args['OUTPUT_DB']}/{self.args['OUTPUT_TABLE']}/"\
@@ -724,7 +724,7 @@ class GlueTransformationManager(GlueJobManager):
             logger.error("Erro ao eliminar partição "
                          f"{partition_name}={partition_value}. Exception: {e}")
             raise e
-    
+
     # Método de transformação: adição de partição
     @staticmethod
     def add_partition(df: DataFrame,
@@ -838,7 +838,8 @@ class GlueTransformationManager(GlueJobManager):
                 catalogDatabase=self.args["OUTPUT_DB"],
                 catalogTableName=self.args["OUTPUT_TABLE"]
             )
-            data_sink.setFormat(self.args["DATA_FORMAT"], useGlueParquetWriter=True)
+            data_sink.setFormat(self.args["DATA_FORMAT"],
+                                useGlueParquetWriter=True)
             data_sink.writeFrame(dyf)
 
             logger.info(f"Tabela {self.args['OUTPUT_DB']}."

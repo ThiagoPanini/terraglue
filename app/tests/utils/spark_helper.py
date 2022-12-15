@@ -293,7 +293,7 @@ def generate_spark_dataframe(spark: SparkSession,
     if type(schema_input) is dict:
         # Gerando schema com base em dicionário
         schema = generate_schema_from_dict(
-            schema_dict=schema_input, 
+            schema_dict=schema_input,
             nullable=nullable
         )
     else:
