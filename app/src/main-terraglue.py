@@ -323,7 +323,7 @@ class GlueTransformationManager(GlueJobManager):
         presentes na documentação, serão utilizados.
     """
 
-    def __init__(self, argv_list, data_dict) -> None:
+    def __init__(self, argv_list: list, data_dict: dict) -> None:
         self.argv_list = argv_list
         self.data_dict = data_dict
 
