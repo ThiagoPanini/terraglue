@@ -51,29 +51,7 @@ from pyspark.sql.functions import col, count, avg, sum,\
 
 """---------------------------------------------------
 ---------- 1. PREPARAÇÃO INICIAL DO SCRIPT -----------
-          1.2 Configuração do objeto logger
----------------------------------------------------"""
-
-# Instanciando objeto de logging
-logger = logging.getLogger("glue_logger")
-logger.setLevel(logging.INFO)
-
-# Configurando formato das mensagens no objeto
-log_format = "%(levelname)s;%(asctime)s;%(filename)s;"
-log_format += "%(lineno)d;%(message)s"
-log_date_format = "%Y-%m-%d %H:%M:%S"
-formatter = logging.Formatter(log_format,
-                              datefmt=log_date_format)
-
-# Configurando stream handler do objeto de log
-stream_handler = logging.StreamHandler()
-stream_handler.setFormatter(formatter)
-logger.addHandler(stream_handler)
-
-
-"""---------------------------------------------------
----------- 1. PREPARAÇÃO INICIAL DO SCRIPT -----------
-        1.3 Definindo variáveis da aplicação
+        1.2 Definindo variáveis da aplicação
 ---------------------------------------------------"""
 
 # Argumentos do job
@@ -170,6 +148,54 @@ class GlueJobManager():
     def __init__(self, argv_list: list) -> None:
         self.argv_list = argv_list
         self.args = getResolvedOptions(sys.argv, self.argv_list)
+
+        # Chamando método de configuração de logs
+        self.log_config()
+
+    # Configurando logs
+    @staticmethod
+    def log_config(logger_name: str = "glue_logger",
+                   logger_level: int = logging.INFO,
+                   logger_date_format: str = "%Y-%m-%d %H:%M:%S") -> None:
+        """
+        Método criado para facilitar a criação de configuração
+        de uma instância de Logger do Python utilizada no
+        decorrer da aplicação Spark para registros de logs
+        das atividades e das funcionalidades desenvolvidas.
+
+        Parâmetros
+        ----------
+        :param logger_name:
+            Nome da instância de logger.
+            [type: str, default="glue_logger"]
+
+        :param logger_level:
+            Nível dos registros de log configurado.
+            [type: int, default=logging.INFO]
+
+        :param logger_date_format:
+            Formato de data configurado para representação
+            nas mensagens de logs.
+            [type: str, default="%Y-%m-%d %H:%M:%S"]
+        """
+
+        # Instanciando objeto de logging
+        global logger
+        logger = logging.getLogger(logger_name)
+        logger.setLevel(logger_level)
+
+        # Configurando formato das mensagens no objeto
+        log_format = "%(levelname)s;%(asctime)s;%(filename)s;"
+        log_format += "%(lineno)d;%(message)s"
+        formatter = logging.Formatter(log_format,
+                                      datefmt=logger_date_format)
+
+        # Configurando stream handler do objeto de log
+        stream_handler = logging.StreamHandler()
+        stream_handler.setFormatter(formatter)
+        logger.addHandler(stream_handler)
+
+        return logger
 
     # Obtendo argumentos do job
     def print_args(self) -> None:
