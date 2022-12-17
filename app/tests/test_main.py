@@ -26,6 +26,7 @@ do projeto.
 
 # Importando módulos para uso
 from pyspark.sql import DataFrame
+from pytest import mark
 
 
 """---------------------------------------------------
@@ -34,7 +35,10 @@ from pyspark.sql import DataFrame
 ---------------------------------------------------"""
 
 
-def test_geracao_de_dataframe_spark_df_customers(df_customers):
+@mark.dataframes
+def test_tipo_primitivo_de_dataframes_spark_gerados_na_fixture(
+    df_customers, df_orders, df_payments, df_reviews
+):
     """
     G: dado que o usuário queira criar um DataFrame para uma base
     W: quando a função de criação de DataFrames for executada na fixture
@@ -42,3 +46,6 @@ def test_geracao_de_dataframe_spark_df_customers(df_customers):
     """
 
     assert type(df_customers) == DataFrame
+    assert type(df_orders) == DataFrame
+    assert type(df_payments) == DataFrame
+    assert type(df_reviews) == DataFrame
