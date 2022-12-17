@@ -22,18 +22,14 @@ de testes do projeto.
 from pytest import fixture
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StringType
-from utils.spark_helper import generate_spark_dataframe
+from utils.spark_helper import generate_spark_dataframe,\
+    create_spark_session
 
 
 """---------------------------------------------------
 ---------- 1. PREPARAÇÃO INICIAL DO SCRIPT -----------
         1.2 Definição de variáveis e objetos
 ---------------------------------------------------"""
-
-# Inicializando sessão Spark
-spark = SparkSession.builder\
-    .appName("spark_helper")\
-    .getOrCreate()
 
 # Definindo variáveis de definição dos DataFrames
 SCHEMA_DTYPE = StringType()
@@ -49,6 +45,38 @@ SCHEMA_CUSTOMERS = [
     "customer_state"
 ]
 
+# Schema para criação de DataFrame: orders
+SCHEMA_ORDERS = [
+    "order_id",
+    "customer_id",
+    "order_status",
+    "order_purchase_timestamp",
+    "order_approved_at",
+    "order_delivered_carrier_date",
+    "order_delivered_customer_date",
+    "order_estimated_delivery_date"
+]
+
+# Schema para criação de DataFrame: payments
+SCHEMA_PAYMENTS = [
+    "order_id",
+    "payment_sequential",
+    "payment_type",
+    "payment_installments",
+    "payment_value"
+]
+
+# Schema para criação de DataFrame: reviews
+SCHEMA_REVIEWS = [
+    "review_id",
+    "order_id",
+    "review_score",
+    "review_comment_title",
+    "review_comment_message",
+    "review_creation_date",
+    "review_answer_timestamp"
+]
+
 
 """---------------------------------------------------
 ---------- 2. INSUMOS E ELEMENTOS DO PYTEST ----------
@@ -59,7 +87,7 @@ SCHEMA_CUSTOMERS = [
 # Fixture para entregar um objeto de sessão Spark
 @fixture()
 def spark():
-    return SparkSession.builder.getOrCreate()
+    return create_spark_session()
 
 
 # Fixture para entregar um DataFrame Spark: customers
@@ -69,6 +97,57 @@ def df_customers(spark: SparkSession,
                  schema_dtype=SCHEMA_DTYPE,
                  nullable=NULLABLE,
                  num_rows=NUM_ROWS):
+
+    return generate_spark_dataframe(
+        spark=spark,
+        schema_input=schema_input,
+        schema_dtype=schema_dtype,
+        nullable=nullable,
+        num_rows=num_rows
+    )
+
+
+# Fixture para entregar um DataFrame Spark: orders
+@fixture()
+def df_orders(spark: SparkSession,
+              schema_input=SCHEMA_ORDERS,
+              schema_dtype=SCHEMA_DTYPE,
+              nullable=NULLABLE,
+              num_rows=NUM_ROWS):
+
+    return generate_spark_dataframe(
+        spark=spark,
+        schema_input=schema_input,
+        schema_dtype=schema_dtype,
+        nullable=nullable,
+        num_rows=num_rows
+    )
+
+
+# Fixture para entregar um DataFrame Spark: payments
+@fixture()
+def df_payments(spark: SparkSession,
+                schema_input=SCHEMA_PAYMENTS,
+                schema_dtype=SCHEMA_DTYPE,
+                nullable=NULLABLE,
+                num_rows=NUM_ROWS):
+
+    return generate_spark_dataframe(
+        spark=spark,
+        schema_input=schema_input,
+        schema_dtype=schema_dtype,
+        nullable=nullable,
+        num_rows=num_rows
+    )
+
+
+# Fixture para entregar um DataFrame Spark: reviews
+@fixture()
+def df_reviews(spark: SparkSession,
+               schema_input=SCHEMA_REVIEWS,
+               schema_dtype=SCHEMA_DTYPE,
+               nullable=NULLABLE,
+               num_rows=NUM_ROWS):
 
     return generate_spark_dataframe(
         spark=spark,
