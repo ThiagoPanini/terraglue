@@ -48,6 +48,10 @@ faker = Faker()
 ---------------------------------------------------"""
 
 
+def create_spark_session() -> SparkSession:
+    return SparkSession.builder.getOrCreate()
+
+
 def generate_schema_from_dict(schema_dict: dict,
                               nullable: bool = True) -> StructType():
     """
