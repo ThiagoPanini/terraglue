@@ -1,7 +1,11 @@
 # Diretório exploratório para Jupyter Notebooks
 notebooks/
+feature_exploration/
 scripts/
 .vscode/
+
+# Novos dados utilizados apenas para documentação
+data/tt3/
 
 # Local .terraform directories
 **/.terraform/*

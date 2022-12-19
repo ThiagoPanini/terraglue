@@ -14,7 +14,8 @@
 - [Visão de arquitetura](#visão-de-arquitetura)
   - [Organização do repositório](#organização-do-repositório)
   - [Detalhes de construção da infraestrutura](#detalhes-de-construção-da-infraestrutura)
-- [Utilizando o projeto](#utilizando-o-projeto)
+- [Utilizando a solução](#utilizando-a-solução)
+- [Cenários e exemplos de utilização](#cenários-e-exemplos-de-utilização)
 - [Contribuindo](#contribuindo)
 - [Contatos](#contatos)
 - [Referências](#referências)
@@ -78,8 +79,9 @@ ___
 
 Você verá que utilizar o **terraglue** é extremamente fácil e suas exigências e pré requisitos são igualmente simples. Basta ter:
 
-- Conta AWS e usuário com acesso programático
-- Terraform instalado no sistema
+- ☁️ [Conta AWS](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/) disponível para uso
+- 🔑 [Acesso programático](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html) à conta através das chaves `access_key_id` e `secret_access_key`
+- ⛏ [Terraform](https://www.terraform.io/) instalado (versão >=1.0)
 
 ___
 
@@ -137,9 +139,15 @@ Como mencionado (e sugerido pelo próprio nome), o **terraglue** é um projeto T
 
 ___
 
-## Utilizando o projeto
+## Utilizando a solução
 
 Visando dispor de um lugar específico para detalhar o tutorial de utilização do projeto, todas as etapas estão devidamente exemplificadas no arquivo [GETTINGSTARTED.md](https://github.com/ThiagoPanini/terraglue/blob/develop/GETTINGSTARTED.md)
+
+___
+
+## Cenários e exemplos de utilização
+
+Para ter em mãos cenários práticos de utilização do projeto, toda uma suíte de documentação foi disponibilizada no arquivo [EXAMPLES.md](https://github.com/ThiagoPanini/terraglue/blob/develop/EXAMPLES.md). Esta é, essencialmente, um dos principais blocos de documentação a serem consumidos por novos usuários interessados no `terraglue`.
 
 ___
 

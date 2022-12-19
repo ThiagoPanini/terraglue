@@ -102,7 +102,7 @@ Como parte do processo de utilização do Terraform como ferramenta de IaC, é p
 
 ```bash
 # Navegando até o diretório de infra
-cd infra
+cd infra/
 
 # Inicializando os módulos
 terraform init
@@ -136,7 +136,7 @@ terraform plan
 </details>
 <br>
 
-> ⚠️ Como o **terraglue** comporta uma série de declaração de recursos, o *output* do comando `terraform plan` comporta uma série de detalhes. Se julgar necessário, analise com cuidado todas as implantações a serem realizadas em sua conta alvo. Ter controle sobre este passo garante uma total autonomia sobre tudo o que está sendo realizado, incluindo possíveis gastos na provedora cloud. Em caso de dúvidas, verifique a [documentação]() do projeto.
+> ⚠️ Como o **terraglue** comporta uma série de declaração de recursos, o *output* do comando `terraform plan` comporta uma série de detalhes. Se julgar necessário, analise com cuidado todas as implantações a serem realizadas em sua conta alvo. Ter controle sobre este passo garante uma total autonomia sobre tudo o que está sendo realizado, incluindo possíveis gastos na provedora cloud. Em caso de dúvidas, verifique a [documentação](https://github.com/ThiagoPanini/terraglue/blob/develop/README.md) do projeto.
 
 ___
 
@@ -158,3 +158,9 @@ terraform apply
 <br>
 
 Após um determinado período, espera-se que uma mensagem de sucesso seja entregue ao usuário, garantindo assim que todas as inclusões e todos os recursos foram devidamente implantados no ambiente AWS. A partir deste ponto, o usuário terá em mãos todas as funcionalidades do **terraglue** disponíveis para uso!
+
+___
+
+- [Documentação do repositório](https://github.com/ThiagoPanini/terraglue/blob/develop/README.md)
+- [Exemplos de uso](https://github.com/ThiagoPanini/terraglue/blob/develop/EXAMPLES.md)
+- [Contribuindo para o projeto](https://github.com/ThiagoPanini/terraglue/blob/develop/CONTRIBUTING.md)
