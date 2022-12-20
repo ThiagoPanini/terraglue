@@ -76,21 +76,25 @@ DATA_DICT = {
         "database": "ra8",
         "table_name": "orders",
         "transformation_ctx": "dyf_orders",
+        "create_temp_view": True
     },
     "customers": {
         "database": "ra8",
         "table_name": "customers",
-        "transformation_ctx": "dyf_customers"
+        "transformation_ctx": "dyf_customers",
+        "create_temp_view": True
     },
     "payments": {
         "database": "ra8",
         "table_name": "payments",
-        "transformation_ctx": "dyf_payments"
+        "transformation_ctx": "dyf_payments",
+        "create_temp_view": True
     },
     "reviews": {
         "database": "ra8",
         "table_name": "reviews",
-        "transformation_ctx": "dyf_reviews"
+        "transformation_ctx": "dyf_reviews",
+        "create_temp_view": True
     }
 }
 
@@ -427,14 +431,29 @@ class GlueTransformationManager(GlueJobManager):
                 "orders": {
                     "database": "ra8",
                     "table_name": "orders",
-                    "transformation_ctx": "dyf_orders",
+                    "transformation_ctx": "dyf_orders"
                 },
                 "customers": {
                     "database": "ra8",
                     "table_name": "customers",
-                    "transformation_ctx": "dyf_customers"
+                    "transformation_ctx": "dyf_customers",
+                    "push_down_predicate": "anomesdia=20221201",
+                    "create_temp_view": True,
+                    "additional_options": {
+                        "compressionType": "lzo"
+                    }
                 }
             }
+
+            Todos os parâmetros presentes no método 
+            glueContext.create_dynamic_frame.from_catalog() são
+            aceitos na construção do dicionário self.data_dict.
+            Além disso, alguns parâmetros adicionais foram inclusos
+            visando proporcionar uma maior facilidade aos usuários,
+            como por exemplo:
+                * "create_temp_view": bool -> configura a criação
+                    de uma tabela temporária (view) para a tabela
+                    em questão
 
             O retorno do método generate_dynamic_frames_dict() será
             no seguinte formato:
@@ -488,6 +507,7 @@ class GlueTransformationManager(GlueJobManager):
 
                 # Adicionando à lista de DynamicFrames
                 dynamic_frames.append(dyf)
+
         except Exception as e:
             logger.error("Erro ao gerar lista de DynamicFrames com base " +
                          f"em dicionário. Exception: {e}")
@@ -534,14 +554,29 @@ class GlueTransformationManager(GlueJobManager):
                 "orders": {
                     "database": "ra8",
                     "table_name": "orders",
-                    "transformation_ctx": "dyf_orders",
+                    "transformation_ctx": "dyf_orders"
                 },
                 "customers": {
                     "database": "ra8",
                     "table_name": "customers",
-                    "transformation_ctx": "dyf_customers"
+                    "transformation_ctx": "dyf_customers",
+                    "push_down_predicate": "anomesdia=20221201",
+                    "create_temp_view": True,
+                    "additional_options": {
+                        "compressionType": "lzo"
+                    }
                 }
             }
+
+            Todos os parâmetros presentes no método 
+            glueContext.create_dynamic_frame.from_catalog() são
+            aceitos na construção do dicionário self.data_dict.
+            Além disso, alguns parâmetros adicionais foram inclusos
+            visando proporcionar uma maior facilidade aos usuários,
+            como por exemplo:
+                * "create_temp_view": bool -> configura a criação
+                    de uma tabela temporária (view) para a tabela
+                    em questão
 
             O retorno do método generate_dataframes_dict() será
             no seguinte formato:
@@ -568,28 +603,31 @@ class GlueTransformationManager(GlueJobManager):
             df_dict = {k: dyf.toDF() for k, dyf in dyf_dict.items()}
             logger.info("DataFrames Spark gerados com sucesso")
             sleep(0.01)
+
         except Exception as e:
             logger.error("Erro ao transformar DynamicFrames em "
                          f"DataFrames Spark. Exception: {e}")
             raise e
 
-        # Validando parâmetro para criação de temp views para os DataFrames
-        if bool(self.args["CREATE_SPARK_TEMP_VIEW"]):
-            logger.info("Criando tabelas temporárias para os "
-                        f"{len(dyf_dict.keys())} DataFrames Spark")
+        # Iterando sobre dicionário de dados para validar criação de temp views
+        for table_key, params in self.data_dict.items():
+            try:
+                # Extraindo variáveis
+                df = df_dict[table_key]
+                table_name = params["table_name"]
 
-            for k, v in self.data_dict.items():
-                try:
-                    # Extraindo variáveis
-                    df = df_dict[k]
-                    table_name = v["table_name"]
-
-                    # Criando tabela temporária
+                # Criando tabela temporária (se aplicável)
+                if "create_temp_view" in params\
+                        and bool(params["create_temp_view"]):
                     df.createOrReplaceTempView(table_name)
-                except Exception as e:
-                    logger.error("Erro ao criar tabela temporária "
-                                 f"{table_name}. Exception: {e}")
-                    raise e
+
+                    logger.info(f"Tabela temporária (view) {table_name}"
+                                "criada com sucesso.")
+
+            except Exception as e:
+                logger.error("Erro ao criar tabela temporária "
+                             f"{table_name}. Exception: {e}")
+                raise e
 
         # Retornando dicionário de DataFrames Spark convertidos
         return df_dict
@@ -652,6 +690,7 @@ class GlueTransformationManager(GlueJobManager):
 
             # Retornando DataFrame preparado
             return df_payments_prep
+
         except Exception as e:
             logger.error("Erro ao preparar DAG de transformações para dados "
                          f"de pagamentos. Exception: {e}")
@@ -696,6 +735,7 @@ class GlueTransformationManager(GlueJobManager):
 
             # Retornando DataFrame
             return df_reviews_prep
+
         except Exception as e:
             logger.error("Erro ao preparar DAG de transformações "
                          f"de reviews de pedidos. Exception: {e}")
@@ -744,6 +784,7 @@ class GlueTransformationManager(GlueJobManager):
                 on=[df_orders_prep.order_id == df_reviews_prep.order_id],
                 how="left"
             ).drop(df_reviews_prep.order_id)
+
         except Exception as e:
             logger.error("Erro ao preparar DAG para tabela final. "
                          f"Exception: {e}")
