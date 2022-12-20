@@ -152,7 +152,7 @@ class GlueJobManager():
         # Chamando método de configuração de logs
         self.log_config()
 
-    # Configurando logs
+    # Configurando objeto logger
     @staticmethod
     def log_config(logger_name: str = "glue_logger",
                    logger_level: int = logging.INFO,
@@ -197,7 +197,7 @@ class GlueJobManager():
 
         return logger
 
-    # Obtendo argumentos do job
+    # Obtendo e logando argumentos do job
     def print_args(self) -> None:
         """
         Método responsável por mostrar ao usuário, como uma mensagem
@@ -355,6 +355,51 @@ class GlueTransformationManager(GlueJobManager):
 
         # Herdando atributos de classe de gerenciamento de job
         GlueJobManager.__init__(self, argv_list=self.argv_list)
+
+        # Aplicando mensagem de boas vindas no CloudWatch
+        self.job_initial_log_message()
+
+    # Preparando mensagem inicial para início do job
+    def job_initial_log_message(self) -> None:
+        """
+        Método responsável por compor uma mensagem inicial de log a ser
+        consolidada no CloudWatch sempre que um objeto desta classe
+        for instanciado. A mensagem de log visa declarar todas as
+        origens utilizadas no job Glue, além de fornecer detalhes
+        sobre os push down predicates (se utilizados) em cada
+        processo de leitura de dados.
+        """
+
+        # Definindo strings para casos com ou sem push down predicate
+        without_pushdown = "sem push down predicate definido"
+        with_pushdown = "com push down predicate definido por <push_down>"
+
+        # Definindo strings iniciais para composição da mensagem
+        welcome_msg = f"Job {self.args['JOB_NAME']} iniciado com sucesso!"\
+                      "Origens presentes no processo de ETL:\n\n"
+        template_msg = f"Tabela <tbl_ref> {without_pushdown}{with_pushdown}\n"
+        initial_msg = ""
+
+        # Iterando sobre dicionário de dados para extração de parâmetros
+        for _, params in self.data_dict.items():
+            # Iniciando preparação da mensagem inicial
+            initial_msg += template_msg
+
+            # Obtendo tabela e substituindo em template
+            tbl_ref = f"{params['database']}.{params['table_name']}"
+            initial_msg = initial_msg.replace("<tbl_ref>", tbl_ref)
+
+            # Validando existência de push_down_predicate
+            if "push_down_predicate" in params:
+                push_down = params["push_down_predicate"]
+                initial_msg = initial_msg.replace(without_pushdown, "")
+                initial_msg = initial_msg.replace("<push_down>", push_down)
+            else:
+                initial_msg = initial_msg.replace(with_pushdown, "")
+
+        # Adicionando mensagem de boas vindas
+        initial_msg = welcome_msg + initial_msg
+        logger.info(initial_msg)
 
     # Gerando dicionário de DynamicFrames do projeto
     def generate_dynamic_frames_dict(self) -> dict:
