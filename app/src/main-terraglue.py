@@ -66,8 +66,7 @@ ARGV_LIST = [
     "PARTITION_FORMAT",
     "DATA_FORMAT",
     "COMPRESSION",
-    "ENABLE_UPDATE_CATALOG",
-    "CREATE_SPARK_TEMP_VIEW"
+    "ENABLE_UPDATE_CATALOG"
 ]
 
 # Definindo dicionário para mapeamento dos dados
