@@ -24,3 +24,8 @@ variable "flag_upload_data_files" {
   description = "Flag para realização do upload de bases de dados"
   type        = bool
 }
+
+variable "flag_s3_block_public_access" {
+  description = "Flag para configuração de bloqueio de acesso público de buckets criados"
+  type        = bool
+}

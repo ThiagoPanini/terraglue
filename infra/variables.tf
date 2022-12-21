@@ -22,7 +22,7 @@ variable "aws_provider_config" {
 }
 
 /* --------------------------------------------------
---------------- VARIÁVEIS: módulo s3 ----------------
+------------ VARIÁVEIS: módulo storage --------------
 -------------------------------------------------- */
 
 variable "local_data_path" {
@@ -33,6 +33,12 @@ variable "local_data_path" {
 
 variable "flag_upload_data_files" {
   description = "Flag para realização do upload de bases de dados"
+  type        = bool
+  default     = true
+}
+
+variable "flag_s3_block_public_access" {
+  description = "Flag para configuração de bloqueio de acesso público de buckets criados"
   type        = bool
   default     = true
 }
