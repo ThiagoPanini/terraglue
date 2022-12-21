@@ -66,7 +66,8 @@ ARGV_LIST = [
     "PARTITION_FORMAT",
     "DATA_FORMAT",
     "COMPRESSION",
-    "ENABLE_UPDATE_CATALOG"
+    "ENABLE_UPDATE_CATALOG",
+    "CREATE_SPARK_TEMP_VIEW"
 ]
 
 # Definindo dicionário para mapeamento dos dados
@@ -444,7 +445,7 @@ class GlueTransformationManager(GlueJobManager):
                 }
             }
 
-            Todos os parâmetros presentes no método 
+            Todos os parâmetros presentes no método
             glueContext.create_dynamic_frame.from_catalog() são
             aceitos na construção do dicionário self.data_dict.
             Além disso, alguns parâmetros adicionais foram inclusos
@@ -567,7 +568,7 @@ class GlueTransformationManager(GlueJobManager):
                 }
             }
 
-            Todos os parâmetros presentes no método 
+            Todos os parâmetros presentes no método
             glueContext.create_dynamic_frame.from_catalog() são
             aceitos na construção do dicionário self.data_dict.
             Além disso, alguns parâmetros adicionais foram inclusos
