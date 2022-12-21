@@ -76,21 +76,25 @@ DATA_DICT = {
         "database": "ra8",
         "table_name": "orders",
         "transformation_ctx": "dyf_orders",
+        "create_temp_view": True
     },
     "customers": {
         "database": "ra8",
         "table_name": "customers",
-        "transformation_ctx": "dyf_customers"
+        "transformation_ctx": "dyf_customers",
+        "create_temp_view": True
     },
     "payments": {
         "database": "ra8",
         "table_name": "payments",
-        "transformation_ctx": "dyf_payments"
+        "transformation_ctx": "dyf_payments",
+        "create_temp_view": True
     },
     "reviews": {
         "database": "ra8",
         "table_name": "reviews",
-        "transformation_ctx": "dyf_reviews"
+        "transformation_ctx": "dyf_reviews",
+        "create_temp_view": True
     }
 }
 
@@ -152,7 +156,7 @@ class GlueJobManager():
         # Chamando método de configuração de logs
         self.log_config()
 
-    # Configurando logs
+    # Configurando objeto logger
     @staticmethod
     def log_config(logger_name: str = "glue_logger",
                    logger_level: int = logging.INFO,
@@ -197,7 +201,7 @@ class GlueJobManager():
 
         return logger
 
-    # Obtendo argumentos do job
+    # Obtendo e logando argumentos do job
     def print_args(self) -> None:
         """
         Método responsável por mostrar ao usuário, como uma mensagem
@@ -356,6 +360,51 @@ class GlueTransformationManager(GlueJobManager):
         # Herdando atributos de classe de gerenciamento de job
         GlueJobManager.__init__(self, argv_list=self.argv_list)
 
+        # Aplicando mensagem de boas vindas no CloudWatch
+        self.job_initial_log_message()
+
+    # Preparando mensagem inicial para início do job
+    def job_initial_log_message(self) -> None:
+        """
+        Método responsável por compor uma mensagem inicial de log a ser
+        consolidada no CloudWatch sempre que um objeto desta classe
+        for instanciado. A mensagem de log visa declarar todas as
+        origens utilizadas no job Glue, além de fornecer detalhes
+        sobre os push down predicates (se utilizados) em cada
+        processo de leitura de dados.
+        """
+
+        # Definindo strings para casos com ou sem push down predicate
+        without_pushdown = "sem push down predicate definido"
+        with_pushdown = "com push down predicate definido por <push_down>"
+
+        # Definindo strings iniciais para composição da mensagem
+        welcome_msg = f"Job {self.args['JOB_NAME']} iniciado com sucesso!"\
+                      "Origens presentes no processo de ETL:\n\n"
+        template_msg = f"Tabela <tbl_ref> {without_pushdown}{with_pushdown}\n"
+        initial_msg = ""
+
+        # Iterando sobre dicionário de dados para extração de parâmetros
+        for _, params in self.data_dict.items():
+            # Iniciando preparação da mensagem inicial
+            initial_msg += template_msg
+
+            # Obtendo tabela e substituindo em template
+            tbl_ref = f"{params['database']}.{params['table_name']}"
+            initial_msg = initial_msg.replace("<tbl_ref>", tbl_ref)
+
+            # Validando existência de push_down_predicate
+            if "push_down_predicate" in params:
+                push_down = params["push_down_predicate"]
+                initial_msg = initial_msg.replace(without_pushdown, "")
+                initial_msg = initial_msg.replace("<push_down>", push_down)
+            else:
+                initial_msg = initial_msg.replace(with_pushdown, "")
+
+        # Adicionando mensagem de boas vindas
+        initial_msg = welcome_msg + initial_msg
+        logger.info(initial_msg)
+
     # Gerando dicionário de DynamicFrames do projeto
     def generate_dynamic_frames_dict(self) -> dict:
         """
@@ -382,14 +431,29 @@ class GlueTransformationManager(GlueJobManager):
                 "orders": {
                     "database": "ra8",
                     "table_name": "orders",
-                    "transformation_ctx": "dyf_orders",
+                    "transformation_ctx": "dyf_orders"
                 },
                 "customers": {
                     "database": "ra8",
                     "table_name": "customers",
-                    "transformation_ctx": "dyf_customers"
+                    "transformation_ctx": "dyf_customers",
+                    "push_down_predicate": "anomesdia=20221201",
+                    "create_temp_view": True,
+                    "additional_options": {
+                        "compressionType": "lzo"
+                    }
                 }
             }
+
+            Todos os parâmetros presentes no método
+            glueContext.create_dynamic_frame.from_catalog() são
+            aceitos na construção do dicionário self.data_dict.
+            Além disso, alguns parâmetros adicionais foram inclusos
+            visando proporcionar uma maior facilidade aos usuários,
+            como por exemplo:
+                * "create_temp_view": bool -> configura a criação
+                    de uma tabela temporária (view) para a tabela
+                    em questão
 
             O retorno do método generate_dynamic_frames_dict() será
             no seguinte formato:
@@ -443,6 +507,7 @@ class GlueTransformationManager(GlueJobManager):
 
                 # Adicionando à lista de DynamicFrames
                 dynamic_frames.append(dyf)
+
         except Exception as e:
             logger.error("Erro ao gerar lista de DynamicFrames com base " +
                          f"em dicionário. Exception: {e}")
@@ -489,14 +554,29 @@ class GlueTransformationManager(GlueJobManager):
                 "orders": {
                     "database": "ra8",
                     "table_name": "orders",
-                    "transformation_ctx": "dyf_orders",
+                    "transformation_ctx": "dyf_orders"
                 },
                 "customers": {
                     "database": "ra8",
                     "table_name": "customers",
-                    "transformation_ctx": "dyf_customers"
+                    "transformation_ctx": "dyf_customers",
+                    "push_down_predicate": "anomesdia=20221201",
+                    "create_temp_view": True,
+                    "additional_options": {
+                        "compressionType": "lzo"
+                    }
                 }
             }
+
+            Todos os parâmetros presentes no método
+            glueContext.create_dynamic_frame.from_catalog() são
+            aceitos na construção do dicionário self.data_dict.
+            Além disso, alguns parâmetros adicionais foram inclusos
+            visando proporcionar uma maior facilidade aos usuários,
+            como por exemplo:
+                * "create_temp_view": bool -> configura a criação
+                    de uma tabela temporária (view) para a tabela
+                    em questão
 
             O retorno do método generate_dataframes_dict() será
             no seguinte formato:
@@ -523,28 +603,31 @@ class GlueTransformationManager(GlueJobManager):
             df_dict = {k: dyf.toDF() for k, dyf in dyf_dict.items()}
             logger.info("DataFrames Spark gerados com sucesso")
             sleep(0.01)
+
         except Exception as e:
             logger.error("Erro ao transformar DynamicFrames em "
                          f"DataFrames Spark. Exception: {e}")
             raise e
 
-        # Validando parâmetro para criação de temp views para os DataFrames
-        if bool(self.args["CREATE_SPARK_TEMP_VIEW"]):
-            logger.info("Criando tabelas temporárias para os "
-                        f"{len(dyf_dict.keys())} DataFrames Spark")
+        # Iterando sobre dicionário de dados para validar criação de temp views
+        for table_key, params in self.data_dict.items():
+            try:
+                # Extraindo variáveis
+                df = df_dict[table_key]
+                table_name = params["table_name"]
 
-            for k, v in self.data_dict.items():
-                try:
-                    # Extraindo variáveis
-                    df = df_dict[k]
-                    table_name = v["table_name"]
-
-                    # Criando tabela temporária
+                # Criando tabela temporária (se aplicável)
+                if "create_temp_view" in params\
+                        and bool(params["create_temp_view"]):
                     df.createOrReplaceTempView(table_name)
-                except Exception as e:
-                    logger.error("Erro ao criar tabela temporária "
-                                 f"{table_name}. Exception: {e}")
-                    raise e
+
+                    logger.info(f"Tabela temporária (view) {table_name}"
+                                "criada com sucesso.")
+
+            except Exception as e:
+                logger.error("Erro ao criar tabela temporária "
+                             f"{table_name}. Exception: {e}")
+                raise e
 
         # Retornando dicionário de DataFrames Spark convertidos
         return df_dict
@@ -607,6 +690,7 @@ class GlueTransformationManager(GlueJobManager):
 
             # Retornando DataFrame preparado
             return df_payments_prep
+
         except Exception as e:
             logger.error("Erro ao preparar DAG de transformações para dados "
                          f"de pagamentos. Exception: {e}")
@@ -651,6 +735,7 @@ class GlueTransformationManager(GlueJobManager):
 
             # Retornando DataFrame
             return df_reviews_prep
+
         except Exception as e:
             logger.error("Erro ao preparar DAG de transformações "
                          f"de reviews de pedidos. Exception: {e}")
@@ -699,6 +784,7 @@ class GlueTransformationManager(GlueJobManager):
                 on=[df_orders_prep.order_id == df_reviews_prep.order_id],
                 how="left"
             ).drop(df_reviews_prep.order_id)
+
         except Exception as e:
             logger.error("Erro ao preparar DAG para tabela final. "
                          f"Exception: {e}")

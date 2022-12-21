@@ -22,7 +22,7 @@ variable "aws_provider_config" {
 }
 
 /* --------------------------------------------------
---------------- VARIÁVEIS: módulo s3 ----------------
+------------ VARIÁVEIS: módulo storage --------------
 -------------------------------------------------- */
 
 variable "local_data_path" {
@@ -33,6 +33,12 @@ variable "local_data_path" {
 
 variable "flag_upload_data_files" {
   description = "Flag para realização do upload de bases de dados"
+  type        = bool
+  default     = true
+}
+
+variable "flag_s3_block_public_access" {
+  description = "Flag para configuração de bloqueio de acesso público de buckets criados"
   type        = bool
   default     = true
 }
@@ -204,15 +210,14 @@ variable "glue_job_user_arguments" {
   description = "Conjunto de argumentos personalizados do usuário a serem associados ao job do glue"
   type        = map(string)
   default = {
-    "--OUTPUT_DB"              = "ra8"
-    "--OUTPUT_TABLE"           = "tbsot_ecommerce_br"
-    "--CONNECTION_TYPE"        = "s3"
-    "--UPDATE_BEHAVIOR"        = "UPDATE_IN_DATABASE"
-    "--PARTITION_NAME"         = "anomesdia"
-    "--PARTITION_FORMAT"       = "%Y%m%d"
-    "--DATA_FORMAT"            = "parquet"
-    "--COMPRESSION"            = "snappy"
-    "--ENABLE_UPDATE_CATALOG"  = "True"
-    "--CREATE_SPARK_TEMP_VIEW" = "True"
+    "--OUTPUT_DB"             = "ra8"
+    "--OUTPUT_TABLE"          = "tbsot_ecommerce_br"
+    "--CONNECTION_TYPE"       = "s3"
+    "--UPDATE_BEHAVIOR"       = "UPDATE_IN_DATABASE"
+    "--PARTITION_NAME"        = "anomesdia"
+    "--PARTITION_FORMAT"      = "%Y%m%d"
+    "--DATA_FORMAT"           = "parquet"
+    "--COMPRESSION"           = "snappy"
+    "--ENABLE_UPDATE_CATALOG" = "True"
   }
 }
