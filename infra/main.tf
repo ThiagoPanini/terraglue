@@ -51,7 +51,7 @@ module "storage" {
   bucket_names_map            = local.bucket_names_map
   local_data_path             = var.local_data_path
   flag_upload_data_files      = var.flag_upload_data_files
-  flag_s3_block_public_access = vars.flag_s3_block_public_access
+  flag_s3_block_public_access = var.flag_s3_block_public_access
 }
 
 
