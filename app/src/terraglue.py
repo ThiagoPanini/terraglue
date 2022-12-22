@@ -571,6 +571,7 @@ class GlueETLManager(GlueJobManager):
                 raise e
 
         # Retornando dicionário de DataFrames Spark convertidos
+        sleep(0.01)
         return df_dict
 
     # Método de transformação: drop de partição física no s3
@@ -621,7 +622,7 @@ class GlueETLManager(GlueJobManager):
     @staticmethod
     def add_partition(df: DataFrame,
                       partition_name: str,
-                      partition_value: str) -> DataFrame:
+                      partition_value) -> DataFrame:
         """
         Método responsável por adicionar uma coluna ao DataFrame
         resultante para funcionar como partição da tabela gerada.
@@ -647,7 +648,7 @@ class GlueETLManager(GlueJobManager):
         """
 
         logger.info("Adicionando partição na tabela "
-                    f"({partition_name}={partition_value})")
+                    f"({partition_name}={str(partition_value)})")
         try:
             df_partitioned = df.withColumn(partition_name,
                                            lit(partition_value))
