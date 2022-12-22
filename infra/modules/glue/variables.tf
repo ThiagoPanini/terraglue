@@ -14,18 +14,29 @@ variable "glue_job_bucket_name" {
   type        = string
 }
 
-variable "glue_job_bucket_scripts_key" {
-  description = "Chave de armazenamento do script do job do glue no bucket s3 de referência"
-  type        = string
-}
-
 variable "glue_job_name" {
   description = "Nome ou referência do job do glue a ser criado"
   type        = string
 }
 
-variable "glue_job_script_file" {
-  description = "Referência local do script a ser utilizado como job do glue"
+variable "glue_app_dir" {
+  description = "Referência local do diretório onde a aplicação está localizada"
+  type        = string
+}
+
+variable "glue_app_src_dir" {
+  description = "Referência de diretório onde os códigos fontes da aplicação estão localizados"
+  type        = string
+}
+
+
+variable "glue_app_files" {
+  description = "Lista de arquivos do diretório source da aplicação Spark a serem inseridos no s3 como parte do job do Glue"
+  type        = list(any)
+}
+
+variable "glue_script_file_name" {
+  description = "Referência do script .py a ser implantado como um job do glue"
   type        = string
 }
 
