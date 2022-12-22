@@ -1,32 +1,11 @@
 """
-JOB: terraglue-job-sot-ecommerce-br.py
+JOB: main.py
 
 CONTEXTO:
 ---------
-Módulo terraglue criado para consolidar classes, métodos,
-atributos, funções e implementações no geral que possam
-facilitar a construção de jobs Glue utilizando a linguagem
-Python como principal ferramenta. Neste módulo, será
-possível encontrar uma série de funcionalidades criadas
-a partir de experimentações práticas envolvendo o
-levantamento das principais dificuldades e da aplicação
-de boas práticas de desenvolvimento de aplicações Spark.
-
-OBJETIVO:
----------
-Consolidar elementos responsáveis por auxiliar e acelearar
-o desenvolvimento de aplicações Spark a serem utilizadas
-como jobs do Glue.
-
-TABLE OF CONTENTS:
-------------------
-1. Preparação inicial do script
-    1.1 Importação das bibliotecas
-    1.2 Configuração do objeto logger
-    1.3 Definição de variáveis do módulo
-2. Gerenciamento de jobs
-3. Gerenciamento de transformações
-4. Programa principal
+Script principal da aplicação Spark implantada como job do
+Glue dentro dos contextos estabelecidos pelo processo de
+ETL a ser programado.
 ------------------------------------------------------
 
 ------------------------------------------------------
@@ -46,6 +25,9 @@ from terraglue import GlueETLManager, log_config
 ---------- 1. PREPARAÇÃO INICIAL DO SCRIPT -----------
         1.2 Definindo variáveis da aplicação
 ---------------------------------------------------"""
+
+# Configurando objeto de log
+logger = log_config(logger_name=__file__)
 
 # Argumentos do job
 ARGV_LIST = [
@@ -90,9 +72,6 @@ DATA_DICT = {
     }
 }
 
-# Configurando objeto de log
-logger = log_config(logger_name=__file__)
-
 
 """---------------------------------------------------
 --------- 2. GERENCIAMENTO DE TRANSFORMAÇÕES ---------
@@ -103,83 +82,20 @@ logger = log_config(logger_name=__file__)
 class GlueTransformationManager(GlueETLManager):
     """
     Classe responsável por gerenciar e fornecer métodos típicos
-    de transformação de um job do Glue a serem detalhadamente
+    de transformação de um job do Glue a serem pontualmente
     adaptados por seus usuários para que as operações nos dados
     possam ser aplicadas de acordo com as necessidades exigidas.
 
     Em essência, essa classe herda os atributos e métodos da
-    classe GlueJobManager para que todas as operações de
-    inicialização e configuração de um job do Glue possam ser
-    aplicadas em conjunto às operações de transformação, mantendo
-    uma porta única de entrada ao usuário final em meio à todos
-    os processos exigidos para a construção de um job.
+    classe GlueETLManager existente no módulo terraglue.py,
+    permitindo assim o acesso a todos os atributos e métodos
+    necessários para inicialização e configuração de um job do Glue.
+    Assim, basta que o usuário desenvolva os métodos de
+    transformação adequados para seu processo de ETL e coordene
+    a execução dos mesmos no método run() desta classe.
 
-    Em linhas gerais, a classe GlueTransformationManager traz
-    consigo dois tipos de métodos:
-        1. Métodos gerais que podem ser aplicados em diferentes
-    cenários
-        2. Métodos específicos utilizados de acordo com as
-    necessidades de transformações de dados de cada job
-
-    Dessa forma, o usuário final possui em mãos algumas
-    funcionalidades genéricas que podem ser reaproveitadas para
-    grande parte dos jobs do Glue. Entretanto, métodos específicos
-    de transformação devem ser modificados e adaptados conforme
-    as regras definidas a serem aplicadas pelo usuário de acordo
-    com os objetivos estabelecidos. Considerando a versão natural
-    desta classe, os métodos específicos de transformação podem
-    ser identificados através do decorator @staticmethod, indicando
-    assim que o método em questão é um método específico de
-    transformação que não utiliza ou acessa nenhum atributo da classe.
-
-    Atributos requeridos:
-    --------------------
-    :attr: argv_list
-        Lista contendo a referência nominal de todos os argumentos
-        a serem utilizados durante o job a partir da função
-        getResolvedOptions()
-        [type: list, required=True]
-
-    :attr: data_dict
-        Dicionário contento todas as especifidades dos dados de
-        origem a serem utilizados como fontes de dados do job. Tal
-        dinâmica visa proporcionar uma maior facilidade ao usuário
-        para gerenciar todos os processos de leitura e obtenção de
-        DynamicFrames do Glue ou DataFrames do Spark através de
-        métodos únicos. Um exemplo de configuração deste atributo
-        pode ser visualizado abaixo:
-
-        {
-            "orders": {
-                "database": "ra8",
-                "table_name": "orders",
-                "transformation_ctx": "dyf_orders",
-            },
-            "customers": {
-                "database": "ra8",
-                "table_name": "customers",
-                "transformation_ctx": "dyf_customers"
-            },
-            "payments": {
-                "database": "ra8",
-                "table_name": "payments",
-                "transformation_ctx": "dyf_payments"
-            },
-            "reviews": {
-                "database": "ra8",
-                "table_name": "reviews",
-                "transformation_ctx": "dyf_reviews"
-            }
-        }
-
-        Caso o usuário deseje uma configuração específica, basta
-        consultar os argumentos do método
-        glueContext.create_dynamic_frame.from_catalog para que o
-        dicionário seja passado corretamente. Parâmetros como
-        push_down_predicate, additional_options e catalog_id
-        também podem ser configurados como chaves deste dicionário e,
-        caso não informados, seus respectivos valores default,
-        presentes na documentação, serão utilizados.
+    Para maiores informações sobre os atributos, basta consultar
+    a documentação das classes e métodos no módulo terraglue.py.
     """
 
     def __init__(self, argv_list: list, data_dict: dict) -> None:
@@ -359,15 +275,13 @@ class GlueTransformationManager(GlueETLManager):
         organização ao usuário final. Este método pode ser devidamente
         adaptado de acordo com as necessidades de cada usuário e de
         cada job a ser codificado, possibilitando uma centralização
-        de todos os processos operacionais a serem realizados. Com isso,
-        um melhor gerenciamento do job pode ser obtido, visto que, no
-        programa principal, o usuário terá apenas que executar o método
-        run(). Na prática, este método realiza as seguintes operações:
+        de todos os processos operacionais a serem realizados.
+        Na prática, este método realiza as seguintes operações:
 
             1. Inicializa o job e obtém todos os insumos necessários
-            2. Realiza a leitura dos objetos DataFrame
+            2. Realiza a leitura dos objetos DataFrame/DynamicFrame
             3. Aplica as transformações necessárias
-            4. Adiciona uma partição de data aos dados
+            4. Gerencia partições (elimina existente e adiciona uma nova)
             5. Escreve o resultado no s3 e cataloga no Data Catalog
         """
 
