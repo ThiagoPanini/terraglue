@@ -39,7 +39,7 @@ from datetime import datetime
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import col, count, avg, sum,\
     round, countDistinct, max
-from utils.terraglue import GlueETLManager
+from terraglue import GlueETLManager, log_config
 
 
 """---------------------------------------------------
@@ -89,6 +89,9 @@ DATA_DICT = {
         "create_temp_view": True
     }
 }
+
+# Configurando objeto de log
+logger = log_config(logger_name=__file__)
 
 
 """---------------------------------------------------
@@ -186,10 +189,6 @@ class GlueTransformationManager(GlueETLManager):
         # Herdando atributos de classe de gerenciamento de job
         GlueETLManager.__init__(self, argv_list=self.argv_list,
                                 data_dict=self.data_dict)
-
-        # Obtendo objeto loger
-        global logger
-        logger = GlueETLManager.log_config()
 
     # Método de transformação: payments
     def transform_payments(self, df: DataFrame) -> DataFrame:
