@@ -29,12 +29,6 @@ variable "glue_app_src_dir" {
   type        = string
 }
 
-
-variable "glue_app_files" {
-  description = "Lista de arquivos do diretório source da aplicação Spark a serem inseridos no s3 como parte do job do Glue"
-  type        = list(any)
-}
-
 variable "glue_script_file_name" {
   description = "Referência do script .py a ser implantado como um job do glue"
   type        = string

@@ -148,14 +148,10 @@ module "iam" {
 # Variáveis locais para um melhor gerenciamento dos recursos do módulo
 # https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html
 locals {
-  # Listagem de arquivos Python a serem inseridos no s3 como parte do job
-  glue_app_files = fileset(var.glue_app_dir, "${var.glue_app_src_dir}/**")
-
-  # Criando listagem com arquivos Python extra a serem adicionados no pacote do job
-  glue_extra_py_files = setsubtract(local.glue_app_files, [var.glue_script_file_name])
-  glue_extra_py_files_s3_uri = join(",", [
-    for py_file in local.glue_extra_py_files :
-    "s3://${module.storage.bucket_name_glue}/jobs/${var.glue_job_name}/${py_file}"
+  # Coletando módulos Python extra a serem adicionados como arquivos extra no job
+  glue_extra_py_files = join(",", [
+    for f in setsubtract(fileset(var.glue_app_src_dir, "**.py"), [var.glue_script_file_name]) :
+    "s3://${module.storage.bucket_name_glue}/jobs/${var.glue_job_name}/src/${f}"
   ])
 
   # Modificando dicionário de argumentos e incluindo referências de URIs do s3 para assets
@@ -164,7 +160,7 @@ locals {
     "--spark-event-logs-path" = "s3://${local.bucket_names_map["glue"]}/sparkHistoryLogs/"
     "--TempDir"               = "s3://${local.bucket_names_map["glue"]}/temporary/"
     "--OUTPUT_BUCKET"         = local.bucket_names_map["sot"]
-    "--extra-py-files"        = local.glue_extra_py_files_s3_uri
+    "--extra-py-files"        = local.glue_extra_py_files
   }
 
   # Juntando maps e criando dicionário único e definitivo de argumentos do job
@@ -180,10 +176,9 @@ module "glue" {
   source = "./modules/glue"
 
   # Variáveis para ingestão do script do job no s3
-  glue_job_bucket_name = module.storage.bucket_name_glue
   glue_app_dir         = var.glue_app_dir
-  glue_app_files       = local.glue_app_files
   glue_app_src_dir     = var.glue_app_src_dir
+  glue_job_bucket_name = module.storage.bucket_name_glue
 
   # Variáveis de configuração do job do glue
   glue_job_name                = var.glue_job_name

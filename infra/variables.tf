@@ -133,7 +133,19 @@ variable "glue_app_dir" {
 variable "glue_app_src_dir" {
   description = "Referência de diretório onde os códigos fontes da aplicação estão localizados"
   type        = string
-  default     = "src"
+  default     = "../app/src"
+}
+
+variable "glue_app_utils_dir" {
+  description = "Referência local do diretório onde os módulos Python auxiliares estão armazenados"
+  type        = string
+  default     = "../app/src/utils"
+}
+
+variable "glue_extra_py_files" {
+  description = "Listagem com todos os caminhos, com ponto de referência em relação ao diretório /app/src, de todos os módulos .py adicionais a serem utilizados no job do Glue"
+  type        = list(string)
+  default     = ["terraglue.py"]
 }
 
 variable "glue_script_file_name" {
