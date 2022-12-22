@@ -47,6 +47,54 @@ from pyspark.sql import DataFrame
 from pyspark.sql.functions import lit
 
 
+# Função para configuração de log
+def log_config(logger_name: str = __file__,
+               logger_level: int = logging.INFO,
+               logger_date_format: str = "%Y-%m-%d %H:%M:%S") -> None:
+    """
+    Função criada para facilitar a criação de configuração
+    de uma instância de Logger do Python utilizada no
+    decorrer da aplicação Spark para registros de logs
+    das atividades e das funcionalidades desenvolvidas.
+
+    Parâmetros
+    ----------
+    :param logger_name:
+        Nome da instância de logger.
+        [type: str, default="glue_logger"]
+
+    :param logger_level:
+        Nível dos registros de log configurado.
+        [type: int, default=logging.INFO]
+
+    :param logger_date_format:
+        Formato de data configurado para representação
+        nas mensagens de logs.
+        [type: str, default="%Y-%m-%d %H:%M:%S"]
+    """
+
+    # Instanciando objeto de logging
+    logger = logging.getLogger(logger_name)
+    logger.setLevel(logger_level)
+
+    # Configurando formato das mensagens no objeto
+    log_format = "%(levelname)s;%(asctime)s;%(filename)s;"
+    log_format += "%(lineno)d;%(message)s"
+    formatter = logging.Formatter(log_format,
+                                  datefmt=logger_date_format)
+
+    # Configurando stream handler do objeto de log
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(formatter)
+    logger.addHandler(stream_handler)
+
+    return logger
+
+
+# Configurando objeto de log
+logger = log_config(logger_name=__file__)
+
+
 # Classe para gerenciamento de insumos de um job Glue
 class GlueJobManager():
     """
@@ -97,54 +145,6 @@ class GlueJobManager():
         self.argv_list = argv_list
         self.data_dict = data_dict
         self.args = getResolvedOptions(sys.argv, self.argv_list)
-
-        # Chamando método de configuração de logs
-        global logger
-        logger = self.log_config()
-
-    # Configurando objeto logger
-    @staticmethod
-    def log_config(logger_name: str = "glue_logger",
-                   logger_level: int = logging.INFO,
-                   logger_date_format: str = "%Y-%m-%d %H:%M:%S") -> None:
-        """
-        Método criado para facilitar a criação de configuração
-        de uma instância de Logger do Python utilizada no
-        decorrer da aplicação Spark para registros de logs
-        das atividades e das funcionalidades desenvolvidas.
-
-        Parâmetros
-        ----------
-        :param logger_name:
-            Nome da instância de logger.
-            [type: str, default="glue_logger"]
-
-        :param logger_level:
-            Nível dos registros de log configurado.
-            [type: int, default=logging.INFO]
-
-        :param logger_date_format:
-            Formato de data configurado para representação
-            nas mensagens de logs.
-            [type: str, default="%Y-%m-%d %H:%M:%S"]
-        """
-
-        # Instanciando objeto de logging
-        logger = logging.getLogger(logger_name)
-        logger.setLevel(logger_level)
-
-        # Configurando formato das mensagens no objeto
-        log_format = "%(levelname)s;%(asctime)s;%(filename)s;"
-        log_format += "%(lineno)d;%(message)s"
-        formatter = logging.Formatter(log_format,
-                                      datefmt=logger_date_format)
-
-        # Configurando stream handler do objeto de log
-        stream_handler = logging.StreamHandler()
-        stream_handler.setFormatter(formatter)
-        logger.addHandler(stream_handler)
-
-        return logger
 
     # Preparando mensagem inicial para início do job
     def job_initial_log_message(self) -> None:
@@ -562,7 +562,7 @@ class GlueETLManager(GlueJobManager):
                         and bool(params["create_temp_view"]):
                     df.createOrReplaceTempView(table_name)
 
-                    logger.info(f"Tabela temporária (view) {table_name}"
+                    logger.info(f"Tabela temporária (view) {table_name} "
                                 "criada com sucesso.")
 
             except Exception as e:
