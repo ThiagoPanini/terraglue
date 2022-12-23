@@ -7,6 +7,7 @@
 
 ## Table of Contents
 - [Table of Contents](#table-of-contents)
+- [Quickstart](#quickstart)
 - [O que é o terraglue?](#o-que-é-o-terraglue)
   - [Motivadores e principais desafios](#motivadores-e-principais-desafios)
   - [Quem pode utilizar o terraglue?](#quem-pode-utilizar-o-terraglue)
@@ -20,6 +21,18 @@
 - [Contribuindo](#contribuindo)
 - [Contatos](#contatos)
 - [Referências](#referências)
+
+___
+
+## Quickstart
+
+> Se você está conhecendo o terraglue agora, sugerimos a leitura completa deste README.md antes de navegar para as documentações paralelas e complementares. Entretanto, se você já é um usuário assíduo do produto, os links abaixo poderão te direcionar de forma mais rápida e efetiva aos seus objetivos. Boa leitura! 🤓
+
+- 👉 [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main) *Você está aqui!*
+- [2. Instalação e primeiros passos](https://github.com/ThiagoPanini/terraglue/blob/main/GETTINGSTARTED.md) 
+- [3. Infraestrutura provisionada](https://github.com/ThiagoPanini/terraglue/blob/main/INFRA.md) 
+- [4. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/APP.md) 
+- [5. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/EXAMPLES.md)
 
 ___
 
