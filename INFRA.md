@@ -1,8 +1,9 @@
-*Fornecendo exemplos práticos de cenários de utilização do projeto*
+*Fornecendo detalhes sobre toda a infraestrutura provisionada ao usuário*
 
 ## Table of Contents
 - [Table of Contents](#table-of-contents)
 - [Antes de começar](#antes-de-começar)
+- [Módulos Terraform](#módulos-terraform)
 - [Analisando os recursos de infra provisionados](#analisando-os-recursos-de-infra-provisionados)
   - [Buckets SoR, SoT, Spec e outros](#buckets-sor-sot-spec-e-outros)
   - [Dados na camada SoR](#dados-na-camada-sor)
@@ -16,15 +17,25 @@
 
 > Antes de navegarmos pelo detalhamento da infraestrutura provisionada no projeto, é importante garantir que todas as etapas de preparação e instalação foram cumpridas. Para maiores detalhes, o arquivo [GETTINGSTARTED.md](https://github.com/ThiagoPanini/terraglue/blob/develop/GETTINGSTARTED.md) contempla todo o processo necessário de iniciação.
 
+- [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main)
+- [2. Instalação e primeiros passos](https://github.com/ThiagoPanini/terraglue/blob/main/GETTINGSTARTED.md)
+- 👉 [3. Infraestrutura provisionada](https://github.com/ThiagoPanini/terraglue/blob/main/INFRA.md) *Você está aqui!*
+- [4. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/APP.md) 
+- [5. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/EXAMPLES.md)
+
+___
+
+## Módulos Terraform
+
 O **terraglue** é um projeto Terraform organizado de forma a proporcionar, a seus usuários, um entendimento claro sobre cada operação de implantação realizada. Seguindo as boas práticas de criação de um projeto, sua construção foi dividida em [módulos](https://developer.hashicorp.com/terraform/language/modules) responsáveis por declarações específicas de recursos de acordo com um tema relacionado.
 
 | 🏯 **Módulo** | 📝 **Descrição** |
 | :-- | :-- |
-| [`root`](https://github.com/ThiagoPanini/terraglue/tree/main/infra) | Módulo principal do projeto responsável por acionar todos os módulos relacionados |
-| [`storage`](https://github.com/ThiagoPanini/terraglue/tree/main/infra/modules/storage) | Módulo responsável por todas as declarações que dizem respeito à armazenamento na conta AWS alvo de implantação. Recursos como buckets S3 e a ingestão de objetos são definidos aqui. |
-| [`catalog`](https://github.com/ThiagoPanini/terraglue/tree/main/infra/modules/catalog) | Este módulo possui uma importante missão de alocar uma lógica específica de catalogação dos objetos inseridos no S3 no Data Catalog. Aqui são criados os databases e tabelas no catálogo de dados de acordo com a organização local dos dados do repositório. Tudo de forma automática. Adicionalmente, um workgroup do Athena é fornecido ao usuário para que as consultas sejam realizadas sem a necessidade de configurações adicionais na conta. |
-| [`iam`](https://github.com/ThiagoPanini/terraglue/tree/main/infra/modules/iam) | No módulo iam do projeto, uma role de serviço do Glue é criada com policies específicas e pré configuradas de modo a proporcionar todos os acessos necessários de execução de um job Glue na conta alvo de implantação. |
-| [`glue`](https://github.com/ThiagoPanini/terraglue/tree/main/infra/modules/glue) | Por fim, o módulo glue comporta toda a parametrização e declaração do recurso responsável por implantar um job Glue na AWS considerando todas as boas práticas de uso. |
+| [`root`](https://github.com/ThiagoPanini/terraglue/tree/main/infra)| Módulo principal do projeto responsável por acionar todos os módulos relacionados |
+| [`modules/storage`](https://github.com/ThiagoPanini/terraglue/tree/main/infra/modules/storage) | Módulo responsável por todas as declarações que dizem respeito à armazenamento na conta AWS alvo de implantação. Recursos como buckets S3 e a ingestão de objetos são definidos aqui. |
+| [`modules/catalog`](https://github.com/ThiagoPanini/terraglue/tree/main/infra/modules/catalog) | Este módulo possui uma importante missão de alocar uma lógica específica de catalogação dos objetos inseridos no S3 no Data Catalog. Aqui são criados os databases e tabelas no catálogo de dados de acordo com a organização local dos dados do repositório. Tudo de forma automática. Adicionalmente, um workgroup do Athena é fornecido ao usuário para que as consultas sejam realizadas sem a necessidade de configurações adicionais na conta. |
+| [`modules/iam`](https://github.com/ThiagoPanini/terraglue/tree/main/infra/modules/iam) | No módulo iam do projeto, uma role de serviço do Glue é criada com policies específicas e pré configuradas de modo a proporcionar todos os acessos necessários de execução de um job Glue na conta alvo de implantação. |
+| [`modules/glue`](https://github.com/ThiagoPanini/terraglue/tree/main/infra/modules/glue) | Por fim, o módulo glue comporta toda a parametrização e declaração do recurso responsável por implantar um job Glue na AWS considerando todas as boas práticas de uso. |
 
 ___
 
@@ -206,3 +217,13 @@ Como resultado, o usuário terá disponível uma nova base de dados materializad
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-practical-sot-02.png?raw=true" alt="terraglue-practical-glue-sot-02">
 </div>
 </details>
+
+___
+
+Continue sua jornada no **terraglue** através das documentações!
+
+- [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main)
+- [2. Instalação e primeiros passos](https://github.com/ThiagoPanini/terraglue/blob/main/GETTINGSTARTED.md)
+- 👉 [3. Infraestrutura provisionada](https://github.com/ThiagoPanini/terraglue/blob/main/INFRA.md) *Você está aqui!*
+- [4. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/APP.md) 
+- [5. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/EXAMPLES.md)
