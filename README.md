@@ -11,11 +11,12 @@
   - [Motivadores e principais desafios](#motivadores-e-principais-desafios)
   - [Quem pode utilizar o terraglue?](#quem-pode-utilizar-o-terraglue)
   - [Pré requisitos](#pré-requisitos)
-- [Visão de arquitetura](#visão-de-arquitetura)
-  - [Organização do repositório](#organização-do-repositório)
-  - [Detalhes de construção da infraestrutura](#detalhes-de-construção-da-infraestrutura)
-- [Utilizando a solução](#utilizando-a-solução)
-- [Cenários e exemplos de utilização](#cenários-e-exemplos-de-utilização)
+- [Arquitetura e organização do repositório](#arquitetura-e-organização-do-repositório)
+- [Primeiros passos](#primeiros-passos)
+  - [Utilizando a solução](#utilizando-a-solução)
+  - [Infraestrutura provisionada](#infraestrutura-provisionada)
+  - [Aplicação Spark codificada](#aplicação-spark-codificada)
+  - [Cenários e exemplos de utilização](#cenários-e-exemplos-de-utilização)
 - [Contribuindo](#contribuindo)
 - [Contatos](#contatos)
 - [Referências](#referências)
@@ -34,10 +35,10 @@ ___
 
 ### Motivadores e principais desafios
 
-Uma vez apresentado o projeto, é importante destacar que o **terraglue** possui uma essência altamente dinâmica, isto é, suas funcionalidades abrem margem para uma série de possibilidades e ganhos. Para que se tenha uma ideia de todas as suas possíveis aplicações, as perguntas abaixo representam alguns obstáculos, dores e desafios reais que podem ser devidamente solucionados. Clique e expanda os blocos para visualizar algumas *features* do projeto.
+Uma vez apresentado o projeto, é importante destacar que o **terraglue** possui uma essência altamente dinâmica, isto é, suas funcionalidades abrem margem para uma série de possibilidades e ganhos. Para que se tenha uma ideia de todas as suas possíveis aplicações, os tópicos abaixo representam alguns obstáculos, dores e desafios reais que podem ser devidamente solucionados através do uso do produto. Clique e expanda os blocos para visualizar algumas *features* do projeto.
 
 <details>
-  <summary>📌 "Como funciona o processo de criação de jobs do Glue na AWS? São muitos parâmetros a serem passados e fica difícil saber o impacto de cada configuração."</summary>
+  <summary>📌 "Nunca criei um job Glue na AWS e sinto que são muitos parâmetros a serem configurados. Assim fica difícil saber o impacto de cada configuração e a curva de aprendizado é gigantesca!"</summary>
 
   > 💡 *Com o terraglue, os usuários poderão implantar jobs Glue na AWS de uma maneira fácil, prática e objetiva, sem se preocupar com todos os parâmetros de configuração exigidos. Em um curto espaço de tempo, os usuários terão a confiança necessária para entender toda a dinâmica e aplicar, por conta própria, modificações que atendam suas respectivas necessidades.*
 </details>
@@ -63,15 +64,18 @@ Uma vez apresentado o projeto, é importante destacar que o **terraglue** possui
 <details>
   <summary>📌 "Já construí jobs do Glue anteriormente seguindo uma lógica própria e tenho muita dificuldade em organizar meu código a medida que novas transformações são programadas."</summary>
 
-  > 💡 *O exemplo de aplicação Spark fornecido como padrão no terraglue possui uma organização especificamente pensada na escalabilidade de código. As classes `GlueJobManager` e `GlueTransformationManager` auxiliam usuários com conhecimento prévio a organizarem jobs com um alto número de transformações sem abrir mão das boas práticas.*
+  > 💡 *O exemplo de aplicação Spark fornecido como padrão no terraglue possui uma organização especificamente pensada na escalabilidade de código. As classes `GlueJobManager`, `GlueETLManager` e `GlueTransformationManager` auxiliam usuários com conhecimento prévio a organizarem jobs com um alto número de transformações sem abrir mão das boas práticas.*
 </details>
 
-Ansioso para conhecer mais sobre o projeto? Ainda nesta documentação, toda sua arquitetura será apresentada e um completo tutorial de utilização será fornecido. Continue acompanhando!
+Ansioso para conhecer mais sobre o projeto? Ainda nesta documentação, toda sua arquitetura será apresentada e um completo tutorial de utilização será fornecido. Continue acompanhando este material ou, se preferir, preparei para você uma sequência de links que poderão ajudar na jornada de consumo:
+
 ___
 
 ### Quem pode utilizar o terraglue?
 
-De maneira clara e objetiva: o **terraglue** pode ser utilizado por toda e qualquer pessoa que tenha algum tipo de necessidade específica de aprender sobre jobs Glue na AWS. Sua construção tem como base o fornecimento de um ambiente dinâmico e totalmente reprodutível para implantação de um job Glue adaptável às necessidades dos usuários.
+O terraglue pode ser utilizado por **toda e qualquer pessoa que tenha algum tipo de necessidade específica de aprender sobre jobs Glue na AWS**. 
+
+Sua construção tem como base o fornecimento de um ambiente dinâmico e totalmente reprodutível para implantação de um job Glue adaptável às necessidades dos usuários.
 
 ___
 
@@ -85,38 +89,32 @@ Você verá que utilizar o **terraglue** é extremamente fácil e suas exigênci
 
 ___
 
-## Visão de arquitetura
+## Arquitetura e organização do repositório
 
 Agora que você já conhece um pouco mais sobre o projeto, é chegado o momento de apresentar toda a arquitetura que está por trás das funcionalidades introduzidas. No final do dia, o **terraglue** é um projeto de IaC (*Infrastructure as Code*) construído com o *runtime* [Terraform](https://www.terraform.io/) e dividido em módulos responsáveis por implantar diferentes serviços AWS que, juntos, formam toda a dinâmica de consumo do projeto. Assim, o usuário obtém o código fonte disponibilizado neste repositório e executa os comandos específicos do runtime de IaC utilizado para realizar as implantações necessárias no ambiente alvo.
 
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-diagram-user-view-dark.png" alt="terraglue-user-view">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/imgs/terraglue-diagram-user-view-dark.png" alt="terraglue-user-view">
 </div>
 <br>
 
 Em uma visão mais técnica, os serviços declarados nos módulos Terraform são representados por:
 
-- Buckets S3 para armazenamento de dados e *assets*
-- Policies e role IAM para gerenciamento de acessos
-- Referências no catálogo de dados e workgroup do Athena
-- Job do Glue parametrizado com exemplo prático de uso
+- 🧺 Buckets S3 para armazenamento de dados e *assets*
+- 🚨 Policies e role IAM para gerenciamento de acessos
+- 🎲 Referências no catálogo de dados e workgroup do Athena
+- 🪄 Job do Glue parametrizado com exemplo prático de uso
 
 Assim, ao cumprir os requisitos e as ações evidenciadas pela imagem de arquitetura acima, o usuário poderá ter em mãos seu próprio "ambiente AWS portátil" composto dos seguintes recursos:
 
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-diagram-resources-dark.png?raw=true" alt="terraglue-resources">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/imgs/terraglue-diagram-resources-dark.png" alt="terraglue-resources">
 </div>
 <br>
 
-Como ponto de destaque da imagem acima, é possível visualizar que o **terraglue** comporta também a "ingestão" (ou simplesmente o *upload*) de alguns dados na conta alvo AWS para servirem de insumos de execução de um job Glue também implementado como exemplo. Trata-se de alguns arquivos do conjunto de dados [Brazilian E-Commerce](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) que estão publicamente disponíveis no [Kaggle](https://www.kaggle.com/).
-
-___
-
-### Organização do repositório
-
 Considerando os insumos presentes, o repositório do **terraglue** está organizado da seguinte forma:
 
-| **Diretório** | **Função** |
+| 📂 **Diretório** | ⚙️ **Função** |
 | :-- | :-- |
 | `./app` | Aqui será possível encontrar o script Python disponibilizado como padrão para implantação de um job Glue na AWS seguindo as melhores práticas de código e documentação. O script considera um cenário de criação de uma base na camada [SoT](https://www.linkedin.com/pulse/difference-between-system-record-source-truth-santosh-kudva/) (*Source of Truth*) utilizando dados de vendas online no [e-commerce brasileiro](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce). |
 | `./data` | Neste diretório, será possível identificar todas as fontes de dados disponibilizadas como exemplo para a execução de um job do Glue. Os dados estão presentes e organizados de modo a simular uma estrutura padrão de Data Lake em ambientes distribuídos, onde define-se o banco de dados, nome de tabela como diretórios pais em relação aos arquivos propriamente ditos (ex: `db/table/file.ext`). |
@@ -125,29 +123,32 @@ Considerando os insumos presentes, o repositório do **terraglue** está organiz
 
 ___
 
-### Detalhes de construção da infraestrutura
+## Primeiros passos
 
-Como mencionado (e sugerido pelo próprio nome), o **terraglue** é um projeto Terraform organizado de forma a proporcionar, a seus usuários, um entendimento claro sobre cada operação de implantação realizada. Seguindo as boas práticas de criação de um projeto, sua construção foi dividida em [módulos](https://developer.hashicorp.com/terraform/language/modules) responsáveis por declarações específicas de recursos de acordo com um tema relacionado.
+Para consolidar todas as etapas necessárias para extrair todo o valor do produto, esta seção comporta os detalhes iniciais de instalação e uso da solução, além de links para explicações técnicas a respeito da infraestrutura e da aplicação desenvolvida.
 
-| **Módulo** | **Descrição** |
-| :-- | :-- |
-| `root` | Módulo principal do projeto responsável por acionar todos os módulos relacionados |
-| `storage` | Módulo responsável por todas as declarações que dizem respeito à armazenamento na conta AWS alvo de implantação. Recursos como buckets S3 e a ingestão de objetos são definidos aqui. |
-| `catalog` | Este módulo possui uma importante missão de alocar uma lógica específica de catalogação dos objetos inseridos no S3 no Data Catalog. Aqui são criados os databases e tabelas no catálogo de dados de acordo com a organização local dos dados do repositório. Tudo de forma automática. Adicionalmente, um workgroup do Athena é fornecido ao usuário para que as consultas sejam realizadas sem a necessidade de configurações adicionais na conta. |
-| `iam` | No módulo iam do projeto, uma role de serviço do Glue é criada com policies específicas e pré configuradas de modo a proporcionar todos os acessos necessários de execução de um job Glue na conta alvo de implantação. |
-| `glue` | Por fim, o módulo glue comporta toda a parametrização e declaração do recurso responsável por implantar um job Glue na AWS considerando todas as boas práticas de uso. |
-
-___
-
-## Utilizando a solução
+### Utilizando a solução
 
 Visando dispor de um lugar específico para detalhar o tutorial de utilização do projeto, todas as etapas estão devidamente exemplificadas no arquivo [GETTINGSTARTED.md](https://github.com/ThiagoPanini/terraglue/blob/develop/GETTINGSTARTED.md)
 
-___
 
-## Cenários e exemplos de utilização
+### Infraestrutura provisionada
 
-Para ter em mãos cenários práticos de utilização do projeto, toda uma suíte de documentação foi disponibilizada no arquivo [EXAMPLES.md](https://github.com/ThiagoPanini/terraglue/blob/develop/EXAMPLES.md). Esta é, essencialmente, um dos principais blocos de documentação a serem consumidos por novos usuários interessados no `terraglue`.
+Um dos pilares responsáveis por toda a automação da implantação dos recursos de infraestrutura do projeto é, sem dúvidas, a utilização do Terraform como ferramenta de IaC. Nesta dinâmica, o arquivo [INFRA.md]() possui todos os detalhes necessários para proporcionar, ao usuário, um entendimento claro e direto sobre como a "mágica" acontece no ambiente AWS.
+
+
+### Aplicação Spark codificada
+
+Além de todo o processo de automação da infraestrutura provisionada em um ambiente AWS, uma das maiores funcionalidades (se não a maior) do **terraglue** envolve a entrega de uma aplicação Spark previamente codificada com toda a dinâmica de uso do Glue como serviço em meio ao desenvolvimento de jobs na nuvem.
+
+Esta entrega se materializa nos scripts `main.py` e no módulo auxiliar `terraglue.py` que, em conjunto, consolidam classes Python minuciosamente codificadas para facilitar, ao máximo, o trabalho do Engenheiro ou Analista de dados que pretende construir seu próprio processo de ETL utilizando o Glue.
+
+Para maiores detalhes sobre esta rica entrega, não deixe de consumir o arquivo [APP.md]() onde navegamos a fundo por todas as classes, atributos e métodos disponíveis.
+
+
+### Cenários e exemplos de utilização
+
+Para ter em mãos cenários práticos de utilização do projeto, toda uma suíte de documentação foi disponibilizada no arquivo [EXAMPLES.md](https://github.com/ThiagoPanini/terraglue/blob/develop/EXAMPLES.md). Se você chegou até aqui e agora pretende adaptar o uso do **terraglue** de acordo com suas próprias necessidades, a documentação de exemplos foi especialmente feita para você!
 
 ___
 
