@@ -161,6 +161,10 @@ Após um determinado período, espera-se que uma mensagem de sucesso seja entreg
 
 ___
 
-- [Documentação do repositório](https://github.com/ThiagoPanini/terraglue/blob/develop/README.md)
-- [Exemplos de uso](https://github.com/ThiagoPanini/terraglue/blob/develop/EXAMPLES.md)
-- [Contribuindo para o projeto](https://github.com/ThiagoPanini/terraglue/blob/develop/CONTRIBUTING.md)
+Continue sua jornada no **terraglue** através das documentações!
+
+- [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main)
+- 👉 [2. Instalação e primeiros passos](https://github.com/ThiagoPanini/terraglue/blob/main/GETTINGSTARTED.md) *Você está aqui!*
+- [3. Infraestrutura provisionada](https://github.com/ThiagoPanini/terraglue/blob/main/INFRA.md) 
+- [4. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/APP.md) 
+- [5. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/EXAMPLES.md)
