@@ -262,7 +262,7 @@ Agora que o dicionário de mapeamento de leitura de dados está devidamente conf
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-examples-titanic-data.PNG?raw=true" alt="titanic-data-athena">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/terraglue-examples-titanic-data.png" alt="titanic-data-athena">
 </div>
 </details>
 
@@ -630,7 +630,7 @@ Considerando a demonstração fornecida, seria possível acessar o serviço Athe
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-examples-titanic-sot-athena.PNG?raw=true" alt="titanic-data-athena-sot">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/terraglue-examples-titanic-sot-athena.png" alt="titanic-data-athena-sot">
 </div>
 </details>
 
@@ -652,7 +652,7 @@ FROM tt3.tbsot_titanic LIMIT 5;
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/terraglue-examples-titanic-sot-athena-query.PNG?raw=true" alt="titanic-data-athena-sot-query">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/terraglue-examples-titanic-sot-athena-query.png" alt="titanic-data-athena-sot-query">
 </div>
 </details>
 
