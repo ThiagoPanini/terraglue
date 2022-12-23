@@ -25,8 +25,7 @@ resource "aws_s3_bucket" "this" {
 
 # Definindo bloqueio de acesso público ao bucket
 resource "aws_s3_bucket_public_access_block" "all_private" {
-  count    = var.flag_s3_block_public_access ? 1 : 0
-  for_each = var.bucket_names_map
+  for_each = var.flag_s3_block_public_access ? var.bucket_names_map : {}
   bucket   = aws_s3_bucket.this[each.key].id
 
   block_public_acls       = true

@@ -3,6 +3,7 @@ notebooks/
 feature_exploration/
 scripts/
 .vscode/
+**.zip
 
 # Novos dados utilizados apenas para documentação
 data/tt3/

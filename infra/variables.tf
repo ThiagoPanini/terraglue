@@ -124,17 +124,34 @@ variable "iam_glue_role_name" {
 -------------- VARIÁVEIS: módulo glue ---------------
 -------------------------------------------------- */
 
-variable "glue_job_script_file" {
-  description = "Localização física do script .py a ser implantado como um job do glue"
+variable "glue_app_dir" {
+  description = "Referência local do diretório onde a aplicação está localizada"
   type        = string
-  default     = "../app/src/main-terraglue.py"
+  default     = "../app"
 }
 
-
-variable "glue_job_bucket_scripts_key" {
-  description = "Chave de armazenamento do script do job do glue no bucket s3 de referência"
+variable "glue_app_src_dir" {
+  description = "Referência de diretório onde os códigos fontes da aplicação estão localizados"
   type        = string
-  default     = "scripts/"
+  default     = "../app/src"
+}
+
+variable "glue_app_utils_dir" {
+  description = "Referência local do diretório onde os módulos Python auxiliares estão armazenados"
+  type        = string
+  default     = "../app/src/utils"
+}
+
+variable "glue_extra_py_files" {
+  description = "Listagem com todos os caminhos, com ponto de referência em relação ao diretório /app/src, de todos os módulos .py adicionais a serem utilizados no job do Glue"
+  type        = list(string)
+  default     = ["terraglue.py"]
+}
+
+variable "glue_script_file_name" {
+  description = "Referência do script .py a ser implantado como um job do glue"
+  type        = string
+  default     = "main.py"
 }
 
 variable "glue_job_name" {
