@@ -31,8 +31,6 @@ Nessa jornada, você procura por documentações, pesquisa em fóruns, assiste v
 
 E assim, para sanar essa e outras dificuldades, nasce o **terraglue** como um projeto desenvolvido exclusivamente para facilitar e acelerar o aprendizado em serviços como AWS Glue, [Athena](https://aws.amazon.com/athena/) e [Data Catalog](https://docs.aws.amazon.com/glue/latest/dg/components-overview.html) em toda a dinâmica de obtenção, processamento e escrita de dados (ETL) na nuvem. Embarque nesta jornada e tenha em mãos um ferramental extremamente rico e de fácil utilização para se especializar no universo analítico da AWS.
 
-___
-
 ### Motivadores e principais desafios
 
 Uma vez apresentado o projeto, é importante destacar que o **terraglue** possui uma essência altamente dinâmica, isto é, suas funcionalidades abrem margem para uma série de possibilidades e ganhos. Para que se tenha uma ideia de todas as suas possíveis aplicações, os tópicos abaixo representam alguns obstáculos, dores e desafios reais que podem ser devidamente solucionados através do uso do produto. Clique e expanda os blocos para visualizar algumas *features* do projeto.
@@ -69,15 +67,11 @@ Uma vez apresentado o projeto, é importante destacar que o **terraglue** possui
 
 Ansioso para conhecer mais sobre o projeto? Ainda nesta documentação, toda sua arquitetura será apresentada e um completo tutorial de utilização será fornecido. Continue acompanhando este material ou, se preferir, preparei para você uma sequência de links que poderão ajudar na jornada de consumo:
 
-___
-
 ### Quem pode utilizar o terraglue?
 
 O terraglue pode ser utilizado por **toda e qualquer pessoa que tenha algum tipo de necessidade específica de aprender sobre jobs Glue na AWS**. 
 
 Sua construção tem como base o fornecimento de um ambiente dinâmico e totalmente reprodutível para implantação de um job Glue adaptável às necessidades dos usuários.
-
-___
 
 ### Pré requisitos
 
@@ -129,12 +123,11 @@ Para consolidar todas as etapas necessárias para extrair todo o valor do produt
 
 ### Utilizando a solução
 
-Visando dispor de um lugar específico para detalhar o tutorial de utilização do projeto, todas as etapas estão devidamente exemplificadas no arquivo [GETTINGSTARTED.md](https://github.com/ThiagoPanini/terraglue/blob/develop/GETTINGSTARTED.md)
-
+Visando dispor de um lugar específico para detalhar o tutorial de utilização do projeto, todas as etapas estão devidamente exemplificadas no arquivo [GETTINGSTARTED.md](https://github.com/ThiagoPanini/terraglue/blob/main/GETTINGSTARTED.md)
 
 ### Infraestrutura provisionada
 
-Um dos pilares responsáveis por toda a automação da implantação dos recursos de infraestrutura do projeto é, sem dúvidas, a utilização do Terraform como ferramenta de IaC. Nesta dinâmica, o arquivo [INFRA.md]() possui todos os detalhes necessários para proporcionar, ao usuário, um entendimento claro e direto sobre como a "mágica" acontece no ambiente AWS.
+Um dos pilares responsáveis por toda a automação da implantação dos recursos de infraestrutura do projeto é, sem dúvidas, a utilização do Terraform como ferramenta de IaC. Nesta dinâmica, o arquivo [INFRA.md](https://github.com/ThiagoPanini/terraglue/blob/main/INFRA.md) possui todos os detalhes necessários para proporcionar, ao usuário, um entendimento claro e direto sobre como a "mágica" acontece no ambiente AWS.
 
 
 ### Aplicação Spark codificada
@@ -143,12 +136,11 @@ Além de todo o processo de automação da infraestrutura provisionada em um amb
 
 Esta entrega se materializa nos scripts `main.py` e no módulo auxiliar `terraglue.py` que, em conjunto, consolidam classes Python minuciosamente codificadas para facilitar, ao máximo, o trabalho do Engenheiro ou Analista de dados que pretende construir seu próprio processo de ETL utilizando o Glue.
 
-Para maiores detalhes sobre esta rica entrega, não deixe de consumir o arquivo [APP.md]() onde navegamos a fundo por todas as classes, atributos e métodos disponíveis.
-
+Para maiores detalhes sobre esta rica entrega, não deixe de consumir o arquivo [APP.md](https://github.com/ThiagoPanini/terraglue/blob/main/APP.md) onde navegamos a fundo por todas as classes, atributos e métodos disponíveis.
 
 ### Cenários e exemplos de utilização
 
-Para ter em mãos cenários práticos de utilização do projeto, toda uma suíte de documentação foi disponibilizada no arquivo [EXAMPLES.md](https://github.com/ThiagoPanini/terraglue/blob/develop/EXAMPLES.md). Se você chegou até aqui e agora pretende adaptar o uso do **terraglue** de acordo com suas próprias necessidades, a documentação de exemplos foi especialmente feita para você!
+Para ter em mãos cenários práticos de utilização do projeto, toda uma suíte de documentação foi disponibilizada no arquivo [EXAMPLES.md](https://github.com/ThiagoPanini/terraglue/blob/main/EXAMPLES.md). Se você chegou até aqui e agora pretende adaptar o uso do **terraglue** de acordo com suas próprias necessidades, a documentação de exemplos foi especialmente feita para você!
 
 ___
 
@@ -156,14 +148,10 @@ ___
 
 Todos são muito bem vindos a contribuírem com evoluções e novas funcionalidades deste projeto carinhosamente disponibilizado para a comunidade. Para maiores detalhes sobre esse processo, visite o arquivo [CONTRIBUTING.md](https://github.com/ThiagoPanini/terraglue/blob/main/CONTRIBUTING.md)
 
-___
-
 ## Contatos
 
 - [Thiago Panini - LinkedIn](https://www.linkedin.com/in/thiago-panini/)
 - [paninitechlab @ hashnode](https://panini.hashnode.dev/)
-
-___
 
 ## Referências
 
