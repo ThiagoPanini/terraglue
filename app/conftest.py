@@ -22,7 +22,7 @@ de testes do projeto.
 from pytest import fixture
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StringType
-from utils.spark_helper import generate_spark_dataframe,\
+from tests.utils.spark_helper import generate_spark_dataframe,\
     create_spark_session
 
 
