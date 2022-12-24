@@ -2,6 +2,7 @@
 
 ## Table of Contents
 - [Table of Contents](#table-of-contents)
+- [Antes de começar](#antes-de-começar)
 - [Pré requisitos](#pré-requisitos)
 - [Passo a passo resumido](#passo-a-passo-resumido)
 - [Passo a passo detalhado](#passo-a-passo-detalhado)
@@ -10,6 +11,16 @@
   - [Instalação dos módulos Terraform](#instalação-dos-módulos-terraform)
   - [Visualizando plano de implantação](#visualizando-plano-de-implantação)
   - [Implantando recursos no ambiente AWS](#implantando-recursos-no-ambiente-aws)
+
+## Antes de começar
+
+> Antes de navegarmos pelos passos de instalação e uso do terraglue, sugerimos a leitura da documentação oficial na raíz do repositório através do arquivo [README.md](https://github.com/ThiagoPanini/terraglue). Para facilitar a localização e navegação, os links abaixo podem ajudar!
+
+- [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main)
+- 👉 [2. Instalação e primeiros passos](https://github.com/ThiagoPanini/terraglue/blob/main/GETTINGSTARTED.md) *Você está aqui!*
+- [3. Infraestrutura provisionada](https://github.com/ThiagoPanini/terraglue/blob/main/INFRA.md) 
+- [4. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/APP.md) 
+- [5. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/EXAMPLES.md)
 
 ___
 
@@ -161,6 +172,10 @@ Após um determinado período, espera-se que uma mensagem de sucesso seja entreg
 
 ___
 
-- [Documentação do repositório](https://github.com/ThiagoPanini/terraglue/blob/develop/README.md)
-- [Exemplos de uso](https://github.com/ThiagoPanini/terraglue/blob/develop/EXAMPLES.md)
-- [Contribuindo para o projeto](https://github.com/ThiagoPanini/terraglue/blob/develop/CONTRIBUTING.md)
+Continue sua jornada no **terraglue** através das documentações!
+
+- [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main)
+- 👉 [2. Instalação e primeiros passos](https://github.com/ThiagoPanini/terraglue/blob/main/GETTINGSTARTED.md) *Você está aqui!*
+- [3. Infraestrutura provisionada](https://github.com/ThiagoPanini/terraglue/blob/main/INFRA.md) 
+- [4. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/APP.md) 
+- [5. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/EXAMPLES.md)
