@@ -48,10 +48,12 @@ faker = Faker()
 ---------------------------------------------------"""
 
 
+# Criando e retornando objeto de sessão Spark
 def create_spark_session() -> SparkSession:
     return SparkSession.builder.getOrCreate()
 
 
+# Gerando schema Spark através de dicionário de metadados
 def generate_schema_from_dict(schema_dict: dict,
                               nullable: bool = True) -> StructType():
     """
@@ -105,6 +107,7 @@ def generate_schema_from_dict(schema_dict: dict,
     ])
 
 
+# Gerando schema Spark através de lista de atributos
 def generate_schema_from_list(schema_list: list,
                               schema_dtype: type = StringType(),
                               nullable: bool = True) -> StructType():
@@ -163,6 +166,7 @@ def generate_schema_from_list(schema_list: list,
     ])
 
 
+# Gerando dados fictícios a partir de schema Spark
 def generate_fake_data_from_schema(schema: StructType(),
                                    num_rows: int = 5) -> tuple:
     """
@@ -227,6 +231,7 @@ def generate_fake_data_from_schema(schema: StructType(),
     return [tuple(row) for row in fake_data]
 
 
+# Gerando e retornando DataFrame Spark
 def generate_spark_dataframe(spark: SparkSession,
                              schema_input: list or dict,
                              schema_dtype: type = StringType(),
