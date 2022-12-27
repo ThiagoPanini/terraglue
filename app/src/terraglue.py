@@ -675,37 +675,51 @@ class GlueETLManager(GlueJobManager):
         )
         """
 
-        # Criando expressões de conversão com base no tipo do campo
-        if convert_string_to_date:
-            if date_col_type == "date":
-                conversion_expr = f"to_date({date_col}, '{date_format}')\
-                     AS {date_col}_{date_col_type}"
-            elif date_col_type == "timestamp":
-                conversion_expr = f"to_timestamp({date_col}, '{date_format}')\
-                     AS {date_col}_{date_col_type}"
-            else:
-                raise Exception
+        try:
+            # Criando expressões de conversão com base no tipo do campo
+            if convert_string_to_date:
+                if date_col_type == "date":
+                    conversion_expr = f"to_date({date_col},\
+                        '{date_format}') AS {date_col}_{date_col_type}"
+                elif date_col_type == "timestamp":
+                    conversion_expr = f"to_timestamp({date_col},\
+                        '{date_format}') AS {date_col}_{date_col_type}"
+                else:
+                    raise Exception("Argumento date_col_type invalido! "
+                                    "Insira 'date' ou 'timestamp'")
 
-            # Aplicando consulta para transformação dos dados
-            df = df.selectExpr(
-                "*",
-                conversion_expr
-            ).drop(date_col)\
-                .withColumnRenamed(f"{date_col}_{date_col_type}", date_col)
+                # Aplicando consulta para transformação dos dados
+                df = df.selectExpr(
+                    "*",
+                    conversion_expr
+                ).drop(date_col)\
+                    .withColumnRenamed(f"{date_col}_{date_col_type}", date_col)
+
+        except Exception as e:
+            logger.error('Erro ao configurar e realizar conversao de campo'
+                         f'{date_col} para {date_col_type} via expressao'
+                         f'{conversion_expr}. Exception: {e}')
+            raise e
 
         # Criando lista de atributos possíveis de data a serem extraídos
         possible_date_attribs = ["year", "quarter", "month", "dayofmonth",
                                  "dayofweek", "dayofyear", "weekofyear"]
 
-        # Iterando sobre atributos e construindo expressão completa
-        for attrib in possible_date_attribs:
-            if attrib in kwargs and bool(kwargs[attrib]):
-                df = df.withColumn(
-                    f"{attrib}_{date_col}",
-                    expr(f"{attrib}({date_col})")
-                )
+        try:
+            # Iterando sobre atributos e construindo expressão completa
+            for attrib in possible_date_attribs:
+                if attrib in kwargs and bool(kwargs[attrib]):
+                    df = df.withColumn(
+                        f"{attrib}_{date_col}",
+                        expr(f"{attrib}({date_col})")
+                    )
 
-        return df
+            return df
+
+        except Exception as e:
+            logger.error('Erro ao adicionar coluns em DataFrame com'
+                         f'novos atributos de data. Exception: {e}')
+            raise e
 
     # Método de transformação: drop de partição física no s3
     def drop_partition(self, partition_name: str,
