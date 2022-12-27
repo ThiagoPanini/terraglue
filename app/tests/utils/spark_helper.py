@@ -232,11 +232,11 @@ def generate_fake_data_from_schema(schema: StructType(),
 
 
 # Gerando e retornando DataFrame Spark
-def generate_spark_dataframe(spark: SparkSession,
-                             schema_input: list or dict,
-                             schema_dtype: type = StringType(),
-                             nullable: bool = True,
-                             num_rows: int = 5) -> DataFrame:
+def generate_fake_spark_dataframe(spark: SparkSession,
+                                  schema_input: list or dict,
+                                  schema_dtype: type = StringType(),
+                                  nullable: bool = True,
+                                  num_rows: int = 5) -> DataFrame:
     """
     Função criada para consolidar todo o processo de geração
     de um DataFrame Spark com dados fictícios a partir de

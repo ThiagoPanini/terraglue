@@ -27,31 +27,12 @@ do projeto.
 # Importando módulos para uso
 from pyspark.sql import DataFrame
 from pytest import mark
-from src.main import ARGV_LIST, DATA_DICT
 
 
 """---------------------------------------------------
 ------------ 2. DEFININDO SUÍTE DE TESTES ------------
            2.1 Construindo testes unitários
 ---------------------------------------------------"""
-
-
-def test_tipo_primitivo_da_variavel_argvlist():
-    """
-    G:
-    W:
-    T:
-    """
-    assert type(ARGV_LIST) == list
-
-
-def test_tipo_primitivo_da_variavel_datadict():
-    """
-    G:
-    W:
-    T:
-    """
-    assert type(DATA_DICT) == dict
 
 
 @mark.dataframes
