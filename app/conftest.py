@@ -22,8 +22,10 @@ de testes do projeto.
 from pytest import fixture
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StringType
-from utils.spark_helper import generate_spark_dataframe,\
+from tests.utils.spark_helper import generate_fake_spark_dataframe,\
     create_spark_session
+from src.main import ARGV_LIST, DATA_DICT,\
+    GlueTransformationManager
 
 
 """---------------------------------------------------
@@ -98,7 +100,7 @@ def df_customers(spark: SparkSession,
                  nullable=NULLABLE,
                  num_rows=NUM_ROWS):
 
-    return generate_spark_dataframe(
+    return generate_fake_spark_dataframe(
         spark=spark,
         schema_input=schema_input,
         schema_dtype=schema_dtype,
@@ -115,7 +117,7 @@ def df_orders(spark: SparkSession,
               nullable=NULLABLE,
               num_rows=NUM_ROWS):
 
-    return generate_spark_dataframe(
+    return generate_fake_spark_dataframe(
         spark=spark,
         schema_input=schema_input,
         schema_dtype=schema_dtype,
@@ -132,7 +134,7 @@ def df_payments(spark: SparkSession,
                 nullable=NULLABLE,
                 num_rows=NUM_ROWS):
 
-    return generate_spark_dataframe(
+    return generate_fake_spark_dataframe(
         spark=spark,
         schema_input=schema_input,
         schema_dtype=schema_dtype,
@@ -149,10 +151,19 @@ def df_reviews(spark: SparkSession,
                nullable=NULLABLE,
                num_rows=NUM_ROWS):
 
-    return generate_spark_dataframe(
+    return generate_fake_spark_dataframe(
         spark=spark,
         schema_input=schema_input,
         schema_dtype=schema_dtype,
         nullable=nullable,
         num_rows=num_rows
+    )
+
+
+# Fixture para entregar objeto da classe GlueTransformationManager
+@fixture()
+def glue_manager():
+    return GlueTransformationManager(
+        argv_list=ARGV_LIST,
+        data_dict=DATA_DICT
     )

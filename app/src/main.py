@@ -98,32 +98,42 @@ class GlueTransformationManager(GlueETLManager):
     a documentação das classes e métodos no módulo terraglue.py.
     """
 
-    def __init__(self, argv_list: list, data_dict: dict) -> None:
+    def __init__(self, argv_list: list, data_dict: dict,
+                 test_mode: bool = False) -> None:
         self.argv_list = argv_list
         self.data_dict = data_dict
+        self.test_mode = test_mode
 
         # Herdando atributos de classe de gerenciamento de job
-        GlueETLManager.__init__(self, argv_list=self.argv_list,
-                                data_dict=self.data_dict)
+        if not self.test_mode:
+            GlueETLManager.__init__(self, argv_list=self.argv_list,
+                                    data_dict=self.data_dict)
 
+    # Método de transformação: orders
+    
+    
     # Método de transformação: payments
     def transform_payments(self, df: DataFrame) -> DataFrame:
         """
-        Método de transformação específico para uma das origens
-        do job do Glue.
+        Método de transformação do DataFrame df_payments contendo
+        a seguinte lógica:
+
+        1. Extração do "pagamento mais comum" para cada id de pedido
+        2. Extração de agregados de pagamentos para cada id de pedido
+        3. Join entre os dois dfs extraídos para retorno de df único.
 
         Parâmetros
         ----------
-        :param: df
+        :param df:
             DataFrame Spark alvo das transformações aplicadas.
             [type: pyspark.sql.DataFrame]
-
+        
         Retorno
         -------
         :return: df_prep
-            Elemento do tipo DataFrame Spark após as transformações
-            definidas pelos métodos aplicadas dentro da DAG.
-            [type: DataFrame]
+            DataFrame Spark contendo o mapeamento das transformações
+            definidas pelo usuário.
+            [type: pyspark.sql.DataFrame]
         """
 
         logger.info("Preparando DAG de transformações para a base df_payments")
@@ -278,11 +288,11 @@ class GlueTransformationManager(GlueETLManager):
         de todos os processos operacionais a serem realizados.
         Na prática, este método realiza as seguintes operações:
 
-            1. Inicializa o job e obtém todos os insumos necessários
-            2. Realiza a leitura dos objetos DataFrame/DynamicFrame
-            3. Aplica as transformações necessárias
-            4. Gerencia partições (elimina existente e adiciona uma nova)
-            5. Escreve o resultado no s3 e cataloga no Data Catalog
+        1. Inicializa o job e obtém todos os insumos necessários
+        2. Realiza a leitura dos objetos DataFrame/DynamicFrame
+        3. Aplica as transformações necessárias
+        4. Gerencia partições (elimina existente e adiciona uma nova)
+        5. Escreve o resultado no s3 e cataloga no Data Catalog
         """
 
         # Preparando insumos do job

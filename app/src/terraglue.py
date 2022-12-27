@@ -44,7 +44,7 @@ from awsglue.context import GlueContext
 from awsglue.job import Job
 from awsglue.dynamicframe import DynamicFrame
 from pyspark.sql import DataFrame
-from pyspark.sql.functions import lit
+from pyspark.sql.functions import lit, expr
 
 
 # Função para configuração de log
@@ -573,6 +573,139 @@ class GlueETLManager(GlueJobManager):
         # Retornando dicionário de DataFrames Spark convertidos
         sleep(0.01)
         return df_dict
+
+    # Extracao de atributos de datas de coluna
+    @staticmethod
+    def date_attributes_extraction(df: DataFrame,
+                                   date_col: str,
+                                   date_col_type: str = "date",
+                                   date_format: str = "yyyy-MM-dd",
+                                   convert_string_to_date: bool = True,
+                                   **kwargs):
+        """
+        Metodo responsavel por consolidar a extracao de diferentes
+        atributos de data de um dado campo de data informado pelo
+        usuario. A logica estabelecida e composta por uma validacao
+        inicial de conversao do campo de data fornecido de string
+        para date ou timestamp (de acordo com inputs do usuario),
+        seguida da extracao de todos os atributos possiveis de
+        data conforme argumentos fornecidos pelo usuario. Com
+        essa funcionalidade, os usuarios podem enriquecer seus
+        DataFrames Spark com novos atributos relevantes para
+        seus respectivos processos analiticos.
+
+        Parametros
+        ----------
+        :param df:
+            DataFrame Spark utilizado como alvo de aplicacao
+            das transformacoes necessarias.
+            [type: pyspark.sql.DataFrame]
+
+        :param date_col:
+            Referencia da coluna de data a ser utilizada no
+            processo de extracao de atributos.
+            [type: str]
+
+        :param date_col_type:
+            String que informa se a coluna de data passada
+            no argumento date_col e do tipo date ou timestamp.
+            Caso o usuario informe algum tipo diferente de
+            date ou timestamp neste argumento, uma excecao
+            sera lancada. Esta informacao e relevante para
+            que a funcao correta de conversao (to_date ou
+            to_timestamp) seja aplicada caso o parametro
+            de conversao seja configurado como True.
+            [type: str, default='date',
+            acceptable: 'date'|'timestamp']
+
+        :param date_format:
+            Caso o parametro de conversao da coluna passada
+            seja configurado como True, e necessario informar
+            o formato da data a ser convertida.
+            [type: str, default='yyyy-MM-dd']
+
+        :param convert_string_to_date:
+            Atraves deste parametro, o usuario tem a possibilidade
+            de realizar uma conversao automatica da coluna de
+            data fornecida para os tipos date ou timestamp, caso
+            a mesma esteja apresentada originalmente em um
+            formato de string.
+            [type: bool, default=True]
+
+        Keyword Arguments
+        -----------------
+        :kwarg year:
+            Flag para extracao do ano da coluna de data
+            [type: bool]
+
+        :kwarg quarter:
+            Flag para extracao do quadrimestre da coluna de data
+            [type: bool]
+
+        :kwarg month:
+            Flag para extracao do mes da coluna de data
+            [type: bool]
+
+        :kwarg dayofmonth:
+            Flag para extracao do dia da coluna de data
+            [type: bool]
+
+        :kwarg dayofweek:
+            Flag para extracao do dia da semana da coluna de data
+            [type: bool]
+
+        :kwarg dyaofyear:
+            Flag para extracao do dia do ano da coluna de data
+            [type: bool]
+
+        :kwarg weekofyear:
+            Flag para extracao da semana do ano da coluna de data
+            [type: bool]
+
+        Example call
+        ------------
+        df_date_prep = date_attributes_extraction(
+            df=df_orders,
+            date_col="order_purchase_timestamp",
+            date_col_type="timestamp",
+            date_format="yyyy-MM-dd HH:mm:ss",
+            year=True,
+            month=True,
+            dayofmonth=True
+        )
+        """
+
+        # Criando expressões de conversão com base no tipo do campo
+        if convert_string_to_date:
+            if date_col_type == "date":
+                conversion_expr = f"to_date({date_col}, '{date_format}')\
+                     AS {date_col}_{date_col_type}"
+            elif date_col_type == "timestamp":
+                conversion_expr = f"to_timestamp({date_col}, '{date_format}')\
+                     AS {date_col}_{date_col_type}"
+            else:
+                raise Exception
+
+            # Aplicando consulta para transformação dos dados
+            df = df.selectExpr(
+                "*",
+                conversion_expr
+            ).drop(date_col)\
+                .withColumnRenamed(f"{date_col}_{date_col_type}", date_col)
+
+        # Criando lista de atributos possíveis de data a serem extraídos
+        possible_date_attribs = ["year", "quarter", "month", "dayofmonth",
+                                 "dayofweek", "dayofyear", "weekofyear"]
+
+        # Iterando sobre atributos e construindo expressão completa
+        for attrib in possible_date_attribs:
+            if attrib in kwargs and bool(kwargs[attrib]):
+                df = df.withColumn(
+                    f"{attrib}_{date_col}",
+                    expr(f"{attrib}({date_col})")
+                )
+
+        return df
 
     # Método de transformação: drop de partição física no s3
     def drop_partition(self, partition_name: str,
