@@ -185,3 +185,4 @@ Todos são muito bem vindos a contribuírem com evoluções e novas funcionalida
 - [AWS - Using Python libraries with AWS Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html#aws-glue-programming-python-libraries-zipping)
 - [Databricks - Data + AI Summit 2022 - Learn to Efficiently Test ETL Pipelines](https://www.youtube.com/watch?v=uzVewG8M6r0&t=1127s)
 - [SparkByExamples - Pyspark Date Functions](https://sparkbyexamples.com/pyspark/pyspark-sql-date-and-timestamp-functions/)
+- [Spark - Configuration Properties](https://spark.apache.org/docs/latest/configuration.html)
