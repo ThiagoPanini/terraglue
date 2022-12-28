@@ -15,7 +15,7 @@ RESOURCES: Os recursos aqui implantados serão:
 
 # Realizando o upload da aplicação Spark para o S3
 resource "aws_s3_object" "glue_app" {
-  for_each = fileset(var.glue_app_src_dir, "**")
+  for_each = fileset(var.glue_app_src_dir, "**.py")
   bucket   = var.glue_job_bucket_name
   key      = "jobs/${var.glue_job_name}/src/${each.value}"
   source   = "${var.glue_app_src_dir}/${each.value}"
