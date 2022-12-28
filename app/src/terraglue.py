@@ -810,6 +810,41 @@ class GlueETLManager(GlueJobManager):
     @staticmethod
     def repartition_dataframe(df: DataFrame, num_partitions: int) -> DataFrame:
         """
+        Método responsável por aplicar processo de reparticionamento de
+        DataFrames Spark visando a otimização do armazenamento dos
+        arquivos físicos no sistema de armazenamento distribuído.
+        O método contempla algumas validações importantes em termos
+        do uso dos métodos coalesce() e repartition() com base no
+        número atual das partições existentes no DataFrame passado
+        como argumento.
+
+        Seguindo as melhores práticas de reparticionamento, caso
+        o número desejado de partições (num_partitions) seja MENOR
+        que o número atual de partições coletadas, então o método
+        utilizado será o coalesce(). Por outro lado, caso o número
+        desejado de partições seja MAIOR que o número atual, então
+        o método utilizado será o repartition(), considerando a
+        escrita de uma mensagem de log com a tag warning para o
+        usuário, dados os possíveis impactos. Por fim, se o número
+        de partições desejadas for igual ao número atual, nenhuma
+        operação é realizada e o DataFrame original é retornado
+        intacto ao usuário.
+
+        Parâmetros
+        ----------
+        :param df:
+            DataFrame Spark alvo da operação designada.
+            [type: pyspark.sql.DataFrame]
+
+        :param num_partitions:
+            Número de partições desejadas.
+            [type: int]
+
+        Retorno
+        -------
+        :return df_repartitioned:
+            DataFrame Spark após o processo de reparticionamento.
+            [type: pyspark.sql.DataFrame]
         """
 
         # Coletando informações atuais de partições físicas do DataFrame
