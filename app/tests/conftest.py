@@ -24,8 +24,6 @@ from pyspark.sql import SparkSession
 from pyspark.sql.types import StringType
 from tests.utils.spark_helper import generate_fake_spark_dataframe,\
     create_spark_session
-from src.main import ARGV_LIST, DATA_DICT,\
-    GlueTransformationManager
 
 
 """---------------------------------------------------
@@ -157,13 +155,4 @@ def df_reviews(spark: SparkSession,
         schema_dtype=schema_dtype,
         nullable=nullable,
         num_rows=num_rows
-    )
-
-
-# Fixture para entregar objeto da classe GlueTransformationManager
-@fixture()
-def glue_manager():
-    return GlueTransformationManager(
-        argv_list=ARGV_LIST,
-        data_dict=DATA_DICT
     )
