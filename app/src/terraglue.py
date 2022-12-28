@@ -806,6 +806,79 @@ class GlueETLManager(GlueJobManager):
         # Retornando DataFrame com coluna de partição
         return df_partitioned
 
+    # Método de transformação: reparticionamento de DataFrame
+    @staticmethod
+    def repartition_dataframe(df: DataFrame, num_partitions: int) -> DataFrame:
+        """
+        """
+
+        # Coletando informações atuais de partições físicas do DataFrame
+        actual_partitions = df.rdd.getNumPartitions()
+
+        # Se o número de partições desejadas for igual ao atual, não operar
+        if num_partitions == actual_partitions:
+            logger.warning(f"Número de partições atuais ({actual_partitions}) "
+                           f"é igual ao número de partições desejadas "
+                           f"({num_partitions}). Nenhuma operação de "
+                           "repartitionamento será realizada e o DataFrame "
+                           "original será retornado sem alterações")
+            sleep(0.01)
+            return df
+
+        # Se o número de partições desejadas for MENOR, usar coalesce()
+        elif num_partitions < actual_partitions:
+            logger.info("Iniciando reparticionamento de DataFrame via "
+                        f"coalesce() de {actual_partitions} para "
+                        f"{num_partitions} partições")
+            try:
+                df_repartitioned = df.coalesce(num_partitions)
+
+            except Exception as e:
+                logger.warning("Erro ao reparticionar DataFrame via "
+                               "repartition(). Nenhuma operação de "
+                               "repartitionamento será realizada e "
+                               "o DataFrame original será retornado sem "
+                               f"alterações. Exceção: {e}")
+                return df
+
+        # Se o número de partições desejadas for MAIOR, utilizar repartition()
+        elif num_partitions > actual_partitions:
+            logger.warning("O número de partições desejadas "
+                           f"({num_partitions})  é maior que o atual "
+                           f"({actual_partitions}) e, portanto, a operação "
+                           "deverá ser realizada pelo método repartition(), "
+                           "podendo impactar diretamente na performance do "
+                           "processo dada a natureza do método e sua "
+                           "característica de full shuffle. Como sugestão, "
+                           "avalie se as configurações de reparticionamento "
+                           "realmente estão conforme o esperado.")
+            try:
+                df_repartitioned = df.repartition(num_partitions)
+
+            except Exception as e:
+                logger.warning("Erro ao reparticionar DataFrame via "
+                               "repartition(). Nenhuma operação de "
+                               "repartitionamento será realizada e "
+                               "o DataFrame original será retornado sem "
+                               f"alterações. Exceção: {e}")
+                return df
+
+        # Validando possível inconsistência no processo de reparticionamento
+        updated_partitions = df_repartitioned.rdd.getNumPartitions()
+        if updated_partitions != num_partitions:
+            logger.warning(f"Por algum motivo desconhecido, o número de "
+                           "partições atual do DataFrame "
+                           f"({updated_partitions}) não corresponde ao "
+                           f"número estabelecido ({num_partitions}) mesmo "
+                           "após o processo de reparticionamento ter sido "
+                           "executado sem nenhuma exceção lançada. "
+                           "Como sugestão, investigue se o Glue possui alguma "
+                           "limitação de transferência de arquivos entre os "
+                           "nós dadas as características das origens usadas.")
+            sleep(0.01)
+
+        return df_repartitioned
+
     # Escrevendo e catalogando resultado final
     def write_data_to_catalog(self, df: DataFrame or DynamicFrame) -> None:
         """
