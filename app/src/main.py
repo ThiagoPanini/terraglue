@@ -17,7 +17,7 @@ ETL a ser programado.
 from datetime import datetime
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import col, count, avg, sum,\
-    round, countDistinct, max
+    round, countDistinct, max, expr
 from terraglue import GlueETLManager, log_config
 
 
@@ -41,7 +41,8 @@ ARGV_LIST = [
     "PARTITION_FORMAT",
     "DATA_FORMAT",
     "COMPRESSION",
-    "ENABLE_UPDATE_CATALOG"
+    "ENABLE_UPDATE_CATALOG",
+    "NUM_PARTITIONS"
 ]
 
 # Definindo dicionário para mapeamento dos dados
@@ -50,6 +51,12 @@ DATA_DICT = {
         "database": "ra8",
         "table_name": "orders",
         "transformation_ctx": "dyf_orders",
+        "create_temp_view": True
+    },
+    "order_items": {
+        "database": "ra8",
+        "table_name": "order_items",
+        "transformation_ctx": "dyf_order_items",
         "create_temp_view": True
     },
     "customers": {
@@ -110,33 +117,143 @@ class GlueTransformationManager(GlueETLManager):
                                     data_dict=self.data_dict)
 
     # Método de transformação: orders
+    def transform_orders(self, df: DataFrame) -> DataFrame:
+        """
+        Método de preparação do DataFrame df_orders.
+        As etapas de transformação são dadas por:
+
+        1. Conversão dos atributos de data originalmente
+           fornecidos como string.
+        2. Extração de atributos de data de campo que referencia
+           a data de compra do pedido online, permitindo análises
+           mais refinidas a respeito da época da compra.
+
+        O método recebe e retorna objetos do tipo DataFrame Spark.
+        """
+
+        logger.info("Preparando DAG de transformações para df_orders")
+        try:
+            # Criando lista de atributos de data para conversão
+            date_cols = [
+                "order_purchase_timestamp",
+                "order_approved_at",
+                "order_delivered_carrier_date",
+                "order_delivered_customer_date",
+                "order_estimated_delivery_date"
+            ]
+
+            # Formato de data dos campos da lista
+            date_fmt = 'yyyy-MM-dd HH:mm:ss'
+
+            # Iterando sobre campos timestamp e criando novas colunas
+            df_orders_date_cast = df
+            for c in date_cols:
+                df_orders_date_cast = df_orders_date_cast.withColumn(
+                    c + "_tmp",
+                    expr(f"to_timestamp({c}, '{date_fmt}')")
+                ).drop(c)\
+                    .withColumnRenamed(c + "_tmp", c)
+
+            # Transformando coluna pontual de data
+            df_orders_date_cast = df_orders_date_cast.withColumn(
+                "order_estimated_delivery_date",
+                expr(f"to_date(order_estimated_delivery_date, '{date_fmt}')")
+            )
+
+            # Extraindo atributos de data da compra online
+            df_orders_date_prep = self.date_attributes_extraction(
+                df=df_orders_date_cast,
+                date_col="order_purchase_timestamp",
+                convert_string_to_date=False,
+                year=True,
+                quarter=True,
+                month=True,
+                dayofmonth=True,
+                dayofweek=True,
+                dayofyear=True,
+                weekofyear=True
+            )
+
+            return df_orders_date_prep
+
+        except Exception as e:
+            logger.error("Erro ao preparar DAG de transformações para a base "
+                         f"df_orders. Exception: {e}")
+            raise e
+
+    # Método de transformação: order_items
+    def transform_order_items(self, df: DataFrame) -> DataFrame:
+        """
+        Método de preparação do DataFrame df_orders.
+        As etapas de transformação são dadas por:
+
+        1. Extração de agregações e dados estatísticos de pedidos com
+        base em itens vendidos por pedido
+
+        O método recebe e retorna objetos do tipo DataFrame Spark.
+        """
+
+        logger.info("Preparando DAG de transformações para df_order_items")
+        try:
+            # Preparando consulta para retornar estatísticas de pedidos com base em itens
+            df_order_items_stats = df.groupBy("order_id").agg(
+                expr("count(1) AS qty_order_items"),
+                expr("cast(round(sum(price), 2) AS decimal(17, 2)) AS sum_price_order"),
+                expr("cast(round(avg(price), 2) as decimal(17, 2)) AS avg_price_order"),
+                expr("cast(round(min(price), 2) as decimal(17, 2)) AS min_price_order_item"),
+                expr("cast(round(max(price), 2) as decimal(17, 2)) AS max_price_order_item"),
+                expr("cast(round(avg(freight_value), 2) as decimal(17, 2)) AS avg_freight_value_order"),
+                expr("to_timestamp(max(shipping_limit_date), 'yyyy-MM-dd HH:mm:ss') AS max_order_shipping_limit_date") 
+            )
+
+            return df_order_items_stats
+
+        except Exception as e:
+            logger.error("Erro ao preparar DAG de transformações para a base "
+                         f"df_order_items. Exception: {e}")
+            raise e
     
-    
+    # Método de transformação: customers
+    def transform_customers(self, df: DataFrame) -> DataFrame:
+        """
+        Método de preparação do DataFrame df_customers.
+        As etapas de transformação são dadas por:
+
+        1. Seleção de atributos específicos a serem utilizados
+
+        O método recebe e retorna objetos do tipo DataFrame Spark.
+        """
+
+        logger.info("Preparando DAG de transformações para df_customers")
+        try:
+            # Retornando dados utilizados da base de clientes
+            df_customers_prep = df.selectExpr(
+                "customer_id",
+                "customer_city",
+                "customer_state"
+            )
+
+            return df_customers_prep
+
+        except Exception as e:
+            logger.error("Erro ao preparar DAG de transformações para a base "
+                         f"df_customers. Exception: {e}")
+            raise e
+
     # Método de transformação: payments
     def transform_payments(self, df: DataFrame) -> DataFrame:
         """
-        Método de transformação do DataFrame df_payments contendo
-        a seguinte lógica:
+        Método de preparação do DataFrame df_payments.
+        As etapas de transformação são dadas por:
 
         1. Extração do "pagamento mais comum" para cada id de pedido
         2. Extração de agregados de pagamentos para cada id de pedido
         3. Join entre os dois dfs extraídos para retorno de df único.
 
-        Parâmetros
-        ----------
-        :param df:
-            DataFrame Spark alvo das transformações aplicadas.
-            [type: pyspark.sql.DataFrame]
-        
-        Retorno
-        -------
-        :return: df_prep
-            DataFrame Spark contendo o mapeamento das transformações
-            definidas pelo usuário.
-            [type: pyspark.sql.DataFrame]
+        O método recebe e retorna objetos do tipo DataFrame Spark.
         """
 
-        logger.info("Preparando DAG de transformações para a base df_payments")
+        logger.info("Preparando DAG de transformações para df_payments")
         try:
             # Retornando o tipo de pagamento mais comum para cada pedido
             df_most_common_payments = df.groupBy("order_id", "payment_type")\
@@ -176,31 +293,25 @@ class GlueTransformationManager(GlueETLManager):
             return df_payments_prep
 
         except Exception as e:
-            logger.error("Erro ao preparar DAG de transformações para dados "
-                         f"de pagamentos. Exception: {e}")
+            logger.error("Erro ao preparar DAG de transformações para a base "
+                         f"df_payments. Exception: {e}")
             raise e
 
     # Método de transformação: reviews
     def transform_reviews(self, df: DataFrame) -> DataFrame:
         """
-        Método de transformação específico para uma das origens
-        do job do Glue.
+        Método de preparação do DataFrame df_reviews.
+        As etapas de transformação são dadas por:
 
-        Parâmetros
-        ----------
-        :param: df
-            DataFrame Spark alvo das transformações aplicadas.
-            [type: pyspark.sql.DataFrame]
+        1. Filtragem de reviews com order_id não nulo e score válido
+        2. Seleção e transformação de campos utilizados
+        3. Agrupamento de melhor score para cada order_id
+        4. Eliminação de dados duplicados por order_id
 
-        Retorno
-        -------
-        :return: df_prep
-            Elemento do tipo DataFrame Spark após as transformações
-            definidas pelos métodos aplicadas dentro da DAG.
-            [type: DataFrame]
+        O método recebe e retorna objetos do tipo DataFrame Spark.
         """
 
-        logger.info("Preparando DAG de transformações para a base df_reviews")
+        logger.info("Preparando DAG de transformações para df_reviews")
         try:
             # Aplicando filtros iniciais para eliminar ruídos na tabela
             df_reviews_filtered = df\
@@ -221,8 +332,8 @@ class GlueTransformationManager(GlueETLManager):
             return df_reviews_prep
 
         except Exception as e:
-            logger.error("Erro ao preparar DAG de transformações "
-                         f"de reviews de pedidos. Exception: {e}")
+            logger.error("Erro ao preparar DAG de transformações para a base "
+                         f"df_reviews. Exception: {e}")
             raise e
 
     # Método de transformação: tabela final
@@ -303,6 +414,7 @@ class GlueTransformationManager(GlueETLManager):
 
         # Separando DataFrames em variáveis
         df_orders = dfs_dict["orders"]
+        df_order_items = dfs_dict["order_items"]
         df_customers = dfs_dict["customers"]
         df_payments = dfs_dict["payments"]
         df_reviews = dfs_dict["reviews"]
