@@ -449,8 +449,14 @@ class GlueTransformationManager(GlueETLManager):
             partition_value=partition_value
         )
 
+        # Reparticionando DataFrame para otimizar armazenamento
+        df_sot_prep_repartitioned = self.repartition_dataframe(
+            df=df_sot_prep_partitioned,
+            num_partitions=self.args["NUM_PARTITIONS"]
+        )
+
         # Escrevendo e catalogando dados
-        self.write_data_to_catalog(df=df_sot_prep_partitioned)
+        self.write_data_to_catalog(df=df_sot_prep_repartitioned)
 
         # Commitando job
         job.commit()
