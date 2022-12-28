@@ -186,3 +186,4 @@ Todos são muito bem vindos a contribuírem com evoluções e novas funcionalida
 - [Databricks - Data + AI Summit 2022 - Learn to Efficiently Test ETL Pipelines](https://www.youtube.com/watch?v=uzVewG8M6r0&t=1127s)
 - [SparkByExamples - Pyspark Date Functions](https://sparkbyexamples.com/pyspark/pyspark-sql-date-and-timestamp-functions/)
 - [Spark - Configuration Properties](https://spark.apache.org/docs/latest/configuration.html)
+- [Stack Overflow - repartition() vs coalesce()](https://stackoverflow.com/questions/31610971/spark-repartition-vs-coalesce)
