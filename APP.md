@@ -97,8 +97,10 @@ Dessa forma, entre os métodos atualmente disponíveis nessa classe, é possíve
 | :-- | :-- |
 | `generate_dynamic_frames_dict()` | Proporciona uma forma fácil e eficiente de realizar a leitura de múltiplas fontes de dados referenciadas em um dicionário Python de modo a entregar objetos do tipo `DynamicFrame` para cada uma delas |
 | `generate_dataframes_frames_dict()` | Possui a mesma dinâmica do método anterior, porém o resultado final é entregue ao usuário como um dicionário contendo múltiplos objetos do tipo `DataFrame` |
+| `date_attributes_extraction()` | Permite extrair uma série de atributos temporais de campos de data (ou strings que representam datas), como ano, quadrimestre, mês, dia, dia da semana, semana do ano ou tudo o que pode ser extraído através de funções Spark |
 | `drop_partition()` | Recebe uma referência de nome e valor de partição para executar o processo de `purge` de dados no s3, permitindo assim que fluxos de trabalho evitem um *append* indesejado em caso de execuções simultâneas ou repetidas |
 | `add_partition()` | Permite, através de um nome de partição e um valor fornecidos pelo usuário, realizar a inclusão de uma nova coluna em um objeto DataFrame via execução do método `.withColumn()` do Spark |
+| `repartition_dataframe()` | Consolida regras para a correta aplicação do processo de reparticionamento de um DataFrame Spark visando a otimização do armazenamento dos dados físicos no S3 |
 | `write_data_to_catalog()` | Aplica os processos de `getSink` e `setCatalogInfo` para escrever um DynamicFrame no s3 e realizar a subsequente catalogação da tabela no Data Catalog de acordo com parâmetros fornecidos pelo usuário |
 
 ___

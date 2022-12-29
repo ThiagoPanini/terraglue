@@ -236,5 +236,6 @@ variable "glue_job_user_arguments" {
     "--DATA_FORMAT"           = "parquet"
     "--COMPRESSION"           = "snappy"
     "--ENABLE_UPDATE_CATALOG" = "True"
+    "--NUM_PARTITIONS"        = 5
   }
 }

@@ -38,13 +38,13 @@ TABLE OF CONTENTS:
 import sys
 import logging
 from time import sleep
-from awsglue.utils import getResolvedOptions
 from pyspark.context import SparkContext
+from pyspark.sql import DataFrame
+from pyspark.sql.functions import lit, expr
+from awsglue.utils import getResolvedOptions
 from awsglue.context import GlueContext
 from awsglue.job import Job
 from awsglue.dynamicframe import DynamicFrame
-from pyspark.sql import DataFrame
-from pyspark.sql.functions import lit, expr
 
 
 # Função para configuração de log
@@ -346,6 +346,10 @@ class GlueETLManager(GlueJobManager):
         GlueJobManager.__init__(self, argv_list=self.argv_list,
                                 data_dict=self.data_dict)
 
+        # Gerando URI de tabela no s3 caso existam alguns argumentos
+        self.s3_table_uri = f"s3://{self.args['OUTPUT_BUCKET']}/"\
+            f"{self.args['OUTPUT_TABLE']}"
+
     # Gerando dicionário de DynamicFrames do projeto
     def generate_dynamic_frames_dict(self) -> dict:
         """
@@ -411,7 +415,7 @@ class GlueETLManager(GlueJobManager):
             respectiva chave que representa a origem.
         """
 
-        logger.info("Iterando sobre dicionário de dados fornecido para " +
+        logger.info("Iterando sobre dicionário de dados fornecido para "
                     "leitura de DynamicFrames do Glue")
         try:
             dynamic_frames = []
@@ -450,7 +454,7 @@ class GlueETLManager(GlueJobManager):
                 dynamic_frames.append(dyf)
 
         except Exception as e:
-            logger.error("Erro ao gerar lista de DynamicFrames com base " +
+            logger.error("Erro ao gerar lista de DynamicFrames com base "
                          f"em dicionário. Exception: {e}")
             raise e
 
@@ -460,7 +464,7 @@ class GlueETLManager(GlueJobManager):
             # Criando dicionário de Dynamic Frames
             dynamic_dict = {k: dyf for k, dyf
                             in zip(self.data_dict.keys(), dynamic_frames)}
-            logger.info("Dados gerados com sucesso. Total de DynamicFrames: " +
+            logger.info("Dados gerados com sucesso. Total de DynamicFrames: "
                         f"{len(dynamic_dict.values())}")
         except Exception as e:
             logger.error("Erro ao mapear DynamicFrames às chaves do "
@@ -675,37 +679,51 @@ class GlueETLManager(GlueJobManager):
         )
         """
 
-        # Criando expressões de conversão com base no tipo do campo
-        if convert_string_to_date:
-            if date_col_type == "date":
-                conversion_expr = f"to_date({date_col}, '{date_format}')\
-                     AS {date_col}_{date_col_type}"
-            elif date_col_type == "timestamp":
-                conversion_expr = f"to_timestamp({date_col}, '{date_format}')\
-                     AS {date_col}_{date_col_type}"
-            else:
-                raise Exception
+        try:
+            # Criando expressões de conversão com base no tipo do campo
+            if convert_string_to_date:
+                if date_col_type == "date":
+                    conversion_expr = f"to_date({date_col},\
+                        '{date_format}') AS {date_col}_{date_col_type}"
+                elif date_col_type == "timestamp":
+                    conversion_expr = f"to_timestamp({date_col},\
+                        '{date_format}') AS {date_col}_{date_col_type}"
+                else:
+                    raise Exception("Argumento date_col_type invalido! "
+                                    "Insira 'date' ou 'timestamp'")
 
-            # Aplicando consulta para transformação dos dados
-            df = df.selectExpr(
-                "*",
-                conversion_expr
-            ).drop(date_col)\
-                .withColumnRenamed(f"{date_col}_{date_col_type}", date_col)
+                # Aplicando consulta para transformação dos dados
+                df = df.selectExpr(
+                    "*",
+                    conversion_expr
+                ).drop(date_col)\
+                    .withColumnRenamed(f"{date_col}_{date_col_type}", date_col)
+
+        except Exception as e:
+            logger.error('Erro ao configurar e realizar conversao de campo'
+                         f'{date_col} para {date_col_type} via expressao'
+                         f'{conversion_expr}. Exception: {e}')
+            raise e
 
         # Criando lista de atributos possíveis de data a serem extraídos
         possible_date_attribs = ["year", "quarter", "month", "dayofmonth",
                                  "dayofweek", "dayofyear", "weekofyear"]
 
-        # Iterando sobre atributos e construindo expressão completa
-        for attrib in possible_date_attribs:
-            if attrib in kwargs and bool(kwargs[attrib]):
-                df = df.withColumn(
-                    f"{attrib}_{date_col}",
-                    expr(f"{attrib}({date_col})")
-                )
+        try:
+            # Iterando sobre atributos e construindo expressão completa
+            for attrib in possible_date_attribs:
+                if attrib in kwargs and bool(kwargs[attrib]):
+                    df = df.withColumn(
+                        f"{attrib}_{date_col}",
+                        expr(f"{attrib}({date_col})")
+                    )
 
-        return df
+            return df
+
+        except Exception as e:
+            logger.error('Erro ao adicionar coluns em DataFrame com'
+                         f'novos atributos de data. Exception: {e}')
+            raise e
 
     # Método de transformação: drop de partição física no s3
     def drop_partition(self, partition_name: str,
@@ -735,8 +753,7 @@ class GlueETLManager(GlueJobManager):
         """
 
         # Montando URI da partição a ser eliminada
-        partition_uri = f"s3://{self.args['OUTPUT_BUCKET']}/"\
-            f"{self.args['OUTPUT_DB']}/{self.args['OUTPUT_TABLE']}/"\
+        partition_uri = f"{self.s3_table_uri}/"\
             f"{partition_name}={partition_value}/"
 
         logger.info(f"Eliminando partição {partition_name}={partition_value} "
@@ -792,6 +809,117 @@ class GlueETLManager(GlueJobManager):
         # Retornando DataFrame com coluna de partição
         return df_partitioned
 
+    # Método de transformação: reparticionamento de DataFrame
+    @staticmethod
+    def repartition_dataframe(df: DataFrame, num_partitions: int) -> DataFrame:
+        """
+        Método responsável por aplicar processo de reparticionamento de
+        DataFrames Spark visando a otimização do armazenamento dos
+        arquivos físicos no sistema de armazenamento distribuído.
+        O método contempla algumas validações importantes em termos
+        do uso dos métodos coalesce() e repartition() com base no
+        número atual das partições existentes no DataFrame passado
+        como argumento.
+
+        Seguindo as melhores práticas de reparticionamento, caso
+        o número desejado de partições (num_partitions) seja MENOR
+        que o número atual de partições coletadas, então o método
+        utilizado será o coalesce(). Por outro lado, caso o número
+        desejado de partições seja MAIOR que o número atual, então
+        o método utilizado será o repartition(), considerando a
+        escrita de uma mensagem de log com a tag warning para o
+        usuário, dados os possíveis impactos. Por fim, se o número
+        de partições desejadas for igual ao número atual, nenhuma
+        operação é realizada e o DataFrame original é retornado
+        intacto ao usuário.
+
+        Parâmetros
+        ----------
+        :param df:
+            DataFrame Spark alvo da operação designada.
+            [type: pyspark.sql.DataFrame]
+
+        :param num_partitions:
+            Número de partições desejadas.
+            [type: int]
+
+        Retorno
+        -------
+        :return df_repartitioned:
+            DataFrame Spark após o processo de reparticionamento.
+            [type: pyspark.sql.DataFrame]
+        """
+
+        # Corrigindo argumento num_partitions
+        num_partitions = int(num_partitions)
+
+        # Coletando informações atuais de partições físicas do DataFrame
+        actual_partitions = df.rdd.getNumPartitions()
+
+        # Se o número de partições desejadas for igual ao atual, não operar
+        if num_partitions == actual_partitions:
+            logger.warning(f"Número de partições atuais ({actual_partitions}) "
+                           f"é igual ao número de partições desejadas "
+                           f"({num_partitions}). Nenhuma operação de "
+                           "repartitionamento será realizada e o DataFrame "
+                           "original será retornado sem alterações")
+            sleep(0.01)
+            return df
+
+        # Se o número de partições desejadas for MENOR, usar coalesce()
+        elif num_partitions < actual_partitions:
+            logger.info("Iniciando reparticionamento de DataFrame via "
+                        f"coalesce() de {actual_partitions} para "
+                        f"{num_partitions} partições")
+            try:
+                df_repartitioned = df.coalesce(num_partitions)
+
+            except Exception as e:
+                logger.warning("Erro ao reparticionar DataFrame via "
+                               "repartition(). Nenhuma operação de "
+                               "repartitionamento será realizada e "
+                               "o DataFrame original será retornado sem "
+                               f"alterações. Exceção: {e}")
+                return df
+
+        # Se o número de partições desejadas for MAIOR, utilizar repartition()
+        elif num_partitions > actual_partitions:
+            logger.warning("O número de partições desejadas "
+                           f"({num_partitions})  é maior que o atual "
+                           f"({actual_partitions}) e, portanto, a operação "
+                           "deverá ser realizada pelo método repartition(), "
+                           "podendo impactar diretamente na performance do "
+                           "processo dada a natureza do método e sua "
+                           "característica de full shuffle. Como sugestão, "
+                           "avalie se as configurações de reparticionamento "
+                           "realmente estão conforme o esperado.")
+            try:
+                df_repartitioned = df.repartition(num_partitions)
+
+            except Exception as e:
+                logger.warning("Erro ao reparticionar DataFrame via "
+                               "repartition(). Nenhuma operação de "
+                               "repartitionamento será realizada e "
+                               "o DataFrame original será retornado sem "
+                               f"alterações. Exceção: {e}")
+                return df
+
+        # Validando possível inconsistência no processo de reparticionamento
+        updated_partitions = df_repartitioned.rdd.getNumPartitions()
+        if updated_partitions != num_partitions:
+            logger.warning(f"Por algum motivo desconhecido, o número de "
+                           "partições atual do DataFrame "
+                           f"({updated_partitions}) não corresponde ao "
+                           f"número estabelecido ({num_partitions}) mesmo "
+                           "após o processo de reparticionamento ter sido "
+                           "executado sem nenhuma exceção lançada. "
+                           "Como sugestão, investigue se o Glue possui alguma "
+                           "limitação de transferência de arquivos entre os "
+                           "nós dadas as características das origens usadas.")
+            sleep(0.01)
+
+        return df_repartitioned
+
     # Escrevendo e catalogando resultado final
     def write_data_to_catalog(self, df: DataFrame or DynamicFrame) -> None:
         """
@@ -838,13 +966,9 @@ class GlueETLManager(GlueJobManager):
         # Criando sincronização com bucket s3
         logger.info("Preparando e sincronizando elementos de saída da tabela")
         try:
-            # Criando variável de saída com base em argumentos do job
-            output_path = f"s3://{self.args['OUTPUT_BUCKET']}/"\
-                f"{self.args['OUTPUT_DB']}/{self.args['OUTPUT_TABLE']}"
-
             # Criando relação de escrita de dados
             data_sink = self.glueContext.getSink(
-                path=output_path,
+                path=self.s3_table_uri,
                 connection_type=self.args["CONNECTION_TYPE"],
                 updateBehavior=self.args["UPDATE_BEHAVIOR"],
                 partitionKeys=[self.args["PARTITION_NAME"]],
@@ -871,7 +995,7 @@ class GlueETLManager(GlueJobManager):
             logger.info(f"Tabela {self.args['OUTPUT_DB']}."
                         f"{self.args['OUTPUT_TABLE']} "
                         "atualizada com sucesso no catálogo. Seus dados estão "
-                        f"armazenados em {output_path}")
+                        f"armazenados em {self.s3_table_uri}")
         except Exception as e:
             logger.error("Erro ao adicionar entrada para tabela no catálogo "
                          f"de dados. Exception: {e}")
