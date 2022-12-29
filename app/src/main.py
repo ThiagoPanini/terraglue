@@ -109,12 +109,10 @@ class GlueTransformationManager(GlueETLManager):
                  test_mode: bool = False) -> None:
         self.argv_list = argv_list
         self.data_dict = data_dict
-        self.test_mode = test_mode
 
         # Herdando atributos de classe de gerenciamento de job
-        if not self.test_mode:
-            GlueETLManager.__init__(self, argv_list=self.argv_list,
-                                    data_dict=self.data_dict)
+        GlueETLManager.__init__(self, argv_list=self.argv_list,
+                                data_dict=self.data_dict)
 
     # Método de transformação: orders
     def transform_orders(self, df: DataFrame) -> DataFrame:
@@ -195,7 +193,7 @@ class GlueTransformationManager(GlueETLManager):
 
         logger.info("Preparando DAG de transformações para df_order_items")
         try:
-            # Preparando consulta para retornar estatísticas de pedidos com base em itens
+            # Retornando estatísticas de pedidos com base em itens
             df_order_items_stats = df.groupBy("order_id").agg(
                 expr("count(1) AS qty_order_items"),
                 expr("cast(round(sum(price), 2) AS decimal(17, 2)) AS sum_price_order"),
@@ -212,7 +210,7 @@ class GlueTransformationManager(GlueETLManager):
             logger.error("Erro ao preparar DAG de transformações para a base "
                          f"df_order_items. Exception: {e}")
             raise e
-    
+
     # Método de transformação: customers
     def transform_customers(self, df: DataFrame) -> DataFrame:
         """
@@ -339,25 +337,21 @@ class GlueTransformationManager(GlueETLManager):
     # Método de transformação: tabela final
     def transform_sot(self, **kwargs) -> DataFrame:
         """
-        Método de transformação específico para uma das origens
-        do job do Glue.
+        Transformação completa da SoT através da unificação dos
+        DataFrames preparados individualmente a partir de
+        métodos específicos de transformação. A sequência
+        de etapas para geração dos dados finais é dada por:
 
-        Parâmetros
-        ----------
-        :param: df
-            DataFrame Spark alvo das transformações aplicadas.
-            [type: pyspark.sql.DataFrame]
-
-        Retorno
-        -------
-        :return: df_prep
-            Elemento do tipo DataFrame Spark após as transformações
-            definidas pelos métodos aplicadas dentro da DAG.
-            [type: DataFrame]
+        1. Extração de DataFrames individuais dos argumentos
+        2. Aplicação de join entre df_orders_prep e todos os
+        demais DataFrames através das chaves relacionadas
+        3. Geração de DataFrame final com atributos relacionados
+        à características de pedidos feitos online (order_id)
         """
 
         # Desempacotando DataFrames dos argumentos da função
         df_orders_prep = kwargs["df_orders_prep"]
+        df_order_items_prep = kwargs["df_order_items_prep"]
         df_customers_prep = kwargs["df_customers_prep"]
         df_payments_prep = kwargs["df_payments_prep"]
         df_reviews_prep = kwargs["df_reviews_prep"]
@@ -365,7 +359,11 @@ class GlueTransformationManager(GlueETLManager):
         # Gerando base final com atributos enriquecidos
         logger.info("Preparando DAG para geração de tabela final enriquecida")
         try:
-            df_sot_prep = df_orders_prep.join(
+            # Aplicando join entre todas as tabelas
+            df_sot_join = df_orders_prep.join(
+                other=df_order_items_prep,
+                on=[df_orders_prep.order_id == df_order_items_prep.order_id]
+            ).drop(df_order_items_prep.order_id).join(
                 other=df_customers_prep,
                 on=[df_orders_prep.customer_id ==
                     df_customers_prep.customer_id],
@@ -380,13 +378,15 @@ class GlueTransformationManager(GlueETLManager):
                 how="left"
             ).drop(df_reviews_prep.order_id)
 
+        # Realizando seleção final nos dados
+
         except Exception as e:
             logger.error("Erro ao preparar DAG para tabela final. "
                          f"Exception: {e}")
             raise e
 
         # Retornando base final
-        return df_sot_prep
+        return df_sot_join
 
     # Encapsulando método único para execução do job
     def run(self) -> None:
@@ -420,12 +420,15 @@ class GlueTransformationManager(GlueETLManager):
         df_reviews = dfs_dict["reviews"]
 
         # Transformando dados
+        df_orders_prep = self.transform_orders(df=df_orders)
+        df_order_items_prep = self.transform_order_items(df=df_order_items)
         df_payments_prep = self.transform_payments(df=df_payments)
         df_reviews_prep = self.transform_reviews(df=df_reviews)
 
         # Gerando base final com atributos enriquecidos
         df_sot_prep = self.transform_sot(
-            df_orders_prep=df_orders,
+            df_orders_prep=df_orders_prep,
+            df_order_items_prep=df_order_items_prep,
             df_customers_prep=df_customers,
             df_payments_prep=df_payments_prep,
             df_reviews_prep=df_reviews_prep
