@@ -850,6 +850,9 @@ class GlueETLManager(GlueJobManager):
             [type: pyspark.sql.DataFrame]
         """
 
+        # Corrigindo argumento num_partitions
+        num_partitions = int(num_partitions)
+
         # Coletando informações atuais de partições físicas do DataFrame
         actual_partitions = df.rdd.getNumPartitions()
 
