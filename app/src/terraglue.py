@@ -756,7 +756,8 @@ class GlueETLManager(GlueJobManager):
         partition_uri = f"{self.s3_table_uri}/"\
             f"{partition_name}={partition_value}/"
 
-        logger.info(f"Eliminando partição {partition_name}={partition_value} "
+        logger.info(f"Verificando e eliminando (se existir) partição "
+                    f"{partition_name}={partition_value} "
                     f"através da URI {partition_uri}")
         try:
             self.glueContext.purge_s3_path(
@@ -797,7 +798,7 @@ class GlueETLManager(GlueJobManager):
             [type: any]
         """
 
-        logger.info("Adicionando partição na tabela "
+        logger.info("Adicionando coluna de partição no DataFrame final "
                     f"({partition_name}={str(partition_value)})")
         try:
             df_partitioned = df.withColumn(partition_name,
