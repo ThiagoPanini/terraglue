@@ -142,14 +142,9 @@ Visando dispor de um lugar específico para detalhar o tutorial de utilização 
 
 Um dos pilares responsáveis por toda a automação da implantação dos recursos de infraestrutura do projeto é, sem dúvidas, a utilização do Terraform como ferramenta de IaC. Nesta dinâmica, o arquivo [INFRA.md](https://github.com/ThiagoPanini/terraglue/blob/main/INFRA.md) possui todos os detalhes necessários para proporcionar, ao usuário, um entendimento claro e direto sobre como a "mágica" acontece no ambiente AWS.
 
-
 ### Aplicação Spark codificada
 
-Além de todo o processo de automação da infraestrutura provisionada em um ambiente AWS, uma das maiores funcionalidades (se não a maior) do **terraglue** envolve a entrega de uma aplicação Spark previamente codificada com toda a dinâmica de uso do Glue como serviço em meio ao desenvolvimento de jobs na nuvem.
-
-Esta entrega se materializa nos scripts `main.py` e no módulo auxiliar `terraglue.py` que, em conjunto, consolidam classes Python minuciosamente codificadas para facilitar, ao máximo, o trabalho do Engenheiro ou Analista de dados que pretende construir seu próprio processo de ETL utilizando o Glue.
-
-Para maiores detalhes sobre esta rica entrega, não deixe de consumir o arquivo [APP.md](https://github.com/ThiagoPanini/terraglue/blob/main/APP.md) onde navegamos a fundo por todas as classes, atributos e métodos disponíveis.
+Além de todo o processo de automação da infraestrutura provisionada em um ambiente AWS, uma funcionalidade altamente relevante do **terraglue** envolve a entrega de uma aplicação Spark previamente codificada com toda a dinâmica de uso do Glue como serviço em meio ao desenvolvimento de jobs na nuvem. Se você não sabe por onde começar o desenvolvimento de um *job* ou mesmo se deseja otimizar a organização do seu código com as melhores práticas, não deixe de consumir o arquivo [APP.md](https://github.com/ThiagoPanini/terraglue/blob/main/APP.md) onde navegamos pelos detalhes técnicos dos módulos Python disponibilizados para facilitar o desenvolvimento de uma aplicação Spark dentro do Glue.
 
 ### Cenários e exemplos de utilização
 
