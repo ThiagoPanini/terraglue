@@ -378,7 +378,42 @@ class GlueTransformationManager(GlueETLManager):
                 how="left"
             ).drop(df_reviews_prep.order_id)
 
-        # Realizando seleção final nos dados
+            # Realizando seleção final nos dados
+            df_sot_prep = df_sot_join.selectExpr(
+                "order_id",
+                "customer_id",
+                "order_status",
+                "order_purchase_timestamp",
+                "order_approved_at",
+                "order_delivered_carrier_date",
+                "order_delivered_customer_date",
+                "order_estimated_delivery_date",
+                "year_order_purchase_timestamp",
+                "quarter_order_purchase_timestamp",
+                "month_order_purchase_timestamp",
+                "dayofmonth_order_purchase_timestamp",
+                "dayofweek_order_purchase_timestamp",
+                "dayofyear_order_purchase_timestamp",
+                "weekofyear_order_purchase_timestamp",
+                "qty_order_items",
+                "sum_price_order",
+                "avg_price_order",
+                "min_price_order_item",
+                "max_price_order_item",
+                "avg_freight_value_order",
+                "max_order_shipping_limit_date",
+                "customer_unique_id",
+                "customer_zip_code_prefix",
+                "customer_city",
+                "customer_state",
+                "installments",
+                "sum_payments",
+                "avg_payment_value",
+                "distinct_payment_types",
+                "most_common_payment_type",
+                "review_best_score",
+                "review_comment_message"
+            )
 
         except Exception as e:
             logger.error("Erro ao preparar DAG para tabela final. "
@@ -386,7 +421,7 @@ class GlueTransformationManager(GlueETLManager):
             raise e
 
         # Retornando base final
-        return df_sot_join
+        return df_sot_prep
 
     # Encapsulando método único para execução do job
     def run(self) -> None:
