@@ -346,6 +346,10 @@ class GlueETLManager(GlueJobManager):
         GlueJobManager.__init__(self, argv_list=self.argv_list,
                                 data_dict=self.data_dict)
 
+        # Gerando URI de tabela no s3 caso existam alguns argumentos
+        self.s3_table_uri = f"s3://{self.args['OUTPUT_BUCKET']}/"\
+            f"{self.args['OUTPUT_TABLE']}"
+
     # Gerando dicionário de DynamicFrames do projeto
     def generate_dynamic_frames_dict(self) -> dict:
         """
@@ -749,8 +753,7 @@ class GlueETLManager(GlueJobManager):
         """
 
         # Montando URI da partição a ser eliminada
-        partition_uri = f"s3://{self.args['OUTPUT_BUCKET']}/"\
-            f"{self.args['OUTPUT_DB']}/{self.args['OUTPUT_TABLE']}/"\
+        partition_uri = f"{self.s3_table_uri}/"\
             f"{partition_name}={partition_value}/"
 
         logger.info(f"Eliminando partição {partition_name}={partition_value} "
@@ -960,13 +963,9 @@ class GlueETLManager(GlueJobManager):
         # Criando sincronização com bucket s3
         logger.info("Preparando e sincronizando elementos de saída da tabela")
         try:
-            # Criando variável de saída com base em argumentos do job
-            output_path = f"s3://{self.args['OUTPUT_BUCKET']}/"\
-                f"{self.args['OUTPUT_DB']}/{self.args['OUTPUT_TABLE']}"
-
             # Criando relação de escrita de dados
             data_sink = self.glueContext.getSink(
-                path=output_path,
+                path=self.s3_table_uri,
                 connection_type=self.args["CONNECTION_TYPE"],
                 updateBehavior=self.args["UPDATE_BEHAVIOR"],
                 partitionKeys=[self.args["PARTITION_NAME"]],
@@ -993,7 +992,7 @@ class GlueETLManager(GlueJobManager):
             logger.info(f"Tabela {self.args['OUTPUT_DB']}."
                         f"{self.args['OUTPUT_TABLE']} "
                         "atualizada com sucesso no catálogo. Seus dados estão "
-                        f"armazenados em {output_path}")
+                        f"armazenados em {self.s3_table_uri}")
         except Exception as e:
             logger.error("Erro ao adicionar entrada para tabela no catálogo "
                          f"de dados. Exception: {e}")
