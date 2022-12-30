@@ -1,0 +1,23 @@
+changelog:
+  exclude:
+    labels:
+      - doc 🖍️
+  categories:
+    - title: Breaking Changes 🛠️
+      labels:
+        - breaking-change 🛠️
+    - title: Features 🚀
+      labels:
+        - feature 🚀
+    - title: Bug Fixes 🐞
+      labels:
+        - bug 🐞
+    - title: Application 💻
+      labels:
+        - app 💻
+    - title: Infrastructure 🧱
+      labels:
+        - infra 🧱
+    - title: Other Changes
+      labels:
+        - "*"

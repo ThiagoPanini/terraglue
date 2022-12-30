@@ -105,8 +105,7 @@ class GlueTransformationManager(GlueETLManager):
     a documentação das classes e métodos no módulo terraglue.py.
     """
 
-    def __init__(self, argv_list: list, data_dict: dict,
-                 test_mode: bool = False) -> None:
+    def __init__(self, argv_list: list, data_dict: dict) -> None:
         self.argv_list = argv_list
         self.data_dict = data_dict
 
