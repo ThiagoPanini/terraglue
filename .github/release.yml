@@ -17,7 +17,7 @@ changelog:
         - app
     - title: Infrastructure 🧱
       labels:
-        - infra 🧱
+        - infra
     - title: Other Changes
       labels:
         - "*"
