@@ -10,7 +10,9 @@ as configurações necessárias de acordo com as melhroes
 práticas de implementação deste serviço.
 
 RESOURCES: Os recursos aqui implantados serão:
+  - Objetos no S3 com insumos do job
   - Glue Job
+  - Trigger para Glue Job
 -------------------------------------------------- */
 
 # Realizando o upload da aplicação Spark para o S3
@@ -42,4 +44,15 @@ resource "aws_glue_job" "this" {
   }
 
   default_arguments = var.glue_job_default_arguments
+}
+
+# Declarando trigger para agendamento de job glue
+resource "aws_glue_trigger" "job_trigger" {
+  name     = "trigger-${var.glue_job_name}"
+  type     = "SCHEDULED"
+  schedule = var.glue_job_trigger_cron_expr
+
+  actions {
+    job_name = var.glue_job_name
+  }
 }
