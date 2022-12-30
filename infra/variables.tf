@@ -239,3 +239,9 @@ variable "glue_job_user_arguments" {
     "--NUM_PARTITIONS"        = 5
   }
 }
+
+variable "glue_job_trigger_cron_expr" {
+  description = "Expressão cron responsável pelo agendamento do job do Glue"
+  type        = string
+  default     = "cron(0 21 ? * 6 *)"
+}
