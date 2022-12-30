@@ -14,10 +14,10 @@ changelog:
         - bug 🐞
     - title: Application 💻
       labels:
-        - app
+        - app 💻
     - title: Infrastructure 🧱
       labels:
-        - infra
+        - infra 🧱
     - title: Other Changes
       labels:
         - "*"
