@@ -85,6 +85,6 @@ variable "glue_job_default_arguments" {
 }
 
 variable "glue_job_trigger_cron_expr" {
-  description = "Expressão cron responsável pelo agendamento do job do Glue"
+  description = "Expressão cron responsável pelo agendamento do job do Glue na AWS"
   type        = string
 }
