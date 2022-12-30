@@ -182,3 +182,6 @@ Todos são muito bem vindos a contribuírem com evoluções e novas funcionalida
 - [SparkByExamples - Pyspark Date Functions](https://sparkbyexamples.com/pyspark/pyspark-sql-date-and-timestamp-functions/)
 - [Spark - Configuration Properties](https://spark.apache.org/docs/latest/configuration.html)
 - [Stack Overflow - repartition() vs coalesce()](https://stackoverflow.com/questions/31610971/spark-repartition-vs-coalesce)
+- [Semantic Release](https://semver.org/)
+- [GitHub - Angular Commit Message Format](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format)
+- [commitlint](https://github.com/conventional-changelog/commitlint)
