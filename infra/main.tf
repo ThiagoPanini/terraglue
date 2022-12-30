@@ -193,4 +193,5 @@ module "glue" {
   glue_job_python_version      = var.glue_job_python_version
   glue_job_max_concurrent_runs = var.glue_job_max_concurrent_runs
   glue_job_default_arguments   = local.glue_job_default_arguments
+  glue_job_trigger_cron_expr   = var.glue_job_trigger_cron_expr
 }

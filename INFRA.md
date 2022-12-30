@@ -196,6 +196,8 @@ Ao acessar o job através do console e navegar até o menu *Job details* (ou det
 </div>
 </details>
 
+Além disso, no menu *Schedules*, será possível visualizar um agendamento criado automaticamente via Terraform para execução do *job* Glue com uma expressão cron fornecida como exemplo (`cron(0 21 ? * 6 *)`) simulando o gatilho de execução todas às sextas-feiras às 21h00m. Para maiores detalhes, o usuário poderá consultar o [recurso `aws_glue_trigger`](https://github.com/ThiagoPanini/terraglue/blob/main/infra/modules/glue/main.tf#L49) no módulo glue presente no diretório de infra.
+
 ___
 
 ### Dados na camada SoT

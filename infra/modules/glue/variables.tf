@@ -83,3 +83,8 @@ variable "glue_job_default_arguments" {
   description = "Dicionário contendo mapeamentos para todos os argumentos e seus respectivos valores configurados para o job do glue"
   type        = map(string)
 }
+
+variable "glue_job_trigger_cron_expr" {
+  description = "Expressão cron responsável pelo agendamento do job do Glue na AWS"
+  type        = string
+}
