@@ -14,7 +14,7 @@ changelog:
         - bug 🐞
     - title: Application 💻
       labels:
-        - app 💻
+        - app
     - title: Infrastructure 🧱
       labels:
         - infra 🧱
