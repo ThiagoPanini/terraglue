@@ -1,12 +1,11 @@
 <div align="center">
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/logo-v4.png" alt="terraglue-logo">
 </div>
-<div align="center">
-    <i>Auxiliando desenvolvedores, engenheiros e analistas a implantar e testar jobs do Glue na AWS</i>
-</div>
+
 
 <div align="center">
-
+  <br>
+  
   ![GitHub release (latest by date)](https://img.shields.io/github/v/release/ThiagoPanini/terraglue?color=brightgreen)
   ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/ThiagoPanini/terraglue?color=blue)
   ![GitHub contributors](https://img.shields.io/github/contributors/ThiagoPanini/terraglue?color=red)
