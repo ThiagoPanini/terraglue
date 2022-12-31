@@ -1,22 +1,17 @@
 """
-SCRIPT: test_main.py
+SCRIPT: test_user_inputs.py
 
 CONTEXTO:
 ---------
-Script de testes criado para validar as principais
-funcionalidades da aplicação Spark desenvolvida e
-consolidada através do script main-terraglue.py
-disponibilizado no diretório ./app/src do projeto.
-Como a aplicação envolve um job Spark executado no
-serviço AWS Glue, o grande desafio em desenvolver
-uma suíte de testes está relacionado a forma de
-simulação do processo de execução do job.
+Script de testes criado para validar casos específicos
+relacionados à definições de variáveis pelo usuário e
+que são fundamentais para o funcionamento do código.
 
 OBJETIVO:
 ---------
 Consoldar uma suíte de testes capaz de testar e validar
-as principais funcionalidades da aplicação Spark
-do projeto.
+entradas fornecidas pelo usuário que podem comprometer
+o funcionamento de toda a aplicação.
 ------------------------------------------------------
 
 ------------------------------------------------------
