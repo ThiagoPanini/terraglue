@@ -19,6 +19,7 @@ de testes do projeto.
 ---------------------------------------------------"""
 
 # Importando módulos para uso
+import sys
 from pytest import fixture
 from src.main import ARGV_LIST, DATA_DICT
 from src.terraglue import GlueJobManager
@@ -71,8 +72,34 @@ def required_data_dict_keys():
 
 
 @fixture()
-def job_manager():
-    return GlueJobManager(
+def job_args_for_test():
+    return {
+        "JOB_NAME": "gluejob-sot-ecommerce-br",
+        "OUTPUT_BUCKET": "teste",
+        "OUTPUT_DB": "ra8",
+        "OUTPUT_TABLE": "tbsot_ecommerce_br",
+        "CONNECTION_TYPE": "s3",
+        "UPDATE_BEHAVIOR": "UPDATE_IN_DATABASE",
+        "PARTITION_NAME": "anomesdia",
+        "PARTITION_FORMAT": "%Y%m%d",
+        "DATA_FORMAT": "parquet",
+        "COMPRESSION": "snappy",
+        "ENABLE_UPDATE_CATALOG": "True",
+        "NUM_PARTITIONS": 5
+    }
+
+
+@fixture()
+def job_manager(job_args_for_test):
+    # Adicionando argumentos ao vetor de argumentos
+    for arg_name, arg_value in job_args_for_test.items():
+        sys.argv.append(f"--{arg_name}={arg_value}")
+
+    job = GlueJobManager(
         argv_list=ARGV_LIST,
         data_dict=DATA_DICT
     )
+
+    print(job.args)
+
+    return job
