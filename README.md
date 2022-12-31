@@ -5,6 +5,16 @@
     <i>Auxiliando desenvolvedores, engenheiros e analistas a implantar e testar jobs do Glue na AWS</i>
 </div>
 
+<div align="center">
+
+  ![GitHub release (latest by date)](https://img.shields.io/github/v/release/ThiagoPanini/terraglue?color=brightgreen)
+  ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/ThiagoPanini/terraglue?color=blue)
+  ![GitHub contributors](https://img.shields.io/github/contributors/ThiagoPanini/terraglue?color=red)
+  ![GitHub repo size](https://img.shields.io/github/repo-size/ThiagoPanini/terraglue?color=purple)
+
+
+</div>
+
 ## Table of Contents
 - [Table of Contents](#table-of-contents)
 - [Quickstart](#quickstart)
@@ -190,6 +200,7 @@ Todos são muito bem vindos a contribuírem com evoluções e novas funcionalida
 - [Semantic Release](https://semver.org/)
 - [GitHub - Angular Commit Message Format](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format)
 - [GitHub - commitlint](https://github.com/conventional-changelog/commitlint)
+- [shields.io](https://shields.io/)
 
 **_Testes_**
 - [Eduardo Mendes - Live de Python #167 - Pytest: Uma Introdução](https://www.youtube.com/watch?v=MjQCvJmc31A&)
