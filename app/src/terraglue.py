@@ -215,7 +215,7 @@ class GlueJobManager():
 
         logger.info("Criando SparkContext, GlueContext e SparkSession")
         try:
-            self.sc = SparkContext()
+            self.sc = SparkContext.getOrCreate()
             self.glueContext = GlueContext(self.sc)
             self.spark = self.glueContext.spark_session
         except Exception as e:
