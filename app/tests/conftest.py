@@ -37,7 +37,7 @@ def argv_list():
 
 
 @fixture()
-def required_args():
+def user_required_args():
     return [
         "JOB_NAME",
         "OUTPUT_BUCKET",
@@ -72,7 +72,7 @@ def required_data_dict_keys():
 
 
 @fixture()
-def job_args_for_test():
+def job_args():
     return {
         "JOB_NAME": "gluejob-sot-ecommerce-br",
         "OUTPUT_BUCKET": "teste",
@@ -90,16 +90,14 @@ def job_args_for_test():
 
 
 @fixture()
-def job_manager(job_args_for_test):
+def job_manager(job_args):
     # Adicionando argumentos ao vetor de argumentos
-    for arg_name, arg_value in job_args_for_test.items():
+    for arg_name, arg_value in job_args.items():
         sys.argv.append(f"--{arg_name}={arg_value}")
 
     job = GlueJobManager(
         argv_list=ARGV_LIST,
         data_dict=DATA_DICT
     )
-
-    print(job.args)
 
     return job

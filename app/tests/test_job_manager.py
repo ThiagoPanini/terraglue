@@ -32,11 +32,18 @@ from pytest import mark
 
 
 @mark.job_manager
-def test_captura_de_argumentos_do_job_na_construcao_da_classe(job_manager):
+def test_captura_de_argumentos_do_job_na_construcao_da_classe(job_manager,
+                                                              job_args):
     """
-    G:
-    W:
-    T:
+    G: dado que o usuário instanciou um objeto da classe Job Manager
+    W: quando o método construtor da classe for executado
+    T: os argumentos passados pelo usuário devem estar contidos no
+       dicionário de argumentos gerais do job gerado a partir do método
+       awsglue.utilsgetResolverOptions como um subset do mesmo.
     """
-    print(job_manager)
+
+    # Corrigindo argumentos convertidos automaticamente em string
+    job_manager.args["NUM_PARTITIONS"] = int(job_manager.args["NUM_PARTITIONS"])
+
+    assert job_args.items() <= job_manager.args.items()
 
