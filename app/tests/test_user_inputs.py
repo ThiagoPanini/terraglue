@@ -21,6 +21,7 @@ o funcionamento de toda a aplicação.
 
 # Importando módulos para uso
 from pytest import mark
+from tests.utils.iac_helper import extract_map_variable_from_ferraform
 
 
 """---------------------------------------------------
@@ -40,44 +41,57 @@ def test_tipo_primitivo_variavel_argvlist(argv_list):
 
 
 @mark.user_input
-def test_variavel_argvlist_possui_argumentos(argv_list):
+def test_variavel_argvlist_possui_argumentos_obrigatorios(argv_list,
+                                                          user_required_args):
     """
     G: dado que o usuário iniciou a codificação do seu job Glue
-    W: quando o usuário definir a variável ARGV_LIST
-    T: então esta deve possuir pelo menos 1 elemento
+    W: quando o usuário definir a variável ARGV_LIST no código da aplicação
+    T: então esta deve possuir uma série argumentos obrigatórios
     """
-    assert len(argv_list) >= 1
+    assert all(arg in argv_list for arg in user_required_args)
 
 
 @mark.user_input
-def test_variavel_argvlist_possui_argumentos_obrigatorios(argv_list,
-                                                          required_args):
+@mark.terraform
+def test_variavel_argvlist_possui_argumentos_declarados_no_terraform(
+    argv_list, iac_job_user_args, job_runtime_args
+):
     """
-    G: dado que o usuário iniciou a codificação do seu job Glue
-    W: quando o usuário definir a variável ARGV_LIST
-    T: então esta deve possuir uma série argumentos obrigatórios
+    G: dado que o usuário definiu argumentos do job na ferramenta de IaC
+    W: quando o usuário definir a variável ARGV_LIST no código da aplicação
+    T: então esta deve possuir os mesmos elementos/argumentos daqueles
+       declarados na ferramenta de IaC (terraform), garantindo assim o
+       processo de captura de todas as informações desejadas.
+
+    Observação: o parâmetro "runtime_args" da função de teste contempla
+    alguns argumentos que não são explicitamente declarados na ferramenta
+    de IaC pelo usuário (ex: arquivo variables.tf do Terraform) de forma
+    direta. Isto pode acontecer pois existem argumentos do job que são
+    definidos apenas em tempo de execução (ex: nome do bucket de saída
+    que depende de um ID da conta e de um nome de região) ou então
+    argumentos que existem apenas no ato de submissão do job Glue na
+    AWS (ex: nome do job)
     """
-    assert all(arg in argv_list for arg in required_args)
+
+    # Obtendo lista de argumentos declaradas na ferramenta de IaC
+    tf_args = list(iac_job_user_args.keys())
+
+    # runtime_args ajuda a eliminar alguns parâmetros dinâmicos
+    argv_list_custom = argv_list[:]
+    for arg in job_runtime_args:
+        argv_list_custom.remove(arg)
+
+    assert set(argv_list_custom) == set(tf_args)
 
 
 @mark.user_input
 def test_tipo_primitivo_variavel_datadict(data_dict):
     """
     G: dado que o usuário iniciou a codificação do seu job Glue
-    W: quando o usuário definir a variável DATA_DICT
+    W: quando o usuário definir a variável DATA_DICT no código da aplicação
     T: então esta deve ser do tipo dict
     """
     assert type(data_dict) == dict
-
-
-@mark.user_input
-def test_variavel_datadict_possui_elementos(data_dict):
-    """
-    G: dado que o usuário iniciou a codificação do seu job Glue
-    W: quando o usuário definir a variável DATA_DICT
-    T: então esta deve possuir pelo menos 1 elemento
-    """
-    assert len(data_dict) >= 1
 
 
 @mark.user_input
@@ -85,7 +99,7 @@ def test_variavel_datadict_possui_chaves_obrigatorias(data_dict,
                                                       required_data_dict_keys):
     """
     G: dado que o usuário iniciou a codificação do seu job Glue
-    W: quando o usuário definir a variável DATA_DICT
+    W: quando o usuário definir a variável DATA_DICT no código da aplicação
     T: então esta deve possuir algumas chaves obrigatórias em sua definição
     """
 
