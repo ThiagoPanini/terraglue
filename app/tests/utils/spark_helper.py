@@ -211,7 +211,7 @@ def generate_fake_data_from_schema(schema: StructType(),
     """
 
     fake_data = []
-    for i in range(num_rows):
+    for _ in range(num_rows):
         # Iterando sobre colunas e construindo registro
         fake_row = []
         for field in schema:
@@ -224,6 +224,10 @@ def generate_fake_data_from_schema(schema: StructType(),
                 fake_row.append(Decimal(randrange(1, 100000)))
             elif dtype == "boolean":
                 fake_row.append(faker.boolean())
+            elif dtype == "date":
+                fake_row.append(faker.date_this_year())
+            elif dtype == "timestamp":
+                fake_row.append(faker.date_time_this_year())
 
         # Adicionando registro na lista de registros
         fake_data.append(fake_row)
@@ -233,7 +237,7 @@ def generate_fake_data_from_schema(schema: StructType(),
 
 # Gerando e retornando DataFrame Spark
 def generate_fake_spark_dataframe(spark: SparkSession,
-                                  schema_input: list or dict,
+                                  schema_input: list or dict or StructType,
                                   schema_dtype: type = StringType(),
                                   nullable: bool = True,
                                   num_rows: int = 5) -> DataFrame:
@@ -299,19 +303,26 @@ def generate_fake_spark_dataframe(spark: SparkSession,
         [type: DataFrame]
     """
 
-    if type(schema_input) is dict:
+    if type(schema_input) is StructType:
+        # Schema já fornecido pelo usuário no formato esperado
+        schema = schema_input
+    elif type(schema_input) is dict:
         # Gerando schema com base em dicionário
         schema = generate_schema_from_dict(
             schema_dict=schema_input,
             nullable=nullable
         )
-    else:
+    elif type(schema_input) is list:
         # Gerando schema com base em lista de colunas
         schema = generate_schema_from_list(
             schema_list=schema_input,
             schema_dtype=schema_dtype,
             nullable=nullable
         )
+    else:
+        raise Exception("Tipo do argumento schema_input "
+                        "incorreto. Insira um dicionário, "
+                        "uma lista ou um elemento StrucType")
 
     # Gerando dados fictícios
     data = generate_fake_data_from_schema(schema, num_rows)

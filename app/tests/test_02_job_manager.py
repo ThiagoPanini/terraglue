@@ -1,5 +1,5 @@
 """
-SCRIPT: test_user_inputs.py
+SCRIPT: test_job_manager.py
 
 CONTEXTO:
 ---------

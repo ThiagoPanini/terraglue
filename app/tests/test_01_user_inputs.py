@@ -21,7 +21,6 @@ o funcionamento de toda a aplicação.
 
 # Importando módulos para uso
 from pytest import mark
-from tests.utils.iac_helper import extract_map_variable_from_ferraform
 
 
 """---------------------------------------------------
