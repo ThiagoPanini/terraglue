@@ -270,3 +270,90 @@ def test_extracao_do_dia_de_atributo_de_data(
 
     # Validando igualdade das extrações
     assert expected_days == calculated_days
+
+
+@mark.etl_manager
+@mark.add_partition
+def test_adicao_de_coluna_de_particao_anomesdia_dataframe(
+   etl_manager, fake_dataframe, partition_name="anomesdia",
+   partition_value=int(datetime.now().strftime("%Y%m%d"))
+):
+    """
+    G: dado que o usuário deseja adicionar uma coluna de data
+       para servir de partição de seu DataFrame Spark
+    W: quando o usuário executar o método add_partition da classe
+       GlueETLManager com os parâmetros partition_name="anomesdia"
+       e partition_value=datetime.now().strftime("%Y%m%d")
+    T: então o DataFrame resultante deve conter uma nova coluna
+       de nome "anomesdia" do mesmo tipo primitivo do argumento
+       partition_value
+    """
+
+    # Executando método de adição de partição em DataFrame
+    df_partitioned = etl_manager.add_partition(
+      df=fake_dataframe,
+      partition_name=partition_name,
+      partition_value=partition_value
+    )
+
+    # Validando existência de nova coluna e seu tipo primitivo
+    assert df_partitioned.schema[-1].name == partition_name
+    assert df_partitioned.schema[-1].dataType == IntegerType()
+
+
+@mark.etl_manager
+@mark.repartition_dataframe
+def test_reparticionamento_de_dataframe_para_menos_particoes(
+   etl_manager, fake_dataframe
+):
+    """
+    G: dado que o usuário deseja reparticionar um DataFrame Spark
+       para otimização do armazenamento físico do mesmo no s3
+    W: quando o usuário executar o método repartition_dataframe()
+       da classe GlueETLManager passando um número MENOR de
+       partições físicas do que o número atual do DataFrame
+    T: então o DataFrame resultante deverá conter o número
+       especificado de partições
+    """
+
+    # Coletando informações sobre partições atuais do DataFrame
+    current_partitions = fake_dataframe.rdd.getNumPartitions()
+    partitions_to_set = current_partitions // 2
+
+    # Repartitionando DataFrame
+    df_repartitioned = etl_manager.repartition_dataframe(
+      df=fake_dataframe,
+      num_partitions=partitions_to_set
+    )
+
+    # Validando resultado
+    assert df_repartitioned.rdd.getNumPartitions() == partitions_to_set
+
+
+@mark.etl_manager
+@mark.repartition_dataframe
+def test_reparticionamento_de_dataframe_para_mais_particoes(
+   etl_manager, fake_dataframe
+):
+    """
+    G: dado que o usuário deseja reparticionar um DataFrame Spark
+       para otimização do armazenamento físico do mesmo no s3
+    W: quando o usuário executar o método repartition_dataframe()
+       da classe GlueETLManager passando um número MAIOR de
+       partições físicas do que o número atual do DataFrame
+    T: então o DataFrame resultante deverá conter o número
+       especificado de partições
+    """
+
+    # Coletando informações sobre partições atuais do DataFrame
+    current_partitions = fake_dataframe.rdd.getNumPartitions()
+    partitions_to_set = current_partitions * 2
+
+    # Repartitionando DataFrame
+    df_repartitioned = etl_manager.repartition_dataframe(
+      df=fake_dataframe,
+      num_partitions=partitions_to_set
+    )
+
+    # Validando resultado
+    assert df_repartitioned.rdd.getNumPartitions() == partitions_to_set
