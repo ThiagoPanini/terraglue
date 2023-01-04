@@ -22,8 +22,12 @@ de testes do projeto.
 import sys
 from pytest import fixture
 from src.main import ARGV_LIST, DATA_DICT
-from src.terraglue import GlueJobManager
+from src.terraglue import GlueJobManager, GlueETLManager
+from pyspark.sql import SparkSession
+from pyspark.sql.types import StructType, StructField, StringType,\
+    IntegerType, DateType, TimestampType
 from tests.utils.iac_helper import extract_map_variable_from_ferraform
+from tests.utils.spark_helper import generate_fake_spark_dataframe
 from faker import Faker
 
 
@@ -114,9 +118,53 @@ def job_manager(job_args_for_testing) -> GlueJobManager:
     for arg_name, arg_value in job_args_for_testing.items():
         sys.argv.append(f"--{arg_name}={arg_value}")
 
-    job = GlueJobManager(
+    job_manager = GlueJobManager(
         argv_list=ARGV_LIST,
         data_dict=DATA_DICT
     )
 
-    return job
+    return job_manager
+
+
+"""---------------------------------------------------
+----------- 2. DEFINIÇÃO DE FIXTURES ÚTEIS -----------
+      2.3 Fixtures utilizadas em test_etl_manager
+---------------------------------------------------"""
+
+
+# Objeto de sessão Spark para uso genérico
+@fixture()
+def spark():
+    return SparkSession.builder.getOrCreate()
+
+
+# Objeto instanciado da classe GlueETLManager
+@fixture()
+def etl_manager():
+    # Adicionando argumentos ao vetor de argumentos
+    for arg_name, arg_value in job_args_for_testing.items():
+        sys.argv.append(f"--{arg_name}={arg_value}")
+
+    etl_manager = GlueETLManager(
+        argv_list=ARGV_LIST,
+        data_dict=DATA_DICT
+    )
+
+    return etl_manager
+
+
+# DataFrame fake para testagem de transformações Spark
+def fake_dataframe(spark):
+    # Definindo schema para DataFrame fictício
+    schema = StructType([
+        StructField("id", StringType()),
+        StructField("value", IntegerType()),
+        StructField("date", DateType()),
+        StructField("timestamp", TimestampType())
+    ])
+
+    # Gerando DataFrame fictício
+    return generate_fake_spark_dataframe(
+        spark=spark,
+        schema_input=schema
+    )
