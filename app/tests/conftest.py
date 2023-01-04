@@ -108,7 +108,7 @@ def job_args_for_testing(iac_job_user_args, job_runtime_args) -> dict:
     for arg in job_runtime_args:
         iac_job_user_args_complete[arg] = faker.word()
 
-    return iac_job_user_args_complete    
+    return iac_job_user_args_complete
 
 
 # Objeto instanciado da classe GlueJobManager
@@ -140,7 +140,7 @@ def spark():
 
 # Objeto instanciado da classe GlueETLManager
 @fixture()
-def etl_manager():
+def etl_manager(job_args_for_testing):
     # Adicionando argumentos ao vetor de argumentos
     for arg_name, arg_value in job_args_for_testing.items():
         sys.argv.append(f"--{arg_name}={arg_value}")
@@ -154,6 +154,7 @@ def etl_manager():
 
 
 # DataFrame fake para testagem de transformações Spark
+@fixture()
 def fake_dataframe(spark):
     # Definindo schema para DataFrame fictício
     schema = StructType([
