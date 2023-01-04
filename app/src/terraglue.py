@@ -442,12 +442,12 @@ class GlueETLManager(GlueJobManager):
 
                 # Lendo DynamicFrame
                 dyf = self.glueContext.create_dynamic_frame.from_catalog(
-                        database=database,
-                        table_name=table_name,
-                        transformation_ctx=transformation_ctx,
-                        push_down_predicate=push_down_predicate,
-                        additional_options=additional_options,
-                        catalog_id=catalog_id
+                    database=database,
+                    table_name=table_name,
+                    transformation_ctx=transformation_ctx,
+                    push_down_predicate=push_down_predicate,
+                    additional_options=additional_options,
+                    catalog_id=catalog_id
                 )
 
                 # Adicionando à lista de DynamicFrames
