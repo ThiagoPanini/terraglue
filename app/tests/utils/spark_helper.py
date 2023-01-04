@@ -211,7 +211,7 @@ def generate_fake_data_from_schema(schema: StructType(),
     """
 
     fake_data = []
-    for i in range(num_rows):
+    for _ in range(num_rows):
         # Iterando sobre colunas e construindo registro
         fake_row = []
         for field in schema:
@@ -224,6 +224,10 @@ def generate_fake_data_from_schema(schema: StructType(),
                 fake_row.append(Decimal(randrange(1, 100000)))
             elif dtype == "boolean":
                 fake_row.append(faker.boolean())
+            elif dtype == "date":
+                fake_row.append(faker.date_this_year())
+            elif dtype == "timestamp":
+                fake_row.append(faker.date_time_this_year())
 
         # Adicionando registro na lista de registros
         fake_data.append(fake_row)
