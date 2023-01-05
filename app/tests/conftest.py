@@ -20,8 +20,9 @@ de testes do projeto.
 
 # Importando módulos para uso
 import sys
+import os
 from pytest import fixture
-from src.main import ARGV_LIST, DATA_DICT
+from src.main import ARGV_LIST, DATA_DICT, GlueTransformationManager
 from src.terraglue import GlueJobManager, GlueETLManager
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType,\
@@ -169,3 +170,49 @@ def fake_dataframe(spark):
         spark=spark,
         schema_input=schema
     )
+
+
+"""---------------------------------------------------
+----------- 2. DEFINIÇÃO DE FIXTURES ÚTEIS -----------
+        2.4 Fixtures utilizadas em test_main
+---------------------------------------------------"""
+
+
+# Objeto instanciado da classe GlueETLManager
+@fixture()
+def glue_manager(job_args_for_testing):
+    # Adicionando argumentos ao vetor de argumentos
+    for arg_name, arg_value in job_args_for_testing.items():
+        sys.argv.append(f"--{arg_name}={arg_value}")
+
+    glue_manager = GlueTransformationManager(
+        argv_list=ARGV_LIST,
+        data_dict=DATA_DICT
+    )
+
+    return glue_manager
+
+
+# Amostra de DataFrame df_orders
+@fixture()
+def df_orders(spark):
+    # Definindo variável para leitura do DataFrame
+    filename = "sample_olist_orders_dataset.csv"
+    data_path = os.path.join(
+        os.getcwd(),
+        f"app/tests/samples/{filename}"
+    )
+
+    # Realizando a leitura do DataFrame
+    df = spark.read.format("csv")\
+        .option("header", "true")\
+        .option("inferSchema", "false")\
+        .load(data_path)
+
+    return df
+
+
+# Resultado do método de transformação do DataFrame df_orders
+@fixture()
+def df_orders_prep(glue_manager, df_orders):
+    return glue_manager.transform_orders(df_orders)
