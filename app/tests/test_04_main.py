@@ -24,7 +24,8 @@ como métodos de transformação no script principal.
 # Importando módulos para uso
 from pytest import mark
 from pyspark.sql.types import StructType, StructField,\
-    StringType, IntegerType, DateType, TimestampType
+    StringType, IntegerType, DateType, TimestampType,\
+    LongType, DecimalType
 
 
 """---------------------------------------------------
@@ -53,7 +54,7 @@ def test_qtd_linhas_resultantes_pos_transformacao_orders(
 @mark.main
 @mark.orders
 def test_schema_resultante_pos_transformacao_orders(
-    df_orders, df_orders_prep
+    df_orders_prep
 ):
     """
     G: dado que o usuário deseja transformar dados presentes
@@ -84,3 +85,90 @@ def test_schema_resultante_pos_transformacao_orders(
     ])
 
     assert df_orders_prep.schema == expected_schema
+
+
+@mark.main
+@mark.order_items
+def test_qtd_linhas_resultantes_pos_transformacao_order_items(
+    df_order_items_prep
+):
+    """
+    G: dado que o usuário deseja transformar dados presentes
+       no DataFrame df_order_items
+    W: quando o usuário executar o método transform_order_items()
+       da classe GlueTransformationManager utilizando uma
+       amostra contendo 14 registros de itens pedidos
+    T: então o DataFrame resultante deve retornar uma base
+       agrupada contendo 10 registros
+    """
+    assert df_order_items_prep.count() == 10
+
+
+@mark.main
+@mark.order_items
+def test_schema_resultante_pos_transformacao_order_items(
+    df_order_items_prep
+):
+    """
+    G: dado que o usuário deseja transformar dados presentes
+       no DataFrame df_order_items
+    W: quando o usuário executar o método transform_order_items()
+       da classe GlueTransformationManager
+    T: então o DataFrame resultante deve conter um conjunto
+       esperado de atributos e tipos primitivos
+    """
+
+    # Schema esperado
+    expected_schema = StructType([
+        StructField("order_id", StringType()),
+        StructField("qty_order_items", LongType(), False),
+        StructField("sum_price_order", DecimalType(17, 2)),
+        StructField("avg_price_order", DecimalType(17, 2)),
+        StructField("min_price_order_item", DecimalType(17, 2)),
+        StructField("max_price_order_item", DecimalType(17, 2)),
+        StructField("avg_freight_value_order", DecimalType(17, 2)),
+        StructField("max_order_shipping_limit_date", TimestampType()),
+    ])
+
+    assert df_order_items_prep.schema == expected_schema
+
+
+@mark.main
+@mark.customers
+def test_qtd_linhas_resultantes_pos_transformacao_customers(
+    df_customers, df_customers_prep
+):
+    """
+    G: dado que o usuário deseja transformar dados presentes
+       no DataFrame df_customers
+    W: quando o usuário executar o método transform_customers()
+       da classe GlueTransformationManager utilizando uma
+       amostra contendo 10 registros de pedidos
+    T: então o DataFrame resultante deve manter a granularidade
+       e conter a mesma quantidade de 10 registros
+    """
+    assert df_customers_prep.count() == df_customers.count()
+
+
+@mark.main
+@mark.customers
+def test_schema_resultante_pos_transformacao_customers(
+    df_customers_prep
+):
+    """
+    G: dado que o usuário deseja transformar dados presentes
+       no DataFrame df_customers
+    W: quando o usuário executar o método transform_customers()
+       da classe GlueTransformationManager
+    T: então o DataFrame resultante deve conter um conjunto
+       esperado de atributos e tipos primitivos
+    """
+
+    # Schema esperado
+    expected_schema = StructType([
+        StructField("customer_id", StringType()),
+        StructField("customer_city", StringType()),
+        StructField("customer_state", StringType())
+    ])
+
+    assert df_customers_prep.schema == expected_schema
