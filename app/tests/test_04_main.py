@@ -25,7 +25,7 @@ como métodos de transformação no script principal.
 from pytest import mark
 from pyspark.sql.types import StructType, StructField,\
     StringType, IntegerType, DateType, TimestampType,\
-    LongType, DecimalType
+    LongType, DecimalType, DoubleType
 
 
 """---------------------------------------------------
@@ -44,7 +44,7 @@ def test_qtd_linhas_resultantes_pos_transformacao_orders(
        no DataFrame df_orders
     W: quando o usuário executar o método transform_orders()
        da classe GlueTransformationManager utilizando uma
-       amostra contendo 10 registros de pedidos
+       amostra contendo 10 registros
     T: então o DataFrame resultante deve manter a granularidade
        e conter a mesma quantidade de 10 registros
     """
@@ -97,7 +97,7 @@ def test_qtd_linhas_resultantes_pos_transformacao_order_items(
        no DataFrame df_order_items
     W: quando o usuário executar o método transform_order_items()
        da classe GlueTransformationManager utilizando uma
-       amostra contendo 14 registros de itens pedidos
+       amostra contendo 14 registros
     T: então o DataFrame resultante deve retornar uma base
        agrupada contendo 10 registros
     """
@@ -143,7 +143,7 @@ def test_qtd_linhas_resultantes_pos_transformacao_customers(
        no DataFrame df_customers
     W: quando o usuário executar o método transform_customers()
        da classe GlueTransformationManager utilizando uma
-       amostra contendo 10 registros de pedidos
+       amostra contendo 10 registros
     T: então o DataFrame resultante deve manter a granularidade
        e conter a mesma quantidade de 10 registros
     """
@@ -172,3 +172,47 @@ def test_schema_resultante_pos_transformacao_customers(
     ])
 
     assert df_customers_prep.schema == expected_schema
+
+
+@mark.main
+@mark.payments
+def test_qtd_linhas_resultantes_pos_transformacao_payments(
+    df_payments_prep
+):
+    """
+    G: dado que o usuário deseja transformar dados presentes
+       no DataFrame df_payments
+    W: quando o usuário executar o método transform_payments()
+       da classe GlueTransformationManager utilizando uma
+       amostra contendo 10 registros
+    T: então o DataFrame resultante deve retornar uma base
+       agrupada contendo 10 registros
+    """
+    assert df_payments_prep.count() == 10
+
+
+@mark.main
+@mark.payments
+def test_schema_resultante_pos_transformacao_payments(
+    df_payments_prep
+):
+    """
+    G: dado que o usuário deseja transformar dados presentes
+       no DataFrame df_payments
+    W: quando o usuário executar o método transform_customers()
+       da classe GlueTransformationManager
+    T: então o DataFrame resultante deve conter um conjunto
+       esperado de atributos e tipos primitivos
+    """
+
+    # Schema esperado
+    expected_schema = StructType([
+        StructField("order_id", StringType()),
+        StructField("installments", LongType(), False),
+        StructField("sum_payments", DoubleType()),
+        StructField("avg_payment_value", DoubleType()),
+        StructField("distinct_payment_types", LongType(), False),
+        StructField("most_common_payment_type", StringType())
+    ])
+
+    assert df_payments_prep.schema == expected_schema
