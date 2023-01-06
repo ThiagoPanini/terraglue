@@ -31,7 +31,6 @@ from tests.utils.iac_helper import extract_map_variable_from_ferraform
 from tests.utils.spark_helper import generate_fake_spark_dataframe
 from faker import Faker
 
-
 # Instanciando objeto Faker
 faker = Faker()
 Faker.seed(42)
@@ -266,3 +265,28 @@ def df_customers(spark):
 @fixture()
 def df_customers_prep(glue_manager, df_customers):
     return glue_manager.transform_customers(df_customers)
+
+
+# Amostra de DataFrame df_customers
+@fixture()
+def df_payments(spark):
+    # Definindo variável para leitura do DataFrame
+    filename = "sample_olist_order_payments_dataset.csv"
+    data_path = os.path.join(
+        os.getcwd(),
+        f"app/tests/samples/{filename}"
+    )
+
+    # Realizando a leitura do DataFrame
+    df = spark.read.format("csv")\
+        .option("header", "true")\
+        .option("inferSchema", "false")\
+        .load(data_path)
+
+    return df
+
+
+# Resultado do método de transformação do DataFrame
+@fixture()
+def df_payments_prep(glue_manager, df_payments):
+    return glue_manager.transform_payments(df_payments)
