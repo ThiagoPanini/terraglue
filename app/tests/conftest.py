@@ -315,3 +315,17 @@ def df_reviews(spark):
 @fixture()
 def df_reviews_prep(glue_manager, df_reviews):
     return glue_manager.transform_reviews(df_reviews)
+
+
+# Resultado do método de transformação df_sot_prep
+@fixture()
+def df_sot_prep(glue_manager, df_orders_prep, df_order_items_prep,
+                df_customers_prep, df_payments_prep,
+                df_reviews_prep):
+    return glue_manager.transform_sot(
+        df_orders_prep=df_orders_prep,
+        df_order_items_prep=df_order_items_prep,
+        df_customers_prep=df_customers_prep,
+        df_payments_prep=df_payments_prep,
+        df_reviews_prep=df_reviews_prep
+    )
