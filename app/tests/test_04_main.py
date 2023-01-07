@@ -120,7 +120,7 @@ def test_nao_duplicidade_de_order_id_pos_transformacao_order_items(
 
     lines = df_order_items_prep.count()
     lines_distinct = df_order_items_prep\
-      .dropDuplicates(subset=["order_id"]).count()
+        .dropDuplicates(subset=["order_id"]).count()
 
     assert lines_distinct == lines
 
@@ -187,7 +187,7 @@ def test_nao_duplicidade_de_customer_id_pos_transformacao_customers(
 
     lines = df_customers_prep.count()
     lines_distinct = df_customers_prep\
-      .dropDuplicates(subset=["customer_id"]).count()
+        .dropDuplicates(subset=["customer_id"]).count()
 
     assert lines_distinct == lines
 
@@ -236,7 +236,7 @@ def test_qtd_linhas_resultantes_pos_transformacao_payments(
 @mark.main
 @mark.payments
 def test_nao_duplicidade_de_order_id_pos_transformacao_payments(
-    df_order_items_prep
+    df_payments_prep
 ):
     """
     G: dado que o usuário deseja transformar dados presentes
@@ -247,9 +247,9 @@ def test_nao_duplicidade_de_order_id_pos_transformacao_payments(
        order_id no DataFrame resultante
     """
 
-    lines = df_order_items_prep.count()
-    lines_distinct = df_order_items_prep\
-      .dropDuplicates(subset=["order_id"]).count()
+    lines = df_payments_prep.count()
+    lines_distinct = df_payments_prep\
+        .dropDuplicates(subset=["order_id"]).count()
 
     assert lines_distinct == lines
 
@@ -300,6 +300,27 @@ def test_qtd_linhas_resultantes_pos_transformacao_reviews(
 
 @mark.main
 @mark.reviews
+def test_nao_duplicidade_de_order_id_pos_transformacao_reviews(
+    df_reviews_prep
+):
+    """
+    G: dado que o usuário deseja transformar dados presentes
+       no DataFrame df_reviews
+    W: quando o usuário executar o método transform_reviews()
+       da classe GlueTransformationManager
+    T: então não deve haver nenhum tipo de duplicidade pela chave
+       order_id no DataFrame resultante
+    """
+
+    lines = df_reviews_prep.count()
+    lines_distinct = df_reviews_prep\
+        .dropDuplicates(subset=["order_id"]).count()
+
+    assert lines_distinct == lines
+
+
+@mark.main
+@mark.reviews
 def test_schema_resultante_pos_transformacao_reviews(
     df_reviews_prep
 ):
@@ -320,3 +341,95 @@ def test_schema_resultante_pos_transformacao_reviews(
     ])
 
     assert df_reviews_prep.schema == expected_schema
+
+
+@mark.main
+@mark.sot
+def test_qtd_linhas_resultantes_pos_transformacao_sot(
+    df_sot_prep
+):
+    """
+    G: dado que o usuário deseja obter a transformação final
+       após as transformações individuais de suas roigens
+    W: quando o usuário executar o método transform_sot()
+       da classe GlueTransformationManager utilizando uma
+       amostra contendo 10 registros
+    T: então o DataFrame resultante deve retornar uma base
+       agrupada contendo 10 registros
+    """
+    assert df_sot_prep.count() == 10
+
+
+@mark.main
+@mark.sot
+def test_nao_duplicidade_de_order_id_pos_transformacao_sot(
+    df_sot_prep
+):
+    """
+    G: dado que o usuário deseja obter a transformação final
+       após as transformações individuais de suas roigens
+    W: quando o usuário executar o método transform_sot()
+       da classe GlueTransformationManager
+    T: então não deve haver nenhum tipo de duplicidade pela chave
+       order_id no DataFrame resultante
+    """
+
+    lines = df_sot_prep.count()
+    lines_distinct = df_sot_prep\
+        .dropDuplicates(subset=["order_id"]).count()
+
+    assert lines_distinct == lines
+
+
+@mark.main
+@mark.sot
+def test_schema_resultante_pos_transformacao_sot(
+    df_sot_prep
+):
+    """
+    G: dado que o usuário deseja obter a transformação final
+       após as transformações individuais de suas roigens
+    W: quando o usuário executar o método transform_sot()
+       da classe GlueTransformationManager
+    T: então o DataFrame resultante deve conter um conjunto
+       esperado de atributos e tipos primitivos
+    """
+
+    # Schema esperado
+    expected_schema = StructType([
+        StructField("order_id", StringType()),
+        StructField("customer_id", StringType()),
+        StructField("order_status", StringType()),
+        StructField("order_purchase_timestamp", TimestampType()),
+        StructField("order_approved_at", TimestampType()),
+        StructField("order_delivered_carrier_date", TimestampType()),
+        StructField("order_delivered_customer_date", TimestampType()),
+        StructField("order_estimated_delivery_date", DateType()),
+        StructField("year_order_purchase_timestamp", IntegerType()),
+        StructField("quarter_order_purchase_timestamp", IntegerType()),
+        StructField("month_order_purchase_timestamp", IntegerType()),
+        StructField("dayofmonth_order_purchase_timestamp", IntegerType()),
+        StructField("dayofweek_order_purchase_timestamp", IntegerType()),
+        StructField("dayofyear_order_purchase_timestamp", IntegerType()),
+        StructField("weekofyear_order_purchase_timestamp", IntegerType()),
+        StructField("qty_order_items", LongType(), False),
+        StructField("sum_price_order", DecimalType(17, 2)),
+        StructField("avg_price_order", DecimalType(17, 2)),
+        StructField("min_price_order_item", DecimalType(17, 2)),
+        StructField("max_price_order_item", DecimalType(17, 2)),
+        StructField("avg_freight_value_order", DecimalType(17, 2)),
+        StructField("max_order_shipping_limit_date", TimestampType()),
+        StructField("customer_city", StringType()),
+        StructField("customer_state", StringType()),
+        StructField("installments", LongType()),
+        StructField("sum_payments", DoubleType()),
+        StructField("avg_payment_value", DoubleType()),
+        StructField("distinct_payment_types", LongType()),
+        StructField("most_common_payment_type", StringType()),
+        StructField("review_best_score", IntegerType()),
+        StructField("review_comment_message", StringType())
+    ])
+
+    df_sot_prep.printSchema()
+
+    assert df_sot_prep.schema == expected_schema
