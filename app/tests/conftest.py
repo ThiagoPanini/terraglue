@@ -211,7 +211,7 @@ def df_orders(spark):
     return df
 
 
-# Resultado do método de transformação do DataFrame
+# Resultado do método de transformação df_orders_prep
 @fixture()
 def df_orders_prep(glue_manager, df_orders):
     return glue_manager.transform_orders(df_orders)
@@ -236,7 +236,7 @@ def df_order_items(spark):
     return df
 
 
-# Resultado do método de transformação do DataFrame
+# Resultado do método de transformação df_order_items_prep
 @fixture()
 def df_order_items_prep(glue_manager, df_order_items):
     return glue_manager.transform_order_items(df_order_items)
@@ -261,13 +261,13 @@ def df_customers(spark):
     return df
 
 
-# Resultado do método de transformação do DataFrame
+# Resultado do método de transformação df_customers_prep
 @fixture()
 def df_customers_prep(glue_manager, df_customers):
     return glue_manager.transform_customers(df_customers)
 
 
-# Amostra de DataFrame df_customers
+# Amostra de DataFrame df_payments
 @fixture()
 def df_payments(spark):
     # Definindo variável para leitura do DataFrame
@@ -286,7 +286,32 @@ def df_payments(spark):
     return df
 
 
-# Resultado do método de transformação do DataFrame
+# Resultado do método de transformação df_payments_prep
 @fixture()
 def df_payments_prep(glue_manager, df_payments):
     return glue_manager.transform_payments(df_payments)
+
+
+# Amostra de DataFrame df_reviews
+@fixture()
+def df_reviews(spark):
+    # Definindo variável para leitura do DataFrame
+    filename = "sample_olist_order_reviews_dataset.csv"
+    data_path = os.path.join(
+        os.getcwd(),
+        f"app/tests/samples/{filename}"
+    )
+
+    # Realizando a leitura do DataFrame
+    df = spark.read.format("csv")\
+        .option("header", "true")\
+        .option("inferSchema", "false")\
+        .load(data_path)
+
+    return df
+
+
+# Resultado do método de transformação df_reviews_prep
+@fixture()
+def df_reviews_prep(glue_manager, df_reviews):
+    return glue_manager.transform_reviews(df_reviews)
