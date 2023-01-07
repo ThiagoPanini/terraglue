@@ -106,6 +106,27 @@ def test_qtd_linhas_resultantes_pos_transformacao_order_items(
 
 @mark.main
 @mark.order_items
+def test_nao_duplicidade_de_order_id_pos_transformacao_order_items(
+    df_order_items_prep
+):
+    """
+    G: dado que o usuário deseja transformar dados presentes
+       no DataFrame df_order_items
+    W: quando o usuário executar o método transform_order_items()
+       da classe GlueTransformationManager
+    T: então não deve haver nenhum tipo de duplicidade pela chave
+       order_id no DataFrame resultante
+    """
+
+    lines = df_order_items_prep.count()
+    lines_distinct = df_order_items_prep\
+      .dropDuplicates(subset=["order_id"]).count()
+
+    assert lines_distinct == lines
+
+
+@mark.main
+@mark.order_items
 def test_schema_resultante_pos_transformacao_order_items(
     df_order_items_prep
 ):
@@ -152,6 +173,27 @@ def test_qtd_linhas_resultantes_pos_transformacao_customers(
 
 @mark.main
 @mark.customers
+def test_nao_duplicidade_de_customer_id_pos_transformacao_customers(
+    df_customers_prep
+):
+    """
+    G: dado que o usuário deseja transformar dados presentes
+       no DataFrame df_customers
+    W: quando o usuário executar o método transform_customers()
+       da classe GlueTransformationManager
+    T: então não deve haver nenhum tipo de duplicidade pela chave
+       customer_id no DataFrame resultante
+    """
+
+    lines = df_customers_prep.count()
+    lines_distinct = df_customers_prep\
+      .dropDuplicates(subset=["customer_id"]).count()
+
+    assert lines_distinct == lines
+
+
+@mark.main
+@mark.customers
 def test_schema_resultante_pos_transformacao_customers(
     df_customers_prep
 ):
@@ -193,6 +235,27 @@ def test_qtd_linhas_resultantes_pos_transformacao_payments(
 
 @mark.main
 @mark.payments
+def test_nao_duplicidade_de_order_id_pos_transformacao_payments(
+    df_order_items_prep
+):
+    """
+    G: dado que o usuário deseja transformar dados presentes
+       no DataFrame df_payments
+    W: quando o usuário executar o método transform_payments()
+       da classe GlueTransformationManager
+    T: então não deve haver nenhum tipo de duplicidade pela chave
+       order_id no DataFrame resultante
+    """
+
+    lines = df_order_items_prep.count()
+    lines_distinct = df_order_items_prep\
+      .dropDuplicates(subset=["order_id"]).count()
+
+    assert lines_distinct == lines
+
+
+@mark.main
+@mark.payments
 def test_schema_resultante_pos_transformacao_payments(
     df_payments_prep
 ):
@@ -216,3 +279,44 @@ def test_schema_resultante_pos_transformacao_payments(
     ])
 
     assert df_payments_prep.schema == expected_schema
+
+
+@mark.main
+@mark.reviews
+def test_qtd_linhas_resultantes_pos_transformacao_reviews(
+    df_reviews_prep
+):
+    """
+    G: dado que o usuário deseja transformar dados presentes
+       no DataFrame df_reviews
+    W: quando o usuário executar o método transform_reviews()
+       da classe GlueTransformationManager utilizando uma
+       amostra contendo 10 registros
+    T: então o DataFrame resultante deve retornar uma base
+       agrupada contendo 10 registros
+    """
+    assert df_reviews_prep.count() == 10
+
+
+@mark.main
+@mark.reviews
+def test_schema_resultante_pos_transformacao_reviews(
+    df_reviews_prep
+):
+    """
+    G: dado que o usuário deseja transformar dados presentes
+       no DataFrame df_payments
+    W: quando o usuário executar o método transform_customers()
+       da classe GlueTransformationManager
+    T: então o DataFrame resultante deve conter um conjunto
+       esperado de atributos e tipos primitivos
+    """
+
+    # Schema esperado
+    expected_schema = StructType([
+        StructField("order_id", StringType()),
+        StructField("review_best_score", IntegerType()),
+        StructField("review_comment_message", StringType())
+    ])
+
+    assert df_reviews_prep.schema == expected_schema
