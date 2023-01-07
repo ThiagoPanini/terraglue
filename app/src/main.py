@@ -401,8 +401,6 @@ class GlueTransformationManager(GlueETLManager):
                 "max_price_order_item",
                 "avg_freight_value_order",
                 "max_order_shipping_limit_date",
-                "customer_unique_id",
-                "customer_zip_code_prefix",
                 "customer_city",
                 "customer_state",
                 "installments",
@@ -456,6 +454,7 @@ class GlueTransformationManager(GlueETLManager):
         # Transformando dados
         df_orders_prep = self.transform_orders(df=df_orders)
         df_order_items_prep = self.transform_order_items(df=df_order_items)
+        df_customers_prep = self.transform_customers(df=df_customers)
         df_payments_prep = self.transform_payments(df=df_payments)
         df_reviews_prep = self.transform_reviews(df=df_reviews)
 
@@ -463,7 +462,7 @@ class GlueTransformationManager(GlueETLManager):
         df_sot_prep = self.transform_sot(
             df_orders_prep=df_orders_prep,
             df_order_items_prep=df_order_items_prep,
-            df_customers_prep=df_customers,
+            df_customers_prep=df_customers_prep,
             df_payments_prep=df_payments_prep,
             df_reviews_prep=df_reviews_prep
         )

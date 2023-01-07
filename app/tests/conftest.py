@@ -20,8 +20,9 @@ de testes do projeto.
 
 # Importando módulos para uso
 import sys
+import os
 from pytest import fixture
-from src.main import ARGV_LIST, DATA_DICT
+from src.main import ARGV_LIST, DATA_DICT, GlueTransformationManager
 from src.terraglue import GlueJobManager, GlueETLManager
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType,\
@@ -29,7 +30,6 @@ from pyspark.sql.types import StructType, StructField, StringType,\
 from tests.utils.iac_helper import extract_map_variable_from_ferraform
 from tests.utils.spark_helper import generate_fake_spark_dataframe
 from faker import Faker
-
 
 # Instanciando objeto Faker
 faker = Faker()
@@ -168,4 +168,164 @@ def fake_dataframe(spark):
     return generate_fake_spark_dataframe(
         spark=spark,
         schema_input=schema
+    )
+
+
+"""---------------------------------------------------
+----------- 2. DEFINIÇÃO DE FIXTURES ÚTEIS -----------
+        2.4 Fixtures utilizadas em test_main
+---------------------------------------------------"""
+
+
+# Objeto instanciado da classe GlueETLManager
+@fixture()
+def glue_manager(job_args_for_testing):
+    # Adicionando argumentos ao vetor de argumentos
+    for arg_name, arg_value in job_args_for_testing.items():
+        sys.argv.append(f"--{arg_name}={arg_value}")
+
+    glue_manager = GlueTransformationManager(
+        argv_list=ARGV_LIST,
+        data_dict=DATA_DICT
+    )
+
+    return glue_manager
+
+
+# Amostra de DataFrame df_orders
+@fixture()
+def df_orders(spark):
+    # Definindo variável para leitura do DataFrame
+    filename = "sample_olist_orders_dataset.csv"
+    data_path = os.path.join(
+        os.getcwd(),
+        f"app/tests/samples/{filename}"
+    )
+
+    # Realizando a leitura do DataFrame
+    df = spark.read.format("csv")\
+        .option("header", "true")\
+        .option("inferSchema", "false")\
+        .load(data_path)
+
+    return df
+
+
+# Resultado do método de transformação df_orders_prep
+@fixture()
+def df_orders_prep(glue_manager, df_orders):
+    return glue_manager.transform_orders(df_orders)
+
+
+# Amostra de DataFrame df_order_items
+@fixture()
+def df_order_items(spark):
+    # Definindo variável para leitura do DataFrame
+    filename = "sample_olist_order_items_dataset.csv"
+    data_path = os.path.join(
+        os.getcwd(),
+        f"app/tests/samples/{filename}"
+    )
+
+    # Realizando a leitura do DataFrame
+    df = spark.read.format("csv")\
+        .option("header", "true")\
+        .option("inferSchema", "false")\
+        .load(data_path)
+
+    return df
+
+
+# Resultado do método de transformação df_order_items_prep
+@fixture()
+def df_order_items_prep(glue_manager, df_order_items):
+    return glue_manager.transform_order_items(df_order_items)
+
+
+# Amostra de DataFrame df_customers
+@fixture()
+def df_customers(spark):
+    # Definindo variável para leitura do DataFrame
+    filename = "sample_olist_customers_dataset.csv"
+    data_path = os.path.join(
+        os.getcwd(),
+        f"app/tests/samples/{filename}"
+    )
+
+    # Realizando a leitura do DataFrame
+    df = spark.read.format("csv")\
+        .option("header", "true")\
+        .option("inferSchema", "false")\
+        .load(data_path)
+
+    return df
+
+
+# Resultado do método de transformação df_customers_prep
+@fixture()
+def df_customers_prep(glue_manager, df_customers):
+    return glue_manager.transform_customers(df_customers)
+
+
+# Amostra de DataFrame df_payments
+@fixture()
+def df_payments(spark):
+    # Definindo variável para leitura do DataFrame
+    filename = "sample_olist_order_payments_dataset.csv"
+    data_path = os.path.join(
+        os.getcwd(),
+        f"app/tests/samples/{filename}"
+    )
+
+    # Realizando a leitura do DataFrame
+    df = spark.read.format("csv")\
+        .option("header", "true")\
+        .option("inferSchema", "false")\
+        .load(data_path)
+
+    return df
+
+
+# Resultado do método de transformação df_payments_prep
+@fixture()
+def df_payments_prep(glue_manager, df_payments):
+    return glue_manager.transform_payments(df_payments)
+
+
+# Amostra de DataFrame df_reviews
+@fixture()
+def df_reviews(spark):
+    # Definindo variável para leitura do DataFrame
+    filename = "sample_olist_order_reviews_dataset.csv"
+    data_path = os.path.join(
+        os.getcwd(),
+        f"app/tests/samples/{filename}"
+    )
+
+    # Realizando a leitura do DataFrame
+    df = spark.read.format("csv")\
+        .option("header", "true")\
+        .option("inferSchema", "false")\
+        .load(data_path)
+
+    return df
+
+
+# Resultado do método de transformação df_reviews_prep
+@fixture()
+def df_reviews_prep(glue_manager, df_reviews):
+    return glue_manager.transform_reviews(df_reviews)
+
+
+# Resultado do método de transformação df_sot_prep
+@fixture()
+def df_sot_prep(glue_manager, df_orders_prep, df_order_items_prep,
+                df_customers_prep, df_payments_prep,
+                df_reviews_prep):
+    return glue_manager.transform_sot(
+        df_orders_prep=df_orders_prep,
+        df_order_items_prep=df_order_items_prep,
+        df_customers_prep=df_customers_prep,
+        df_payments_prep=df_payments_prep,
+        df_reviews_prep=df_reviews_prep
     )
