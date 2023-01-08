@@ -30,46 +30,49 @@ from pytest import mark
 
 
 @mark.user_input
-def test_tipo_primitivo_variavel_argvlist(argv_list):
+@mark.argv_list
+def test_variavel_argv_list_definida_como_uma_lista(argv_list):
     """
     G: dado que o usuário iniciou a codificação do seu job Glue
-    W: quando o usuário definir a variável ARGV_LIST
-    T: então esta deve ser do tipo list
+    W: quando a variável ARGV_LIST for definida/adaptada pelo usuário
+    T: então esta deve ser uma lista do Python (tipo list)
     """
     assert type(argv_list) == list
 
 
 @mark.user_input
+@mark.argv_list
 def test_variavel_argvlist_possui_argumentos_obrigatorios(argv_list,
                                                           user_required_args):
     """
     G: dado que o usuário iniciou a codificação do seu job Glue
-    W: quando o usuário definir a variável ARGV_LIST no código da aplicação
+    W: quando a variável ARGV_LIST for definida/adaptada pelo usuário
     T: então esta deve possuir uma série argumentos obrigatórios
     """
     assert all(arg in argv_list for arg in user_required_args)
 
 
 @mark.user_input
+@mark.argv_list
 @mark.terraform
 def test_variavel_argvlist_possui_argumentos_declarados_no_terraform(
     argv_list, iac_job_user_args, job_runtime_args
 ):
     """
     G: dado que o usuário definiu argumentos do job na ferramenta de IaC
-    W: quando o usuário definir a variável ARGV_LIST no código da aplicação
+    W: quando a variável ARGV_LIST for definida/adaptada pelo usuário
     T: então esta deve possuir os mesmos elementos/argumentos daqueles
        declarados na ferramenta de IaC (terraform), garantindo assim o
        processo de captura de todas as informações desejadas.
 
-    Observação: o parâmetro "runtime_args" da função de teste contempla
+    Observação: o parâmetro "job_runtime_args" da função de teste contempla
     alguns argumentos que não são explicitamente declarados na ferramenta
-    de IaC pelo usuário (ex: arquivo variables.tf do Terraform) de forma
+    de IaC pelo usuário (arquivo variables.tf do Terraform) de forma
     direta. Isto pode acontecer pois existem argumentos do job que são
     definidos apenas em tempo de execução (ex: nome do bucket de saída
     que depende de um ID da conta e de um nome de região) ou então
     argumentos que existem apenas no ato de submissão do job Glue na
-    AWS (ex: nome do job)
+    AWS (ex: nome e ID do job)
     """
 
     # Obtendo lista de argumentos declaradas na ferramenta de IaC
@@ -84,21 +87,23 @@ def test_variavel_argvlist_possui_argumentos_declarados_no_terraform(
 
 
 @mark.user_input
+@mark.data_dict
 def test_tipo_primitivo_variavel_datadict(data_dict):
     """
     G: dado que o usuário iniciou a codificação do seu job Glue
-    W: quando o usuário definir a variável DATA_DICT no código da aplicação
-    T: então esta deve ser do tipo dict
+    W: quando a variável DATA_DICT for definida/adaptada pelo usuário
+    T: então esta deve ser um dicionário do Python (tipo dict)
     """
     assert type(data_dict) == dict
 
 
 @mark.user_input
+@mark.data_dict
 def test_variavel_datadict_possui_chaves_obrigatorias(data_dict,
                                                       required_data_dict_keys):
     """
     G: dado que o usuário iniciou a codificação do seu job Glue
-    W: quando o usuário definir a variável DATA_DICT no código da aplicação
+    W: quando a variável DATA_DICT for definida/adaptada pelo usuário
     T: então esta deve possuir algumas chaves obrigatórias em sua definição
     """
 
