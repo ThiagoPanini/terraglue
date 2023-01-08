@@ -195,7 +195,7 @@ def test_extracao_do_ano_de_atributo_de_data(
     ]
 
     # Validando igualdade das extrações
-    assert calculated_years == expected_years
+    assert calculated_years[:] == expected_years[:]
 
 
 @mark.etl_manager
@@ -232,7 +232,7 @@ def test_extracao_do_mes_de_atributo_de_data(
     ]
 
     # Validando igualdade das extrações
-    assert expected_months == calculated_months
+    assert expected_months[:] == calculated_months[:]
 
 
 @mark.etl_manager
@@ -269,7 +269,7 @@ def test_extracao_do_dia_de_atributo_de_data(
     ]
 
     # Validando igualdade das extrações
-    assert expected_days == calculated_days
+    assert expected_days[:] == calculated_days[:]
 
 
 @mark.etl_manager
@@ -296,9 +296,15 @@ def test_adicao_de_coluna_de_particao_anomesdia_dataframe(
       partition_value=partition_value
     )
 
-    # Validando existência de nova coluna e seu tipo primitivo
-    assert df_partitioned.schema[-1].name == partition_name
-    assert df_partitioned.schema[-1].dataType == IntegerType()
+    # Coletando nome e valor de partição de novo DataFrame
+    generated_partition_name = df_partitioned.schema[-1].name
+    generated_partition_value = df_partitioned.selectExpr(
+      partition_name
+    ).take(1)[0][0]
+
+    # Validando existência de nova coluna e seu valor
+    assert generated_partition_name == partition_name
+    assert generated_partition_value == partition_value
 
 
 @mark.etl_manager
