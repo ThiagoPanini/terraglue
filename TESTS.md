@@ -29,7 +29,7 @@ ___
 - [2. Instalação e primeiros passos](https://github.com/ThiagoPanini/terraglue/blob/main/GETTINGSTARTED.md) 
 - [3. Infraestrutura provisionada](https://github.com/ThiagoPanini/terraglue/blob/main/INFRA.md) 
 - [4. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/APP.md) 
--  [5. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/EXAMPLES.md)
+- [5. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/EXAMPLES.md)
 - 👉 [6. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/main/TESTS.md) *Você está aqui!*
 
 ___
@@ -100,7 +100,7 @@ A nova imagem estará, então, disponível para uso.
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/tests-docker-desktop-imagem.png" alt="docker-glue-images">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/tests-docker-desktop-images.png" alt="docker-glue-images">
 </div>
 </details>
 
@@ -208,7 +208,7 @@ pytest app/ -vv
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/tests-pytest-container.png" alt="tests-pytest-container">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/tests-pytest-container.png" alt="tests-pytest-container">
 </div>
 </details>
 
