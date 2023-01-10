@@ -8,7 +8,17 @@
   - [Escopo e abordagem](#escopo-e-abordagem)
 - [Preparando o ambiente](#preparando-o-ambiente)
   - [Instalação do Docker](#instalação-do-docker)
+  - [Obtenção da imagem do Glue para uso local](#obtenção-da-imagem-do-glue-para-uso-local)
+  - [Configurando credenciais da AWS](#configurando-credenciais-da-aws)
+  - [Extensão para conexão remota via VSCode](#extensão-para-conexão-remota-via-vscode)
+  - [Inicializando o container](#inicializando-o-container)
+  - [Utilizando VSCode para conexão com o container](#utilizando-vscode-para-conexão-com-o-container)
+  - [Executando a primeira rodada de testes no container](#executando-a-primeira-rodada-de-testes-no-container)
 - [Suíte de testes já disponibilizada no terraglue](#suíte-de-testes-já-disponibilizada-no-terraglue)
+  - [Testando entradas do usuário](#testando-entradas-do-usuário)
+  - [Testando funcionalidades da classe GlueJobManager](#testando-funcionalidades-da-classe-gluejobmanager)
+  - [Testando funcionalidades da classe GlueETLManager](#testando-funcionalidades-da-classe-glueetlmanager)
+  - [Testando funcionalidades da classe GlueTransformationManager](#testando-funcionalidades-da-classe-gluetransformationmanager)
 ___
 
 ## Antes de começar
@@ -64,7 +74,7 @@ De forma resumida, a lista de pré requisitos abaixo precisa ser cumprida para p
 
 Para a instalação do Docker em seu sistema, basta seguir as orientações presentes no [site oficial](https://docs.docker.com/get-docker/) de acordo com seu sistema operacional de trabalho, seja ele [Mac](https://docs.docker.com/desktop/install/mac-install/), [Windows](https://docs.docker.com/desktop/install/windows-install/) ou [Linux](https://docs.docker.com/desktop/install/linux-install/).
 
-Como exemplo prático de instalação em um ambiente Windows, após a execução do procedimento indicado, o usuário terá em mãos 
+Como exemplo prático de instalação em um ambiente Windows, após a execução do procedimento indicado, o usuário terá em mãos o Docker Desktop instalado e pronto para a uso.
 
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
@@ -73,7 +83,146 @@ Como exemplo prático de instalação em um ambiente Windows, após a execução
 </div>
 </details>
 
+Também é possível executar o comando `docker --version` no terminal ou prompt de comando para validar a correta instalação da ferramenta.
+
+### Obtenção da imagem do Glue para uso local
+
+Após o *download* e a instalação do Docker, é preciso obter a imagem reponsável por alocar todas as dependências necessárias para a execução local de *jobs* do Glue. No decorrer do tempo, diferentes imagens de diferentes versões do Glue foram lançadas, cada uma contendo os requisitos necessários e adequados à respectiva versão designada. No atual período de desenvolvimento desta documentação, a imagem que simula as dependências do Glue 3.0 será utilizada. Para maiores informações sobre imagens de versões anteriores, é possível consultar o [github oficial da awslabs](https://github.com/awslabs/aws-glue-libs).
+
+Assim, para obter a imagem acima referenciada, basta abrir o terminal e digitar o seguinte comando:
+
+```bash
+docker pull amazon/aws-glue-libs:glue_libs_3.0.0_image_01
+```
+
+A nova imagem estará, então, disponível para uso.
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/tests-docker-desktop-imagem.png" alt="docker-glue-images">
+</div>
+</details>
+
+Alternativamente, é possível analisar se a imagem foi obtido com sucesso através da execução do comando `docker image ls` no terminal.
+
+### Configurando credenciais da AWS
+
+Para que seja possível realizar chamadas de API na AWS através do *container*, é preciso configurar as chaves de acesso do usuário. Dessa forma, com a ACCESS_KEY_ID e a SECRET_ACCESS_KEY em mãos, basta digitar o seguinte comando no terminal e seguir as orientações solicitadas na própria tela:
+
+```bash
+aws configure
+```
+
+### Extensão para conexão remota via VSCode
+
+Para facilitar o desenvolvimento de código e a execução de testes, o uso de uma IDE é altamente indicado. Considerando o VS Code como uma forma de exemplificar este processo, basta instalar a extensão [Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers#:~:text=The%20Visual%20Studio%20Code%20Dev,Studio%20Code's%20full%20feature%20set.).
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/tests-vscode-dev-containers.png" alt="vscode-dev-containers-extension">
+</div>
+</details>
+
+
+### Inicializando o container
+
+Antes de dar o tão aguardo primeiro passo na utilização de um container Docker para uso local do Glue, é importante repassar o *checklist* de atividades necessárias para o sucesso da operação:
+
+  - ✅ Docker instalado
+  - ✅ Imagem Glue obtida
+  - ✅ Credenciais AWS configuradas
+  - ✅ IDE configurada (opcional)
+
+Assim, o comando abaixo pode ser utilizado em sistemas Windows para execução do *container* Docker com a imagem do Glue. Adaptações podem ser realizadas de acordo com o sistema operacional utilizado e a localização dos diretórios usados como alvo.
+
+```bash
+set AWS_CONFIG_PATH=C:\Users\%username%\.aws
+set AWS_PROFILE_NAME=default
+set REPO_PATH=C:\Users\%username%\OneDrive\dev\workspaces\terraglue
+
+docker run -it -v %AWS_CONFIG_PATH%:/home/glue_user/.aws -v %REPO_PATH%:/home/glue_user/workspace/terraglue -e AWS_PROFILE=%AWS_PROFILE_NAME% -e DISABLE_SSL=true --rm -p 4040:4040 -p 18080:18080 --name terraglue amazon/aws-glue-libs:glue_libs_3.0.0_image_01 pyspark
+```
+
+Para entender um pouco mais sobre o comando acima utilizado é preciso navegar brevemente na [documentação do Docker](https://docs.docker.com/engine/reference/commandline/run/) para entender alguns dos parâmetros configurados. Entre eles, é possível detalhar:
+
+| **Parâmetro** | **Descrição** | **Aplicação no comando** |
+| :-- | :-- | :-- |
+| `-i` ou `--interactive` | Mantém a entrada padrão (STDIN) aberta | [Link para entendimento do comando](https://docs.docker.com/engine/reference/commandline/run/#-assign-name-and-allocate-pseudo-tty---name--it) |
+| `-t` ou `--tty` | Aloca um pseudo-TTY | [Link para entendimento do comando](https://docs.docker.com/engine/reference/commandline/run/#-assign-name-and-allocate-pseudo-tty---name--it) |
+| `-v` ou `--volume` | Vincula um volume local com um caminho no container | Vínculo entre o diretório de credenciais da AWS e do repositório alvo a ser utilizado com seus respectivos caminhos acessíveis via *container* |
+| `-e` ou `--env` | Estabelece variáveis de ambiente | Configura o perfil de credenciais como variáveis de ambiente do *container* para facilitar as chamadas de API para a AWS |
+| `-rm` | Automaticamente remove o *container* ao sair | Automaticamente remove o *container* ao sair |
+| `-p` ou `--publish` | Publica portas do *container* no servidor | Vincula portas 4040 e 18080 do *container* para as mesmas portas do *local host* do usuário para acesso externo |
+| `--name` | Define um nome para o *container* | Serve para identificar o *container* no Docker Desktop |
+
+Em caso de sucesso da execução do comando acima, o usuário verá, em seu terminal, o *shell* do `pyspark` pronto para uso. Nele, uma sessão Spark se faz presente e permite com que o usuário execute códigos diretamente pelo *container*, incluindoa importação de bibliotecas do Glue que não funcionavam anteriormente no ambiente local.
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/tests-docker-glue-pyspark.png" alt="tests-docker-glue-pyspark">
+</div>
+</details>
+
+Ainda sim, é possível aprimorar a experiência de uso da imagem Glue através de um container do que simplesmente utilizar o terminal. Para isso, a próxima e derradeira seção utiliza o VS Code e a extensão Dev Containers para proporcionar uma forma dinâmica de realizar operações com o Glue localmente.
+
+### Utilizando VSCode para conexão com o container
+
+Com o *container* em execução, o usuário pode acessar o Visual Studio Code e abrir um diretório alvo (ex: terraglue) para conexão com o *container*. Para tal, basta acessar o menu lateral esquerdo *Remote Explorer* e visualizar o *container* alvo abaixo de "Dev Containers":
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/tests-vscode-remote-explorer.png" alt="tests-vscode-remote-explorer">
+</div>
+</details>
+
+Assim, basta clicar com o botão direito do mouse e selecionar a opção *Attach to Container*. Com isso, uma nova janela do VSCode será aberta e o usuário terá a possibilidade de utilizar a IDE para desenvolver e executar comando de uma forma mais fácil e dinâmica.
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/tests-vscode-container-attached.png" alt="tests-vscode-container-attached">
+</div>
+</details>
+
+### Executando a primeira rodada de testes no container
+
+O terraglue, como produto, já proporciona ao usuário uma suíte de testes minimamente relevante para uso e adaptação, a qual será explicada em detalhes na próxima seção deste material. Como uma forma de validar toda a jornada de preparação aqui estabelecida, o usuário conectado ao *container* pode executar a seguinte sequência de comandos abaixo para realizar sua primeira validação de testes unitários no Glue:
+
+1. Atualização de bibliotecas Python para correta execução dos testes
+
+```bash
+cd terraglue/
+pip install --upgrade pip -r app/requirements_test_container.txt
+```
+
+2. Execução de toda a suíte de testes pré programada para o usuário
+
+```bash
+pytest app/ -vv
+```
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/tests-pytest-container.png" alt="tests-pytest-container">
+</div>
+</details>
+
+E assim, foi possível concluir todas as etapas de preparação e primeiros passos na disponibilização de uma forma isolada de executar e testar *jobs* do Glue utilizando um *container* Docker com uma imagem personalizada com todas as dependências necessárias. Este procedimento pode acelerar grandemente todo e qualquer processo de execução e validação de funcionalidades e aplicações Spark a serem posteriormente migradas e implantadas como *jobs* do Glue.
+
+Na próxima seção, algumas explicações teóricas sobre os testes disponibilizados para o terraglue serão forencidas para que o usuário ganhe ainda mais autonomia no processo.
 ___
 
 ## Suíte de testes já disponibilizada no terraglue
 
+### Testando entradas do usuário
+
+### Testando funcionalidades da classe GlueJobManager
+
+### Testando funcionalidades da classe GlueETLManager
+
+### Testando funcionalidades da classe GlueTransformationManager
