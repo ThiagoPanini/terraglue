@@ -219,6 +219,25 @@ ___
 
 ## Suíte de testes já disponibilizada no terraglue
 
+No início desta documentação, foi possível explorar alguns desafios extremamente importantes no que tange a construção de testes envolvendo *jobs* do Glue na AWS. Visando endereçar e solucionar grande parte dos problemas citados, o **terraglue** proporciona, por natureza, um conjunto de testes unitários prontos para serem utilizados, adaptados e aprimorados de acordo com as especifidades de cada projeto construído a partir de sua base.
+
+Sendo um produto de prateleira com suas funcionalidades intrínsecas programadas para facilitar e acelerar o desenvolvimento de *jobs* do Glue na AWS, nada mais coerente do que testar se tais funcionalidades estão realmente de acordo com o esperado, seja validando configurações particulares do usuário em termos de definição de variáveis ou mesmo o comportamento de métodos específicos do módulo `terraglue.py`.
+
+Com isso em mente, uma série de testes unitários foram desenvolvidos e categorizados de acordo com seus respectivos propósitos, sendo eles:
+
+| 🌎 **Universo de testagem** | 🐍 **Script de testes** |  🛡️ **Quantidade de testes** | 📍 **Descrição** | 🛠️ **Requer adaptação do usuário?**
+| :--: | :--: | :--: | :--: | :--: |
+| Entradas do usuário | `test_01_user_inputs.py` | 5 | Valida *inputs* do usuário relacionados à definição de variáveis no script principal da aplicação | ✅ Não |
+| Classe `GlueJobManager` | `test_02_job_manager.py` | 5 | Valida elementos de uma aplicação Spark e um *job* Glue criados como insumos de execução do projeto | ✅ Não |
+| Classe `GlueETLManager` | `test_03_etl_manager.py` | 9 | Valida método estáticos de transformação e funcionalidades adicionais do módulo | ✅ Não |
+| Script principal | `test_04_main.py` | 17 | Valida regras de negócio específicas vinculadas ao job codificado pelo usuário | ⚠️ Sim |
+| | | **Total: 36**
+
+Conforme detalhado na tabela acima, além de entregar um ambiente totalmente personalizado para a execução de *jobs* do Glue e uma aplicação de exemplo utilizando uma forma altamente disruptiva de organizar uma aplicação Spark, o **terraglue** também traz consigo uma suíte completa de testes capaz de ser utilizada pelo usuário para os mais variados propósitos.
+
+Se algum dia testar *jobs* do Glue pôde ser considerada uma tarefa obscura e de extrema complexidade, com o **terraglue** as chances de aprimorar e otimizar este processo são tremendas!
+
+
 ### Testando entradas do usuário
 
 ### Testando funcionalidades da classe GlueJobManager
