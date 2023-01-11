@@ -225,7 +225,7 @@ Sendo um produto de prateleira com suas funcionalidades intrínsecas programadas
 
 Com isso em mente, uma série de testes unitários foram desenvolvidos e categorizados de acordo com seus respectivos propósitos, sendo eles:
 
-| 🌎 **Universo de testagem** | 🐍 **Script de testes** |  🛡️ **Quantidade de testes** | 📍 **Descrição** | 🛠️ **Requer adaptação do usuário?**
+| 🌎 <br> **Universo de testagem** | 🐍 <br> **Referência de script de teste** |  🛡️ <br> **Quantidade de testes** | 📍 <br> **Descrição e aplicação** | 🛠️ <br> **Usuário precisa adaptar?**
 | :--: | :--: | :--: | :--: | :--: |
 | Entradas do usuário | `test_01_user_inputs.py` | 5 | Valida *inputs* do usuário relacionados à definição de variáveis no script principal da aplicação | ✅ Não |
 | Classe `GlueJobManager` | `test_02_job_manager.py` | 5 | Valida elementos de uma aplicação Spark e um *job* Glue criados como insumos de execução do projeto | ✅ Não |
