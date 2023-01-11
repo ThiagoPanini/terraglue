@@ -20,5 +20,6 @@ jobs:
 
       - name: Instalação das Dependências
         run: |
-          ls -la
+          python -m pip install --upgrade pip
+          python -m pip install -r ./app/requirements.txt
     
