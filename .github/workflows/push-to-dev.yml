@@ -20,5 +20,5 @@ jobs:
 
       - name: Instalação das Dependências
         run: |
-          pwd
+          ls -la
     
