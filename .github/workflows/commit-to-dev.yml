@@ -1,7 +1,7 @@
 name: Pylint
 
 on:
-  commit:
+  push:
     branches:
       - dev
 
