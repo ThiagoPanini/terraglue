@@ -227,10 +227,10 @@ Com isso em mente, uma série de testes unitários foram desenvolvidos e categor
 
 | 🌎 <br> **Universo de testagem** | 🐍 <br> **Referência de script de teste** |  🛡️ <br> **Quantidade de testes** | 📍 <br> **Descrição e aplicação** | 🛠️ <br> **Usuário precisa adaptar?**
 | :--: | :--: | :--: | :--: | :--: |
-| Entradas do usuário | `test_01_user_inputs.py` | 5 | Valida *inputs* do usuário relacionados à definição de variáveis no script principal da aplicação | ✅ Não |
-| Classe `GlueJobManager` | `test_02_job_manager.py` | 5 | Valida elementos de uma aplicação Spark e um *job* Glue criados como insumos de execução do projeto | ✅ Não |
-| Classe `GlueETLManager` | `test_03_etl_manager.py` | 9 | Valida método estáticos de transformação e funcionalidades adicionais do módulo | ✅ Não |
-| Script principal | `test_04_main.py` | 17 | Valida regras de negócio específicas vinculadas ao job codificado pelo usuário | ⚠️ Sim |
+| Entradas do usuário | [`test_01_user_inputs.py`](https://github.com/ThiagoPanini/terraglue/blob/main/app/tests/test_01_user_inputs.py) | 5 | Valida *inputs* do usuário relacionados à definição de variáveis no script principal da aplicação | ✅ Não |
+| Classe `GlueJobManager` | [`test_02_job_manager.py`](https://github.com/ThiagoPanini/terraglue/blob/main/app/tests/test_02_job_manager.py) | 5 | Valida elementos de uma aplicação Spark e um *job* Glue criados como insumos de execução do projeto | ✅ Não |
+| Classe `GlueETLManager` | [`test_03_etl_manager.py`](https://github.com/ThiagoPanini/terraglue/blob/main/app/tests/test_03_etl_manager.py) | 9 | Valida método estáticos de transformação e funcionalidades adicionais do módulo | ✅ Não |
+| Script principal | [`test_04_main.py`](https://github.com/ThiagoPanini/terraglue/blob/main/app/tests/test_04_main.py) | 17 | Valida regras de negócio específicas vinculadas ao job codificado pelo usuário | 🚨 Sim |
 | | | **Total: 36**
 
 Conforme detalhado na tabela acima, além de entregar um ambiente totalmente personalizado para a execução de *jobs* do Glue e uma aplicação de exemplo utilizando uma forma altamente disruptiva de organizar uma aplicação Spark, o **terraglue** também traz consigo uma suíte completa de testes capaz de ser utilizada pelo usuário para os mais variados propósitos.
@@ -240,8 +240,72 @@ Se algum dia testar *jobs* do Glue pôde ser considerada uma tarefa obscura e de
 
 ### Testando entradas do usuário
 
+O primeiro módulo de testes a ser detalhado envolve a validação de entredas fornecidas pelo usuário, sejam estas materializadas como variáveis da aplicação principal ou até mesmo parâmetros do *job* declarados na ferramenta de IaC.
+
+> ✅ Este módulo de testes é característico do terraglue como solução e, dessa forma, não exige qualquer adaptação por parte do usuário. As validações consolidadas no referido script consolidam situações rígidas que servem para garantir a execução das funcionalidades do próprio terraglue.
+
+Na prática, o modelo de aplicação Spark fornecida no **terraglue** exige algumas configurações mínimas inseridas pelo usuário, sendo elas:
+
+- Definição de parâmetros obrigatórios do *job* Glue
+- Adaptação da variável `ARGV_LIST` com parâmetros do *job* a serem lidos
+- Adaptação da variável `DATA_DICT` com referências às origens de dados
+
+Cada um dos elementos acima configuram atuações onde o usuário pode criar, adaptar e configurar situações por conta própria. Dessa forma, o script `test_01_user_inputs.py` traz consigo algumas funções de testes para validar se as adaptações do usuário foram realizadas com a devida coerência esperada dentro da dinâmica de funcionamento da aplicação.
+
+Para facilitar análises pontuais por parte do usuário, a [marker customizada](https://docs.pytest.org/en/7.1.x/example/markers.html) `user_input` foi configurada e inserida de modo a proporcionar, por exemplo, uma execução específica apenas nos testes que competem à esta categoria através do seguinte comando:
+
+```bash
+pytest app/ -vv -m user_input
+```
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/tests-pytest-user-input.png" alt="tests-pytest-user-input">
+</div>
+</details>
+
+
 ### Testando funcionalidades da classe GlueJobManager
 
+O segundo módulo de testes se faz presente como uma forma eficiente de testar a obtenção dos insumos que "fazem a magia do Glue acontecer". Nele, o grande foco de testagem está nos métodos da classe `GlueJobManager` que, por sua vez, é a responsável por assumir atributos utilizados em grande parte das operações do Glue durante o processo de ETL, como por exemplo, os elementos de contexto e sessão do Spark.
+
+> ✅ Este módulo de testes é característico do terraglue como solução e, dessa forma, não exige qualquer adaptação por parte do usuário. As validações consolidadas no referido script consolidam situações rígidas que servem para garantir a execução das funcionalidades do próprio terraglue.
+
+Considerando a construção da referida classe e das funcionalidades nela consolidadas, os testes alocados no script `test_02_job_manager.py` visam garantir a obtenção de todos os elementos necessários para a correta execução do *job* Glue.
+
+Para visualizar e testar apenas esta parcela da aplicação, o usuário pode executar o comando abaixo filtrando a [marker customizada](https://docs.pytest.org/en/7.1.x/example/markers.html) `job_manager` disponibilizada para esta finalidade.
+
+```bash
+pytest app/ -vv -m job_manager
+```
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/tests-pytest-job-manager.png" alt="tests-pytest-job-manager">
+</div>
+</details>
+
 ### Testando funcionalidades da classe GlueETLManager
+
+Em sequência aos módulos de teste, é chegado o momento de validar algumas das funcionalidades de prateleira disponibilizadas como métodos da classe `GlueETLManager` no módulo `terraglue.py`. Como se sabe, é nesta classe onde alguns métodos estáticos de transformação de dados estão alocados e disponibilizados para auxiliar o usuário em algumas operações comumente realizadas em aplicações Spark, como por exemplo, a adição de partições em DataFrames, o reparticionamento de DataFrames, entre outras. Validar tais funcionalidades é essencial para garantir que o usuário terá em mãos métodos de transformação consistentes para adicionar em suas *pipelines*.
+
+> ✅ Este módulo de testes é característico do terraglue como solução e, dessa forma, não exige qualquer adaptação por parte do usuário. As validações consolidadas no referido script consolidam situações rígidas que servem para garantir a execução das funcionalidades do próprio terraglue.
+
+Neste script de testes, o usuário poderá encontrar validações associadas aos resultados esperados de alguns métodos de transformação agnósticos criados para proporcionar um maior leque de possibilidades para usuários que querem codificar seus próprios *jobs* do Glue e utilizar funcionalidades prontas para as mais variadas atuações.
+
+Para visualizar e testar apenas esta parcela da aplicação, o usuário pode executar o comando abaixo filtrando a [marker customizada](https://docs.pytest.org/en/7.1.x/example/markers.html) `etl_manager` disponibilizada para esta finalidade.
+
+```bash
+pytest app/ -vv -m etl_manager
+```
+
+<details>
+  <summary>📷 Clique para visualizar a imagem</summary>
+  <div align="left">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/tests-pytest-etl-manager.png" alt="tests-pytest-etl-manager">
+</div>
+</details>
 
 ### Testando funcionalidades da classe GlueTransformationManager
