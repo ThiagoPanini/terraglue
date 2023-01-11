@@ -309,3 +309,26 @@ pytest app/ -vv -m etl_manager
 </details>
 
 ### Testando funcionalidades da classe GlueTransformationManager
+
+Por fim, o último e derradeiro script de testes disponibilizado para o usuário como uma das funcionalidades do **terraglue** envolve a construção de funções de testes relacionadas às regras de negócio da aplicação Spark submetida como um Glue *job* na AWS. Em linhas gerais, é aqui onde o usuário focará seus esforços de adaptação das funções de acordo com suas próprias regras de validações codificadas nos métodos de transformação da classe `GlueTransformationManager`.
+
+> 🚨 Este módulo de testes é construído com base em transformações específicas codificadas pelo usuário de acordo com as regras de negócio a serem implementadas em seu processo de ETL. Assim sendo, este script precisa obrigatoriamente ser alterado e adaptado pelo usuário que utilizar o terraglue como uma forma de padronizar sua aplicação Spark submetida como job do Glue.
+
+As funcionalidades testadas neste script competem ao que se tem programado no script principal da aplicação envolvendo a construção de uma tabela na camada SoT contendo dados do e-commerce brasileiro. Dessa forma, a dinâmica de testes implementada teve como premissa a execução dos seguintes passos:
+
+1. Extração de amostras para cada uma das origens do processo de ETL
+2. Construção de testes de quantidade de registros para cada origem
+3. Construção de testes de *schema* resultante para cada origem
+
+Existem, ainda, diferentes testes que podem ser implementados pelo usuário, como por exemplo, a validação da existência de dados nulos, duplicidades, regras específicas de negócio e muito mais. Cabe ao mesmo decidir quais funcionalidades testar e como implementá-las.
+
+___
+
+Continue sua jornada no **terraglue** através das documentações!
+
+- [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main)
+- [2. Instalação e primeiros passos](https://github.com/ThiagoPanini/terraglue/blob/main/GETTINGSTARTED.md) 
+- [3. Infraestrutura provisionada](https://github.com/ThiagoPanini/terraglue/blob/main/INFRA.md) 
+- [4. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/APP.md) 
+- [5. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/EXAMPLES.md)
+- 👉 [6. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/main/TESTS.md) *Você está aqui!*
