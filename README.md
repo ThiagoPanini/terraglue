@@ -1,7 +1,6 @@
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/logo-v4.png" alt="terraglue-logo">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/imgs/logo-v4.png" alt="terraglue-logo">
 </div>
-
 
 <div align="center">
   <br>
@@ -9,7 +8,8 @@
   ![GitHub release (latest by date)](https://img.shields.io/github/v/release/ThiagoPanini/terraglue?color=brightgreen)
   ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/ThiagoPanini/terraglue?color=blue)
   ![GitHub contributors](https://img.shields.io/github/contributors/ThiagoPanini/terraglue?color=red)
-  ![GitHub repo size](https://img.shields.io/github/repo-size/ThiagoPanini/terraglue?color=purple)
+  ![CI workflow](https://img.shields.io/github/actions/workflow/status/ThiagoPanini/terraglue/ci.yml?label=ci)
+  
 
 
 </div>
