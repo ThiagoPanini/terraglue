@@ -202,6 +202,7 @@ Todos são muito bem vindos a contribuírem com evoluções e novas funcionalida
 - [GitHub - Angular Commit Message Format](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format)
 - [GitHub - commitlint](https://github.com/conventional-changelog/commitlint)
 - [shields.io](https://shields.io/)
+- [Codecoverage - docs](https://docs.codecov.com/docs)
 - [GitHub Actions Marketplace](https://github.com/marketplace?type=actions)
 - [Continuous Integration with GitHub Actions](https://endjin.com/blog/2022/09/continuous-integration-with-github-actions)
 - [GitHub - About security hardening with OpenID Connect](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect)
