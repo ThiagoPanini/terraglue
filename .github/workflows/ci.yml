@@ -27,7 +27,7 @@ jobs:
       - name: Instalação das Dependências
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r ./app/requirements.txt
+          python -m pip install -r ./app/requirements-ci.txt
       
       - name: Análise de Linter - flake8
         run:
@@ -65,4 +65,4 @@ jobs:
 
       - name: Execução de Testes Unitários no Container
         run: |
-          docker run -v $(pwd):/home/glue_user/workspace/terraglue -e DISABLE_SSL=true --rm -p 4040:4040 -p 18080:18080 --name terraglue amazon/aws-glue-libs:glue_libs_3.0.0_image_01 -c "cd terraglue && pip install --upgrade pip -r app/requirements_test_container.txt && pytest -vv app --color=yes"
+          docker run -v $(pwd):/home/glue_user/workspace/terraglue -e DISABLE_SSL=true --rm -p 4040:4040 -p 18080:18080 --name terraglue amazon/aws-glue-libs:glue_libs_3.0.0_image_01 -c "cd terraglue && pip install --upgrade pip -r app/requirements-container.txt && pytest -vv app --color=yes"
