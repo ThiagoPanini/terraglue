@@ -1,5 +1,5 @@
 """
-MODULE: terraglue.py
+MODULE: terraglue.py.
 
 CONTEXTO:
 ---------
@@ -32,7 +32,8 @@ TABLE OF CONTENTS:
 ------------------------------------------------------
 ---------- 1. PREPARAÇÃO INICIAL DO SCRIPT -----------
           1.1 Importação das bibliotecas
----------------------------------------------------"""
+------------------------------------------------------
+"""
 
 # Bibliotecas utilizadas na construção do módulo
 import sys
@@ -52,6 +53,8 @@ def log_config(logger_name: str = __file__,
                logger_level: int = logging.INFO,
                logger_date_format: str = "%Y-%m-%d %H:%M:%S") -> None:
     """
+    Configuração de logs.
+
     Função criada para facilitar a criação de configuração
     de uma instância de Logger do Python utilizada no
     decorrer da aplicação Spark para registros de logs
@@ -72,7 +75,6 @@ def log_config(logger_name: str = __file__,
         nas mensagens de logs.
         [type: str, default="%Y-%m-%d %H:%M:%S"]
     """
-
     # Instanciando objeto de logging
     logger = logging.getLogger(logger_name)
     logger.setLevel(logger_level)
@@ -98,6 +100,8 @@ logger = log_config(logger_name=__file__)
 # Classe para gerenciamento de insumos de um job Glue
 class GlueJobManager():
     """
+    Gerenciamento de insumos de um job Glue.
+
     Classe responsável por gerenciar e fornecer todos os insumos
     necessários para a utilização de um job do Glue na dinâmica
     de processamento de dados. Com ela, o usuário final possui
@@ -140,15 +144,16 @@ class GlueJobManager():
         [type: SparkSession]
     """
 
-    def __init__(self, argv_list: list,
-                 data_dict: dict) -> None:
+    def __init__(self, argv_list: list, data_dict: dict) -> None:
+        """Método construtor da classe."""
         self.argv_list = argv_list
         self.data_dict = data_dict
         self.args = getResolvedOptions(sys.argv, self.argv_list)
 
-    # Preparando mensagem inicial para início do job
     def job_initial_log_message(self) -> None:
         """
+        Preparando mensagem inicial para início do job.
+
         Método responsável por compor uma mensagem inicial de log a ser
         consolidada no CloudWatch sempre que um objeto desta classe
         for instanciado. A mensagem de log visa declarar todas as
@@ -156,7 +161,6 @@ class GlueJobManager():
         sobre os push down predicates (se utilizados) em cada
         processo de leitura de dados.
         """
-
         # Definindo strings para casos com ou sem push down predicate
         without_pushdown = "sem push down predicate definido"
         with_pushdown = "com push down predicate definido por <push_down>"
@@ -188,14 +192,14 @@ class GlueJobManager():
         initial_msg = welcome_msg + initial_msg
         logger.info(initial_msg)
 
-    # Obtendo e logando argumentos do job
     def print_args(self) -> None:
         """
+        Obtendo e logando argumentos do job.
+
         Método responsável por mostrar ao usuário, como uma mensagem
         de log, todos os argumentos utilizados no referido job e
         seus respectivos valores.
         """
-
         try:
             args_formatted = "".join([f'--{k}: "{v}"\n'
                                       for k, v in self.args.items()])
@@ -206,13 +210,13 @@ class GlueJobManager():
                          f"lista informada. Exception: {e}")
             raise e
 
-    # Obtendo elementos de contexto e sessão da aplicação
     def get_context_and_session(self) -> None:
         """
+        Obtendo elementos de contexto e sessão da aplicação.
+
         Método responsável por criar e associar atributos da classe
         para os elementos SparkContext, GlueContext e SparkSession.
         """
-
         logger.info("Criando SparkContext, GlueContext e SparkSession")
         try:
             self.sc = SparkContext.getOrCreate()
@@ -223,9 +227,10 @@ class GlueJobManager():
                          f"da aplicação. Exception: {e}")
             raise e
 
-    # Inicializando objeto de job a partir de contexto do Glue
     def init_job(self) -> Job:
         """
+        Inicializando objeto de job a partir de contexto do Glue.
+
         Método criado para consolidar todas as etapas de inicialização
         de um job do Glue a partir da visualização dos argumentos e
         obtenção dos elementos de contexto e sessão. Com a execução
@@ -237,7 +242,6 @@ class GlueJobManager():
             Elemento de job utilizado pelo Glue para configurações gerais
             [type: awsglue.job.Job]
         """
-
         # Obtendo argumentos e consolidando mensagens de log
         self.job_initial_log_message()
         self.print_args()
@@ -258,6 +262,8 @@ class GlueJobManager():
 # Classe para o gerenciamento de transformações Spark em um job
 class GlueETLManager(GlueJobManager):
     """
+    Gerenciamento de métodos úteis para transformações no Glue.
+
     Classe responsável por gerenciar e fornecer métodos típicos
     de transformação de um job do Glue a serem detalhadamente
     adaptados por seus usuários para que as operações nos dados
@@ -339,6 +345,7 @@ class GlueETLManager(GlueJobManager):
     """
 
     def __init__(self, argv_list: list, data_dict: dict) -> None:
+        """Método construtor da classe."""
         self.argv_list = argv_list
         self.data_dict = data_dict
 
@@ -350,9 +357,10 @@ class GlueETLManager(GlueJobManager):
         self.s3_table_uri = f"s3://{self.args['OUTPUT_BUCKET']}/"\
             f"{self.args['OUTPUT_TABLE']}"
 
-    # Gerando dicionário de DynamicFrames do projeto
     def generate_dynamic_frames_dict(self) -> dict:
         """
+        Gerando dicionário de DynamicFrames do projeto.
+
         Método responsável por utilizar o atributo data_dict da classe
         para leitura e obtenção de todos os DynamicFrames configurados
         no referido dicionário de acordo com as especificações
@@ -414,7 +422,6 @@ class GlueETLManager(GlueJobManager):
             self.data_dict e disponibilizado ao usuário dentro da
             respectiva chave que representa a origem.
         """
-
         logger.info("Iterando sobre dicionário de dados fornecido para "
                     "leitura de DynamicFrames do Glue")
         try:
@@ -475,9 +482,10 @@ class GlueETLManager(GlueJobManager):
         sleep(0.01)
         return dynamic_dict
 
-    # Gerando dicionário de DataFrames Spark do projeto
     def generate_dataframes_dict(self) -> dict:
         """
+        Gerando dicionário de DataFrames Spark do projeto.
+
         Método responsável por consolidar os processos necessários
         para disponibilização, ao usuário, de objetos do tipo DataFrame
         Spark capazes de serem utilizados nas mais variadas etapas
@@ -537,7 +545,6 @@ class GlueETLManager(GlueJobManager):
             self.data_dict e disponibilizado ao usuário dentro da
             respectiva chave que representa a origem.
         """
-
         # Gerando dicionário de DynamicFrames
         dyf_dict = self.generate_dynamic_frames_dict()
 
@@ -578,7 +585,6 @@ class GlueETLManager(GlueJobManager):
         sleep(0.01)
         return df_dict
 
-    # Extracao de atributos de datas de coluna
     @staticmethod
     def date_attributes_extraction(df: DataFrame,
                                    date_col: str,
@@ -587,6 +593,8 @@ class GlueETLManager(GlueJobManager):
                                    convert_string_to_date: bool = True,
                                    **kwargs):
         """
+        Extracao de atributos de datas de coluna.
+
         Metodo responsavel por consolidar a extracao de diferentes
         atributos de data de um dado campo de data informado pelo
         usuario. A logica estabelecida e composta por uma validacao
@@ -678,7 +686,6 @@ class GlueETLManager(GlueJobManager):
             dayofmonth=True
         )
         """
-
         try:
             # Criando expressões de conversão com base no tipo do campo
             if convert_string_to_date:
@@ -725,11 +732,12 @@ class GlueETLManager(GlueJobManager):
                          f'novos atributos de data. Exception: {e}')
             raise e
 
-    # Método de transformação: drop de partição física no s3
     def drop_partition(self, partition_name: str,
                        partition_value: str,
                        retention_period: int = 0) -> None:
         """
+        Método de transformação: drop de partição física no s3.
+
         Método responsável por eliminar partições do s3 através
         do delete físico dos arquivos armazenados em um
         determinado prefixo. Em essência, este método pode ser
@@ -751,7 +759,6 @@ class GlueETLManager(GlueJobManager):
             a ser eliminada.
             [type: str]
         """
-
         # Montando URI da partição a ser eliminada
         partition_uri = f"{self.s3_table_uri}/"\
             f"{partition_name}={partition_value}/"
@@ -769,12 +776,13 @@ class GlueETLManager(GlueJobManager):
                          f"{partition_name}={partition_value}. Exception: {e}")
             raise e
 
-    # Método de transformação: adição de partição
     @staticmethod
     def add_partition(df: DataFrame,
                       partition_name: str,
                       partition_value) -> DataFrame:
         """
+        Método de transformação: adição de partição.
+
         Método responsável por adicionar uma coluna ao DataFrame
         resultante para funcionar como partição da tabela gerada.
         Na prática, este método utiliza o método .withColumn() do
@@ -797,7 +805,6 @@ class GlueETLManager(GlueJobManager):
             Valor para a respectiva partição.
             [type: any]
         """
-
         logger.info("Adicionando coluna de partição no DataFrame final "
                     f"({partition_name}={str(partition_value)})")
         try:
@@ -810,10 +817,11 @@ class GlueETLManager(GlueJobManager):
         # Retornando DataFrame com coluna de partição
         return df_partitioned
 
-    # Método de transformação: reparticionamento de DataFrame
     @staticmethod
     def repartition_dataframe(df: DataFrame, num_partitions: int) -> DataFrame:
         """
+        Método de transformação: reparticionamento de DataFrame.
+
         Método responsável por aplicar processo de reparticionamento de
         DataFrames Spark visando a otimização do armazenamento dos
         arquivos físicos no sistema de armazenamento distribuído.
@@ -850,7 +858,6 @@ class GlueETLManager(GlueJobManager):
             DataFrame Spark após o processo de reparticionamento.
             [type: pyspark.sql.DataFrame]
         """
-
         # Corrigindo argumento num_partitions
         num_partitions = int(num_partitions)
 
@@ -921,9 +928,10 @@ class GlueETLManager(GlueJobManager):
 
         return df_repartitioned
 
-    # Escrevendo e catalogando resultado final
     def write_data_to_catalog(self, df: DataFrame or DynamicFrame) -> None:
         """
+        Escrevendo e catalogando resultado final.
+
         Método responsável por consolidar todas as etapas necessárias
         para escrita de dados no s3 e a subsequente catalogação no Data
         Catalog. Para toda a configuração necessária para execução das
@@ -951,7 +959,6 @@ class GlueETLManager(GlueJobManager):
             os métodos subsequentes possam ser executados.
             [type: DataFrame or DynamicFrame]
         """
-
         # Convertendo DataFrame em DynamicFrame
         if type(df) == DataFrame:
             logger.info("Transformando DataFrame preparado em DynamicFrame")

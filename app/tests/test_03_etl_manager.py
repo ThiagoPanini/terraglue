@@ -24,8 +24,7 @@ podem comprometer o funcionamento da aplicação.
 # Importando módulos para uso
 from pytest import mark
 from datetime import datetime
-from pyspark.sql.types import StringType, DateType,\
-   TimestampType, IntegerType
+from pyspark.sql.types import StringType, DateType, TimestampType
 
 
 """---------------------------------------------------
@@ -52,17 +51,17 @@ def test_conversao_de_data_no_metodo_de_extracao_de_atributos_de_data(
 
     # Aplicando casting forçado de campo de data para string
     fake_dataframe_cast = fake_dataframe.selectExpr(
-      "*",
-      f"cast({date_col} AS STRING) AS {date_test_col_name}"
+        "*",
+        f"cast({date_col} AS STRING) AS {date_test_col_name}"
     )
 
     # Executando método de extração de atributos de data
     fake_df_prep = etl_manager.date_attributes_extraction(
-      df=fake_dataframe_cast,
-      date_col=date_test_col_name,
-      date_col_type=date_col_type,
-      date_format=date_format,
-      convert_string_to_date=True
+        df=fake_dataframe_cast,
+        date_col=date_test_col_name,
+        date_col_type=date_col_type,
+        date_format=date_format,
+        convert_string_to_date=True
     )
 
     # Extraindo informações antes da conversão
@@ -97,17 +96,17 @@ def test_conversao_de_timestamp_no_metodo_de_extracao_de_atributos_de_data(
 
     # Aplicando casting forçado de campo de data para string
     fake_dataframe_cast = fake_dataframe.selectExpr(
-      "*",
-      f"cast({date_col} AS STRING) AS {date_test_col_name}"
+        "*",
+        f"cast({date_col} AS STRING) AS {date_test_col_name}"
     )
 
     # Executando método de extração de atributos de data
     fake_df_prep = etl_manager.date_attributes_extraction(
-      df=fake_dataframe_cast,
-      date_col=date_test_col_name,
-      date_col_type=date_col_type,
-      date_format=date_format,
-      convert_string_to_date=True
+        df=fake_dataframe_cast,
+        date_col=date_test_col_name,
+        date_col_type=date_col_type,
+        date_format=date_format,
+        convert_string_to_date=True
     )
 
     # Extraindo informações antes da conversão
@@ -148,10 +147,10 @@ def test_adicao_de_novas_colunas_apos_extracao_de_atributos_de_data(
 
     # Executando método de extração de atributos de data
     df_date = etl_manager.date_attributes_extraction(
-      df=fake_dataframe,
-      date_col=date_col,
-      convert_string_to_date=False,
-      **kwargs_dict
+        df=fake_dataframe,
+        date_col=date_col,
+        convert_string_to_date=False,
+        **kwargs_dict
     )
 
     # Criando lista de nomes de colunas para validação
@@ -164,7 +163,7 @@ def test_adicao_de_novas_colunas_apos_extracao_de_atributos_de_data(
 @mark.etl_manager
 @mark.date_attributes_extraction
 def test_extracao_do_ano_de_atributo_de_data(
-   etl_manager, fake_dataframe, date_col="date"
+    etl_manager, fake_dataframe, date_col="date"
 ):
     """
     G: dado que o usuário deseja aplicar o método de extração de
@@ -178,20 +177,20 @@ def test_extracao_do_ano_de_atributo_de_data(
 
     # Executando método de extração de atributos de data
     df_year = etl_manager.date_attributes_extraction(
-      df=fake_dataframe,
-      date_col=date_col,
-      convert_string_to_date=False,
-      year=True
+        df=fake_dataframe,
+        date_col=date_col,
+        convert_string_to_date=False,
+        year=True
     )
 
     # Extraindo lista esperada de anos para a coluna
     expected_years = [
-       r[0].year for r in df_year.select(date_col).take(5)
+        r[0].year for r in df_year.select(date_col).take(5)
     ]
 
     # Extraindo lista calculada de anos para a coluna
     calculated_years = [
-       y[0] for y in df_year.select(f"year_{date_col}").take(5)
+        y[0] for y in df_year.select(f"year_{date_col}").take(5)
     ]
 
     # Validando igualdade das extrações
@@ -201,7 +200,7 @@ def test_extracao_do_ano_de_atributo_de_data(
 @mark.etl_manager
 @mark.date_attributes_extraction
 def test_extracao_do_mes_de_atributo_de_data(
-   etl_manager, fake_dataframe, date_col="date"
+    etl_manager, fake_dataframe, date_col="date"
 ):
     """
     G: dado que o usuário deseja aplicar o método de extração de
@@ -215,20 +214,20 @@ def test_extracao_do_mes_de_atributo_de_data(
 
     # Executando método de extração de atributos de data
     df_year = etl_manager.date_attributes_extraction(
-      df=fake_dataframe,
-      date_col=date_col,
-      convert_string_to_date=False,
-      month=True
+        df=fake_dataframe,
+        date_col=date_col,
+        convert_string_to_date=False,
+        month=True
     )
 
     # Extraindo lista esperada de anos para a coluna
     expected_months = [
-       r[0].month for r in df_year.select(date_col).take(5)
+        r[0].month for r in df_year.select(date_col).take(5)
     ]
 
     # Extraindo lista calculada de anos para a coluna
     calculated_months = [
-       y[0] for y in df_year.select(f"month_{date_col}").take(5)
+        y[0] for y in df_year.select(f"month_{date_col}").take(5)
     ]
 
     # Validando igualdade das extrações
@@ -238,7 +237,7 @@ def test_extracao_do_mes_de_atributo_de_data(
 @mark.etl_manager
 @mark.date_attributes_extraction
 def test_extracao_do_dia_de_atributo_de_data(
-   etl_manager, fake_dataframe, date_col="date"
+    etl_manager, fake_dataframe, date_col="date"
 ):
     """
     G: dado que o usuário deseja aplicar o método de extração de
@@ -252,20 +251,20 @@ def test_extracao_do_dia_de_atributo_de_data(
 
     # Executando método de extração de atributos de data
     df_year = etl_manager.date_attributes_extraction(
-      df=fake_dataframe,
-      date_col=date_col,
-      convert_string_to_date=False,
-      dayofmonth=True
+        df=fake_dataframe,
+        date_col=date_col,
+        convert_string_to_date=False,
+        dayofmonth=True
     )
 
     # Extraindo lista esperada de anos para a coluna
     expected_days = [
-       r[0].day for r in df_year.select(date_col).take(5)
+        r[0].day for r in df_year.select(date_col).take(5)
     ]
 
     # Extraindo lista calculada de anos para a coluna
     calculated_days = [
-       y[0] for y in df_year.select(f"dayofmonth_{date_col}").take(5)
+        y[0] for y in df_year.select(f"dayofmonth_{date_col}").take(5)
     ]
 
     # Validando igualdade das extrações
@@ -275,8 +274,8 @@ def test_extracao_do_dia_de_atributo_de_data(
 @mark.etl_manager
 @mark.add_partition
 def test_adicao_de_coluna_de_particao_anomesdia_dataframe(
-   etl_manager, fake_dataframe, partition_name="anomesdia",
-   partition_value=int(datetime.now().strftime("%Y%m%d"))
+    etl_manager, fake_dataframe, partition_name="anomesdia",
+    partition_value=int(datetime.now().strftime("%Y%m%d"))
 ):
     """
     G: dado que o usuário deseja adicionar uma coluna de data
@@ -291,15 +290,15 @@ def test_adicao_de_coluna_de_particao_anomesdia_dataframe(
 
     # Executando método de adição de partição em DataFrame
     df_partitioned = etl_manager.add_partition(
-      df=fake_dataframe,
-      partition_name=partition_name,
-      partition_value=partition_value
+        df=fake_dataframe,
+        partition_name=partition_name,
+        partition_value=partition_value
     )
 
     # Coletando nome e valor de partição de novo DataFrame
     generated_partition_name = df_partitioned.schema[-1].name
     generated_partition_value = df_partitioned.selectExpr(
-      partition_name
+        partition_name
     ).take(1)[0][0]
 
     # Validando existência de nova coluna e seu valor
@@ -310,7 +309,7 @@ def test_adicao_de_coluna_de_particao_anomesdia_dataframe(
 @mark.etl_manager
 @mark.repartition_dataframe
 def test_reparticionamento_de_dataframe_para_menos_particoes(
-   etl_manager, fake_dataframe
+    etl_manager, fake_dataframe
 ):
     """
     G: dado que o usuário deseja reparticionar um DataFrame Spark
@@ -328,8 +327,8 @@ def test_reparticionamento_de_dataframe_para_menos_particoes(
 
     # Repartitionando DataFrame
     df_repartitioned = etl_manager.repartition_dataframe(
-      df=fake_dataframe,
-      num_partitions=partitions_to_set
+        df=fake_dataframe,
+        num_partitions=partitions_to_set
     )
 
     # Validando resultado
@@ -339,7 +338,7 @@ def test_reparticionamento_de_dataframe_para_menos_particoes(
 @mark.etl_manager
 @mark.repartition_dataframe
 def test_reparticionamento_de_dataframe_para_mais_particoes(
-   etl_manager, fake_dataframe
+    etl_manager, fake_dataframe
 ):
     """
     G: dado que o usuário deseja reparticionar um DataFrame Spark
@@ -357,8 +356,8 @@ def test_reparticionamento_de_dataframe_para_mais_particoes(
 
     # Repartitionando DataFrame
     df_repartitioned = etl_manager.repartition_dataframe(
-      df=fake_dataframe,
-      num_partitions=partitions_to_set
+        df=fake_dataframe,
+        num_partitions=partitions_to_set
     )
 
     # Validando resultado

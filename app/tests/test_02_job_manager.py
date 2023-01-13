@@ -37,8 +37,8 @@ from awsglue.job import Job
 
 @mark.job_manager
 def test_captura_de_argumentos_do_job_na_construcao_da_classe(
-   job_manager,
-   job_args_for_testing
+    job_manager,
+    job_args_for_testing
 ):
     """
     G: dado que o usuário instanciou um objeto da classe Job Manager
