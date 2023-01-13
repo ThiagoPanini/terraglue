@@ -1,5 +1,5 @@
 """
-JOB: main.py
+JOB: main.py.
 
 CONTEXTO:
 ---------
@@ -11,7 +11,8 @@ ETL a ser programado.
 ------------------------------------------------------
 ---------- 1. PREPARAÇÃO INICIAL DO SCRIPT -----------
           1.1 Importação das bibliotecas
----------------------------------------------------"""
+------------------------------------------------------
+"""
 
 # Bibliotecas utilizadas na construção do módulo
 from datetime import datetime
@@ -88,6 +89,8 @@ DATA_DICT = {
 
 class GlueTransformationManager(GlueETLManager):
     """
+    Gerenciando métodos de transformação do job.
+
     Classe responsável por gerenciar e fornecer métodos típicos
     de transformação de um job do Glue a serem pontualmente
     adaptados por seus usuários para que as operações nos dados
@@ -106,6 +109,7 @@ class GlueTransformationManager(GlueETLManager):
     """
 
     def __init__(self, argv_list: list, data_dict: dict) -> None:
+        """Método construtor da classe."""
         self.argv_list = argv_list
         self.data_dict = data_dict
 
@@ -117,6 +121,7 @@ class GlueTransformationManager(GlueETLManager):
     def transform_orders(self, df: DataFrame) -> DataFrame:
         """
         Método de preparação do DataFrame df_orders.
+
         As etapas de transformação são dadas por:
 
         1. Conversão dos atributos de data originalmente
@@ -127,7 +132,6 @@ class GlueTransformationManager(GlueETLManager):
 
         O método recebe e retorna objetos do tipo DataFrame Spark.
         """
-
         logger.info("Preparando DAG de transformações para df_orders")
         try:
             # Criando lista de atributos de data para conversão
@@ -182,6 +186,7 @@ class GlueTransformationManager(GlueETLManager):
     def transform_order_items(self, df: DataFrame) -> DataFrame:
         """
         Método de preparação do DataFrame df_orders.
+
         As etapas de transformação são dadas por:
 
         1. Extração de agregações e dados estatísticos de pedidos com
@@ -189,7 +194,6 @@ class GlueTransformationManager(GlueETLManager):
 
         O método recebe e retorna objetos do tipo DataFrame Spark.
         """
-
         logger.info("Preparando DAG de transformações para df_order_items")
         try:
             # Retornando estatísticas de pedidos com base em itens
@@ -200,7 +204,7 @@ class GlueTransformationManager(GlueETLManager):
                 expr("cast(round(min(price), 2) as decimal(17, 2)) AS min_price_order_item"),
                 expr("cast(round(max(price), 2) as decimal(17, 2)) AS max_price_order_item"),
                 expr("cast(round(avg(freight_value), 2) as decimal(17, 2)) AS avg_freight_value_order"),
-                expr("to_timestamp(max(shipping_limit_date), 'yyyy-MM-dd HH:mm:ss') AS max_order_shipping_limit_date") 
+                expr("to_timestamp(max(shipping_limit_date), 'yyyy-MM-dd HH:mm:ss') AS max_order_shipping_limit_date")
             )
 
             return df_order_items_stats
@@ -214,13 +218,13 @@ class GlueTransformationManager(GlueETLManager):
     def transform_customers(self, df: DataFrame) -> DataFrame:
         """
         Método de preparação do DataFrame df_customers.
+
         As etapas de transformação são dadas por:
 
         1. Seleção de atributos específicos a serem utilizados
 
         O método recebe e retorna objetos do tipo DataFrame Spark.
         """
-
         logger.info("Preparando DAG de transformações para df_customers")
         try:
             # Retornando dados utilizados da base de clientes
@@ -241,6 +245,7 @@ class GlueTransformationManager(GlueETLManager):
     def transform_payments(self, df: DataFrame) -> DataFrame:
         """
         Método de preparação do DataFrame df_payments.
+
         As etapas de transformação são dadas por:
 
         1. Extração do "pagamento mais comum" para cada id de pedido
@@ -249,7 +254,6 @@ class GlueTransformationManager(GlueETLManager):
 
         O método recebe e retorna objetos do tipo DataFrame Spark.
         """
-
         logger.info("Preparando DAG de transformações para df_payments")
         try:
             # Retornando o tipo de pagamento mais comum para cada pedido
@@ -271,8 +275,7 @@ class GlueTransformationManager(GlueETLManager):
             # Enriquecendo base de pagamentos com tipo de pagamento mais comum
             df_payments_join = df_payments_aggreg.join(
                 other=df_most_common_payments,
-                on=[df_payments_aggreg.order_id ==
-                    df_most_common_payments.order_id],
+                on=[df_payments_aggreg.order_id == df_most_common_payments.order_id],
                 how="left"
             ).drop(df_most_common_payments.order_id)
 
@@ -298,6 +301,7 @@ class GlueTransformationManager(GlueETLManager):
     def transform_reviews(self, df: DataFrame) -> DataFrame:
         """
         Método de preparação do DataFrame df_reviews.
+
         As etapas de transformação são dadas por:
 
         1. Filtragem de reviews com order_id não nulo e score válido
@@ -307,7 +311,6 @@ class GlueTransformationManager(GlueETLManager):
 
         O método recebe e retorna objetos do tipo DataFrame Spark.
         """
-
         logger.info("Preparando DAG de transformações para df_reviews")
         try:
             # Aplicando filtros iniciais para eliminar ruídos na tabela
@@ -336,7 +339,9 @@ class GlueTransformationManager(GlueETLManager):
     # Método de transformação: tabela final
     def transform_sot(self, **kwargs) -> DataFrame:
         """
-        Transformação completa da SoT através da unificação dos
+        Transformação completa da SoT.
+
+        O processo é realizado através da unificação dos
         DataFrames preparados individualmente a partir de
         métodos específicos de transformação. A sequência
         de etapas para geração dos dados finais é dada por:
@@ -347,7 +352,6 @@ class GlueTransformationManager(GlueETLManager):
         3. Geração de DataFrame final com atributos relacionados
         à características de pedidos feitos online (order_id)
         """
-
         # Desempacotando DataFrames dos argumentos da função
         df_orders_prep = kwargs["df_orders_prep"]
         df_order_items_prep = kwargs["df_order_items_prep"]
@@ -364,8 +368,7 @@ class GlueTransformationManager(GlueETLManager):
                 on=[df_orders_prep.order_id == df_order_items_prep.order_id]
             ).drop(df_order_items_prep.order_id).join(
                 other=df_customers_prep,
-                on=[df_orders_prep.customer_id ==
-                    df_customers_prep.customer_id],
+                on=[df_orders_prep.customer_id == df_customers_prep.customer_id],
                 how="left"
             ).drop(df_customers_prep.customer_id).join(
                 other=df_payments_prep,
@@ -423,6 +426,8 @@ class GlueTransformationManager(GlueETLManager):
     # Encapsulando método único para execução do job
     def run(self) -> None:
         """
+        Execução sequencial e encadeada das etapas do job.
+
         Método responsável por consolidar todas as etapas de execução
         do job do Glue, permitindo assim uma maior facilidade e
         organização ao usuário final. Este método pode ser devidamente
@@ -437,7 +442,6 @@ class GlueTransformationManager(GlueETLManager):
         4. Gerencia partições (elimina existente e adiciona uma nova)
         5. Escreve o resultado no s3 e cataloga no Data Catalog
         """
-
         # Preparando insumos do job
         job = self.init_job()
 

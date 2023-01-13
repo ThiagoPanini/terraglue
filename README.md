@@ -184,6 +184,7 @@ Todos são muito bem vindos a contribuírem com evoluções e novas funcionalida
 - [Spark Temporary Tables in Glue Jobs](https://stackoverflow.com/questions/53718221/aws-glue-data-catalog-temporary-tables-and-apache-spark-createorreplacetempview)
 - [Medium - Understanding All AWS Glue Import Statements and Why We Need Them](https://aws.plainenglish.io/understanding-all-aws-glue-import-statements-and-why-we-need-them-59279c402224)
 - [AWS - Develop and test AWS Glue jobs Locally using Docker](https://aws.amazon.com/blogs/big-data/develop-and-test-aws-glue-version-3-0-jobs-locally-using-a-docker-container/)
+- [AWS - Creating OpenID Connect (OIDC) identity providers](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html)
 
 **_Terraform_**
 - [Terraform - Hashicorp Terraform](https://www.terraform.io/)
@@ -201,6 +202,12 @@ Todos são muito bem vindos a contribuírem com evoluções e novas funcionalida
 - [GitHub - Angular Commit Message Format](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format)
 - [GitHub - commitlint](https://github.com/conventional-changelog/commitlint)
 - [shields.io](https://shields.io/)
+- [GitHub Actions Marketplace](https://github.com/marketplace?type=actions)
+- [Continuous Integration with GitHub Actions](https://endjin.com/blog/2022/09/continuous-integration-with-github-actions)
+- [GitHub - About security hardening with OpenID Connect](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect)
+- [GitHub - Securing deployments to AWS from GitHub Actions with OpenID Connect](https://www.eliasbrange.dev/posts/secure-aws-deploys-from-github-actions-with-oidc/#:~:text=To%20be%20able%20to%20authenticate,Provider%20type%2C%20select%20OpenID%20Connect.)
+- [GitHub - Workflow syntax for GitHub Actions](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
+- [Eduardo Mendes - Live de Python #170 - GitHub Actions](https://www.youtube.com/watch?v=L1f6N6NcgPw&t=3043s&ab_channel=EduardoMendes)
 
 **_Testes_**
 - [Eduardo Mendes - Live de Python #167 - Pytest: Uma Introdução](https://www.youtube.com/watch?v=MjQCvJmc31A&)
