@@ -52,10 +52,6 @@ jobs:
           role-session-name: OIDCSession
           aws-region: sa-east-1
 
-      - name: Validação de Credenciais AWS
-        run: |
-          ls -la ~
-
       - name: Pull da Imagem AWS Glue 3.0
         run: |
           echo "Versão do docker presente no runner"
