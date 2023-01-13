@@ -1,0 +1,68 @@
+name: Esteira de Entrega Contínua - terraglue
+
+on:
+  push:
+    branches:
+      - develop
+      - master
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  ci-python:
+    name: ci-python
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Instalação do Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.10'
+
+      - name: Instalação das Dependências
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r ./app/requirements.txt
+      
+      - name: Análise de Linter - flake8
+        run:
+          flake8 . --ignore E501
+
+      - name: Análise de Docstrings - pydocstyle
+        run:
+          pydocstyle --match-dir ./app/src/*.py
+
+  ci-glue-docker:
+    name: ci-glue-docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configuração de Credenciais AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE }}
+          role-session-name: OIDCSession
+          aws-region: sa-east-1
+
+      - name: Validação de Credenciais AWS
+        run: |
+          ls -la ~
+
+      - name: Pull da Imagem AWS Glue 3.0
+        run: |
+          echo "Versão do docker presente no runner"
+          docker --version
+          echo "Realizando pull da imagem para uso do Glue na esteira"
+          docker pull amazon/aws-glue-libs:glue_libs_3.0.0_image_01
+
+      - name: Execução de Testes Unitários no Container
+        run: |
+          docker run -v $(pwd):/home/glue_user/workspace/terraglue -e DISABLE_SSL=true --rm -p 4040:4040 -p 18080:18080 --name terraglue amazon/aws-glue-libs:glue_libs_3.0.0_image_01 -c "cd terraglue && pip install --upgrade pip -r app/requirements_test_container.txt && pytest -vv app --color=yes"
