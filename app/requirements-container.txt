@@ -1,4 +1,5 @@
 flake8
 pydocstyle
 pytest>=7.2.0
+pytest-cov
 Faker

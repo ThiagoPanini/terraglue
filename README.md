@@ -1,16 +1,14 @@
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/logo-v4.png" alt="terraglue-logo">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/imgs/logo-v4.png" alt="terraglue-logo">
 </div>
-
 
 <div align="center">
   <br>
   
   ![GitHub release (latest by date)](https://img.shields.io/github/v/release/ThiagoPanini/terraglue?color=brightgreen)
   ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/ThiagoPanini/terraglue?color=blue)
-  ![GitHub contributors](https://img.shields.io/github/contributors/ThiagoPanini/terraglue?color=red)
-  ![GitHub repo size](https://img.shields.io/github/repo-size/ThiagoPanini/terraglue?color=purple)
-
+  ![CI workflow](https://img.shields.io/github/actions/workflow/status/ThiagoPanini/terraglue/ci.yml?label=ci)
+  [![codecov](https://codecov.io/github/ThiagoPanini/terraglue/branch/main/graph/badge.svg?token=7HI1YGS4AA)](https://codecov.io/github/ThiagoPanini/terraglue)
 
 </div>
 
@@ -202,6 +200,7 @@ Todos são muito bem vindos a contribuírem com evoluções e novas funcionalida
 - [GitHub - Angular Commit Message Format](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format)
 - [GitHub - commitlint](https://github.com/conventional-changelog/commitlint)
 - [shields.io](https://shields.io/)
+- [Codecoverage - docs](https://docs.codecov.com/docs)
 - [GitHub Actions Marketplace](https://github.com/marketplace?type=actions)
 - [Continuous Integration with GitHub Actions](https://endjin.com/blog/2022/09/continuous-integration-with-github-actions)
 - [GitHub - About security hardening with OpenID Connect](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect)
