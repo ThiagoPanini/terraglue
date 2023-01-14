@@ -40,9 +40,11 @@ jobs:
         run:
           pydocstyle --match-dir ./app/src/*.py
 
-  ci-glue-docker:
-    name: ci-glue-docker
+  ci-glue-docker-pytest:
+    name: ci-glue-docker-pytest
     runs-on: ubuntu-latest
+    needs:
+      - ci-python
 
     steps:
       - name: Checkout
@@ -57,11 +59,15 @@ jobs:
 
       - name: Pull da Imagem AWS Glue 3.0
         run: |
-          echo "Versão do docker presente no runner"
-          docker --version
+          echo "Versão do docker presente no runner: " $(docker --version)
           echo "Realizando pull da imagem para uso do Glue na esteira"
           docker pull amazon/aws-glue-libs:glue_libs_3.0.0_image_01
 
       - name: Execução de Testes Unitários no Container
         run: |
-          docker run -v $(pwd):/home/glue_user/workspace/terraglue -e DISABLE_SSL=true --rm -p 4040:4040 -p 18080:18080 --name terraglue amazon/aws-glue-libs:glue_libs_3.0.0_image_01 -c "cd terraglue && pip install --upgrade pip -r app/requirements-container.txt && pytest -vv app --color=yes"
+          docker run -u root -v $(pwd):/home/glue_user/workspace/terraglue -e DISABLE_SSL=true --rm -p 4040:4040 -p 18080:18080 --name terraglue amazon/aws-glue-libs:glue_libs_3.0.0_image_01 -c "cd terraglue && python3 -m pip install --user --upgrade pip -r app/requirements-container.txt && python3 -m pytest -vv app --color=yes --cov=./ --cov-report=xml"
+
+      - name: Cobertura dos Testes - codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
