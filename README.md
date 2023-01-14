@@ -8,7 +8,7 @@
   ![GitHub release (latest by date)](https://img.shields.io/github/v/release/ThiagoPanini/terraglue?color=brightgreen)
   ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/ThiagoPanini/terraglue?color=blue)
   ![CI workflow](https://img.shields.io/github/actions/workflow/status/ThiagoPanini/terraglue/ci.yml?label=ci)
-  [![codecov](https://codecov.io/github/ThiagoPanini/terraglue-temp/branch/main/graph/badge.svg?token=7MN1L36R8L)](https://codecov.io/github/ThiagoPanini/terraglue-temp)
+  [![codecov](https://codecov.io/github/ThiagoPanini/terraglue/branch/main/graph/badge.svg?token=7HI1YGS4AA)](https://codecov.io/github/ThiagoPanini/terraglue)
 
 </div>
 
