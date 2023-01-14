@@ -93,7 +93,6 @@ def test_tipos_primitivos_de_elementos_de_contexto_e_sessao(job_manager):
 
 
 @mark.job_manager
-@mark.skip(reason="Em validação de falha ao executar em container Docker")
 def test_metodo_de_inicializacao_do_job_gera_contexto_e_sessao(job_manager):
     """
     G: dado que deseja-se inicializar um job Glue pela classe GlueJobManager
@@ -119,7 +118,6 @@ def test_metodo_de_inicializacao_do_job_gera_contexto_e_sessao(job_manager):
 
 
 @mark.job_manager
-@mark.skip(reason="Em validação de falha ao executar em container Docker")
 def test_metodo_de_inicializacao_do_job_retorna_tipo_job(job_manager):
     """
     G: dado que deseja-se inicializar um job Glue pela classe GlueJobManager
