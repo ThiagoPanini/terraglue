@@ -208,6 +208,11 @@ Todos são muito bem vindos a contribuírem com evoluções e novas funcionalida
 - [GitHub - Workflow syntax for GitHub Actions](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
 - [Eduardo Mendes - Live de Python #170 - GitHub Actions](https://www.youtube.com/watch?v=L1f6N6NcgPw&t=3043s&ab_channel=EduardoMendes)
 
+**_Docker_**
+- [GitHub Docker Run Action](https://github.com/marketplace/actions/docker-run-action)
+- [Using Docker Run inside of GitHub Actions](https://aschmelyun.com/blog/using-docker-run-inside-of-github-actions/)
+- [Stack Overflow - Unable to find region when running docker locally](https://stackoverflow.com/questions/62546743/running-aws-glue-jobs-in-docker-container-outputs-com-amazonaws-sdkclientexcep)
+
 **_Testes_**
 - [Eduardo Mendes - Live de Python #167 - Pytest: Uma Introdução](https://www.youtube.com/watch?v=MjQCvJmc31A&)
 - [Eduardo Mendes - Live de Python #168 - Pytest Fixtures](https://www.youtube.com/watch?v=sidi9Z_IkLU&t)

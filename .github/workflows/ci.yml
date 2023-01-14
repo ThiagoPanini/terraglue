@@ -57,15 +57,22 @@ jobs:
           role-session-name: OIDCSession
           aws-region: sa-east-1
 
-      - name: Pull da Imagem AWS Glue 3.0
-        run: |
-          echo "Versão do docker presente no runner: " $(docker --version)
-          echo "Realizando pull da imagem para uso do Glue na esteira"
-          docker pull amazon/aws-glue-libs:glue_libs_3.0.0_image_01
-
-      - name: Execução de Testes Unitários no Container
-        run: |
-          docker run -u root -v $(pwd):/home/glue_user/workspace/terraglue -e DISABLE_SSL=true --rm -p 4040:4040 -p 18080:18080 --name terraglue amazon/aws-glue-libs:glue_libs_3.0.0_image_01 -c "cd terraglue && python3 -m pip install --user --upgrade pip -r app/requirements-container.txt && python3 -m pytest -vv app --color=yes --cov=./ --cov-report=xml"
+      - name: Testes Unitários em Imagem Docker Glue 3.0
+        uses: addnab/docker-run-action@v3
+        with:
+          image: amazon/aws-glue-libs:glue_libs_3.0.0_image_01
+          options: |
+            -u root
+            -v ${{ github.workspace }}:/home/glue_user/workspace/terraglue
+            -e DISABLE_SSL=true
+            --rm
+            -p 4040:4040 -p 18080:18080
+            --name terraglue
+          run: |
+            export AWS_REGION=$(AWS_REGION)
+            cd terraglue
+            python3 -m pip install --user --upgrade pip -r app/requirements-container.txt
+            python3 -m pytest app/ -vv --color=yes --cov=./ --cov-report=xml
 
       - name: Cobertura dos Testes - codecov
         uses: codecov/codecov-action@v3
