@@ -1,4 +1,4 @@
-name: Esteira de Entrega Contínua - terraglue
+name: ⚙️ CI terraglue
 
 on:
   push:
