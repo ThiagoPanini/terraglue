@@ -245,3 +245,27 @@ variable "glue_job_trigger_cron_expr" {
   type        = string
   default     = "cron(0 21 ? * 6 *)"
 }
+
+variable "glue_apply_security_configuration" {
+  description = "Flag para definição da aplicação da configuração de segurança ao job do Glue"
+  type        = bool
+  default     = false
+}
+
+variable "glue_cloudwatch_encryption_mode" {
+  description = "Definição de criptografia para logs do CloudWatch gerados no job do Glue para configuração de segurança"
+  type        = string
+  default     = "SSE-KMS"
+}
+
+variable "glue_job_bookmark_encryption_mode" {
+  description = "Definição de criptografia para job bookmarks no job do Glue para configuração de segurança"
+  type        = string
+  default     = "DISABLED"
+}
+
+variable "glue_s3_encryption_mode" {
+  description = "Definição de criptografia para dados escritos no s3 gerados no job do Glue para configuração de segurança"
+  type        = string
+  default     = "SSE-KMS"
+}

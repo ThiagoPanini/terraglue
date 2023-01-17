@@ -26,6 +26,9 @@ arquivos main.tf
 # Definindo data sources para auxiliar na nomenclatura de variáveis
 data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
+data "aws_kms_key" "s3" {
+  key_id = var.s3_kms_key_alias
+}
 
 
 /* --------------------------------------------------
@@ -194,4 +197,11 @@ module "glue" {
   glue_job_max_concurrent_runs = var.glue_job_max_concurrent_runs
   glue_job_default_arguments   = local.glue_job_default_arguments
   glue_job_trigger_cron_expr   = var.glue_job_trigger_cron_expr
+
+  # Variáveis de configuração de segurança do job
+  glue_apply_security_configuration = var.glue_apply_security_configuration
+  glue_cloudwatch_encryption_mode   = var.glue_cloudwatch_encryption_mode
+  glue_job_bookmark_encryption_mode = var.glue_job_bookmark_encryption_mode
+  glue_s3_encryption_mode           = var.glue_s3_encryption_mode
+  glue_kms_key_arn                  = data.aws_kms_key.s3.arn
 }
