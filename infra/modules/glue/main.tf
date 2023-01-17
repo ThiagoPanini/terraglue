@@ -23,6 +23,28 @@ resource "aws_s3_object" "glue_app" {
   source   = "${var.glue_app_src_dir}/${each.value}"
 }
 
+# Definindo recurso para criação de security configuration
+resource "aws_glue_security_configuration" "glue_sc" {
+  name = "${var.glue_job_name}-security-config"
+
+  encryption_configuration {
+    cloudwatch_encryption {
+      cloudwatch_encryption_mode = var.glue_cloudwatch_encryption_mode
+      kms_key_arn                = var.glue_kms_key_arn
+    }
+
+    job_bookmarks_encryption {
+      job_bookmarks_encryption_mode = var.glue_job_bookmark_encryption_mode
+    }
+
+    s3_encryption {
+      s3_encryption_mode = var.glue_s3_encryption_mode
+      kms_key_arn        = var.glue_kms_key_arn
+    }
+
+  }
+}
+
 # Declarando job do glue
 resource "aws_glue_job" "this" {
   name              = var.glue_job_name
@@ -44,6 +66,8 @@ resource "aws_glue_job" "this" {
   }
 
   default_arguments = var.glue_job_default_arguments
+
+  security_configuration = var.glue_apply_security_configuration ? aws_glue_security_configuration.glue_sc.name : ""
 }
 
 # Declarando trigger para agendamento de job glue

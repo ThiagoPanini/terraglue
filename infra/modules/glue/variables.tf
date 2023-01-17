@@ -88,3 +88,29 @@ variable "glue_job_trigger_cron_expr" {
   description = "Expressão cron responsável pelo agendamento do job do Glue na AWS"
   type        = string
 }
+
+variable "glue_apply_security_configuration" {
+  description = "Flag para definição da aplicação da configuração de segurança ao job do Glue"
+  type        = bool
+}
+
+variable "glue_cloudwatch_encryption_mode" {
+  description = "Definição de criptografia para logs do CloudWatch gerados no job do Glue para configuração de segurança"
+  type        = string
+}
+
+variable "glue_job_bookmark_encryption_mode" {
+  description = "Definição de criptografia para job bookmarks no job do Glue para configuração de segurança"
+  type        = string
+}
+
+variable "glue_s3_encryption_mode" {
+  description = "Definição de criptografia para dados escritos no s3 gerados no job do Glue para configuração de segurança"
+  type        = string
+}
+
+variable "glue_kms_key_arn" {
+  description = "ARN da chave KMS utilizada para criptografia dos insumos na configuração de segurança do job"
+  type        = string
+}
+
