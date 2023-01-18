@@ -102,11 +102,11 @@ def test_erro_criacao_de_dag_transformacao_orders(
     T: então o método deve retornar uma exceção por não
        conseguir preparar a DAG de transformações codificada
     """
-    
+
     # Testando exceção
-    with pytest.raises(Exception) as e_info:
-        df_prep = glue_manager.transform_orders(empty_df)
-    
+    with pytest.raises(Exception):
+        _ = glue_manager.transform_orders(empty_df)
+
 
 @mark.main
 @mark.order_items
@@ -189,10 +189,10 @@ def test_erro_criacao_de_dag_transformacao_order_items(
     T: então o método deve retornar uma exceção por não
        conseguir preparar a DAG de transformações codificada
     """
-    
+
     # Testando exceção
-    with pytest.raises(Exception) as e_info:
-        df_prep = glue_manager.transform_order_items(empty_df)
+    with pytest.raises(Exception):
+        _ = glue_manager.transform_order_items(empty_df)
 
 
 @mark.main
@@ -271,10 +271,10 @@ def test_erro_criacao_de_dag_transformacao_customers(
     T: então o método deve retornar uma exceção por não
        conseguir preparar a DAG de transformações codificada
     """
-    
+
     # Testando exceção
-    with pytest.raises(Exception) as e_info:
-        df_prep = glue_manager.transform_customers(empty_df)
+    with pytest.raises(Exception):
+        _ = glue_manager.transform_customers(empty_df)
 
 
 @mark.main
@@ -356,10 +356,10 @@ def test_erro_criacao_de_dag_transformacao_payments(
     T: então o método deve retornar uma exceção por não
        conseguir preparar a DAG de transformações codificada
     """
-    
+
     # Testando exceção
-    with pytest.raises(Exception) as e_info:
-        df_prep = glue_manager.transform_payments(empty_df)
+    with pytest.raises(Exception):
+        _ = glue_manager.transform_payments(empty_df)
 
 
 @mark.main
@@ -438,10 +438,10 @@ def test_erro_criacao_de_dag_transformacao_reviews(
     T: então o método deve retornar uma exceção por não
        conseguir preparar a DAG de transformações codificada
     """
-    
+
     # Testando exceção
-    with pytest.raises(Exception) as e_info:
-        df_prep = glue_manager.transform_reviews(empty_df)
+    with pytest.raises(Exception):
+        _ = glue_manager.transform_reviews(empty_df)
 
 
 @mark.main
@@ -550,7 +550,7 @@ def test_erro_criacao_de_dag_transformacao_sot(
     T: então o método deve retornar uma exceção por não
        conseguir preparar a DAG de transformações codificada
     """
-    
+
     # Testando exceção
-    with pytest.raises(Exception) as e_info:
-        df_prep = glue_manager.transform_sot(empty_df)
+    with pytest.raises(Exception):
+        _ = glue_manager.transform_sot(empty_df)
