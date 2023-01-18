@@ -862,12 +862,20 @@ class GlueETLManager(GlueJobManager):
         num_partitions = int(num_partitions)
 
         # Coletando informações atuais de partições físicas do DataFrame
-        actual_partitions = df.rdd.getNumPartitions()
+        logger.info("Coletando o número atual de partições do DataFrame")
+        try:
+            current_partitions = df.rdd.getNumPartitions()
+
+        except Exception as e:
+            logger.error("Erro ao coletar número atual de partições do "
+                         "DataFrame via df.rdd.getNumPartitions. "
+                         f"Exception: {e}")
+            raise e
 
         # Se o número de partições desejadas for igual ao atual, não operar
-        if num_partitions == actual_partitions:
-            logger.warning(f"Número de partições atuais ({actual_partitions}) "
-                           f"é igual ao número de partições desejadas "
+        if num_partitions == current_partitions:
+            logger.warning(f"Número de partições atuais ({current_partitions})"
+                           f" é igual ao número de partições desejadas "
                            f"({num_partitions}). Nenhuma operação de "
                            "repartitionamento será realizada e o DataFrame "
                            "original será retornado sem alterações")
@@ -875,9 +883,9 @@ class GlueETLManager(GlueJobManager):
             return df
 
         # Se o número de partições desejadas for MENOR, usar coalesce()
-        elif num_partitions < actual_partitions:
+        elif num_partitions < current_partitions:
             logger.info("Iniciando reparticionamento de DataFrame via "
-                        f"coalesce() de {actual_partitions} para "
+                        f"coalesce() de {current_partitions} para "
                         f"{num_partitions} partições")
             try:
                 df_repartitioned = df.coalesce(num_partitions)
@@ -891,10 +899,10 @@ class GlueETLManager(GlueJobManager):
                 return df
 
         # Se o número de partições desejadas for MAIOR, utilizar repartition()
-        elif num_partitions > actual_partitions:
+        elif num_partitions > current_partitions:
             logger.warning("O número de partições desejadas "
                            f"({num_partitions})  é maior que o atual "
-                           f"({actual_partitions}) e, portanto, a operação "
+                           f"({current_partitions}) e, portanto, a operação "
                            "deverá ser realizada pelo método repartition(), "
                            "podendo impactar diretamente na performance do "
                            "processo dada a natureza do método e sua "
