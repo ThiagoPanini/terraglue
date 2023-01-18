@@ -121,6 +121,46 @@ variable "iam_glue_role_name" {
 
 
 /* --------------------------------------------------
+------------ VARIÁVEIS: módulo kms --------------
+-------------------------------------------------- */
+variable "kms_key_usage" {
+  description = "Específica a intenção de uso da chave"
+  type        = string
+  default     = "ENCRYPT_DECRYPT"
+}
+
+variable "kms_customer_master_key_spec" {
+  description = "Específica se a chave KMS contém uma chave simétrica ou assimétrica"
+  type        = string
+  default     = "SYMMETRIC_DEFAULT"
+}
+
+variable "kms_is_enabled" {
+  description = "Flag para indicar se a chave está habilitada"
+  type        = bool
+  default     = true
+}
+
+variable "kms_enable_key_rotation" {
+  description = "Flag para habilitar a rotação da chave"
+  type        = bool
+  default     = false
+}
+
+variable "kms_policy_path" {
+  description = "Caminho local onde o arquivo JSON contendo a policy da chave KMS está localizado"
+  type        = string
+  default     = "./modules/kms/policy"
+}
+
+variable "kms_policy_file_name" {
+  description = "Nome do arquivo JSON contendo a policy da chave KMS"
+  type        = string
+  default     = "kms-key-policy.json"
+}
+
+
+/* --------------------------------------------------
 -------------- VARIÁVEIS: módulo glue ---------------
 -------------------------------------------------- */
 
@@ -244,4 +284,28 @@ variable "glue_job_trigger_cron_expr" {
   description = "Expressão cron responsável pelo agendamento do job do Glue"
   type        = string
   default     = "cron(0 21 ? * 6 *)"
+}
+
+variable "glue_apply_security_configuration" {
+  description = "Flag para definição da aplicação da configuração de segurança ao job do Glue"
+  type        = bool
+  default     = true
+}
+
+variable "glue_cloudwatch_encryption_mode" {
+  description = "Definição de criptografia para logs do CloudWatch gerados no job do Glue para configuração de segurança"
+  type        = string
+  default     = "SSE-KMS"
+}
+
+variable "glue_job_bookmark_encryption_mode" {
+  description = "Definição de criptografia para job bookmarks no job do Glue para configuração de segurança"
+  type        = string
+  default     = "DISABLED"
+}
+
+variable "glue_s3_encryption_mode" {
+  description = "Definição de criptografia para dados escritos no s3 gerados no job do Glue para configuração de segurança"
+  type        = string
+  default     = "SSE-KMS"
 }

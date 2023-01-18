@@ -192,6 +192,17 @@ def glue_manager(job_args_for_testing):
     return glue_manager
 
 
+# DataFrame vazio para teste de exceção dos métodos de transformação
+@fixture()
+def empty_df(spark):
+    # Criando RDD e schema vazios
+    empty_rdd = spark.sparkContext.emptyRDD()
+    empty_schema = StructType()
+
+    # Criando e retornando DataFrame vazio
+    return spark.createDataFrame(data=empty_rdd, schema=empty_schema)
+
+
 # Amostra de DataFrame df_orders
 @fixture()
 def df_orders(spark):

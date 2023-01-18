@@ -196,13 +196,13 @@ O terraglue, como produto, já proporciona ao usuário uma suíte de testes mini
 
 ```bash
 cd terraglue/
-pip install --upgrade pip -r app/requirements_test_container.txt
+pip install --upgrade pip -r app/requirements-container.txt
 ```
 
 2. Execução de toda a suíte de testes pré programada para o usuário
 
 ```bash
-pytest app/ -vv
+pytest app/ -vv --color=yes --cov=./ --cov-report=xml
 ```
 
 <details>
@@ -211,6 +211,19 @@ pytest app/ -vv
     <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/tests-pytest-container.png" alt="tests-pytest-container">
 </div>
 </details>
+
+Alternativamente, o usuário pode executar o comando para execução dos testes em conjunto ao comando de inicialização do container (`docker run`). Nesse formato, caso o usuário já tenha testes unitários desenvolvidos e queira, de forma rápida e objetiva, executar a suíte sem entrar diretamente no container, o seguinte comando pode ser utilizado:
+
+```bash
+set AWS_CONFIG_PATH=C:\Users\%username%\.aws
+set AWS_PROFILE_NAME=default
+set REPO_PATH=C:\Users\%username%\OneDrive\dev\workspaces\terraglue
+
+docker run -it -v %AWS_CONFIG_PATH%:/home/glue_user/.aws -v %REPO_PATH%:/home/glue_user/workspace/terraglue -e AWS_PROFILE=%AWS_PROFILE_NAME% -e DISABLE_SSL=true --rm -p 4040:4040 -p 18080:18080 --name terraglue amazon/aws-glue-libs:glue_libs_3.0.0_image_01 -c "cd terraglue && pip install --upgrade pip -r app/requirements-container.txt && pytest app/ -vv --color=yes --cov=./ --cov-report=xml"
+```
+
+> **Note**
+> Para detalhes adicionais, é possível consumir a esteira de CI construída para o repositório terraglue. Nela, um step específico para execução dos testes unitários em containers docker foi configurado para validar a aplicação a cada push nas branches develop e main.
 
 E assim, foi possível concluir todas as etapas de preparação e primeiros passos na disponibilização de uma forma isolada de executar e testar *jobs* do Glue utilizando um *container* Docker com uma imagem personalizada com todas as dependências necessárias. Este procedimento pode acelerar grandemente todo e qualquer processo de execução e validação de funcionalidades e aplicações Spark a serem posteriormente migradas e implantadas como *jobs* do Glue.
 
