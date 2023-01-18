@@ -38,12 +38,15 @@ data "aws_kms_key" "s3" {
 
 # Definindo variáveis locais para uso no módulo
 locals {
+  account_id  = data.aws_caller_identity.current.account_id
+  region_name = data.aws_region.current.name
+
   bucket_names_map = {
-    "sor"    = "terraglue-sor-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-    "sot"    = "terraglue-sot-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-    "spec"   = "terraglue-spec-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-    "athena" = "terraglue-athena-query-results-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-    "glue"   = "terraglue-glue-assets-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    "sor"    = "terraglue-sor-data-${local.account_id}-${local.region_name}"
+    "sot"    = "terraglue-sot-data-${local.account_id}-${local.region_name}"
+    "spec"   = "terraglue-spec-data-${local.account_id}-${local.region_name}"
+    "athena" = "terraglue-athena-query-results-${local.account_id}-${local.region_name}"
+    "glue"   = "terraglue-glue-assets-${local.account_id}-${local.region_name}"
   }
 }
 
@@ -137,9 +140,35 @@ module "catalog" {
 
 # Chamando módulo iam
 module "iam" {
-  source             = "./modules/iam"
+  source = "./modules/iam"
+
+  # Variáveis para criação das policies e roles
   iam_policies_path  = var.iam_policies_path
   iam_glue_role_name = var.iam_glue_role_name
+}
+
+
+/* --------------------------------------------------
+-------------- MÓDULO TERRAFORM: kms ---------------
+      Criação de chave KMS para criptografia
+-------------------------------------------------- */
+
+# Variáveis locais para um melhor gerenciamento dos recursos do módulo
+locals {
+  kms_policy_raw  = file("${var.kms_policy_path}/${var.kms_policy_file_name}")
+  kms_policy_prep = replace(local.kms_policy_raw, "<account_id>", local.account_id)
+}
+
+# Chamando módulo kms
+module "kms" {
+  source = "./modules/kms"
+
+  # Variáveis para configuração da chave
+  kms_key_usage                = var.kms_key_usage
+  kms_customer_master_key_spec = var.kms_customer_master_key_spec
+  kms_is_enabled               = var.kms_is_enabled
+  kms_enable_key_rotation      = var.kms_enable_key_rotation
+  kms_policy                   = local.kms_policy_prep
 }
 
 
@@ -203,5 +232,5 @@ module "glue" {
   glue_cloudwatch_encryption_mode   = var.glue_cloudwatch_encryption_mode
   glue_job_bookmark_encryption_mode = var.glue_job_bookmark_encryption_mode
   glue_s3_encryption_mode           = var.glue_s3_encryption_mode
-  glue_kms_key_arn                  = data.aws_kms_key.s3.arn
+  glue_kms_key_arn                  = module.kms.kms_glue.arn
 }
