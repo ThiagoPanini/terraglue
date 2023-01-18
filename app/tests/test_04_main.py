@@ -22,6 +22,7 @@ como métodos de transformação no script principal.
 ---------------------------------------------------"""
 
 # Importando módulos para uso
+import pytest
 from pytest import mark
 from pyspark.sql.types import StructType, StructField,\
     StringType, IntegerType, DateType, TimestampType,\
@@ -86,6 +87,26 @@ def test_schema_resultante_pos_transformacao_orders(
 
     assert df_orders_prep.schema == expected_schema
 
+
+@mark.main
+@mark.orders
+def test_erro_criacao_de_dag_transformacao_orders(
+    glue_manager, empty_df
+):
+    """
+    G: dado que o usuário deseja transformar dados presentes
+       no DataFrame df_orders (este estando vazio)
+    W: quando o usuário executar o método transform_orders()
+       da classe GlueTransformationManager utilizando um
+       DataFrame vazio como argumento
+    T: então o método deve retornar uma exceção por não
+       conseguir preparar a DAG de transformações codificada
+    """
+    
+    # Testando exceção
+    with pytest.raises(Exception) as e_info:
+        df_prep = glue_manager.transform_orders(empty_df)
+    
 
 @mark.main
 @mark.order_items
@@ -155,6 +176,26 @@ def test_schema_resultante_pos_transformacao_order_items(
 
 
 @mark.main
+@mark.order_items
+def test_erro_criacao_de_dag_transformacao_order_items(
+    glue_manager, empty_df
+):
+    """
+    G: dado que o usuário deseja transformar dados presentes
+       no DataFrame df_order_items (este estando vazio)
+    W: quando o usuário executar o método transform_order_items()
+       da classe GlueTransformationManager utilizando um
+       DataFrame vazio como argumento
+    T: então o método deve retornar uma exceção por não
+       conseguir preparar a DAG de transformações codificada
+    """
+    
+    # Testando exceção
+    with pytest.raises(Exception) as e_info:
+        df_prep = glue_manager.transform_order_items(empty_df)
+
+
+@mark.main
 @mark.customers
 def test_qtd_linhas_resultantes_pos_transformacao_customers(
     df_customers, df_customers_prep
@@ -214,6 +255,26 @@ def test_schema_resultante_pos_transformacao_customers(
     ])
 
     assert df_customers_prep.schema == expected_schema
+
+
+@mark.main
+@mark.customers
+def test_erro_criacao_de_dag_transformacao_customers(
+    glue_manager, empty_df
+):
+    """
+    G: dado que o usuário deseja transformar dados presentes
+       no DataFrame df_customers (este estando vazio)
+    W: quando o usuário executar o método transform_customers()
+       da classe GlueTransformationManager utilizando um
+       DataFrame vazio como argumento
+    T: então o método deve retornar uma exceção por não
+       conseguir preparar a DAG de transformações codificada
+    """
+    
+    # Testando exceção
+    with pytest.raises(Exception) as e_info:
+        df_prep = glue_manager.transform_customers(empty_df)
 
 
 @mark.main
@@ -282,6 +343,26 @@ def test_schema_resultante_pos_transformacao_payments(
 
 
 @mark.main
+@mark.payments
+def test_erro_criacao_de_dag_transformacao_payments(
+    glue_manager, empty_df
+):
+    """
+    G: dado que o usuário deseja transformar dados presentes
+       no DataFrame df_payments (este estando vazio)
+    W: quando o usuário executar o método transform_payments()
+       da classe GlueTransformationManager utilizando um
+       DataFrame vazio como argumento
+    T: então o método deve retornar uma exceção por não
+       conseguir preparar a DAG de transformações codificada
+    """
+    
+    # Testando exceção
+    with pytest.raises(Exception) as e_info:
+        df_prep = glue_manager.transform_payments(empty_df)
+
+
+@mark.main
 @mark.reviews
 def test_qtd_linhas_resultantes_pos_transformacao_reviews(
     df_reviews_prep
@@ -341,6 +422,26 @@ def test_schema_resultante_pos_transformacao_reviews(
     ])
 
     assert df_reviews_prep.schema == expected_schema
+
+
+@mark.main
+@mark.reviews
+def test_erro_criacao_de_dag_transformacao_reviews(
+    glue_manager, empty_df
+):
+    """
+    G: dado que o usuário deseja transformar dados presentes
+       no DataFrame df_reviews (este estando vazio)
+    W: quando o usuário executar o método transform_reviews()
+       da classe GlueTransformationManager utilizando um
+       DataFrame vazio como argumento
+    T: então o método deve retornar uma exceção por não
+       conseguir preparar a DAG de transformações codificada
+    """
+    
+    # Testando exceção
+    with pytest.raises(Exception) as e_info:
+        df_prep = glue_manager.transform_reviews(empty_df)
 
 
 @mark.main
@@ -433,3 +534,23 @@ def test_schema_resultante_pos_transformacao_sot(
     df_sot_prep.printSchema()
 
     assert df_sot_prep.schema == expected_schema
+
+
+@mark.main
+@mark.sot
+def test_erro_criacao_de_dag_transformacao_sot(
+    glue_manager, empty_df
+):
+    """
+    G: dado que o usuário deseja transformar dados presentes
+       no DataFrame df_sot (este estando vazio)
+    W: quando o usuário executar o método transform_sot()
+       da classe GlueTransformationManager utilizando um
+       DataFrame vazio como argumento
+    T: então o método deve retornar uma exceção por não
+       conseguir preparar a DAG de transformações codificada
+    """
+    
+    # Testando exceção
+    with pytest.raises(Exception) as e_info:
+        df_prep = glue_manager.transform_sot(empty_df)
