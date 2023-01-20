@@ -245,13 +245,10 @@ class GlueJobManager():
         self.get_context_and_session()
 
         # Inicializando objeto de Job do Glue
-        try:
-            job = Job(self.glueContext)
-            job.init(self.args['JOB_NAME'], self.args)
-            return job
-        except Exception as e:
-            logger.error(f"Erro ao inicializar job do Glue. Exception: {e}")
-            raise e
+        job = Job(self.glueContext)
+        job.init(self.args['JOB_NAME'], self.args)
+
+        return job
 
 
 # Classe para o gerenciamento de transformações Spark em um job
