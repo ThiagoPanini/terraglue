@@ -218,14 +218,9 @@ class GlueJobManager():
         para os elementos SparkContext, GlueContext e SparkSession.
         """
         logger.info("Criando SparkContext, GlueContext e SparkSession")
-        try:
-            self.sc = SparkContext.getOrCreate()
-            self.glueContext = GlueContext(self.sc)
-            self.spark = self.glueContext.spark_session
-        except Exception as e:
-            logger.error("Erro ao criar elementos de contexto e sessão "
-                         f"da aplicação. Exception: {e}")
-            raise e
+        self.sc = SparkContext.getOrCreate()
+        self.glueContext = GlueContext(self.sc)
+        self.spark = self.glueContext.spark_session
 
     def init_job(self) -> Job:
         """
