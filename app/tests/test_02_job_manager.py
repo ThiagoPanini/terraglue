@@ -22,6 +22,7 @@ podem comprometer o funcionamento da aplicação.
 ---------------------------------------------------"""
 
 # Importando módulos para uso
+import pytest
 from pytest import mark
 from pyspark.context import SparkContext
 from awsglue.context import GlueContext
@@ -48,6 +49,26 @@ def test_captura_de_argumentos_do_job_na_construcao_da_classe(
        obtidos, na classe, a partir do método awsglue.utilsgetResolverOptions
     """
     assert job_args_for_testing.items() <= job_manager.args.items()
+
+
+@mark.job_manager
+def test_erro_ao_executar_metodo_print_args(job_manager):
+    """
+    G: dado que o usuário inicializou o objeto job_manager com
+       algum argumento de sistema nulo
+    W: quando o método print_args() for executado
+    T: então uma exceção deve ser lançada
+    """
+    # Modificando argumentos do sistema salvos no objeto da classe
+    correct_args = job_manager.args
+    job_manager.args = None
+
+    with pytest.raises(Exception):
+        # Chamando método para print de argumentos no log
+        job_manager.print_args()
+
+        # Retomando argumentos do job
+        job_manager.args = correct_args
 
 
 @mark.job_manager
@@ -79,7 +100,6 @@ def test_tipos_primitivos_de_elementos_de_contexto_e_sessao(job_manager):
        representar elementos do tipo SparkContext, GlueContext e SparkSession,
        respectivamente
     """
-
     # Executando método de coleta de elementos de contexto e sessão do job
     job_manager.get_context_and_session()
 
@@ -100,7 +120,6 @@ def test_metodo_de_inicializacao_do_job_gera_contexto_e_sessao(job_manager):
     T: então os elementos de contexto e sessão (Spark e Glue) devem existir
        e apresentarem os tipos primitivos adequados
     """
-
     # Executando método de inicialização do job
     _ = job_manager.init_job()
 
@@ -127,3 +146,24 @@ def test_metodo_de_inicializacao_do_job_retorna_tipo_job(job_manager):
 
     # Executando método de inicialização do job
     assert type(job_manager.init_job()) == Job
+
+
+@mark.job_manager
+@mark.validation
+def test_erro_ao_inicializar_job(job_manager):
+    """
+    G: dado que o usuário desejar inicializar seu job do Glue
+    W: quando o método init_job() for executado o atributo self.args
+       nulo por alguma possível falha na obtenção dos argumentos do job
+    T: então uma exceção deve ser lançada
+    """
+    # Modificando argumentos do sistema salvos no objeto da classe
+    correct_args = job_manager.args
+    job_manager.args = None
+
+    with pytest.raises(Exception):
+        # Chamando método para print de argumentos no log
+        _ = job_manager.init_job()
+
+        # Retomando argumentos do job
+        job_manager.args = correct_args
