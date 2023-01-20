@@ -142,4 +142,3 @@ def test_metodo_de_inicializacao_do_job_retorna_tipo_job(job_manager):
 
     # Executando método de inicialização do job
     assert type(job_manager.init_job()) == Job
-
