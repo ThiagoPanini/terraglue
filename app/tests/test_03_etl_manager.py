@@ -22,9 +22,10 @@ podem comprometer o funcionamento da aplicação.
 ---------------------------------------------------"""
 
 # Importando módulos para uso
-from pytest import mark
+import pytest
 from datetime import datetime
 from pyspark.sql.types import StringType, DateType, TimestampType
+# from moto import mock_glue
 
 
 """---------------------------------------------------
@@ -33,8 +34,8 @@ from pyspark.sql.types import StringType, DateType, TimestampType
 ---------------------------------------------------"""
 
 
-@mark.etl_manager
-@mark.date_attributes_extraction
+@pytest.mark.etl_manager
+@pytest.mark.date_attributes_extraction
 def test_conversao_de_data_no_metodo_de_extracao_de_atributos_de_data(
     etl_manager, fake_dataframe, date_col="date", date_col_type="date",
     date_test_col_name="date_test", date_format='%Y-%m-%d'
@@ -77,8 +78,8 @@ def test_conversao_de_data_no_metodo_de_extracao_de_atributos_de_data(
     assert dtype_pos_casting == DateType()
 
 
-@mark.etl_manager
-@mark.date_attributes_extraction
+@pytest.mark.etl_manager
+@pytest.mark.date_attributes_extraction
 def test_conversao_de_timestamp_no_metodo_de_extracao_de_atributos_de_data(
     etl_manager, fake_dataframe, date_col="timestamp",
     date_col_type="timestamp", date_test_col_name="timestamp_test",
@@ -122,8 +123,8 @@ def test_conversao_de_timestamp_no_metodo_de_extracao_de_atributos_de_data(
     assert dtype_pos_casting == TimestampType()
 
 
-@mark.etl_manager
-@mark.date_attributes_extraction
+@pytest.mark.etl_manager
+@pytest.mark.date_attributes_extraction
 def test_adicao_de_novas_colunas_apos_extracao_de_atributos_de_data(
     etl_manager, fake_dataframe, date_col="date"
 ):
@@ -160,8 +161,8 @@ def test_adicao_de_novas_colunas_apos_extracao_de_atributos_de_data(
     assert all(c in df_date.schema.fieldNames() for c in date_attribs_names)
 
 
-@mark.etl_manager
-@mark.date_attributes_extraction
+@pytest.mark.etl_manager
+@pytest.mark.date_attributes_extraction
 def test_extracao_do_ano_de_atributo_de_data(
     etl_manager, fake_dataframe, date_col="date"
 ):
@@ -197,8 +198,8 @@ def test_extracao_do_ano_de_atributo_de_data(
     assert calculated_years[:] == expected_years[:]
 
 
-@mark.etl_manager
-@mark.date_attributes_extraction
+@pytest.mark.etl_manager
+@pytest.mark.date_attributes_extraction
 def test_extracao_do_mes_de_atributo_de_data(
     etl_manager, fake_dataframe, date_col="date"
 ):
@@ -234,8 +235,8 @@ def test_extracao_do_mes_de_atributo_de_data(
     assert expected_months[:] == calculated_months[:]
 
 
-@mark.etl_manager
-@mark.date_attributes_extraction
+@pytest.mark.etl_manager
+@pytest.mark.date_attributes_extraction
 def test_extracao_do_dia_de_atributo_de_data(
     etl_manager, fake_dataframe, date_col="date"
 ):
@@ -271,8 +272,8 @@ def test_extracao_do_dia_de_atributo_de_data(
     assert expected_days[:] == calculated_days[:]
 
 
-@mark.etl_manager
-@mark.add_partition
+@pytest.mark.etl_manager
+@pytest.mark.add_partition
 def test_adicao_de_coluna_de_particao_anomesdia_dataframe(
     etl_manager, fake_dataframe, partition_name="anomesdia",
     partition_value=int(datetime.now().strftime("%Y%m%d"))
@@ -306,8 +307,8 @@ def test_adicao_de_coluna_de_particao_anomesdia_dataframe(
     assert generated_partition_value == partition_value
 
 
-@mark.etl_manager
-@mark.repartition_dataframe
+@pytest.mark.etl_manager
+@pytest.mark.repartition_dataframe
 def test_reparticionamento_de_dataframe_para_menos_particoes(
     etl_manager, fake_dataframe
 ):
@@ -335,8 +336,8 @@ def test_reparticionamento_de_dataframe_para_menos_particoes(
     assert df_repartitioned.rdd.getNumPartitions() == partitions_to_set
 
 
-@mark.etl_manager
-@mark.repartition_dataframe
+@pytest.mark.etl_manager
+@pytest.mark.repartition_dataframe
 def test_reparticionamento_de_dataframe_para_mais_particoes(
     etl_manager, fake_dataframe
 ):
@@ -362,3 +363,29 @@ def test_reparticionamento_de_dataframe_para_mais_particoes(
 
     # Validando resultado
     assert df_repartitioned.rdd.getNumPartitions() == partitions_to_set
+
+
+"""@pytest.mark.etl_manager
+@pytest.mark.generate_dynamicframe_dict
+@mock_glue
+def test_metodo_de_geracao_de_dynamicframes_gera_dicionario(
+    client, create_fake_catalog_database, create_fake_catalog_table,
+    etl_manager
+):
+    # Criando database e tabela fake no Data Catalog
+    create_fake_catalog_database()
+    create_fake_catalog_table()
+
+    print(client.get_tables(DatabaseName="fakedb"))
+
+    data_dict = {
+        "fake_data": {
+            "database": "fakedb",
+            "table_name": "tbl_fake",
+            "transformation_ctx": "dyf_orders",
+            "create_temp_view": True
+        }
+    }
+
+
+    assert False"""
