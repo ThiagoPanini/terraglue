@@ -12,7 +12,7 @@ Proporcionar uma série de funcionalidades capazes de
 facilitar a construção de testes unitários em situações
 que envolvem o consumo de dados fictícios mockados
 como tabelas no Data Catalog
------------------------------------------------------
+-----------------------------------------------------"""
 
 # Input para mock de banco de dados
 DATABASE_INPUT = {
@@ -38,13 +38,16 @@ TABLE_INPUT = {
     "StorageDescriptor": {
         "BucketColumns": [],
         "Compressed": False,
-        "InputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat",
+        "InputFormat": "org.apache.hadoop.hive.ql.io.parquet"
+            ".MapredParquetInputFormat",
         "NumberOfBuckets": -1,
-        "OutputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat",
+        "OutputFormat": "org.apache.hadoop.hive.ql.io.parquet."
+                        "MapredParquetOutputFormat",
         "Parameters": {},
         "SerdeInfo": {
             "Parameters": {"serialization.format": "1"},
-            "SerializationLibrary": "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe",
+            "SerializationLibrary": "org.apache.hadoop.hive.ql.io.parquet."
+                                    "serde.ParquetHiveSerDe",
         },
         "SkewedInfo": {
             "SkewedColumnNames": [],
@@ -55,4 +58,4 @@ TABLE_INPUT = {
         "StoredAsSubDirectories": False,
     },
     "TableType": "EXTERNAL_TABLE",
-}"""
+}
