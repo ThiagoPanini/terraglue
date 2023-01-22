@@ -23,7 +23,6 @@ import sys
 import os
 
 import pytest
-import boto3
 from faker import Faker
 
 from pyspark.sql import SparkSession
@@ -126,12 +125,6 @@ def job_manager(job_args_for_testing) -> GlueJobManager:
 ---------------------------------------------------"""
 
 
-# Client glue boto3
-@pytest.fixture()
-def client():
-    return boto3.client("glue")
-
-
 # Objeto de sessão Spark para uso genérico
 @pytest.fixture()
 def spark():
@@ -155,10 +148,12 @@ def etl_manager(job_args_for_testing):
 
 
 # Resultado da execução do método generate_dynamic_frames_dict
+"""
 @pytest.fixture()
 def dyf_dict(etl_manager):
     etl_manager.init_job()
     return etl_manager.generate_dynamic_frames_dict()
+"""
 
 
 # DataFrame fake para testagem de transformações Spark
