@@ -22,8 +22,6 @@ podem comprometer o funcionamento da aplicação.
 ---------------------------------------------------"""
 
 import pytest
-from moto import mock_glue
-from moto.core import DEFAULT_ACCOUNT_ID
 from datetime import datetime
 
 from pyspark.sql.types import StringType, DateType, TimestampType
@@ -35,6 +33,7 @@ from awsglue.dynamicframe import DynamicFrame
 ------------ 2. DEFININDO SUÍTE DE TESTES ------------
            2.1 Construindo testes unitários
 ---------------------------------------------------"""
+
 
 @pytest.mark.etl_manager
 @pytest.mark.generate_dynamicframe_dict

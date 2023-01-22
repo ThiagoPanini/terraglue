@@ -11,8 +11,8 @@ executados de maneira adequada.
 ---------------------------------------------------"""
 
 from pyspark.sql.types import StructType, StructField,\
-  IntegerType, StringType, BooleanType, DecimalType,\
-  DateType, TimestampType
+    IntegerType, StringType, BooleanType, DecimalType,\
+    DateType, TimestampType
 
 
 """---------------------------------------------------
@@ -50,13 +50,13 @@ DATA_DICT_REQUIRED_KEYS = ["database", "table_name", "transformation_ctx"]
 
 # Schema para criação de DataFrame fictício Spark
 FAKE_DATAFRAME_SCHEMA = StructType([
-        StructField("id", StringType()),
-        StructField("value", IntegerType()),
-        StructField("decimal", DecimalType()),
-        StructField("boolean", BooleanType()),
-        StructField("date", DateType()),
-        StructField("timestamp", TimestampType())
-    ])
+    StructField("id", StringType()),
+    StructField("value", IntegerType()),
+    StructField("decimal", DecimalType()),
+    StructField("boolean", BooleanType()),
+    StructField("date", DateType()),
+    StructField("timestamp", TimestampType())
+])
 
 
 """---------------------------------------------------
@@ -85,59 +85,59 @@ FAKE_CATALOG_TABLE_INPUT = {
                    "metadados mockados para uso em testes unitários",
     "Retention": 0,
     "StorageDescriptor": {
-      "Columns": [
-        {
-          "Name": "fake_col_1",
-          "Type": "string",
-          "Comment": "",
-          "Parameters": {}
+        "Columns": [
+            {
+                "Name": "fake_col_1",
+                "Type": "string",
+                "Comment": "",
+                "Parameters": {}
+            },
+            {
+                "Name": "fake_col_2",
+                "Type": "string",
+                "Comment": "",
+                "Parameters": {}
+            },
+            {
+                "Name": "fake_col_3",
+                "Type": "string",
+                "Comment": "",
+                "Parameters": {}
+            },
+            {
+                "Name": "fake_col_4",
+                "Type": "string",
+                "Comment": "",
+                "Parameters": {}
+            },
+            {
+                "Name": "fake_col_5",
+                "Type": "string",
+                "Comment": "",
+                "Parameters": {}
+            }
+        ],
+        "Location": "s3://bucket-fake/db_fake/tbl_fake",
+        "InputFormat": "org.apache.hadoop.hive.ql.io.parquet"
+                       ".MapredParquetInputFormat",
+        "OutputFormat": "org.apache.hadoop.hive.ql.io.parquet."
+                        "MapredParquetOutputFormat",
+        "Compressed": False,
+        "NumberOfBuckets": 0,
+        "SerdeInfo": {
+            "Name": "main-stream",
+            "SerializationLibrary": "org.apache.hadoop.hive.ql.io.parquet."
+                                    "serde.ParquetHiveSerDe",
         },
-        {
-          "Name": "fake_col_2",
-          "Type": "string",
-          "Comment": "",
-          "Parameters": {}
-        },
-        {
-          "Name": "fake_col_3",
-          "Type": "string",
-          "Comment": "",
-          "Parameters": {}
-        },
-        {
-          "Name": "fake_col_4",
-          "Type": "string",
-          "Comment": "",
-          "Parameters": {}
-        },
-        {
-          "Name": "fake_col_5",
-          "Type": "string",
-          "Comment": "",
-          "Parameters": {}
-        }
-      ],
-      "Location": "s3://bucket-fake/db_fake/tbl_fake",
-      "InputFormat": "org.apache.hadoop.hive.ql.io.parquet"
-                     ".MapredParquetInputFormat",
-      "OutputFormat": "org.apache.hadoop.hive.ql.io.parquet."
-                      "MapredParquetOutputFormat",
-      "Compressed": False,
-      "NumberOfBuckets": 0,
-      "SerdeInfo": {
-        "Name": "main-stream",
-        "SerializationLibrary": "org.apache.hadoop.hive.ql.io.parquet."
-                                "serde.ParquetHiveSerDe",
-      },
-      "BucketColumns": [],
-      "SortColumns": [],
-      "Parameters": {},
-      "StoredAsSubDirectories": False
+        "BucketColumns": [],
+        "SortColumns": [],
+        "Parameters": {},
+        "StoredAsSubDirectories": False
     },
     "PartitionKeys": [],
     "TableType": "EXTERNAL_TABLE",
     "Parameters": {
-      "EXTERNAL": "TRUE"
+        "EXTERNAL": "TRUE"
     }
 }
 
