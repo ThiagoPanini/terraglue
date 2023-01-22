@@ -21,17 +21,66 @@ podem comprometer o funcionamento da aplicação.
           1.1 Importação das bibliotecas
 ---------------------------------------------------"""
 
-# Importando módulos para uso
 import pytest
+from moto import mock_glue
+from moto.core import DEFAULT_ACCOUNT_ID
 from datetime import datetime
+
 from pyspark.sql.types import StringType, DateType, TimestampType
-# from moto import mock_glue
+
+from awsglue.dynamicframe import DynamicFrame
 
 
 """---------------------------------------------------
 ------------ 2. DEFININDO SUÍTE DE TESTES ------------
            2.1 Construindo testes unitários
 ---------------------------------------------------"""
+
+@pytest.mark.etl_manager
+@pytest.mark.generate_dynamicframe_dict
+def test_metodo_de_geracao_de_dynamicframes_gera_dicionario(
+    dyf_dict
+):
+    """
+    G: dado que o usuário deseja realizar a leitura de dynamicframes
+       com base na variável DATA_DICT devidamente definida
+    W: quando o método generate_dynamic_frames_dict() for executado
+    T: então o objeto resultante deve ser um dicionário
+    """
+    assert type(dyf_dict) == dict
+
+
+@pytest.mark.etl_manager
+@pytest.mark.generate_dynamicframe_dict
+def test_dict_de_dyfs_possui_qtd_de_elementos_iguais_ao_dict_datadict(
+    dyf_dict, data_dict
+):
+    """
+    G: dado que o usuário deseja realizar a leitura de dynamicframes
+       com base na variável DATA_DICT devidamente definida
+    W: quando o método generate_dynamic_frames_dict() for executado
+    T: então a quantidade de elementos presente no dicionário de
+       dynamicframes resultante precisa ser igual à quantidade de
+       elementos do dicionário DATA_DICT
+    """
+    assert len(dyf_dict) == len(data_dict)
+
+
+@pytest.mark.etl_manager
+@pytest.mark.generate_dynamicframe_dict
+def test_tipo_primitivo_dos_elementos_do_dicionario_de_dynamicframes(
+    dyf_dict
+):
+    """
+    G: dado que o usuário deseja realizar a leitura de dynamicframes
+       com base na variável DATA_DICT devidamente definida
+    W: quando o método generate_dynamic_frames_dict() for executado
+    T: então os elementos que compõem o dicionário resultante precisam
+       ser do tipo DynamicFrame do Glue
+    """
+    # Extraindo lista de tipos primitivos
+    dyfs = list(dyf_dict.values())
+    assert all(type(dyf) == DynamicFrame for dyf in dyfs)
 
 
 @pytest.mark.etl_manager
@@ -363,29 +412,3 @@ def test_reparticionamento_de_dataframe_para_mais_particoes(
 
     # Validando resultado
     assert df_repartitioned.rdd.getNumPartitions() == partitions_to_set
-
-
-"""@pytest.mark.etl_manager
-@pytest.mark.generate_dynamicframe_dict
-@mock_glue
-def test_metodo_de_geracao_de_dynamicframes_gera_dicionario(
-    client, create_fake_catalog_database, create_fake_catalog_table,
-    etl_manager
-):
-    # Criando database e tabela fake no Data Catalog
-    create_fake_catalog_database()
-    create_fake_catalog_table()
-
-    print(client.get_tables(DatabaseName="fakedb"))
-
-    data_dict = {
-        "fake_data": {
-            "database": "fakedb",
-            "table_name": "tbl_fake",
-            "transformation_ctx": "dyf_orders",
-            "create_temp_view": True
-        }
-    }
-
-
-    assert False"""
