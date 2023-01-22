@@ -25,18 +25,18 @@ import os
 import pytest
 import boto3
 from faker import Faker
-from moto.core import DEFAULT_ACCOUNT_ID
 
 from pyspark.sql import SparkSession
-from pyspark.sql.types import StructType, StructField, StringType,\
-    IntegerType, DateType, TimestampType, DecimalType, BooleanType
+from pyspark.sql.types import StructType
 
 from src.main import ARGV_LIST, DATA_DICT, GlueTransformationManager
 from src.terraglue import GlueJobManager, GlueETLManager
 
-from tests.utils.iac_helper import extract_map_variable_from_ferraform
-from tests.utils.spark_helper import generate_fake_spark_dataframe
-from tests.utils.mock_helper import DATABASE_INPUT, TABLE_INPUT
+from tests.helpers.iac_helper import extract_map_variable_from_ferraform
+from tests.helpers.spark_helper import generate_fake_spark_dataframe
+
+from tests.configs.inputs import JOB_REQUIRED_ARGS, TF_VAR_NAME_JOB_ARGS,\
+    JOB_RUNTIME_ARGS, DATA_DICT_REQUIRED_KEYS, FAKE_DATAFRAME_SCHEMA
 
 
 # Instanciando objeto Faker
@@ -59,31 +59,21 @@ def argv_list() -> list:
 # Lista drgumentos obrigatórios definidos pelo usuário
 @pytest.fixture()
 def user_required_args() -> list:
-    return [
-        "JOB_NAME",
-        "OUTPUT_BUCKET",
-        "OUTPUT_DB",
-        "OUTPUT_TABLE",
-        "CONNECTION_TYPE",
-        "UPDATE_BEHAVIOR",
-        "DATA_FORMAT",
-        "COMPRESSION",
-        "ENABLE_UPDATE_CATALOG"
-    ]
+    return JOB_REQUIRED_ARGS
 
 
 # Dicionário de argumentos definidos pelo usuário no Terraform
 @pytest.fixture()
 def iac_job_user_args() -> dict:
     return extract_map_variable_from_ferraform(
-        var_name="glue_job_user_arguments"
+        var_name=TF_VAR_NAME_JOB_ARGS
     )
 
 
 # Lista de argumentos do job criados apenas em tempo de execução
 @pytest.fixture()
 def job_runtime_args() -> list:
-    return ["JOB_NAME", "OUTPUT_BUCKET"]
+    return JOB_RUNTIME_ARGS
 
 
 # Variável DATA_DICT definida no código da aplicação
@@ -95,11 +85,7 @@ def data_dict() -> dict:
 # Lista de chaves obrigatórias da variável DATA_DICT
 @pytest.fixture()
 def required_data_dict_keys() -> list:
-    return [
-        "database",
-        "table_name",
-        "transformation_ctx"
-    ]
+    return DATA_DICT_REQUIRED_KEYS
 
 
 """---------------------------------------------------
@@ -108,7 +94,7 @@ def required_data_dict_keys() -> list:
 ---------------------------------------------------"""
 
 
-# Argumentos do job utilizado para instância de classe para testes
+# Argumentos do job utilizados para instância de classe para testes
 @pytest.fixture()
 def job_args_for_testing(iac_job_user_args, job_runtime_args) -> dict:
     # Simulando argumentos obtidos apenas em tempo de execução
@@ -122,7 +108,7 @@ def job_args_for_testing(iac_job_user_args, job_runtime_args) -> dict:
 # Objeto instanciado da classe GlueJobManager
 @pytest.fixture()
 def job_manager(job_args_for_testing) -> GlueJobManager:
-    # Adicionando argumentos ao vetor de argumentos
+    # Adicionando argumentos ao vetor de argumentos do sistema
     for arg_name, arg_value in job_args_for_testing.items():
         sys.argv.append(f"--{arg_name}={arg_value}")
 
@@ -159,6 +145,7 @@ def etl_manager(job_args_for_testing):
     for arg_name, arg_value in job_args_for_testing.items():
         sys.argv.append(f"--{arg_name}={arg_value}")
 
+    # Instanciando objeto
     etl_manager = GlueETLManager(
         argv_list=ARGV_LIST,
         data_dict=DATA_DICT
@@ -167,47 +154,20 @@ def etl_manager(job_args_for_testing):
     return etl_manager
 
 
+# Resultado da execução do método generate_dynamic_frames_dict
+@pytest.fixture()
+def dyf_dict(etl_manager):
+    etl_manager.init_job()
+    return etl_manager.generate_dynamic_frames_dict()
+
+
 # DataFrame fake para testagem de transformações Spark
 @pytest.fixture()
 def fake_dataframe(spark):
-    # Definindo schema para DataFrame fictício
-    schema = StructType([
-        StructField("id", StringType()),
-        StructField("value", IntegerType()),
-        StructField("decimal", DecimalType()),
-        StructField("boolean", BooleanType()),
-        StructField("date", DateType()),
-        StructField("timestamp", TimestampType())
-    ])
-
-    # Gerando DataFrame fictício
     return generate_fake_spark_dataframe(
         spark=spark,
-        schema_input=schema
+        schema_input=FAKE_DATAFRAME_SCHEMA
     )
-
-
-# Função fabricada para criação de databases no Data Catalog
-@pytest.fixture()
-def create_fake_catalog_database(client):
-    def create_db():
-        return client.create_database(
-            CatalogId=DEFAULT_ACCOUNT_ID,
-            DatabaseInput=DATABASE_INPUT
-        )
-    return create_db
-
-
-# Função fabricada para criação de tabelas no Data Catalog
-@pytest.fixture()
-def create_fake_catalog_table(client):
-    def create_table():
-        return client.create_table(
-            CatalogId=DEFAULT_ACCOUNT_ID,
-            DatabaseName=DATABASE_INPUT["Name"],
-            TableInput=TABLE_INPUT
-        )
-    return create_table
 
 
 """---------------------------------------------------
