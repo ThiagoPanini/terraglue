@@ -1,2 +1,3 @@
 ignore: 
-  - "app/tests/"
+  - "app/tests/conftest.py"
+  - "app/tests/helpers/"
