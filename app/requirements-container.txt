@@ -1,8 +1,9 @@
+setuptools
+boto3
 flake8
 pydocstyle
 pytest>=7.2.0
 pytest-cov
 pyparsing
-setuptools
 Faker
 moto
