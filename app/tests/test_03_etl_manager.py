@@ -37,7 +37,7 @@ from awsglue.dynamicframe import DynamicFrame
 
 @pytest.mark.etl_manager
 @pytest.mark.generate_dynamicframe_dict
-@pytest.mark.skip(reson="Investigando erro ao executar na esteira")
+@pytest.mark.skip(reason="Investigando erro ao executar na esteira")
 def test_metodo_de_geracao_de_dynamicframes_gera_dicionario(
     dyf_dict
 ):
@@ -52,7 +52,7 @@ def test_metodo_de_geracao_de_dynamicframes_gera_dicionario(
 
 @pytest.mark.etl_manager
 @pytest.mark.generate_dynamicframe_dict
-@pytest.mark.skip(reson="Investigando erro ao executar na esteira")
+@pytest.mark.skip(reason="Investigando erro ao executar na esteira")
 def test_dict_de_dyfs_possui_qtd_de_elementos_iguais_ao_dict_datadict(
     dyf_dict, data_dict
 ):
@@ -69,7 +69,7 @@ def test_dict_de_dyfs_possui_qtd_de_elementos_iguais_ao_dict_datadict(
 
 @pytest.mark.etl_manager
 @pytest.mark.generate_dynamicframe_dict
-@pytest.mark.skip(reson="Investigando erro ao executar na esteira")
+@pytest.mark.skip(reason="Investigando erro ao executar na esteira")
 def test_tipo_primitivo_dos_elementos_do_dicionario_de_dynamicframes(
     dyf_dict
 ):
