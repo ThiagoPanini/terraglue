@@ -148,12 +148,10 @@ def etl_manager(job_args_for_testing):
 
 
 # Resultado da execução do método generate_dynamic_frames_dict
-"""
 @pytest.fixture()
 def dyf_dict(etl_manager):
     etl_manager.init_job()
     return etl_manager.generate_dynamic_frames_dict()
-"""
 
 
 # DataFrame fake para testagem de transformações Spark

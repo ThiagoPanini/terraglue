@@ -37,7 +37,7 @@ from awsglue.dynamicframe import DynamicFrame
 
 @pytest.mark.etl_manager
 @pytest.mark.generate_dynamicframe_dict
-@pytest.mark.skip(reason="Investigando erro ao executar na esteira")
+# @pytest.mark.skip(reason="Investigando erro ao executar na esteira")
 def test_metodo_de_geracao_de_dynamicframes_gera_dicionario(
     dyf_dict
 ):
