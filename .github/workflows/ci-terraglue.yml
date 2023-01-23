@@ -66,7 +66,7 @@ jobs:
             -u root
             -v ${{ github.workspace }}:/home/glue_user/workspace/terraglue
             -e DISABLE_SSL=true
-            -e AWS_REGION="sa-east-1"
+            -e AWS_REGION=sa-east-1
             --rm
             -p 4040:4040 -p 18080:18080
             --name terraglue
