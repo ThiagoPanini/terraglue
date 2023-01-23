@@ -66,19 +66,13 @@ jobs:
             -u root
             -v ${{ github.workspace }}:/home/glue_user/workspace/terraglue
             -e DISABLE_SSL=true
-            -e REGION_UM=$(AWS_REGION)
-            -e REGION_DOIS=${AWS_REGION}
-            -e REGION_TRES=$AWS_REGION
+            -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+            -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            -e AWS_REGION=sa-east-1
             --rm
             -p 4040:4040 -p 18080:18080
             --name terraglue
           run: |
-            echo "Região 1"
-            echo $REGION_UM
-            echo "Região 2"
-            echo $REGION_DOIS
-            echo "Região 3"
-            echo $REGION_TRES
             cd terraglue
             python3 -m pip install --user --upgrade pip -r app/requirements-container.txt
             python3 -m pytest app/ -vv -m "generate_dynamicframe_dict" --color=yes --cov=./ --cov-report=xml
