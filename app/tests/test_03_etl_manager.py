@@ -23,8 +23,10 @@ podem comprometer o funcionamento da aplicação.
 
 import pytest
 from datetime import datetime
+import copy
 
 from pyspark.sql.types import StringType, DateType, TimestampType
+from pyspark.sql import DataFrame
 
 from awsglue.dynamicframe import DynamicFrame
 
@@ -80,6 +82,84 @@ def test_tipo_primitivo_dos_elementos_do_dicionario_de_dynamicframes(
     # Extraindo lista de tipos primitivos
     dyfs = list(dyf_dict.values())
     assert all(type(dyf) == DynamicFrame for dyf in dyfs)
+
+
+@pytest.mark.etl_manager
+@pytest.mark.generate_dynamicframe_dict
+def test_erro_ao_gerar_dynamicframes_de_tabelas_inexistentes_no_catalogo(
+    etl_manager
+):
+    """
+    G: dado que o usuário deseja realizar a leitura de dynamicframes
+       com base na variável DATA_DICT devidamente definida
+    W: quando o método generate_dynamic_frames_dict() for executado com
+       alguma inconsistência na definição da variável DATA_DICT que
+       indique a leitura de tabelas inexistentes no catálogo de dados ou
+       com alguma restrição de acesso do usuário
+    T: então uma exceção deve ser lançada
+    """
+    # Copiando objeto
+    etl_manager_copy = copy.deepcopy(etl_manager)
+
+    # Modificando atributo data_dict
+    data_dict_copy = etl_manager_copy.data_dict
+    data_dict_copy[list(data_dict_copy.keys())[0]]["database"] \
+        = "a fake database"
+
+    # Assimilando DATA_DICT modificado ao objeto da classe
+    etl_manager_copy.data_dict = data_dict_copy
+    etl_manager_copy.init_job()
+
+    # Executando método de geração de DynamicFrames
+    with pytest.raises(Exception):
+        _ = etl_manager_copy.generate_dynamic_frames_dict()
+
+
+@pytest.mark.etl_manager
+@pytest.mark.generate_dataframe_dict
+def test_metodo_de_geracao_de_dataframes_gera_dicionario(
+    df_dict
+):
+    """
+    G: dado que o usuário deseja realizar a leitura de dataframes
+       com base na variável DATA_DICT devidamente definida
+    W: quando o método generate_dataframes_dict() for executado
+    T: então o objeto resultante deve ser um dicionário
+    """
+    assert type(df_dict) == dict
+
+
+@pytest.mark.etl_manager
+@pytest.mark.generate_dataframe_dict
+def test_dict_de_dfs_possui_qtd_de_elementos_iguais_ao_dict_datadict(
+    df_dict, data_dict
+):
+    """
+    G: dado que o usuário deseja realizar a leitura de dataframes
+       com base na variável DATA_DICT devidamente definida
+    W: quando o método generate_dataframes_dict() for executado
+    T: então a quantidade de elementos presente no dicionário de
+       dataframes resultante precisa ser igual à quantidade de
+       elementos do dicionário DATA_DICT
+    """
+    assert len(df_dict) == len(data_dict)
+
+
+@pytest.mark.etl_manager
+@pytest.mark.generate_dataframe_dict
+def test_tipo_primitivo_dos_elementos_do_dicionario_de_dataframes(
+    df_dict
+):
+    """
+    G: dado que o usuário deseja realizar a leitura de dataframes
+       com base na variável DATA_DICT devidamente definida
+    W: quando o método generate_dataframes_dict() for executado
+    T: então os elementos que compõem o dicionário resultante precisam
+       ser do tipo DataFrame do Spark
+    """
+    # Extraindo lista de tipos primitivos
+    dfs = list(df_dict.values())
+    assert all(type(df) == DataFrame for df in dfs)
 
 
 @pytest.mark.etl_manager
