@@ -75,7 +75,7 @@ jobs:
           run: |
             cd terraglue
             python3 -m pip install --user --upgrade pip -r app/requirements-container.txt
-            python3 -m pytest app/ -vv -m "generate_dynamicframe_dict" --color=yes --cov=./ --cov-report=xml
+            python3 -m pytest app/ -vv --color=yes --cov=./ --cov-report=xml
 
       - name: Cobertura dos Testes - codecov
         uses: codecov/codecov-action@v3
