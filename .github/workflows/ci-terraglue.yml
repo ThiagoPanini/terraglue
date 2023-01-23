@@ -70,7 +70,7 @@ jobs:
             -p 4040:4040 -p 18080:18080
             --name terraglue
           run: |
-            export AWS_REGION=sa-east-1
+            export AWS_REGION="sa-east-1"
             cd terraglue
             python3 -m pip install --user --upgrade pip -r app/requirements-container.txt
             python3 -m pytest app/ -vv --color=yes --cov=./ --cov-report=xml
