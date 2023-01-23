@@ -39,9 +39,11 @@ TABLE OF CONTENTS:
 import sys
 import logging
 from time import sleep
+
 from pyspark.context import SparkContext
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import lit, expr
+
 from awsglue.utils import getResolvedOptions
 from awsglue.context import GlueContext
 from awsglue.job import Job
@@ -459,16 +461,12 @@ class GlueETLManager(GlueJobManager):
 
         logger.info("Mapeando DynamicFrames às chaves do dicionário")
         sleep(0.01)
-        try:
-            # Criando dicionário de Dynamic Frames
-            dynamic_dict = {k: dyf for k, dyf
-                            in zip(self.data_dict.keys(), dynamic_frames)}
-            logger.info("Dados gerados com sucesso. Total de DynamicFrames: "
-                        f"{len(dynamic_dict.values())}")
-        except Exception as e:
-            logger.error("Erro ao mapear DynamicFrames às chaves do "
-                         f"dicionário de dados fornecido. Exception: {e}")
-            raise e
+
+        # Criando dicionário de Dynamic Frames
+        dynamic_dict = {k: dyf for k, dyf
+                        in zip(self.data_dict.keys(), dynamic_frames)}
+        logger.info("Dados gerados com sucesso. Total de DynamicFrames: "
+                    f"{len(dynamic_dict.values())}")
 
         # Retornando dicionário de DynamicFrames
         sleep(0.01)
