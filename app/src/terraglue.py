@@ -678,6 +678,7 @@ class GlueETLManager(GlueJobManager):
         """
         try:
             # Criando expressões de conversão com base no tipo do campo
+            date_col_type = date_col_type.strip().lower()
             if convert_string_to_date:
                 if date_col_type == "date":
                     conversion_expr = f"to_date({date_col},\
@@ -718,7 +719,7 @@ class GlueETLManager(GlueJobManager):
             return df
 
         except Exception as e:
-            logger.error('Erro ao adicionar coluns em DataFrame com'
+            logger.error('Erro ao adicionar colunas em DataFrame com'
                          f'novos atributos de data. Exception: {e}')
             raise e
 

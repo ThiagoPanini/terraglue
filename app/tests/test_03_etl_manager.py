@@ -401,6 +401,51 @@ def test_extracao_do_dia_de_atributo_de_data(
 
 
 @pytest.mark.etl_manager
+@pytest.mark.date_attributes_extraction
+def test_erro_ao_fornecer_argumento_date_col_type_incorreto(
+    etl_manager, fake_dataframe, date_col="date"
+):
+    """
+    G: dado que o usuário deseja aplicar o método de extração de
+       atributos de data em uma operação de transformação de dados
+    W: quando o método método date_attributes_extraction() da classe
+       GlueETLManager for executado em uma coluna de data com o
+       argumento date_col_type não configurado como 'date' ou 'timestamp'
+    T: então uma exceção deve ser lançada
+    """
+    with pytest.raises(Exception):
+        _ = etl_manager.date_attributes_extraction(
+            df=fake_dataframe,
+            date_col=date_col,
+            convert_string_to_date=True,
+            date_col_type="string"
+        )
+
+
+@pytest.mark.etl_manager
+@pytest.mark.date_attributes_extraction
+def test_erro_ao_extrair_atributos_de_data_em_coluna_nao_compativel(
+    etl_manager, fake_dataframe, date_col="bool"
+):
+    """
+    G: dado que o usuário deseja aplicar o método de extração de
+       atributos de data em uma operação de transformação de dados
+    W: quando o método método date_attributes_extraction() da classe
+       GlueETLManager for executado em uma coluna não compatível ou
+       não transformável em data e com o flag convert_string_to_date
+       igual a True
+    T: então uma exceção deve ser lançada
+    """
+    with pytest.raises(Exception):
+        _ = etl_manager.date_attributes_extraction(
+            df=fake_dataframe,
+            date_col=date_col,
+            convert_string_to_date=True,
+            date_col_type="date"
+        )
+
+
+@pytest.mark.etl_manager
 @pytest.mark.add_partition
 def test_adicao_de_coluna_de_particao_anomesdia_dataframe(
     etl_manager, fake_dataframe, partition_name="anomesdia",
@@ -416,7 +461,6 @@ def test_adicao_de_coluna_de_particao_anomesdia_dataframe(
        de nome "anomesdia" do mesmo tipo primitivo do argumento
        partition_value
     """
-
     # Executando método de adição de partição em DataFrame
     df_partitioned = etl_manager.add_partition(
         df=fake_dataframe,
@@ -436,6 +480,27 @@ def test_adicao_de_coluna_de_particao_anomesdia_dataframe(
 
 
 @pytest.mark.etl_manager
+@pytest.mark.add_partition
+def test_erro_ao_adicionar_particao_com_nome_de_particao_invalido(
+    etl_manager, fake_dataframe, partition_name=None,
+    partition_value="1"
+):
+    """
+    G: dado que o usuário deseja adicionar uma coluna de data
+       para servir de partição de seu DataFrame Spark
+    W: quando o usuário executar o método add_partition da classe
+       GlueETLManager com o argumento partition_name igual a None
+    T: então uma exceção deve ser lançada
+    """
+    with pytest.raises(Exception):
+        _ = etl_manager.add_partition(
+            df=fake_dataframe,
+            partition_name=partition_name,
+            partition_value=partition_value
+        )
+
+
+@pytest.mark.etl_manager
 @pytest.mark.repartition_dataframe
 def test_reparticionamento_de_dataframe_para_menos_particoes(
     etl_manager, fake_dataframe
@@ -449,7 +514,6 @@ def test_reparticionamento_de_dataframe_para_menos_particoes(
     T: então o DataFrame resultante deverá conter o número
        especificado de partições
     """
-
     # Coletando informações sobre partições atuais do DataFrame
     current_partitions = fake_dataframe.rdd.getNumPartitions()
     partitions_to_set = current_partitions // 2
@@ -478,7 +542,6 @@ def test_reparticionamento_de_dataframe_para_mais_particoes(
     T: então o DataFrame resultante deverá conter o número
        especificado de partições
     """
-
     # Coletando informações sobre partições atuais do DataFrame
     current_partitions = fake_dataframe.rdd.getNumPartitions()
     partitions_to_set = current_partitions * 2
@@ -491,3 +554,60 @@ def test_reparticionamento_de_dataframe_para_mais_particoes(
 
     # Validando resultado
     assert df_repartitioned.rdd.getNumPartitions() == partitions_to_set
+
+
+@pytest.mark.etl_manager
+@pytest.mark.repartition_dataframe
+def test_reparticionamento_de_dataframe_para_mesmo_numero_de_particoes(
+    etl_manager, fake_dataframe
+):
+    """
+    G: dado que o usuário deseja reparticionar um DataFrame Spark
+       para otimização do armazenamento físico do mesmo no s3
+    W: quando o usuário executar o método repartition_dataframe()
+       da classe GlueETLManager passando um número IGUAL de
+       partições físicas do que o número atual do DataFrame
+    T: então nenhuma operação deve ser realizada e o mesmo DataFrame
+       passado como input deve ser retornado com o número de
+       partições intacto
+    """
+    # Coletando informações sobre partições atuais do DataFrame
+    current_partitions = fake_dataframe.rdd.getNumPartitions()
+    partitions_to_set = current_partitions
+
+    # Repartitionando DataFrame
+    df_repartitioned = etl_manager.repartition_dataframe(
+        df=fake_dataframe,
+        num_partitions=partitions_to_set
+    )
+
+    # Validando resultado
+    assert df_repartitioned.rdd.getNumPartitions() == partitions_to_set
+
+
+@pytest.mark.etl_manager
+@pytest.mark.repartition_dataframe
+def test_erro_ao_repartitionar_dataframe_com_numero_invalido_de_particoes(
+    etl_manager, fake_dataframe, partitions_to_set=-1
+):
+    """
+    G: dado que o usuário deseja reparticionar um DataFrame Spark
+       para otimização do armazenamento físico do mesmo no s3
+    W: quando o usuário executar o método repartition_dataframe()
+       da classe GlueETLManager passando um número negativo de
+       partições
+    T: então nenhuma operação deve ser realizada e o mesmo DataFrame
+       passado como input deve ser retornado com o número de
+       partições intacto
+    """
+    # Coletando informações sobre partições atuais do DataFrame
+    current_partitions = fake_dataframe.rdd.getNumPartitions()
+
+    # Repartitionando DataFrame
+    df_repartitioned = etl_manager.repartition_dataframe(
+        df=fake_dataframe,
+        num_partitions=partitions_to_set
+    )
+
+    # Validando resultado
+    assert df_repartitioned.rdd.getNumPartitions() == current_partitions
