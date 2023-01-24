@@ -39,9 +39,11 @@ TABLE OF CONTENTS:
 import sys
 import logging
 from time import sleep
+
 from pyspark.context import SparkContext
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import lit, expr
+
 from awsglue.utils import getResolvedOptions
 from awsglue.context import GlueContext
 from awsglue.job import Job
@@ -218,14 +220,9 @@ class GlueJobManager():
         para os elementos SparkContext, GlueContext e SparkSession.
         """
         logger.info("Criando SparkContext, GlueContext e SparkSession")
-        try:
-            self.sc = SparkContext.getOrCreate()
-            self.glueContext = GlueContext(self.sc)
-            self.spark = self.glueContext.spark_session
-        except Exception as e:
-            logger.error("Erro ao criar elementos de contexto e sessão "
-                         f"da aplicação. Exception: {e}")
-            raise e
+        self.sc = SparkContext.getOrCreate()
+        self.glueContext = GlueContext(self.sc)
+        self.spark = self.glueContext.spark_session
 
     def init_job(self) -> Job:
         """
@@ -250,13 +247,10 @@ class GlueJobManager():
         self.get_context_and_session()
 
         # Inicializando objeto de Job do Glue
-        try:
-            job = Job(self.glueContext)
-            job.init(self.args['JOB_NAME'], self.args)
-            return job
-        except Exception as e:
-            logger.error(f"Erro ao inicializar job do Glue. Exception: {e}")
-            raise e
+        job = Job(self.glueContext)
+        job.init(self.args['JOB_NAME'], self.args)
+
+        return job
 
 
 # Classe para o gerenciamento de transformações Spark em um job
@@ -467,16 +461,12 @@ class GlueETLManager(GlueJobManager):
 
         logger.info("Mapeando DynamicFrames às chaves do dicionário")
         sleep(0.01)
-        try:
-            # Criando dicionário de Dynamic Frames
-            dynamic_dict = {k: dyf for k, dyf
-                            in zip(self.data_dict.keys(), dynamic_frames)}
-            logger.info("Dados gerados com sucesso. Total de DynamicFrames: "
-                        f"{len(dynamic_dict.values())}")
-        except Exception as e:
-            logger.error("Erro ao mapear DynamicFrames às chaves do "
-                         f"dicionário de dados fornecido. Exception: {e}")
-            raise e
+
+        # Criando dicionário de Dynamic Frames
+        dynamic_dict = {k: dyf for k, dyf
+                        in zip(self.data_dict.keys(), dynamic_frames)}
+        logger.info("Dados gerados com sucesso. Total de DynamicFrames: "
+                    f"{len(dynamic_dict.values())}")
 
         # Retornando dicionário de DynamicFrames
         sleep(0.01)
@@ -688,6 +678,7 @@ class GlueETLManager(GlueJobManager):
         """
         try:
             # Criando expressões de conversão com base no tipo do campo
+            date_col_type = date_col_type.strip().lower()
             if convert_string_to_date:
                 if date_col_type == "date":
                     conversion_expr = f"to_date({date_col},\
@@ -728,7 +719,7 @@ class GlueETLManager(GlueJobManager):
             return df
 
         except Exception as e:
-            logger.error('Erro ao adicionar coluns em DataFrame com'
+            logger.error('Erro ao adicionar colunas em DataFrame com'
                          f'novos atributos de data. Exception: {e}')
             raise e
 

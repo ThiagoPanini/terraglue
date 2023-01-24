@@ -48,11 +48,6 @@ faker = Faker()
 ---------------------------------------------------"""
 
 
-# Criando e retornando objeto de sessão Spark
-def create_spark_session() -> SparkSession:
-    return SparkSession.builder.getOrCreate()
-
-
 # Gerando schema Spark através de dicionário de metadados
 def generate_schema_from_dict(schema_dict: dict,
                               nullable: bool = True) -> StructType():

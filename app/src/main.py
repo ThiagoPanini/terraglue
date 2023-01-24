@@ -16,9 +16,11 @@ ETL a ser programado.
 
 # Bibliotecas utilizadas na construção do módulo
 from datetime import datetime
+
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import col, count, avg, sum,\
     round, countDistinct, max, expr
+
 from terraglue import GlueETLManager, log_config
 
 

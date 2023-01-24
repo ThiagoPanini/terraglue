@@ -1,5 +1,5 @@
 """
-MÓDULO: terraform_helper.py
+MÓDULO: iac_helper.py
 
 CONTEXTO:
 ---------

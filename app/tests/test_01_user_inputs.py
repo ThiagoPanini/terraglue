@@ -20,7 +20,7 @@ o funcionamento de toda a aplicação.
 ---------------------------------------------------"""
 
 # Importando módulos para uso
-from pytest import mark
+import pytest
 
 
 """---------------------------------------------------
@@ -29,9 +29,9 @@ from pytest import mark
 ---------------------------------------------------"""
 
 
-@mark.user_input
-@mark.argv_list
-def test_variavel_argv_list_definida_como_uma_lista(argv_list):
+@pytest.mark.user_input
+@pytest.mark.argv_list
+def test_variavel_argvlist_definida_como_uma_lista(argv_list):
     """
     G: dado que o usuário iniciou a codificação do seu job Glue
     W: quando a variável ARGV_LIST for definida/adaptada pelo usuário
@@ -40,8 +40,8 @@ def test_variavel_argv_list_definida_como_uma_lista(argv_list):
     assert type(argv_list) == list
 
 
-@mark.user_input
-@mark.argv_list
+@pytest.mark.user_input
+@pytest.mark.argv_list
 def test_variavel_argvlist_possui_argumentos_obrigatorios(argv_list,
                                                           user_required_args):
     """
@@ -52,9 +52,9 @@ def test_variavel_argvlist_possui_argumentos_obrigatorios(argv_list,
     assert all(arg in argv_list for arg in user_required_args)
 
 
-@mark.user_input
-@mark.argv_list
-@mark.terraform
+@pytest.mark.user_input
+@pytest.mark.argv_list
+@pytest.mark.terraform
 def test_variavel_argvlist_possui_argumentos_declarados_no_terraform(
     argv_list, iac_job_user_args, job_runtime_args
 ):
@@ -86,9 +86,9 @@ def test_variavel_argvlist_possui_argumentos_declarados_no_terraform(
     assert set(argv_list_custom) == set(tf_args)
 
 
-@mark.user_input
-@mark.data_dict
-def test_tipo_primitivo_variavel_datadict(data_dict):
+@pytest.mark.user_input
+@pytest.mark.data_dict
+def test_variavel_datadict_definida_como_um_dicionario(data_dict):
     """
     G: dado que o usuário iniciou a codificação do seu job Glue
     W: quando a variável DATA_DICT for definida/adaptada pelo usuário
@@ -97,8 +97,8 @@ def test_tipo_primitivo_variavel_datadict(data_dict):
     assert type(data_dict) == dict
 
 
-@mark.user_input
-@mark.data_dict
+@pytest.mark.user_input
+@pytest.mark.data_dict
 def test_variavel_datadict_possui_chaves_obrigatorias(data_dict,
                                                       required_data_dict_keys):
     """
