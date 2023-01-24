@@ -155,8 +155,9 @@ module "iam" {
 
 # Variáveis locais para um melhor gerenciamento dos recursos do módulo
 locals {
-  kms_policy_raw  = file("${var.kms_policy_path}/${var.kms_policy_file_name}")
-  kms_policy_prep = replace(local.kms_policy_raw, "<account_id>", local.account_id)
+  kms_policy_raw            = file("${var.kms_policy_path}/${var.kms_policy_file_name}")
+  kms_policy_accountid_prep = replace(local.kms_policy_raw, "<account_id>", local.account_id)
+  kms_policy_region_prep    = replace(local.kms_policy_accountid_prep, "<region>", local.region_name)
 }
 
 # Chamando módulo kms
