@@ -552,4 +552,10 @@ def test_erro_criacao_de_dag_transformacao_sot(
 
     # Testando exceção
     with pytest.raises(Exception):
-        _ = glue_manager.transform_sot(df_orders_pep=empty_df)
+        _ = glue_manager.transform_sot(
+            df_orders_prep=empty_df,
+            df_order_items_prep=empty_df,
+            df_customers_prep=empty_df,
+            df_payments_prep=empty_df,
+            df_reviews_prep=empty_df
+        )
