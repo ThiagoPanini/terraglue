@@ -23,7 +23,6 @@ como métodos de transformação no script principal.
 
 # Importando módulos para uso
 import pytest
-from pytest import mark
 from pyspark.sql.types import StructType, StructField,\
     StringType, IntegerType, DateType, TimestampType,\
     LongType, DecimalType, DoubleType
@@ -35,8 +34,8 @@ from pyspark.sql.types import StructType, StructField,\
 ---------------------------------------------------"""
 
 
-@mark.main
-@mark.orders
+@pytest.mark.main
+@pytest.mark.orders
 def test_qtd_linhas_resultantes_pos_transformacao_orders(
     df_orders, df_orders_prep
 ):
@@ -52,8 +51,8 @@ def test_qtd_linhas_resultantes_pos_transformacao_orders(
     assert df_orders_prep.count() == df_orders.count()
 
 
-@mark.main
-@mark.orders
+@pytest.mark.main
+@pytest.mark.orders
 def test_schema_resultante_pos_transformacao_orders(
     df_orders_prep
 ):
@@ -88,8 +87,8 @@ def test_schema_resultante_pos_transformacao_orders(
     assert df_orders_prep.schema == expected_schema
 
 
-@mark.main
-@mark.orders
+@pytest.mark.main
+@pytest.mark.orders
 def test_erro_criacao_de_dag_transformacao_orders(
     glue_manager, empty_df
 ):
@@ -108,8 +107,8 @@ def test_erro_criacao_de_dag_transformacao_orders(
         _ = glue_manager.transform_orders(empty_df)
 
 
-@mark.main
-@mark.order_items
+@pytest.mark.main
+@pytest.mark.order_items
 def test_qtd_linhas_resultantes_pos_transformacao_order_items(
     df_order_items_prep
 ):
@@ -125,8 +124,8 @@ def test_qtd_linhas_resultantes_pos_transformacao_order_items(
     assert df_order_items_prep.count() == 10
 
 
-@mark.main
-@mark.order_items
+@pytest.mark.main
+@pytest.mark.order_items
 def test_nao_duplicidade_de_order_id_pos_transformacao_order_items(
     df_order_items_prep
 ):
@@ -146,8 +145,8 @@ def test_nao_duplicidade_de_order_id_pos_transformacao_order_items(
     assert lines_distinct == lines
 
 
-@mark.main
-@mark.order_items
+@pytest.mark.main
+@pytest.mark.order_items
 def test_schema_resultante_pos_transformacao_order_items(
     df_order_items_prep
 ):
@@ -175,8 +174,8 @@ def test_schema_resultante_pos_transformacao_order_items(
     assert df_order_items_prep.schema == expected_schema
 
 
-@mark.main
-@mark.order_items
+@pytest.mark.main
+@pytest.mark.order_items
 def test_erro_criacao_de_dag_transformacao_order_items(
     glue_manager, empty_df
 ):
@@ -195,8 +194,8 @@ def test_erro_criacao_de_dag_transformacao_order_items(
         _ = glue_manager.transform_order_items(empty_df)
 
 
-@mark.main
-@mark.customers
+@pytest.mark.main
+@pytest.mark.customers
 def test_qtd_linhas_resultantes_pos_transformacao_customers(
     df_customers, df_customers_prep
 ):
@@ -212,8 +211,8 @@ def test_qtd_linhas_resultantes_pos_transformacao_customers(
     assert df_customers_prep.count() == df_customers.count()
 
 
-@mark.main
-@mark.customers
+@pytest.mark.main
+@pytest.mark.customers
 def test_nao_duplicidade_de_customer_id_pos_transformacao_customers(
     df_customers_prep
 ):
@@ -233,8 +232,8 @@ def test_nao_duplicidade_de_customer_id_pos_transformacao_customers(
     assert lines_distinct == lines
 
 
-@mark.main
-@mark.customers
+@pytest.mark.main
+@pytest.mark.customers
 def test_schema_resultante_pos_transformacao_customers(
     df_customers_prep
 ):
@@ -257,8 +256,8 @@ def test_schema_resultante_pos_transformacao_customers(
     assert df_customers_prep.schema == expected_schema
 
 
-@mark.main
-@mark.customers
+@pytest.mark.main
+@pytest.mark.customers
 def test_erro_criacao_de_dag_transformacao_customers(
     glue_manager, empty_df
 ):
@@ -277,8 +276,8 @@ def test_erro_criacao_de_dag_transformacao_customers(
         _ = glue_manager.transform_customers(empty_df)
 
 
-@mark.main
-@mark.payments
+@pytest.mark.main
+@pytest.mark.payments
 def test_qtd_linhas_resultantes_pos_transformacao_payments(
     df_payments_prep
 ):
@@ -294,8 +293,8 @@ def test_qtd_linhas_resultantes_pos_transformacao_payments(
     assert df_payments_prep.count() == 10
 
 
-@mark.main
-@mark.payments
+@pytest.mark.main
+@pytest.mark.payments
 def test_nao_duplicidade_de_order_id_pos_transformacao_payments(
     df_payments_prep
 ):
@@ -315,8 +314,8 @@ def test_nao_duplicidade_de_order_id_pos_transformacao_payments(
     assert lines_distinct == lines
 
 
-@mark.main
-@mark.payments
+@pytest.mark.main
+@pytest.mark.payments
 def test_schema_resultante_pos_transformacao_payments(
     df_payments_prep
 ):
@@ -342,8 +341,8 @@ def test_schema_resultante_pos_transformacao_payments(
     assert df_payments_prep.schema == expected_schema
 
 
-@mark.main
-@mark.payments
+@pytest.mark.main
+@pytest.mark.payments
 def test_erro_criacao_de_dag_transformacao_payments(
     glue_manager, empty_df
 ):
@@ -362,8 +361,8 @@ def test_erro_criacao_de_dag_transformacao_payments(
         _ = glue_manager.transform_payments(empty_df)
 
 
-@mark.main
-@mark.reviews
+@pytest.mark.main
+@pytest.mark.reviews
 def test_qtd_linhas_resultantes_pos_transformacao_reviews(
     df_reviews_prep
 ):
@@ -379,8 +378,8 @@ def test_qtd_linhas_resultantes_pos_transformacao_reviews(
     assert df_reviews_prep.count() == 10
 
 
-@mark.main
-@mark.reviews
+@pytest.mark.main
+@pytest.mark.reviews
 def test_nao_duplicidade_de_order_id_pos_transformacao_reviews(
     df_reviews_prep
 ):
@@ -400,8 +399,8 @@ def test_nao_duplicidade_de_order_id_pos_transformacao_reviews(
     assert lines_distinct == lines
 
 
-@mark.main
-@mark.reviews
+@pytest.mark.main
+@pytest.mark.reviews
 def test_schema_resultante_pos_transformacao_reviews(
     df_reviews_prep
 ):
@@ -424,8 +423,8 @@ def test_schema_resultante_pos_transformacao_reviews(
     assert df_reviews_prep.schema == expected_schema
 
 
-@mark.main
-@mark.reviews
+@pytest.mark.main
+@pytest.mark.reviews
 def test_erro_criacao_de_dag_transformacao_reviews(
     glue_manager, empty_df
 ):
@@ -444,8 +443,8 @@ def test_erro_criacao_de_dag_transformacao_reviews(
         _ = glue_manager.transform_reviews(empty_df)
 
 
-@mark.main
-@mark.sot
+@pytest.mark.main
+@pytest.mark.sot
 def test_qtd_linhas_resultantes_pos_transformacao_sot(
     df_sot_prep
 ):
@@ -461,8 +460,8 @@ def test_qtd_linhas_resultantes_pos_transformacao_sot(
     assert df_sot_prep.count() == 10
 
 
-@mark.main
-@mark.sot
+@pytest.mark.main
+@pytest.mark.sot
 def test_nao_duplicidade_de_order_id_pos_transformacao_sot(
     df_sot_prep
 ):
@@ -482,8 +481,8 @@ def test_nao_duplicidade_de_order_id_pos_transformacao_sot(
     assert lines_distinct == lines
 
 
-@mark.main
-@mark.sot
+@pytest.mark.main
+@pytest.mark.sot
 def test_schema_resultante_pos_transformacao_sot(
     df_sot_prep
 ):
@@ -536,8 +535,8 @@ def test_schema_resultante_pos_transformacao_sot(
     assert df_sot_prep.schema == expected_schema
 
 
-@mark.main
-@mark.sot
+@pytest.mark.main
+@pytest.mark.sot
 def test_erro_criacao_de_dag_transformacao_sot(
     glue_manager, empty_df
 ):
@@ -553,4 +552,10 @@ def test_erro_criacao_de_dag_transformacao_sot(
 
     # Testando exceção
     with pytest.raises(Exception):
-        _ = glue_manager.transform_sot(df_orders_pep=empty_df)
+        _ = glue_manager.transform_sot(
+            df_orders_prep=empty_df,
+            df_order_items_prep=empty_df,
+            df_customers_prep=empty_df,
+            df_payments_prep=empty_df,
+            df_reviews_prep=empty_df
+        )

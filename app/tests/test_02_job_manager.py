@@ -23,10 +23,11 @@ podem comprometer o funcionamento da aplicação.
 
 # Importando módulos para uso
 import pytest
-from pytest import mark
+
 from pyspark.context import SparkContext
-from awsglue.context import GlueContext
 from pyspark.sql import SparkSession
+
+from awsglue.context import GlueContext
 from awsglue.job import Job
 
 
@@ -36,22 +37,21 @@ from awsglue.job import Job
 ---------------------------------------------------"""
 
 
-@mark.job_manager
+@pytest.mark.job_manager
 def test_captura_de_argumentos_do_job_na_construcao_da_classe(
     job_manager,
     job_args_for_testing
 ):
     """
-    G: dado que o usuário instanciou um objeto da classe Job Manager
+    G: dado que o usuário instanciou um objeto da classe GlueJobManager
     W: quando o método construtor da classe for executado
     T: os argumentos passados pelo usuário no ato de criação de objeto
        devem estar contidos no dicionário de argumentos gerais do job
-       obtidos, na classe, a partir do método awsglue.utilsgetResolverOptions
     """
     assert job_args_for_testing.items() <= job_manager.args.items()
 
 
-@mark.job_manager
+@pytest.mark.job_manager
 def test_erro_ao_executar_metodo_print_args(job_manager):
     """
     G: dado que o usuário inicializou o objeto job_manager com
@@ -67,7 +67,7 @@ def test_erro_ao_executar_metodo_print_args(job_manager):
         job_manager.print_args()
 
 
-@mark.job_manager
+@pytest.mark.job_manager
 def test_obtencao_de_elementos_de_contexto_e_sessao(job_manager):
     """
     G: dado que o usuário deseja obter os elementos de contexto e sessão no Job
@@ -75,7 +75,6 @@ def test_obtencao_de_elementos_de_contexto_e_sessao(job_manager):
     T: então os atributos self.sc, self.glueContext e self.spark devem existir
        na classe GlueJobManager
     """
-
     # Executando método de coleta de elementos de contexto e sessão do job
     job_manager.get_context_and_session()
 
@@ -83,11 +82,11 @@ def test_obtencao_de_elementos_de_contexto_e_sessao(job_manager):
     class_attribs = job_manager.__dict__
     attribs_names = ["sc", "glueContext", "spark"]
 
-    # Validando existência de atributos da classe
+    # Validando se a lista de atributos existem na classe
     assert all(a in list(class_attribs.keys()) for a in attribs_names)
 
 
-@mark.job_manager
+@pytest.mark.job_manager
 def test_tipos_primitivos_de_elementos_de_contexto_e_sessao(job_manager):
     """
     G: dado que o usuário deseja obter os elementos de contexto e sessão no Job
@@ -108,7 +107,7 @@ def test_tipos_primitivos_de_elementos_de_contexto_e_sessao(job_manager):
     assert type(class_attribs["spark"]) == SparkSession
 
 
-@mark.job_manager
+@pytest.mark.job_manager
 def test_metodo_de_inicializacao_do_job_gera_contexto_e_sessao(job_manager):
     """
     G: dado que deseja-se inicializar um job Glue pela classe GlueJobManager
@@ -132,13 +131,11 @@ def test_metodo_de_inicializacao_do_job_gera_contexto_e_sessao(job_manager):
     assert type(class_attribs["spark"]) == SparkSession
 
 
-@mark.job_manager
+@pytest.mark.job_manager
 def test_metodo_de_inicializacao_do_job_retorna_tipo_job(job_manager):
     """
     G: dado que deseja-se inicializar um job Glue pela classe GlueJobManager
     W: quando o método init_job() for chamado
     T: então o retorno deve ser um objeto do tipo awsglue.job.Job
     """
-
-    # Executando método de inicialização do job
     assert type(job_manager.init_job()) == Job
