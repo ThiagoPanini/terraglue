@@ -169,7 +169,7 @@ module "kms" {
   kms_customer_master_key_spec = var.kms_customer_master_key_spec
   kms_is_enabled               = var.kms_is_enabled
   kms_enable_key_rotation      = var.kms_enable_key_rotation
-  kms_policy                   = local.kms_policy_prep
+  kms_policy                   = local.kms_policy_region_prep
 }
 
 
