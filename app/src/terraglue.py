@@ -576,12 +576,12 @@ class GlueETLManager(GlueJobManager):
         return df_dict
 
     @staticmethod
-    def date_attributes_extraction(df: DataFrame,
-                                   date_col: str,
-                                   date_col_type: str = "date",
-                                   date_format: str = "yyyy-MM-dd",
-                                   convert_string_to_date: bool = True,
-                                   **kwargs):
+    def extract_date_attributes(df: DataFrame,
+                                date_col: str,
+                                date_col_type: str = "date",
+                                date_format: str = "yyyy-MM-dd",
+                                convert_string_to_date: bool = True,
+                                **kwargs):
         """
         Extracao de atributos de datas de coluna.
 
@@ -721,6 +721,56 @@ class GlueETLManager(GlueJobManager):
         except Exception as e:
             logger.error('Erro ao adicionar colunas em DataFrame com'
                          f'novos atributos de data. Exception: {e}')
+            raise e
+
+    def extract_aggregate_statistics(self, df: DataFrame,
+                                     numeric_col: str,
+                                     group_by: str or list,
+                                     round_result: bool = False,
+                                     n_round: int = 2,
+                                     **kwargs):
+        """
+        """
+        # Desempacotando colunas de agrupamento em caso de múltiplas colunas
+        if type(group_by) == list and len(group_by) > 1:
+            group_by = ",".join(group_by)
+
+        # Criando tabela temporária para extração de estatísticas
+        df.createOrReplaceTempView("tmp_extract_aggregate_statistics")
+
+        possible_functions = ["sum", "mean", "max", "min", "count",
+                              "countDistinct", "variance", "stddev",
+                              "kurtosis", "skewness"]
+        try:
+            # Iterando sobre atributos e construindo expressão completa
+            agg_query = ""
+            for f in possible_functions:
+                if f in kwargs and bool(kwargs[f]):
+                    if round_result:
+                        agg_function = f"round({f}({numeric_col}), {n_round})"
+                    else:
+                        agg_function = f"{f}({numeric_col})"
+
+                    agg_query += f"{agg_function} AS {f}_{numeric_col},"
+
+            # Retirando última vírgula do comando de agregação
+            agg_query = agg_query[:-1]
+
+            # Construindo consulta definitiva
+            final_query = f"""
+                SELECT
+                    {group_by},
+                    {agg_query}
+                FROM tmp_extract_aggregate_statistics
+                GROUP BY
+                    {group_by}
+            """
+
+            return self.spark.sql(final_query)
+
+        except Exception as e:
+            logger.error('Erro ao extrair estatísticas de DataFrame'
+                         f'Exception: {e}')
             raise e
 
     def drop_partition(self, partition_name: str,
