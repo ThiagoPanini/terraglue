@@ -616,7 +616,7 @@ def test_erro_ao_repartitionar_dataframe_com_numero_invalido_de_particoes(
 @pytest.mark.etl_manager
 @pytest.mark.extract_aggregate_statistics
 def test_extracao_de_estatisticas_gera_coluna_com_nomenclatura_adequada(
-    spark, etl_manager, fake_dataframe, numeric_col="value", group_by="id"
+    etl_manager, fake_dataframe, numeric_col="value", group_by="id"
 ):
     """
     G: dado que o usuário deseja extrair atributos estatísticos de um
@@ -643,8 +643,8 @@ def test_extracao_de_estatisticas_gera_coluna_com_nomenclatura_adequada(
 @pytest.mark.etl_manager
 @pytest.mark.extract_aggregate_statistics
 def test_extracao_de_estatisticas_com_lista_de_colunas_no_groupby(
-    spark, etl_manager, fake_dataframe, numeric_col="value",
-    group_by=["id", "boolean"]
+    etl_manager, fake_dataframe, numeric_col="value",
+    group_by=["id", "boolean"], round_result=True
 ):
     """
     G: dado que o usuário deseja extrair atributos estatísticos de um
@@ -662,6 +662,7 @@ def test_extracao_de_estatisticas_com_lista_de_colunas_no_groupby(
         df=fake_dataframe,
         numeric_col=numeric_col,
         group_by=group_by,
+        round_result=round_result,
         sum=True
     )
 
@@ -672,7 +673,7 @@ def test_extracao_de_estatisticas_com_lista_de_colunas_no_groupby(
 @pytest.mark.etl_manager
 @pytest.mark.extract_aggregate_statistics
 def test_erro_de_extracao_de_estatisticas_por_falta_de_parametrizacao(
-    spark, etl_manager, fake_dataframe, numeric_col="value",
+    etl_manager, fake_dataframe, numeric_col="value",
     group_by=["id", "boolean"]
 ):
     """
