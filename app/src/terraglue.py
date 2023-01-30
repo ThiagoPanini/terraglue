@@ -730,6 +730,56 @@ class GlueETLManager(GlueJobManager):
                                      n_round: int = 2,
                                      **kwargs):
         """
+        Extracao de atributos estatísticos de coluna numérica.
+
+        Metodo responsavel por consolidar a extração de diferentes
+        atributos estatísticos de uma coluna numérica presente em
+        um DataFrame Spark.
+
+        Parametros
+        ----------
+        :param df:
+            DataFrame Spark utilizado como alvo de aplicacao
+            das transformacoes necessarias.
+            [type: pyspark.sql.DataFrame]
+
+        :param numeric_col:
+            Referencia da coluna numérica alvo das análises
+            estatísticas a serem aplicadas.
+            [type: str]
+
+        :param group_by:
+            Referência de colunas de agrupamento para a extração
+            de dados estatísticos.
+            [type: str or list]
+
+        :param round_result:
+            Indica se um processo de arredondamento será aplicado.
+            [type: bool, default=False]
+
+        :param n_round:
+            Número de casas decimais aplicadas ao processo de
+            arredondamento (caso round_result=True)
+            [type: int, default=2]
+
+        Keyword Arguments
+        -----------------
+        Para extração dos atributos estatísticos, o usuário pode
+        fornecer a referência de agregação nos argumentos adicionais.
+        Os parâmetros aceitos seguem a mesma nomenclatura das funções
+        estatísticas presentes no pyspark.
+
+        Example call
+        ------------
+        df_stats = extract_aggregate_statistics(
+            df=df,
+            numeric_col="value",
+            group_by="id",
+            sum=True,
+            mean=True,
+            max=True,
+            min=True
+        )
         """
         # Desempacotando colunas de agrupamento em caso de múltiplas colunas
         if type(group_by) == list and len(group_by) > 1:
