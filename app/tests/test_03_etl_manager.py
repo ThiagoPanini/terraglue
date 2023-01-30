@@ -163,7 +163,7 @@ def test_tipo_primitivo_dos_elementos_do_dicionario_de_dataframes(
 
 
 @pytest.mark.etl_manager
-@pytest.mark.date_attributes_extraction
+@pytest.mark.extract_date_attributes
 def test_conversao_de_data_no_metodo_de_extracao_de_atributos_de_data(
     etl_manager, fake_dataframe, date_col="date", date_col_type="date",
     date_test_col_name="date_test", date_format='%Y-%m-%d'
@@ -171,7 +171,7 @@ def test_conversao_de_data_no_metodo_de_extracao_de_atributos_de_data(
     """
     G: dado que o usuário deseja aplicar o método de extração de
        atributos de data em uma operação de transformação de dados
-    W: quando o método método date_attributes_extraction() da classe
+    W: quando o método método extract_date_attributes() da classe
        GlueETLManager for executado em uma coluna de data com
        date_col_type="date" e convert_string_to_date=True
     T: então o DataFrame resultante deve conter a mesma coluna de data
@@ -185,7 +185,7 @@ def test_conversao_de_data_no_metodo_de_extracao_de_atributos_de_data(
     )
 
     # Executando método de extração de atributos de data
-    fake_df_prep = etl_manager.date_attributes_extraction(
+    fake_df_prep = etl_manager.extract_date_attributes(
         df=fake_dataframe_cast,
         date_col=date_test_col_name,
         date_col_type=date_col_type,
@@ -207,7 +207,7 @@ def test_conversao_de_data_no_metodo_de_extracao_de_atributos_de_data(
 
 
 @pytest.mark.etl_manager
-@pytest.mark.date_attributes_extraction
+@pytest.mark.extract_date_attributes
 def test_conversao_de_timestamp_no_metodo_de_extracao_de_atributos_de_data(
     etl_manager, fake_dataframe, date_col="timestamp",
     date_col_type="timestamp", date_test_col_name="timestamp_test",
@@ -216,7 +216,7 @@ def test_conversao_de_timestamp_no_metodo_de_extracao_de_atributos_de_data(
     """
     G: dado que o usuário deseja aplicar o método de extração de
        atributos de data em uma operação de transformação de dados
-    W: quando o método método date_attributes_extraction() da classe
+    W: quando o método método extract_date_attributes() da classe
        GlueETLManager for executado em uma coluna de data com
        date_col_type="timestamp" e convert_string_to_date=True
     T: então o DataFrame resultante deve conter a mesma coluna de data
@@ -230,7 +230,7 @@ def test_conversao_de_timestamp_no_metodo_de_extracao_de_atributos_de_data(
     )
 
     # Executando método de extração de atributos de data
-    fake_df_prep = etl_manager.date_attributes_extraction(
+    fake_df_prep = etl_manager.extract_date_attributes(
         df=fake_dataframe_cast,
         date_col=date_test_col_name,
         date_col_type=date_col_type,
@@ -252,14 +252,14 @@ def test_conversao_de_timestamp_no_metodo_de_extracao_de_atributos_de_data(
 
 
 @pytest.mark.etl_manager
-@pytest.mark.date_attributes_extraction
+@pytest.mark.extract_date_attributes
 def test_adicao_de_novas_colunas_apos_extracao_de_atributos_de_data(
     etl_manager, fake_dataframe, date_col="date"
 ):
     """
     G: dado que o usuário deseja aplicar o método de extração de
        atributos de data em uma operação de transformação de dados
-    W: quando o método método date_attributes_extraction() da classe
+    W: quando o método método extract_date_attributes() da classe
        GlueETLManager for executado em uma coluna de data com os kwargs
        year=True, quarter=True, month=True, dayofmonth=True,
        dayofweak=True, dayofyear=True, weekofyear=True
@@ -275,7 +275,7 @@ def test_adicao_de_novas_colunas_apos_extracao_de_atributos_de_data(
     kwargs_dict = {k: True for k in possible_date_attribs}
 
     # Executando método de extração de atributos de data
-    df_date = etl_manager.date_attributes_extraction(
+    df_date = etl_manager.extract_date_attributes(
         df=fake_dataframe,
         date_col=date_col,
         convert_string_to_date=False,
@@ -290,14 +290,14 @@ def test_adicao_de_novas_colunas_apos_extracao_de_atributos_de_data(
 
 
 @pytest.mark.etl_manager
-@pytest.mark.date_attributes_extraction
+@pytest.mark.extract_date_attributes
 def test_extracao_do_ano_de_atributo_de_data(
     etl_manager, fake_dataframe, date_col="date"
 ):
     """
     G: dado que o usuário deseja aplicar o método de extração de
        atributos de data em uma operação de transformação de dados
-    W: quando o método método date_attributes_extraction() da classe
+    W: quando o método método extract_date_attributes() da classe
        GlueETLManager for executado em uma coluna de data com os kwargs
        year=True para extração do ano
     T: então o DataFrame resultante deverá conter uma coluna adicional
@@ -305,7 +305,7 @@ def test_extracao_do_ano_de_atributo_de_data(
     """
 
     # Executando método de extração de atributos de data
-    df_year = etl_manager.date_attributes_extraction(
+    df_year = etl_manager.extract_date_attributes(
         df=fake_dataframe,
         date_col=date_col,
         convert_string_to_date=False,
@@ -327,14 +327,14 @@ def test_extracao_do_ano_de_atributo_de_data(
 
 
 @pytest.mark.etl_manager
-@pytest.mark.date_attributes_extraction
+@pytest.mark.extract_date_attributes
 def test_extracao_do_mes_de_atributo_de_data(
     etl_manager, fake_dataframe, date_col="date"
 ):
     """
     G: dado que o usuário deseja aplicar o método de extração de
        atributos de data em uma operação de transformação de dados
-    W: quando o método método date_attributes_extraction() da classe
+    W: quando o método método extract_date_attributes() da classe
        GlueETLManager for executado em uma coluna de data com os kwargs
        month=True para extração do mês
     T: então o DataFrame resultante deverá conter uma coluna adicional
@@ -342,7 +342,7 @@ def test_extracao_do_mes_de_atributo_de_data(
     """
 
     # Executando método de extração de atributos de data
-    df_year = etl_manager.date_attributes_extraction(
+    df_year = etl_manager.extract_date_attributes(
         df=fake_dataframe,
         date_col=date_col,
         convert_string_to_date=False,
@@ -364,14 +364,14 @@ def test_extracao_do_mes_de_atributo_de_data(
 
 
 @pytest.mark.etl_manager
-@pytest.mark.date_attributes_extraction
+@pytest.mark.extract_date_attributes
 def test_extracao_do_dia_de_atributo_de_data(
     etl_manager, fake_dataframe, date_col="date"
 ):
     """
     G: dado que o usuário deseja aplicar o método de extração de
        atributos de data em uma operação de transformação de dados
-    W: quando o método método date_attributes_extraction() da classe
+    W: quando o método método extract_date_attributes() da classe
        GlueETLManager for executado em uma coluna de data com os kwargs
        month=True para extração do mês
     T: então o DataFrame resultante deverá conter uma coluna adicional
@@ -379,7 +379,7 @@ def test_extracao_do_dia_de_atributo_de_data(
     """
 
     # Executando método de extração de atributos de data
-    df_year = etl_manager.date_attributes_extraction(
+    df_year = etl_manager.extract_date_attributes(
         df=fake_dataframe,
         date_col=date_col,
         convert_string_to_date=False,
@@ -401,20 +401,20 @@ def test_extracao_do_dia_de_atributo_de_data(
 
 
 @pytest.mark.etl_manager
-@pytest.mark.date_attributes_extraction
+@pytest.mark.extract_date_attributes
 def test_erro_ao_fornecer_argumento_date_col_type_incorreto(
     etl_manager, fake_dataframe, date_col="date"
 ):
     """
     G: dado que o usuário deseja aplicar o método de extração de
        atributos de data em uma operação de transformação de dados
-    W: quando o método método date_attributes_extraction() da classe
+    W: quando o método método extract_date_attributes() da classe
        GlueETLManager for executado em uma coluna de data com o
        argumento date_col_type não configurado como 'date' ou 'timestamp'
     T: então uma exceção deve ser lançada
     """
     with pytest.raises(Exception):
-        _ = etl_manager.date_attributes_extraction(
+        _ = etl_manager.extract_date_attributes(
             df=fake_dataframe,
             date_col=date_col,
             convert_string_to_date=True,
@@ -423,21 +423,21 @@ def test_erro_ao_fornecer_argumento_date_col_type_incorreto(
 
 
 @pytest.mark.etl_manager
-@pytest.mark.date_attributes_extraction
+@pytest.mark.extract_date_attributes
 def test_erro_ao_extrair_atributos_de_data_em_coluna_nao_compativel(
     etl_manager, fake_dataframe, date_col="bool"
 ):
     """
     G: dado que o usuário deseja aplicar o método de extração de
        atributos de data em uma operação de transformação de dados
-    W: quando o método método date_attributes_extraction() da classe
+    W: quando o método método extract_date_attributes() da classe
        GlueETLManager for executado em uma coluna não compatível ou
        não transformável em data e com o flag convert_string_to_date
        igual a True
     T: então uma exceção deve ser lançada
     """
     with pytest.raises(Exception):
-        _ = etl_manager.date_attributes_extraction(
+        _ = etl_manager.extract_date_attributes(
             df=fake_dataframe,
             date_col=date_col,
             convert_string_to_date=True,
@@ -611,3 +611,85 @@ def test_erro_ao_repartitionar_dataframe_com_numero_invalido_de_particoes(
 
     # Validando resultado
     assert df_repartitioned.rdd.getNumPartitions() == current_partitions
+
+
+@pytest.mark.etl_manager
+@pytest.mark.extract_aggregate_statistics
+def test_extracao_de_estatisticas_gera_coluna_com_nomenclatura_adequada(
+    etl_manager, fake_dataframe, numeric_col="value", group_by="id"
+):
+    """
+    G: dado que o usuário deseja extrair atributos estatísticos de um
+       objeto do tipo DataFrame Spark
+    W: quando o método extract_aggregate_statistics() for executado para
+       a extração da soma de um atributo numérico (sum=True)
+    T: então a coluna resultante deve seguir o padrão "sum_<coluna>"
+    """
+    # Inicializando job
+    etl_manager.init_job()
+
+    # Executando método
+    df_prep = etl_manager.extract_aggregate_statistics(
+        df=fake_dataframe,
+        numeric_col=numeric_col,
+        group_by=group_by,
+        sum=True
+    )
+
+    # Extraindo coluna gerada
+    assert df_prep.columns[-1] == f"sum_{numeric_col}"
+
+
+@pytest.mark.etl_manager
+@pytest.mark.extract_aggregate_statistics
+def test_extracao_de_estatisticas_com_lista_de_colunas_no_groupby(
+    etl_manager, fake_dataframe, numeric_col="value",
+    group_by=["id", "boolean"], round_result=True
+):
+    """
+    G: dado que o usuário deseja extrair atributos estatísticos de um
+       objeto do tipo DataFrame Spark
+    W: quando o método extract_aggregate_statistics() for executado com
+       a definição de múltiplas colunas no parâmetro "group_by"
+    T: então a agregação deve ser feita através destas múltiplas colunas
+       e o DataFrame resultante deve conter tais colunas em seu resultado
+    """
+    # Inicializando job
+    etl_manager.init_job()
+
+    # Executando método
+    df_prep = etl_manager.extract_aggregate_statistics(
+        df=fake_dataframe,
+        numeric_col=numeric_col,
+        group_by=group_by,
+        round_result=round_result,
+        sum=True
+    )
+
+    # Verificando se colunas de agrupamento estão no DataFrame resultante
+    assert all(col in df_prep.columns for col in group_by)
+
+
+@pytest.mark.etl_manager
+@pytest.mark.extract_aggregate_statistics
+def test_erro_de_extracao_de_estatisticas_por_falta_de_parametrizacao(
+    etl_manager, fake_dataframe, numeric_col="value",
+    group_by=["id", "boolean"]
+):
+    """
+    G: dado que o usuário deseja extrair atributos estatísticos de um
+       objeto do tipo DataFrame Spark
+    W: quando o método extract_aggregate_statistics() for executado sem
+       a definição de uma agregação estatística em seus **kwargfs
+    T: então uma exceção deve ser lançada
+    """
+    # Inicializando job
+    etl_manager.init_job()
+
+    # Executando método sem nenhuma agregação estatística definida
+    with pytest.raises(Exception):
+        _ = etl_manager.extract_aggregate_statistics(
+            df=fake_dataframe,
+            numeric_col=numeric_col,
+            group_by=group_by,
+        )

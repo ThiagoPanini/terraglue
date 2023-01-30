@@ -164,7 +164,7 @@ class GlueTransformationManager(GlueETLManager):
             )
 
             # Extraindo atributos de data da compra online
-            df_orders_date_prep = self.date_attributes_extraction(
+            df_orders_date_prep = self.extract_date_attributes(
                 df=df_orders_date_cast,
                 date_col="order_purchase_timestamp",
                 convert_string_to_date=False,
