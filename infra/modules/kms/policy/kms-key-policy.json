@@ -28,7 +28,7 @@
             "Condition": {
                 "StringEquals": {
                     "kms:CallerAccount": "<account_id>",
-                    "kms:ViaService": "s3.sa-east-1.amazonaws.com"
+                    "kms:ViaService": "s3.<region>.amazonaws.com"
                 }
             }
         },
@@ -36,7 +36,7 @@
             "Sid": "Enable CloudWatchLogs usage of key",
             "Effect": "Allow",
             "Principal": {
-                "Service": "logs.sa-east-1.amazonaws.com"
+                "Service": "logs.<region>.amazonaws.com"
             },
             "Action": [
                 "kms:Encrypt",

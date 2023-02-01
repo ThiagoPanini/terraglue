@@ -1,13 +1,8 @@
-name: ⚙️ CI terraglue
+name: ⚙️ CI terraglue - main
 
 on:
-  push:
-    branches:
-      - develop
-      - feature**
   pull_request:
     branches:
-      - develop
       - main
 
 permissions:
@@ -81,3 +76,32 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+  ci-terraform:
+    name: ci-terraform
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configuração de Credenciais AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE }}
+          role-session-name: OIDCSession
+          aws-region: sa-east-1
+
+      - name: Configuração e Setup do Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: terraform init
+        run: |
+          cd infra/
+          terraform init
+
+      - name: terraform plan
+        run: |
+          cd infra/
+          terraform plan
+        continue-on-error: false

@@ -1,0 +1,67 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+
+exclude-labels:
+  - github-bot 🤖
+
+categories:
+  - title: 🛠️ Breaking Changes
+    labels:
+      - breaking-change 🛠️
+
+  - title: 🚀 Features
+    labels:
+      - feature 🚀
+      - enhancement 🍀
+
+  - title: 🐞 Bug Fixes
+    labels:
+      - bug 🐞
+
+  - title: 💻 Application
+    labels:
+      - app 💻
+
+  - title: 🧱 Infrastructure
+    labels:
+      - infra 🧱
+
+  - title: 🛡️ Tests
+    labels:
+      - tests 🛡️
+
+  - title: ⚙️ Configuration and Maintenance
+      - config ⚙️
+
+  - title: 🖍️ Documentation
+    labels:
+      - doc 🖍️
+      
+  - title: Other Changes
+    labels:
+      - "*"
+
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&'
+
+version-resolver:
+  major:
+    labels:
+      - breaking-change 🛠️
+  minor:
+    labels:
+      - feature 🚀
+      - enhancement 🍀
+  patch:
+    labels:
+      - app 💻
+      - infra 🧱
+      - tests 🛡️
+      - bug 🐞
+      - doc 🖍️
+      - observability 👁️‍🗨️
+  
+  default: patch
+
+template: |
+  ## Changes

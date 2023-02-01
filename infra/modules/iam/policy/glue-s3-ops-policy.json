@@ -30,11 +30,10 @@
             "Sid": "S3GlueEncryption",
             "Effect": "Allow",
             "Action": [
-                "kms:Decrypt"
+                "kms:Decrypt",
+                "kms:DescribeKey"
             ],
-            "Resource": [
-                "arn:aws:kms:*:*:key/*"
-            ]
+            "Resource": "*"
         }
     ]
 }
