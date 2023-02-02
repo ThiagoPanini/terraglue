@@ -1,4 +1,4 @@
-name: ⚙️ CI terraglue - develop
+name: "[2]⚙️ CI terraglue - develop"
 
 on:
   push:
@@ -82,7 +82,7 @@ jobs:
         with:
           source_branch: ${{ github.ref }}
           destination_branch: "main"
-          pr_title: "[PREENCHER] develop -> main"
+          pr_title: "pr(main): develop -> main"
           pr_template: ".github/pull_request_template.md"
           pr_assignee: "ThiagoPanini"
           pr_label: github-bot 🤖
