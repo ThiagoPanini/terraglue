@@ -82,8 +82,8 @@ jobs:
         with:
           source_branch: ${{ github.ref }}
           destination_branch: "develop"
-          pr_title: "[PREENCHER] ${{ github.ref }} -> develop"
+          pr_title: "pr(dev): ${{ github.ref }} -> develop"
           pr_template: ".github/pull_request_template.md"
           pr_assignee: "ThiagoPanini"
-          pr_label: github-bot 🤖
+          pr_label: "github-bot 🤖"
           github_token: ${{ secrets.GITHUB_TOKEN }}
