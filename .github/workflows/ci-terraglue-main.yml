@@ -1,4 +1,4 @@
-name: ⚙️ CI terraglue - main
+name: "[3]⚙️ CI terraglue - main"
 
 on:
   pull_request:

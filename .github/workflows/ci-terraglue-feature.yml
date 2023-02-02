@@ -1,4 +1,4 @@
-name: ⚙️ CI terraglue - feature branch
+name: "[1]⚙️ CI terraglue - feature branch"
 
 on:
   push:
