@@ -1,3 +1,7 @@
+<div align="center">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/gettingstarted/01-header-gettingstarted.png?raw=true" alt="terraglue-logo">
+</div>
+
 *Este é um tutorial básico sobre como utilizar as funcionalidades do terraglue*
 
 ## Table of Contents
