@@ -1,5 +1,5 @@
 <div align="center">
-    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/imgs/logo-v4.png" alt="terraglue-logo">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/imgs/readme/01-header-readme.png" alt="terraglue-logo">
 </div>
 
 <div align="center">
