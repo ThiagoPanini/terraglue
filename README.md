@@ -80,7 +80,7 @@ ___
 Agora que você já conhece um pouco mais sobre o projeto, é chegado o momento de apresentar toda a arquitetura que está por trás das funcionalidades introduzidas. No final do dia, o **terraglue** é um projeto de IaC (*Infrastructure as Code*) construído com o *runtime* [Terraform](https://www.terraform.io/) e dividido em módulos responsáveis por implantar diferentes serviços AWS que, juntos, formam toda a dinâmica de consumo do projeto. Assim, o usuário obtém o código fonte disponibilizado neste repositório e executa os comandos específicos do runtime de IaC utilizado para realizar as implantações necessárias no ambiente alvo.
 
 <div align="center">
-    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/readme/diagram-user-view.png" alt="terraglue-user-view">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/readme/diagram-user-view.png?raw=true" alt="terraglue-user-view">
 </div>
 <br>
 
@@ -94,7 +94,7 @@ Em uma visão mais técnica, os serviços declarados nos módulos Terraform são
 Assim, ao cumprir os requisitos e as ações evidenciadas pela imagem de arquitetura acima, o usuário poderá ter em mãos seu próprio "ambiente AWS portátil" composto dos seguintes recursos:
 
 <div align="center">
-    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/diagram-product-view.png" alt="terraglue-resources">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/readme/diagram-product-view.png?raw=true" alt="terraglue-resources">
 </div>
 <br>
 
