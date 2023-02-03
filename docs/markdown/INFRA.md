@@ -1,5 +1,5 @@
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/infra/01-header-gettingstarted.png?raw=true" alt="terraglue-logo">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/infra/01-header-infra.png?raw=true" alt="terraglue-logo">
 
   <i>Este é um tutorial básico sobre como implantar toda infraestrutura provisionada ao usuário</i>
 </div>
@@ -58,7 +58,7 @@ aws configure
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactordocs/imgs/infra/install-aws-configure.png" alt="terraglue-aws-configure">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/infra/install-aws-configure.png?raw=true" alt="terraglue-aws-configure">
     </div>
 </details>
 <br>
@@ -81,7 +81,7 @@ git clone git@github.com:ThiagoPanini/terraglue.git
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactordocs/imgs/infra/install-git-clone.png" alt="terraglue-git-clone">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactor/docs/imgs/infra/install-git-clone.png" alt="terraglue-git-clone">
   </div>
 </details>
 <br>
@@ -91,7 +91,7 @@ Com isso, todos os códigos alocados no projeto, em sua versão mais recente, po
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactordocs/imgs/infra/install-ls-repo.png" alt="terraglue-ls">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactor/docs/imgs/infra/install-ls-repo.png" alt="terraglue-ls">
   </div>
 </details>
 
@@ -114,7 +114,7 @@ Com isso, para validar o sucesso da operação, uma mensagem próxima à exempli
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactordocs/imgs/infra/install-terraform-init.png" alt="terraglue-terraform-init">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactor/docs/imgs/infra/install-terraform-init.png" alt="terraglue-terraform-init">
   </div>
 </details>
 
@@ -132,7 +132,7 @@ terraform plan
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactordocs/imgs/infra/install-terraform-plan.png" alt="terraglue-terraform-plan">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactor/docs/imgs/infra/install-terraform-plan.png" alt="terraglue-terraform-plan">
   </div>
 </details>
 <br>
@@ -153,7 +153,7 @@ terraform apply
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactordocs/imgs/infra/install-terraform-apply.png" alt="terraglue-terraform-apply">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactor/docs/imgs/infra/install-terraform-apply.png" alt="terraglue-terraform-apply">
   </div>
 </details>
 <br>
@@ -187,7 +187,7 @@ O primeiro ponto a ser destacado no *kit* de funcionalidades está relacionado �
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactordocs/imgs/infra/infra-buckets-s3.png?raw=true" alt="infra-buckets-s3">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactor/docs/imgs/infra/infra-buckets-s3.png?raw=true" alt="infra-buckets-s3">
 </div>
 </details>
 
@@ -216,7 +216,7 @@ Ao executar o comando terraform para implantação dos recursos, este mesmo arqu
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactordocs/imgs/infra/infra-data-customers.png?raw=true" alt="infra-buckets-s3">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactor/docs/imgs/infra/infra-data-customers.png?raw=true" alt="infra-buckets-s3">
 </div>
 </details>
 
@@ -245,7 +245,7 @@ Na imagem abaixo, é possível visualizar todas as tabelas e bancos de dados cat
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactordocs/imgs/infra/infra-data-catalog-01.png?raw=true" alt="infra-data-catalog-01">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactor/docs/imgs/infra/infra-data-catalog-01.png?raw=true" alt="infra-data-catalog-01">
 </div>
 </details>
 
@@ -254,7 +254,7 @@ Entrando em maiores detalhes e utilizando a tabela `customers` como exemplo, a i
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactordocs/imgs/infra/infra-data-catalog-02.png?raw=true" alt="infra-data-catalog-02">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactor/docs/imgs/infra/infra-data-catalog-02.png?raw=true" alt="infra-data-catalog-02">
 </div>
 </details>
 
@@ -263,7 +263,7 @@ Por fim, reforçando de uma vez por todas o poder dessa funcionalidade de catalo
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactordocs/imgs/infra/infra-data-catalog-03.png?raw=true" alt="infra-data-catalog-03">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactor/docs/imgs/infra/infra-data-catalog-03.png?raw=true" alt="infra-data-catalog-03">
 </div>
 </details>
 
@@ -276,7 +276,7 @@ Provavelmente uma das primeiras ações realizadas por usuários após a inserç
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactordocs/imgs/infra/infra-athena-workgroup.png?raw=true" alt="infra-athena-workgroup">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactor/docs/imgs/infra/infra-athena-workgroup.png?raw=true" alt="infra-athena-workgroup">
 </div>
 </details>
 
@@ -285,7 +285,7 @@ Com isso, os usuários já podem iniciar o consumo de dados no Athena sem a nece
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactordocs/imgs/infra/infra-athena-query.png?raw=true" alt="infra-athena-query">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactor/docs/imgs/infra/infra-athena-query.png?raw=true" alt="infra-athena-query">
 </div>
 </details>
 
@@ -300,7 +300,7 @@ Dessa forma, o `terraglue` considera, em seus detalhes internos de implantação
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactordocs/imgs/infra/infra-iam-role.png?raw=true" alt="infra-iam-role">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactor/docs/imgs/infra/infra-iam-role.png?raw=true" alt="infra-iam-role">
 </div>
 </details>
 
@@ -318,7 +318,7 @@ E assim, alcançando o verdadeiro clímax do processo de implantação de recurs
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactordocs/imgs/infra/infra-glue-job-01.png?raw=true" alt="infra-glue-job-01">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactor/docs/imgs/infra/infra-glue-job-01.png?raw=true" alt="infra-glue-job-01">
 </div>
 </details>
 
@@ -329,7 +329,7 @@ Ao acessar o job através do console e navegar até o menu *Job details* (ou det
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactordocs/imgs/infra/infra-glue-job-02.png?raw=true" alt="infra-glue-job-02">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactor/docs/imgs/infra/infra-glue-job-02.png?raw=true" alt="infra-glue-job-02">
 </div>
 </details>
 
@@ -344,7 +344,7 @@ E assim, ao acessar o job do Glue criado e realizar sua execução, o usuário p
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactordocs/imgs/infra/infra-sot-01.png?raw=true" alt="infra-glue-sot-01">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactor/docs/imgs/infra/infra-sot-01.png?raw=true" alt="infra-glue-sot-01">
 </div>
 </details>
 
@@ -353,7 +353,7 @@ Como resultado, o usuário terá disponível uma nova base de dados materializad
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactordocs/imgs/infra/infra-sot-02.png?raw=true" alt="infra-glue-sot-02">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs-visual-and-docs-refactor/docs/imgs/infra/infra-sot-02.png?raw=true" alt="infra-glue-sot-02">
 </div>
 </details>
 
