@@ -33,8 +33,8 @@ ___
 
 O **terraglue** é um produto criado para facilitar a jornada de aprendizado, utilização e otimização de jobs do Glue na AWS. Em essência, é possível dividir suas funcionalidades em dois grandes grupos:
 
-- 🛠️ **Infra:** com o terraglue, o usuário pode implantar toda a infraestrutura necessária para executar jobs do Glue na AWS, incluindo buckets s3, roles IAM e tabelas no Data Catalog.
-- 🚀 **Aplicação:** além disso, um modelo de aplicação Spark é disponibilizado com classes e métodos criados especificamente para facilitar todo o trabalho de desenvolvimento do usuário final.
+- 🛠️ **Infra:** com o terraglue, o usuário pode implantar toda a infraestrutura necessária para executar jobs do Glue em seu ambiente sandbox AWS, incluindo buckets s3, roles IAM e tabelas no Data Catalog.
+- 🚀 **Aplicação:** além disso, um modelo de aplicação Spark é disponibilizado com uma série de classes e métodos prontos para uso e que abstraem muitas operações comuns usadas em jobs Glue.
 
 
 ### Público alvo
@@ -117,7 +117,7 @@ Após definir o que é o **terraglue** e fornecer uma visão macro sobre sua arq
 ### A história por trás da criação
 
 > **Note**
-> Esta seção serve apenas para fins de curiosidade. Se você está minimamente interessado em conhecer um pouco mais sobre a história de concepção da solução, clique no dropdown e tenha uma boa leitura (:
+> Esta seção serve apenas para fins de curiosidade. Se você está minimamente interessado em conhecer um pouco mais sobre a história de concepção da solução, clique no dropdown e tenha uma boa leitura 🤓
 
 <details>
   <summary>🪄 Era uma vez um Engenheiro de Analytics...</summary>
@@ -146,7 +146,7 @@ Após definir o que é o **terraglue** e fornecer uma visão macro sobre sua arq
 
 ### Uma jornada completa de consumo
 
-Se tudo ainda está meio abstrato até aqui, fique tranquilo! Eu preparei um conjunto massivo de documentações altamente detalhadas para que todo o poder do **terraglue** possa ser extraído por parte de seus usuários. Dessa forma, o conjunto de links abaixo promete guiar o leitor para todas as jornadas presentes na dinâmica de uso da solução. Boa leitura! 🤓
+Se tudo ainda está meio abstrato até aqui, fique tranquilo! Existe um conjunto massivo de documentações altamente detalhadas para que todo o poder do **terraglue** possa ser extraído por parte de seus usuários. O conjunto de links abaixo promete guiar o leitor para todas as jornadas presentes na dinâmica de uso da solução.
 
 
 - 👉 [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main) *Você está aqui!*
