@@ -1,8 +1,9 @@
 <div align="center">
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/gettingstarted/01-header-gettingstarted.png?raw=true" alt="terraglue-logo">
+
+  <i>Este é um tutorial básico sobre como utilizar as funcionalidades do terraglue</i>
 </div>
 
-*Este é um tutorial básico sobre como utilizar as funcionalidades do terraglue*
 
 ## Table of Contents
 - [Table of Contents](#table-of-contents)
@@ -13,6 +14,7 @@
   - [Instalação dos módulos Terraform](#instalação-dos-módulos-terraform)
   - [Visualizando plano de implantação](#visualizando-plano-de-implantação)
   - [Implantando recursos no ambiente AWS](#implantando-recursos-no-ambiente-aws)
+- [Continue navegando nas documentações](#continue-navegando-nas-documentações)
 
 ___
 
@@ -152,7 +154,7 @@ Após um determinado período, espera-se que uma mensagem de sucesso seja entreg
 
 ___
 
-Continue sua jornada no **terraglue** através das documentações!
+## Continue navegando nas documentações
 
 - [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main)
 - 👉 [2. Instalação e primeiros passos](https://github.com/ThiagoPanini/terraglue/blob/main/GETTINGSTARTED.md) *Você está aqui!*
