@@ -2,8 +2,6 @@
 
 ## Table of Contents
 - [Table of Contents](#table-of-contents)
-- [Antes de começar](#antes-de-começar)
-- [Pré requisitos](#pré-requisitos)
 - [Passo a passo resumido](#passo-a-passo-resumido)
 - [Passo a passo detalhado](#passo-a-passo-detalhado)
   - [Configurando credenciais AWS](#configurando-credenciais-aws)
@@ -11,29 +9,6 @@
   - [Instalação dos módulos Terraform](#instalação-dos-módulos-terraform)
   - [Visualizando plano de implantação](#visualizando-plano-de-implantação)
   - [Implantando recursos no ambiente AWS](#implantando-recursos-no-ambiente-aws)
-
-## Antes de começar
-
-> Antes de navegarmos pelos passos de instalação e uso do terraglue, sugerimos a leitura da documentação oficial na raíz do repositório através do arquivo [README.md](https://github.com/ThiagoPanini/terraglue). Para facilitar a localização e navegação, os links abaixo podem ajudar!
-
-- [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main)
-- 👉 [2. Instalação e primeiros passos](https://github.com/ThiagoPanini/terraglue/blob/main/GETTINGSTARTED.md) *Você está aqui!*
-- [3. Infraestrutura provisionada](https://github.com/ThiagoPanini/terraglue/blob/main/INFRA.md) 
-- [4. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/APP.md) 
-- [5. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/EXAMPLES.md)
-- [6. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/main/TESTS.md)
-
-___
-
-## Pré requisitos
-
-Como informado no [README.md](https://github.com/ThiagoPanini/terraglue/tree/develop#pr%C3%A9-requisitos) do projeto, os pré requisitos de utilização do **terraglue** incluem:
-
-- ☁️ [Conta AWS](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/) disponível para uso
-- 🔑 [Acesso programático](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html) à conta através das chaves `access_key_id` e `secret_access_key`
-- ⛏ [Terraform](https://www.terraform.io/) instalado (versão >=1.0)
-
-Se a lista de requisitos acima foi cumprida, siga adiante para as próximas etapas de instalação e uso do projeto em seu ambiente de trabalho.
 
 ___
 

@@ -39,7 +39,7 @@ O **terraglue** é um produto criado para facilitar a jornada de aprendizado, ut
 
 ### Público alvo
 
-Você pretende começar a utilizar o Glue na AWS e não sabe por onde começar? Já utiliza o serviço e quer otimizar aquele seu job com milhares de linhas de código? Tá quebrando a cabeça com testes unitários e precisa de um norte?
+Você pretende começar a utilizar o Glue na AWS e não sabe por onde começar? Já utiliza o serviço e quer otimizar aquele seu job com milhares de linhas de código? Gostaria de usar funções e métodos prontos de transformação de dados com Spark? Tá quebrando a cabeça com testes unitários e precisa de um norte?
 
 Se a resposta foi "sim" para alguma das perguntas acima ou se você quer simplesmente mergulhar em alvo novo, o **terraglue** é o produto ideal pra você!
 
@@ -80,7 +80,7 @@ ___
 Agora que você já conhece um pouco mais sobre o projeto, é chegado o momento de apresentar toda a arquitetura que está por trás das funcionalidades introduzidas. No final do dia, o **terraglue** é um projeto de IaC (*Infrastructure as Code*) construído com o *runtime* [Terraform](https://www.terraform.io/) e dividido em módulos responsáveis por implantar diferentes serviços AWS que, juntos, formam toda a dinâmica de consumo do projeto. Assim, o usuário obtém o código fonte disponibilizado neste repositório e executa os comandos específicos do runtime de IaC utilizado para realizar as implantações necessárias no ambiente alvo.
 
 <div align="center">
-    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/imgs/terraglue-diagram-user-view-dark.png" alt="terraglue-user-view">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/readme/diagram-user-view.png" alt="terraglue-user-view">
 </div>
 <br>
 
@@ -94,7 +94,7 @@ Em uma visão mais técnica, os serviços declarados nos módulos Terraform são
 Assim, ao cumprir os requisitos e as ações evidenciadas pela imagem de arquitetura acima, o usuário poderá ter em mãos seu próprio "ambiente AWS portátil" composto dos seguintes recursos:
 
 <div align="center">
-    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/imgs/terraglue-diagram-resources-dark.png" alt="terraglue-resources">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/diagram-product-view.png" alt="terraglue-resources">
 </div>
 <br>
 
@@ -150,16 +150,16 @@ Se tudo ainda está meio abstrato até aqui, fique tranquilo! Eu preparei um con
 
 
 - 👉 [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main) *Você está aqui!*
-- [2. Instalação e primeiros passos](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/GETTINGSTARTED.md) 
-- [3. Infraestrutura provisionada](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/INFRA.md) 
-- [4. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/APP.md) 
-- [5. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/EXAMPLES.md)
-- [6. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/TESTS.md)
+- [2. Instalação e primeiros passos](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/GETTINGSTARTED.md) 
+- [3. Infraestrutura provisionada](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/INFRA.md) 
+- [4. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/APP.md) 
+- [5. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/EXAMPLES.md)
+- [6. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/TESTS.md)
 
 
 ### Contribuindo
 
-Todos são muito bem vindos a contribuírem com evoluções e novas funcionalidades deste projeto carinhosamente disponibilizado para a comunidade. Para maiores detalhes sobre esse processo, visite o arquivo [CONTRIBUTING.md](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/CONTRIBUTING.md)
+Todos são muito bem vindos a contribuírem com evoluções e novas funcionalidades deste projeto carinhosamente disponibilizado para a comunidade. Para maiores detalhes sobre esse processo, visite o arquivo [CONTRIBUTING.md](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/CONTRIBUTING.md)
 
 ### FAQ
 
