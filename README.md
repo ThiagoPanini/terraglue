@@ -19,11 +19,11 @@
   - [Pré requisitos](#pré-requisitos)
   - [Primeiros passos](#primeiros-passos)
 - [Arquitetura e organização do repositório](#arquitetura-e-organização-do-repositório)
-- [A história por trás da criação](#a-história-por-trás-da-criação)
 - [Está interessado e quer saber mais?](#está-interessado-e-quer-saber-mais)
-- [Contribuindo](#contribuindo)
-- [FAQ](#faq)
-- [Contribuindo](#contribuindo-1)
+  - [A história por trás da criação](#a-história-por-trás-da-criação)
+  - [Uma jornada completa de consumo](#uma-jornada-completa-de-consumo)
+  - [Contribuindo](#contribuindo)
+  - [FAQ](#faq)
 - [Contatos](#contatos)
 - [Referências](#referências)
 
@@ -109,7 +109,12 @@ Considerando os insumos presentes, o repositório do **terraglue** está organiz
 
 ___
 
-## A história por trás da criação
+
+## Está interessado e quer saber mais?
+
+Após definir o que é o **terraglue** e fornecer uma visão macro sobre sua arquitetura de solução, é chegado o momento de fornecer alguns insumos e rotas fundamentais para materializar todo o valor intrínseco da iniciativa. 
+
+### A história por trás da criação
 
 > **Note**
 > Esta seção serve apenas para fins de curiosidade. Se você está minimamente interessado em conhecer um pouco mais sobre a história de concepção da solução, clique no dropdown e tenha uma boa leitura (:
@@ -138,10 +143,8 @@ ___
 
 ...e viveram felizes para sempre sem *issues* no repositório!
 
-___
 
-
-## Está interessado e quer saber mais?
+### Uma jornada completa de consumo
 
 Se tudo ainda está meio abstrato até aqui, fique tranquilo! Eu preparei um conjunto massivo de documentações altamente detalhadas para que todo o poder do **terraglue** possa ser extraído por parte de seus usuários. Dessa forma, o conjunto de links abaixo promete guiar o leitor para todas as jornadas presentes na dinâmica de uso da solução. Boa leitura! 🤓
 
@@ -154,11 +157,11 @@ Se tudo ainda está meio abstrato até aqui, fique tranquilo! Eu preparei um con
 - [6. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/TESTS.md)
 
 
-## Contribuindo
+### Contribuindo
 
 Todos são muito bem vindos a contribuírem com evoluções e novas funcionalidades deste projeto carinhosamente disponibilizado para a comunidade. Para maiores detalhes sobre esse processo, visite o arquivo [CONTRIBUTING.md](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/CONTRIBUTING.md)
 
-## FAQ
+### FAQ
 
 <details>
   <summary>📌 "Fiquei sabendo do terraglue por acaso. Como eu sei se ele pode me ajudar em algo?"</summary>
@@ -178,11 +181,7 @@ Todos são muito bem vindos a contribuírem com evoluções e novas funcionalida
   > 💡 *Essa é uma pergunta muito interessante e importante. Não existem custos para usar o terraglue pois trata-se de uma solução open source e compartilhada com toda a comunidade. ENTRETANTO, é imprescindível citar que os recursos criados pelo terraglue em seus ambiente AWS eventualmente podem ocasionar custos. Portanto, é fundamental que os usuários do terraglue compreendam as possíveis taxas envolvidas com os serviços relacionados antes de utilizar a solução.*
 </details>
 
-
-
-## Contribuindo
-
-Todos são muito bem vindos a contribuírem com evoluções e novas funcionalidades deste projeto carinhosamente disponibilizado para a comunidade. Para maiores detalhes sobre esse processo, visite o arquivo [CONTRIBUTING.md](https://github.com/ThiagoPanini/terraglue/blob/main/CONTRIBUTING.md)
+___
 
 ## Contatos
 
