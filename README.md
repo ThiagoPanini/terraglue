@@ -143,6 +143,7 @@ Após definir o que é o **terraglue** e fornecer uma visão macro sobre sua arq
 
 ...e viveram felizes para sempre sem *issues* no repositório!
 
+___
 
 ### Uma jornada completa de consumo
 
@@ -155,10 +156,13 @@ Se tudo ainda está meio abstrato até aqui, fique tranquilo! Existe um conjunto
 - [4. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/EXAMPLES.md)
 - [5. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/TESTS.md)
 
+___
 
 ### Contribuindo
 
 Todos são muito bem vindos a contribuírem com evoluções e novas funcionalidades deste projeto carinhosamente disponibilizado para a comunidade. Para maiores detalhes sobre esse processo, visite o arquivo [CONTRIBUTING.md](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/CONTRIBUTING.md)
+
+___
 
 ### FAQ
 
@@ -166,6 +170,18 @@ Todos são muito bem vindos a contribuírem com evoluções e novas funcionalida
   <summary>📌 "Fiquei sabendo do terraglue por acaso. Como eu sei se ele pode me ajudar em algo?"</summary>
 
   > 💡 *Basicamente, o terraglue possui diferentes perfis de usuários candidatos que vão desde iniciantes até os mais experientes. Se você quer dar seus primeiros passos na AWS utilizando o Glue, aqui você poderá ter em mãos uma ferramenta capaz de proporcionar uma jornada end to end ao toque de um comando. Se você já tá imerso nessa jornada e tem dúvidas técnicas sobre aplicações Spark, testes unitários, módulos Python ou Terraform, aqui também é seu lugar!*
+</details>
+
+<details>
+  <summary>📌 "Quero ativar em minha conta AWS um <i>toolkit</i> para aprender como funciona a dinâmica de uso do Glue na prática. Qual caminho devo seguir?"</summary>
+
+  > 💡 *Para alcançar esse objetivo, basta seguir os passos presentes na documentação [Implantando e conhecendo a infraestrutura](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/INFRA.md). Nela, você encontrará todos os detalhes necessários para ter em suas mãos, ao toque de poucos comandos, toda uma infraestrutura pronta para contemplar sua jornada de uso do Glue na AWS.*
+</details>
+
+<details>
+  <summary>📌 "Não estou interessado na infraestrutura em si, mas sim no modelo de aplicação Spark e nas funções prontas para uso em meu job Glue. Onde coleto mais informações a respeito e como consigo utilizar esses blocos de código prontos em minha aplicação?"</summary>
+
+  > 💡 *Para este cenário, a documentação [Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/APP.md) poderá te guiar em todos os passos necessários para entender o modelo de aplicação Spark desenvolvido e como utilizá-lo em seus próprios projetos. Adicionalmente, a documentação [Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/EXAMPLES.md) pode ser um excelente complemento para analisar, etapa a etapa, todo o processo de obtenção e adaptação do modelo de aplicação Spark.*
 </details>
 
 <details>
