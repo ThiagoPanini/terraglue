@@ -366,5 +366,3 @@ ___
 - [3. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/APP.md) 
 - [4. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/EXAMPLES.md)
 - [5. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/TESTS.md)
-
-

@@ -1,8 +1,12 @@
-*Apresentando uma proposta de padronização de aplicações Spark para jobs do Glue*
+<div align="center">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/app/01-header-app.png?raw=true" alt="terraglue-logo">
+
+  <i>Esta documentação apresenta uma proposta de modelo de aplicação Spark para uso em jobs Glue</i>
+</div>
+
 
 ## Table of Contents
 - [Table of Contents](#table-of-contents)
-- [Antes de começar](#antes-de-começar)
 - [Desafios de desenvolvimento de um job Glue](#desafios-de-desenvolvimento-de-um-job-glue)
 - [Uma proposta de padronização de jobs do Glue](#uma-proposta-de-padronização-de-jobs-do-glue)
   - [Módulos e scripts entregues ao usuário](#módulos-e-scripts-entregues-ao-usuário)
@@ -13,17 +17,9 @@
 - [O script main.py](#o-script-mainpy)
   - [A classe GlueTransformationManager](#a-classe-gluetransformationmanager)
 - [Adaptando a aplicação para finalidades próprias](#adaptando-a-aplicação-para-finalidades-próprias)
+- [Continue navegando nas documentações](#continue-navegando-nas-documentações)
 
-## Antes de começar
-
-> Antes de navegarmos pelo detalhamento da aplicação Spark previamente codificada para o usuário, é importante garantir que todas as etapas de preparação e instalação foram cumpridas. Para maiores detalhes, o arquivo [GETTINGSTARTED.md](https://github.com/ThiagoPanini/terraglue/blob/develop/GETTINGSTARTED.md) contempla todo o processo necessário de iniciação. Adicionalmente, o arquivo [INFRA.md](https://github.com/ThiagoPanini/terraglue/blob/main/INFRA.md) contém todas as explicações sobre os recursos de infraestrutura provisionados ao usuário.
-
-- [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main)
-- [2. Instalação e primeiros passos](https://github.com/ThiagoPanini/terraglue/blob/main/GETTINGSTARTED.md) 
-- [3. Infraestrutura provisionada](https://github.com/ThiagoPanini/terraglue/blob/main/INFRA.md) 
-- 👉 [4. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/APP.md) *Você está aqui!*
-- [5. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/EXAMPLES.md)
-- [6. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/main/TESTS.md)
+___
 
 ## Desafios de desenvolvimento de um job Glue
 
@@ -98,7 +94,8 @@ Dessa forma, entre os métodos atualmente disponíveis nessa classe, é possíve
 | :-- | :-- |
 | `generate_dynamic_frames_dict()` | Proporciona uma forma fácil e eficiente de realizar a leitura de múltiplas fontes de dados referenciadas em um dicionário Python de modo a entregar objetos do tipo `DynamicFrame` para cada uma delas |
 | `generate_dataframes_frames_dict()` | Possui a mesma dinâmica do método anterior, porém o resultado final é entregue ao usuário como um dicionário contendo múltiplos objetos do tipo `DataFrame` |
-| `date_attributes_extraction()` | Permite extrair uma série de atributos temporais de campos de data (ou strings que representam datas), como ano, quadrimestre, mês, dia, dia da semana, semana do ano ou tudo o que pode ser extraído através de funções Spark |
+| `extract_date_attributes()` | Permite extrair uma série de atributos temporais de campos de data (ou strings que representam datas), como ano, quadrimestre, mês, dia, dia da semana, semana do ano ou tudo o que pode ser extraído através de funções Spark |
+| `extract_aggregate_statistics()` | Permite extrair uma série de estatísticas agregadas de um DataFrame com base em uma coluna numérica e uma lista de atributos a serem agrupados. Com este método, o usuário pode extrair a média, mediana, contagem, contagem distinta, variância, desvio padrão e toda e qualquer função estatística presente no Spark com uma única chamada |
 | `drop_partition()` | Recebe uma referência de nome e valor de partição para executar o processo de `purge` de dados no s3, permitindo assim que fluxos de trabalho evitem um *append* indesejado em caso de execuções simultâneas ou repetidas |
 | `add_partition()` | Permite, através de um nome de partição e um valor fornecidos pelo usuário, realizar a inclusão de uma nova coluna em um objeto DataFrame via execução do método `.withColumn()` do Spark |
 | `repartition_dataframe()` | Consolida regras para a correta aplicação do processo de reparticionamento de um DataFrame Spark visando a otimização do armazenamento dos dados físicos no S3 |
@@ -165,11 +162,10 @@ Todas as demais operações já estão inclusas nos métodos internos das classe
 
 ___
 
-Continue sua jornada no **terraglue** através das documentações!
+## Continue navegando nas documentações
 
 - [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main)
-- [2. Instalação e primeiros passos](https://github.com/ThiagoPanini/terraglue/blob/main/GETTINGSTARTED.md) 
-- [3. Infraestrutura provisionada](https://github.com/ThiagoPanini/terraglue/blob/main/INFRA.md) 
-- 👉 [4. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/APP.md) *Você está aqui!*
-- [5. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/EXAMPLES.md)
-- [6. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/main/TESTS.md)
+- [2. Implantando e conhecendo a infraestrutura](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/INFRA.md)
+- 👉 [3. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/APP.md) *Você está aqui!*
+- [4. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/EXAMPLES.md)
+- [5. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/TESTS.md)
