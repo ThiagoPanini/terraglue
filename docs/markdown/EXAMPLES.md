@@ -1,8 +1,12 @@
-*Fornecendo exemplos práticos de cenários de utilização do projeto*
+<div align="center">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/examples/examples/01-header-examples.png?raw=true" alt="terraglue-logo">
+
+  <i>Situações reais e exemplos práticos de algumas possibilidades de uso da solução</i>
+</div>
+
 
 ## Table of Contents
 - [Table of Contents](#table-of-contents)
-- [Antes de começar](#antes-de-começar)
 - [Cenário 1: implementando seu próprio conjunto de dados](#cenário-1-implementando-seu-próprio-conjunto-de-dados)
   - [Sobre os dados de exemplo (Brazilian E-Commerce)](#sobre-os-dados-de-exemplo-brazilian-e-commerce)
   - [Utilizando dados próprios](#utilizando-dados-próprios)
@@ -14,26 +18,6 @@
   - [Codificando novos métodos de transformação](#codificando-novos-métodos-de-transformação)
   - [Sequenciando passos no método run()](#sequenciando-passos-no-método-run)
   - [Visualizando resultados](#visualizando-resultados)
-___
-
-## Antes de começar
-
-> Antes de navegarmos por exemplos práticos d euso da solução, é importante garantir que todas as etapas de preparação e instalação foram cumpridas. Para maiores detalhes, o arquivo [GETTINGSTARTED.md](https://github.com/ThiagoPanini/terraglue/blob/develop/GETTINGSTARTED.md) contempla todo o processo necessário de iniciação. Adicionalmente, o arquivo [INFRA.md](https://github.com/ThiagoPanini/terraglue/blob/main/INFRA.md) contém todas as explicações sobre os recursos de infraestrutura provisionados ao usuário. Por fim, o arquivo [APP.md](https://github.com/ThiagoPanini/terraglue/blob/main/APP.md) traz detalhes sobre os módulos e scripts pré codificados e entregues aos usuários.
-
-- [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main)
-- [2. Instalação e primeiros passos](https://github.com/ThiagoPanini/terraglue/blob/main/GETTINGSTARTED.md) 
-- [3. Infraestrutura provisionada](https://github.com/ThiagoPanini/terraglue/blob/main/INFRA.md) 
-- [4. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/APP.md) 
-- 👉 [5. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/EXAMPLES.md) *Você está aqui!*
-- [6. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/main/TESTS.md)
-
-
-Adicionalmente, é válido citar que esta documentação será separada em diferentes **cenários**, cada um trazendo à tona uma possível seara de aplicação do **terraglue** de acordo com um propósito específico. É importante destacar que os cenários contemplam desafios próprios e particulares, sendo direcionados para públicos específicos que podem se beneficiar das funcionalidades deste projeto. Encontre aquele que mais faça sentido dentro de sua jornada de aprendizado e mergulhe fundo!
-
-| 🎬 **Cenário** | **🎯 Público alvo** |
-| :-- | :-- |
-| [#1 Implementando seu próprio conjunto de dados](#cenário-1-implementando-seu-próprio-conjunto-de-dados) | Usuários com conhecimentos básicos |
-| [#2 Implementando seu próprio job do Glue](#cenário-2-implementando-seu-próprio-job-do-glue) | Usuários com conhecimentos intermediários |
 
 ___
 
@@ -59,7 +43,7 @@ Originalmente disponível na plataforma [Kaggle](https://www.kaggle.com/), o ref
 <details>
   <summary>🎲 Clique para visualizar o schema original dos dados</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/examples-cenario03-schema-br-ecommerce.png?raw=true" alt="br-ecommerce-schema">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/examples/examples-cenario03-schema-br-ecommerce.png?raw=true" alt="br-ecommerce-schema">
 </div>
 </details>
 
@@ -71,6 +55,10 @@ Visando proporcionar uma maior simplicidade no exemplo de geração de SoT, apen
 | `customers.csv` | Contempla dados cadastrais dos clientes que realizaram os pedidos online |
 | `payments.csv` | Contempla dados dos pagamentos utilizados para quitação dos pedidos realizados |
 | `reviews.csv` | Contempla dados das revisões, nota e comentários deixados por clientes para os pedidos realizados |
+| `geolocation.csv` | Contempla dados demográficos de pedidos realizados online |
+| `order_items.csv` | Traz uma visão de cada item presente em cada um dos pedidos |
+| `products.csv` | Contempla uma visão categórica dos produtos/itens presentes nos pedidos |
+| `sellers.csv` | Traz uma visão categóricas dos vendedores |
 
 Assim, os conjuntos citados então são disponibilizados localmente em uma estrutura hierárquica de pastas que simula uma organização de dados em um ambiente Data Lake no formato `db/tbl/file`, sendo esta uma dinâmica **mandatória** para o sucesso de implantação de conjuntos próprios de dados.
 
@@ -118,7 +106,7 @@ Uma vez obtido e organizado o(s) novo(s) conjunto(s) de dado(s) a serem inserido
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/examples-cenario03-titanic-data-on-s3.PNG?raw=true" alt="titanic-data-on-s3">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/examples/examples-cenario03-titanic-data-on-s3.PNG?raw=true" alt="titanic-data-on-s3">
 </div>
 </details>
 
@@ -127,7 +115,7 @@ Além disso, é possível também acessar o serviço Glue e, dentro do menu Data
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/examples-cenario03-titanic-data-on-data-catalog.PNG?raw=true" alt="titanic-data-on-data-catalog">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/examples/examples-cenario03-titanic-data-on-data-catalog.PNG?raw=true" alt="titanic-data-on-data-catalog">
 </div>
 </details>
 
@@ -136,7 +124,7 @@ Ao selecionar a tabela no catálogo, será ainda possível perceber que todo o p
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/examples-cenario03-titanic-schema-on-catalog.PNG?raw=true" alt="titanic-schema-on-data-catalog">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/examples/examples-cenario03-titanic-schema-on-catalog.PNG?raw=true" alt="titanic-schema-on-data-catalog">
 </div>
 </details>
 
@@ -145,7 +133,7 @@ Por fim, a validação final realizada envolve o acesso ao serviço Athena para 
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/develop/docs/imgs/examples-cenario03-titanic-data-on-athena.PNG?raw=true" alt="titanic-data-on-athena">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/examples/examples-cenario03-titanic-data-on-athena.PNG?raw=true" alt="titanic-data-on-athena">
 </div>
 </details>
 
