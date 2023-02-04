@@ -1,5 +1,5 @@
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/docker-tests/01-header-tests.png?raw=true" alt="terraglue-logo">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/docker-tests/01-header-tests.png?raw=true" alt="terraglue-logo">
 </div>
 
 
@@ -70,7 +70,7 @@ Como exemplo prático de instalação em um ambiente Windows, após a execução
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/docker-tests/tests-docker-desktop.png?raw=true" alt="docker-desktop-on-windows">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/docker-tests/tests-docker-desktop.png?raw=true" alt="docker-desktop-on-windows">
 </div>
 </details>
 
@@ -91,7 +91,7 @@ A nova imagem estará, então, disponível para uso.
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/docker-tests/tests-docker-desktop-images.png?raw=true" alt="docker-glue-images">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/docker-tests/tests-docker-desktop-images.png?raw=true" alt="docker-glue-images">
 </div>
 </details>
 
@@ -112,7 +112,7 @@ Para facilitar o desenvolvimento de código e a execução de testes, o uso de u
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/docker-tests/tests-vscode-dev-containers.png?raw=true" alt="vscode-dev-containers-extension">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/docker-tests/tests-vscode-dev-containers.png?raw=true" alt="vscode-dev-containers-extension">
 </div>
 </details>
 
@@ -153,7 +153,7 @@ Em caso de sucesso da execução do comando acima, o usuário verá, em seu term
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/docker-tests/tests-docker-glue-pyspark.png?raw=true" alt="tests-docker-glue-pyspark">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/docker-tests/tests-docker-glue-pyspark.png?raw=true" alt="tests-docker-glue-pyspark">
 </div>
 </details>
 
@@ -166,7 +166,7 @@ Com o *container* em execução, o usuário pode acessar o Visual Studio Code e 
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/docker-tests/tests-vscode-remote-explorer.png?raw=true" alt="tests-vscode-remote-explorer">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/docker-tests/tests-vscode-remote-explorer.png?raw=true" alt="tests-vscode-remote-explorer">
 </div>
 </details>
 
@@ -175,7 +175,7 @@ Assim, basta clicar com o botão direito do mouse e selecionar a opção *Attach
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/docker-tests/tests-vscode-container-attached.png?raw=true" alt="tests-vscode-container-attached">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/docker-tests/tests-vscode-container-attached.png?raw=true" alt="tests-vscode-container-attached">
 </div>
 </details>
 
@@ -199,7 +199,7 @@ pytest app/ -vv --color=yes --cov=./ --cov-report=xml
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/docker-tests/tests-pytest-container.png?raw=true" alt="tests-pytest-container">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/docker-tests/tests-pytest-container.png?raw=true" alt="tests-pytest-container">
 </div>
 </details>
 
@@ -265,7 +265,7 @@ pytest app/ -vv -m user_input
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/docker-tests/tests-pytest-user-input.png?raw=true" alt="tests-pytest-user-input">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/docker-tests/tests-pytest-user-input.png?raw=true" alt="tests-pytest-user-input">
 </div>
 </details>
 
@@ -287,7 +287,7 @@ pytest app/ -vv -m job_manager
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/docker-tests/tests-pytest-job-manager.png?raw=true" alt="tests-pytest-job-manager">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/docker-tests/tests-pytest-job-manager.png?raw=true" alt="tests-pytest-job-manager">
 </div>
 </details>
 
@@ -308,7 +308,7 @@ pytest app/ -vv -m etl_manager
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/docker-tests/tests-pytest-etl-manager.png?raw=true" alt="tests-pytest-etl-manager">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/docker-tests/tests-pytest-etl-manager.png?raw=true" alt="tests-pytest-etl-manager">
 </div>
 </details>
 
@@ -331,8 +331,8 @@ ___
 ## Continue navegando nas documentações
 
 - [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main)
-- [2. Implantando e conhecendo a infraestrutura](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/INFRA.md)
-- [3. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/APP.md)
-- [4. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/EXAMPLES.md)
-- 👉 [5. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/TESTS.md) *Você está aqui!*
+- [2. Implantando e conhecendo a infraestrutura](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/INFRA.md)
+- [3. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/APP.md)
+- [4. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/EXAMPLES.md)
+- 👉 [5. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/TESTS.md) *Você está aqui!*
 

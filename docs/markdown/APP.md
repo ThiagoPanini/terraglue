@@ -1,5 +1,5 @@
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/app/01-header-app.png?raw=true" alt="terraglue-logo">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/app/01-header-app.png?raw=true" alt="terraglue-logo">
 </div>
 
 
@@ -163,7 +163,7 @@ ___
 ## Continue navegando nas documentações
 
 - [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main)
-- [2. Implantando e conhecendo a infraestrutura](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/INFRA.md)
-- 👉 [3. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/APP.md) *Você está aqui!*
-- [4. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/EXAMPLES.md)
-- [5. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/TESTS.md)
+- [2. Implantando e conhecendo a infraestrutura](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/INFRA.md)
+- 👉 [3. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/APP.md) *Você está aqui!*
+- [4. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/EXAMPLES.md)
+- [5. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/TESTS.md)

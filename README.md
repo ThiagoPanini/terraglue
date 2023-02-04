@@ -1,5 +1,5 @@
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/readme/01-header-readme.png?raw=true" alt="terraglue-logo">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/readme/01-header-readme.png?raw=true" alt="terraglue-logo">
 </div>
 
 <div align="center">
@@ -80,7 +80,7 @@ ___
 Agora que você já conhece um pouco mais sobre o projeto, é chegado o momento de apresentar toda a arquitetura que está por trás das funcionalidades introduzidas. No final do dia, o **terraglue** é um projeto de IaC (*Infrastructure as Code*) construído com o *runtime* [Terraform](https://www.terraform.io/) e dividido em módulos responsáveis por implantar diferentes serviços AWS que, juntos, formam toda a dinâmica de consumo do projeto. Assim, o usuário obtém o código fonte disponibilizado neste repositório e executa os comandos específicos do runtime de IaC utilizado para realizar as implantações necessárias no ambiente alvo.
 
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/readme/diagram-user-view.png?raw=true" alt="terraglue-user-view">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/readme/diagram-user-view.png?raw=true" alt="terraglue-user-view">
 </div>
 <br>
 
@@ -94,7 +94,7 @@ Em uma visão mais técnica, os serviços declarados nos módulos Terraform são
 Assim, ao cumprir os requisitos e as ações evidenciadas pela imagem de arquitetura acima, o usuário poderá ter em mãos seu próprio "ambiente AWS portátil" composto dos seguintes recursos:
 
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/readme/diagram-product-view.png?raw=true" alt="terraglue-resources">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/readme/diagram-product-view.png?raw=true" alt="terraglue-resources">
 </div>
 <br>
 
@@ -151,16 +151,16 @@ Se tudo ainda está meio abstrato até aqui, fique tranquilo! Existe um conjunto
 
 
 - 👉 [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main) *Você está aqui!*
-- [2. Implantando e conhecendo a infraestrutura](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/INFRA.md) 
-- [3. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/APP.md) 
-- [4. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/EXAMPLES.md)
-- [5. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/TESTS.md)
+- [2. Implantando e conhecendo a infraestrutura](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/INFRA.md) 
+- [3. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/APP.md) 
+- [4. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/EXAMPLES.md)
+- [5. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/TESTS.md)
 
 ___
 
 ### Contribuindo
 
-Todos são muito bem vindos a contribuírem com evoluções e novas funcionalidades deste projeto carinhosamente disponibilizado para a comunidade. Para maiores detalhes sobre esse processo, visite o arquivo [CONTRIBUTING.md](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/CONTRIBUTING.md)
+Todos são muito bem vindos a contribuírem com evoluções e novas funcionalidades deste projeto carinhosamente disponibilizado para a comunidade. Para maiores detalhes sobre esse processo, visite o arquivo [CONTRIBUTING.md](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/CONTRIBUTING.md)
 
 ___
 
@@ -175,13 +175,13 @@ ___
 <details>
   <summary>📌 "Quero ativar em minha conta AWS um <i>toolkit</i> para aprender como funciona a dinâmica de uso do Glue na prática. Qual caminho devo seguir?"</summary>
 
-  > 💡 *Para alcançar esse objetivo, basta seguir os passos presentes na documentação [Implantando e conhecendo a infraestrutura](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/INFRA.md). Nela, você encontrará todos os detalhes necessários para ter em suas mãos, ao toque de poucos comandos, toda uma infraestrutura pronta para contemplar sua jornada de uso do Glue na AWS.*
+  > 💡 *Para alcançar esse objetivo, basta seguir os passos presentes na documentação [Implantando e conhecendo a infraestrutura](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/INFRA.md). Nela, você encontrará todos os detalhes necessários para ter em suas mãos, ao toque de poucos comandos, toda uma infraestrutura pronta para contemplar sua jornada de uso do Glue na AWS.*
 </details>
 
 <details>
   <summary>📌 "Não estou interessado na infraestrutura em si, mas sim no modelo de aplicação Spark e nas funções prontas para uso em meu job Glue. Onde coleto mais informações a respeito e como consigo utilizar esses blocos de código prontos em minha aplicação?"</summary>
 
-  > 💡 *Para este cenário, a documentação [Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/APP.md) poderá te guiar em todos os passos necessários para entender o modelo de aplicação Spark desenvolvido e como utilizá-lo em seus próprios projetos. Adicionalmente, a documentação [Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/EXAMPLES.md) pode ser um excelente complemento para analisar, etapa a etapa, todo o processo de obtenção e adaptação do modelo de aplicação Spark.*
+  > 💡 *Para este cenário, a documentação [Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/APP.md) poderá te guiar em todos os passos necessários para entender o modelo de aplicação Spark desenvolvido e como utilizá-lo em seus próprios projetos. Adicionalmente, a documentação [Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/EXAMPLES.md) pode ser um excelente complemento para analisar, etapa a etapa, todo o processo de obtenção e adaptação do modelo de aplicação Spark.*
 </details>
 
 <details>

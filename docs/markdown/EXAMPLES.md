@@ -1,5 +1,5 @@
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/examples/01-header-examples.png?raw=true" alt="terraglue-logo">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/examples/01-header-examples.png?raw=true" alt="terraglue-logo">
 </div>
 
 
@@ -42,7 +42,7 @@ Originalmente disponível na plataforma [Kaggle](https://www.kaggle.com/), o ref
 <details>
   <summary>🎲 Clique para visualizar o schema original dos dados</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/examples/examples-cenario03-schema-br-ecommerce.png?raw=true" alt="br-ecommerce-schema">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/examples/examples-cenario03-schema-br-ecommerce.png?raw=true" alt="br-ecommerce-schema">
 </div>
 </details>
 
@@ -105,7 +105,7 @@ Uma vez obtido e organizado o(s) novo(s) conjunto(s) de dado(s) a serem inserido
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/examples/examples-cenario03-titanic-data-on-s3.PNG?raw=true" alt="titanic-data-on-s3">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/examples/examples-cenario03-titanic-data-on-s3.PNG?raw=true" alt="titanic-data-on-s3">
 </div>
 </details>
 
@@ -114,7 +114,7 @@ Além disso, é possível também acessar o serviço Glue e, dentro do menu Data
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/examples/examples-cenario03-titanic-data-on-data-catalog.PNG?raw=true" alt="titanic-data-on-data-catalog">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/examples/examples-cenario03-titanic-data-on-data-catalog.PNG?raw=true" alt="titanic-data-on-data-catalog">
 </div>
 </details>
 
@@ -123,7 +123,7 @@ Ao selecionar a tabela no catálogo, será ainda possível perceber que todo o p
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/examples/examples-cenario03-titanic-schema-on-catalog.PNG?raw=true" alt="titanic-schema-on-data-catalog">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/examples/examples-cenario03-titanic-schema-on-catalog.PNG?raw=true" alt="titanic-schema-on-data-catalog">
 </div>
 </details>
 
@@ -132,7 +132,7 @@ Por fim, a validação final realizada envolve o acesso ao serviço Athena para 
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/examples/examples-cenario03-titanic-data-on-athena.PNG?raw=true" alt="titanic-data-on-athena">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/examples/examples-cenario03-titanic-data-on-athena.PNG?raw=true" alt="titanic-data-on-athena">
 </div>
 </details>
 
@@ -640,7 +640,7 @@ FROM tt3.tbsot_titanic LIMIT 5;
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/examples/terraglue-examples-titanic-sot-athena-query.png" alt="titanic-data-athena-sot-query">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/imgs/examples/terraglue-examples-titanic-sot-athena-query.png?raw=true" alt="titanic-data-athena-sot-query">
 </div>
 </details>
 
@@ -651,7 +651,7 @@ ___
 ## Continue navegando nas documentações
 
 - [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main)
-- [2. Implantando e conhecendo a infraestrutura](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/INFRA.md)
-- [3. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/APP.md)
-- 👉 [4. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/EXAMPLES.md) *Você está aqui!*
-- [5. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/TESTS.md)
+- [2. Implantando e conhecendo a infraestrutura](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/INFRA.md)
+- [3. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/APP.md)
+- 👉 [4. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/EXAMPLES.md) *Você está aqui!*
+- [5. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/TESTS.md)
