@@ -1,5 +1,5 @@
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/examples/examples/01-header-examples.png?raw=true" alt="terraglue-logo">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/examples/01-header-examples.png?raw=true" alt="terraglue-logo">
 
   <i>Situações reais e exemplos práticos de algumas possibilidades de uso da solução</i>
 </div>
@@ -18,6 +18,7 @@
   - [Codificando novos métodos de transformação](#codificando-novos-métodos-de-transformação)
   - [Sequenciando passos no método run()](#sequenciando-passos-no-método-run)
   - [Visualizando resultados](#visualizando-resultados)
+- [Continue navegando nas documentações](#continue-navegando-nas-documentações)
 
 ___
 
@@ -251,7 +252,7 @@ Agora que o dicionário de mapeamento de leitura de dados está devidamente conf
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/terraglue-examples-titanic-data.png" alt="titanic-data-athena">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/examples/terraglue-examples-titanic-data.png" alt="titanic-data-athena">
 </div>
 </details>
 
@@ -619,7 +620,7 @@ Considerando a demonstração fornecida, seria possível acessar o serviço Athe
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/terraglue-examples-titanic-sot-athena.png" alt="titanic-data-athena-sot">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/examples/terraglue-examples-titanic-sot-athena.png" alt="titanic-data-athena-sot">
 </div>
 </details>
 
@@ -641,7 +642,7 @@ FROM tt3.tbsot_titanic LIMIT 5;
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/terraglue-examples-titanic-sot-athena-query.png" alt="titanic-data-athena-sot-query">
+    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/develop/docs/imgs/examples/terraglue-examples-titanic-sot-athena-query.png" alt="titanic-data-athena-sot-query">
 </div>
 </details>
 
@@ -649,11 +650,10 @@ E assim completamos o cenário de adaptação do script `main.py` para finalidad
 
 ___
 
-Continue sua jornada no **terraglue** através das documentações!
+## Continue navegando nas documentações
 
 - [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main)
-- [2. Instalação e primeiros passos](https://github.com/ThiagoPanini/terraglue/blob/main/GETTINGSTARTED.md) 
-- [3. Infraestrutura provisionada](https://github.com/ThiagoPanini/terraglue/blob/main/INFRA.md) 
-- [4. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/APP.md) 
-- 👉 [5. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/EXAMPLES.md) *Você está aqui!*
-- [6. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/main/TESTS.md)
+- [2. Implantando e conhecendo a infraestrutura](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/INFRA.md)
+- [3. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/APP.md)
+- 👉 [4. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/EXAMPLES.md) *Você está aqui!*
+- [5. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/TESTS.md)
