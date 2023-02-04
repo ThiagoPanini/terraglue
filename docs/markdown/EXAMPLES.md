@@ -1,7 +1,5 @@
 <div align="center">
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/examples/01-header-examples.png?raw=true" alt="terraglue-logo">
-
-  <i>Situações reais e exemplos práticos de algumas possibilidades de uso da solução</i>
 </div>
 
 

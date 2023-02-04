@@ -1,7 +1,5 @@
 <div align="center">
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/docker-tests/01-header-tests.png?raw=true" alt="terraglue-logo">
-
-  <i>Detalhes técnicos sobre a construção e execução de testes unitários de jobs Glue</i>
 </div>
 
 
@@ -114,7 +112,7 @@ Para facilitar o desenvolvimento de código e a execução de testes, o uso de u
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/docs/visual-and-docs-refactor/imgs/docker-tests/tests-vscode-dev-containers.png" alt="vscode-dev-containers-extension">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/docker-tests/tests-vscode-dev-containers.png?raw=true" alt="vscode-dev-containers-extension">
 </div>
 </details>
 
@@ -168,7 +166,7 @@ Com o *container* em execução, o usuário pode acessar o Visual Studio Code e 
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://raw.githubusercontent.com/ThiagoPanini/terraglue/docs/visual-and-docs-refactor/imgs/docker-tests/tests-vscode-remote-explorer.png" alt="tests-vscode-remote-explorer">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/docker-tests/tests-vscode-remote-explorer.png?raw=true" alt="tests-vscode-remote-explorer">
 </div>
 </details>
 
@@ -177,7 +175,7 @@ Assim, basta clicar com o botão direito do mouse e selecionar a opção *Attach
 <details>
   <summary>📷 Clique para visualizar a imagem</summary>
   <div align="left">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/docker-tests/tests-vscode-remote-explorer.png?raw=true" alt="tests-vscode-container-attached">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/docker-tests/tests-vscode-container-attached.png?raw=true" alt="tests-vscode-container-attached">
 </div>
 </details>
 

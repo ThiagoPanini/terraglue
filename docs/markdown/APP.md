@@ -1,7 +1,5 @@
 <div align="center">
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/app/01-header-app.png?raw=true" alt="terraglue-logo">
-
-  <i>Esta documentação apresenta uma proposta de modelo de aplicação Spark para uso em jobs Glue</i>
 </div>
 
 

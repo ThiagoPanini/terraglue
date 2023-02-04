@@ -1,7 +1,5 @@
 <div align="center">
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/imgs/infra/01-header-infra.png?raw=true" alt="terraglue-logo">
-
-  <i>Este é um tutorial básico sobre como implantar toda infraestrutura provisionada ao usuário</i>
 </div>
 
 ## Table of Contents
