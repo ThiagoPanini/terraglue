@@ -23,6 +23,7 @@
   - [Testando funcionalidades da classe GlueJobManager](#testando-funcionalidades-da-classe-gluejobmanager)
   - [Testando funcionalidades da classe GlueETLManager](#testando-funcionalidades-da-classe-glueetlmanager)
   - [Testando funcionalidades da classe GlueTransformationManager](#testando-funcionalidades-da-classe-gluetransformationmanager)
+- [Continue navegando nas documentações](#continue-navegando-nas-documentações)
 
 ___
 
@@ -329,11 +330,11 @@ Existem, ainda, diferentes testes que podem ser implementados pelo usuário, com
 
 ___
 
-Continue sua jornada no **terraglue** através das documentações!
+## Continue navegando nas documentações
 
 - [1. Documentação principal do projeto](https://github.com/ThiagoPanini/terraglue/tree/main)
-- [2. Instalação e primeiros passos](https://github.com/ThiagoPanini/terraglue/blob/main/GETTINGSTARTED.md) 
-- [3. Infraestrutura provisionada](https://github.com/ThiagoPanini/terraglue/blob/main/INFRA.md) 
-- [4. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/main/APP.md) 
-- [5. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/main/EXAMPLES.md)
-- 👉 [6. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/main/TESTS.md) *Você está aqui!*
+- [2. Implantando e conhecendo a infraestrutura](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/INFRA.md)
+- [3. Uma proposta de padronização de jobs Glue](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/APP.md)
+- [4. Exemplos práticos de utilização da solução](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/EXAMPLES.md)
+- 👉 [5. Testes unitários em jobs do Glue na AWS](https://github.com/ThiagoPanini/terraglue/blob/docs/visual-and-docs-refactor/docs/markdown/TESTS.md) *Você está aqui!*
+
