@@ -71,7 +71,7 @@ terraform plan
 terraform apply
 ```
 
-Pronto! Agora você tem aplicada à conta AWS todos os elementos necessários para começar sua jornada de aprendizado no Glue da melhor forma possível! Para maiores detalhes, preparei um [tutorial detalhado](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/GETTINGSTARTED.md) de primeiros passos na solução. Se quiser entender melhor toda a arquitetura por trás da iniciativa, não deixe de continuar nesta documentação.
+Pronto! Agora você tem aplicada à conta AWS todos os elementos necessários para começar sua jornada de aprendizado no Glue da melhor forma possível! Para maiores detalhes, preparei um [tutorial detalhado](https://github.com/ThiagoPanini/terraglue/blob/main/docs/markdown/INFRA.md) de primeiros passos na solução. Se quiser entender melhor toda a arquitetura por trás da iniciativa, não deixe de continuar nesta documentação.
 
 ___
 
@@ -105,7 +105,7 @@ Considerando os insumos presentes, o repositório do **terraglue** está organiz
 | `./app` | Aqui será possível encontrar o script Python disponibilizado como padrão para implantação de um job Glue na AWS seguindo as melhores práticas de código e documentação. O script considera um cenário de criação de uma base na camada [SoT](https://www.linkedin.com/pulse/difference-between-system-record-source-truth-santosh-kudva/) (*Source of Truth*) utilizando dados de vendas online no [e-commerce brasileiro](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce). |
 | `./data` | Neste diretório, será possível identificar todas as fontes de dados disponibilizadas como exemplo para a execução de um job do Glue. Os dados estão presentes e organizados de modo a simular uma estrutura padrão de Data Lake em ambientes distribuídos, onde define-se o banco de dados, nome de tabela como diretórios pais em relação aos arquivos propriamente ditos (ex: `db/table/file.ext`). |
 | `./docs` | Aqui o usuário poderá encontrar todos os diagramas e imagens utilizadas na documentação do projeto. |
-| `./infra` | Este é, provavelmente, o principal diretório no projeto. Nele, será possível encontrar todas as declarações Terraform responsáveis pela implantação da infraestrutura necessária para utilização do projeto na AWS. Uma seção específica sobre esta parte será detalhada logo a seguir. |
+| `./infra` | Neste diretório, será possível encontrar todas as declarações Terraform responsáveis pela implantação da infraestrutura necessária para utilização do projeto na AWS. Uma seção específica sobre esta parte será detalhada logo a seguir. |
 
 ___
 
