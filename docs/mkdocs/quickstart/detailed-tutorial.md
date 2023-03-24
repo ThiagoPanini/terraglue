@@ -8,12 +8,15 @@ As said [here](basic-tutorial.md#quickstart-a-basic-tutorial), one of the prereq
 
 So, assuming users will have the keys mentioned above, the command below is needed to configure AWS credentials in a local environment:
 
-```bash
-aws configure
-```
-
 ???+ example "Configuring AWS Credentials"
-    ![](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/01-aws-configure.png)
+    **Command:**
+
+    ```bash
+    aws configure
+    ```
+
+    **Expected Result:**
+    ![](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/quickstart-tutorial/01-aws-configure.png)
 
 ## Cloning the Source Repository
 
