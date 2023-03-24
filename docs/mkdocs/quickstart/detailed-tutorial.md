@@ -8,17 +8,38 @@ As said [here](basic-tutorial.md#quickstart-a-basic-tutorial), one of the prereq
 
 So, assuming users will have the keys mentioned above, the command below is needed to configure AWS credentials in a local environment:
 
-???+ example "Configuring AWS Credentials"
-    **Command:**
+```bash
+aws configure
+```
 
-    ```bash
-    aws configure
-    ```
-
-    **Expected Result:**
+???+ example "Example of configuring AWS credentials"
     ![](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/quickstart-tutorial/01-aws-configure.png)
 
+It's important to mention that this AWS credentials setup is only needed once! Users should do this setup again only if their credentials change.
+
+
 ## Cloning the Source Repository
+
+After successfully configuring credentials, the next step of this tutorial shows the repository cloning. It can be reached through any of the following commands:
+
+```bash
+# Cloning source repo with HTTPS
+git clone https://github.com/ThiagoPanini/terraglue.git
+```
+
+```bash
+# Cloning source repo with SSH
+git clone git@github.com:ThiagoPanini/terraglue.git
+```
+
+???+ example "Example of cloning the source repository"
+    ![](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/quickstart-tutorial/02-git-clone.png)
+
+Once cloned, the remote *terraglue* repository will be available for users in their local environment.
+
+??? tip "Pulling the remote repository"
+    The local *terraglue* repository cloned by users is static by default. Maybe new features could be added since the first time users cloned the repo, so it could be a good practice to always run a `git pull` command to obtain the state-of-art of repository features.
+
 
 ## Instaling Terraform Modules
 
