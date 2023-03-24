@@ -14,6 +14,10 @@ categories:
       - feature 🚀
       - enhancement 🍀
 
+  - title: 💎 Novas Funcionalidades
+    labels:
+      - new-function 💎
+
   - title: 🐞 Bug Fixes
     labels:
       - bug 🐞
@@ -60,6 +64,8 @@ version-resolver:
       - bug 🐞
       - doc 🖍️
       - observability 👁️‍🗨️
+      - config ⚙️
+      - new-function 💎
   
   default: patch
 

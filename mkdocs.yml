@@ -1,0 +1,96 @@
+# Project main info
+site_name: terraglue
+site_url: https://github.com/ThiagoPanini/terraglue
+site_author: Thiago Panini
+site_description: >-
+  A pocket AWS infrastructure environment for helping people to
+  learn more about Glue
+
+# Source repo info
+repo_name: ThiagoPanini/terraglue
+repo_url: https://github.com/ThiagoPanini/terraglue
+
+# Copyright
+copyright: |
+  Copyright &copy; 2023 <a href="https://github.com/ThiagoPanini"  target="_blank" rel="noopener">ThiagoPanini</a>
+
+# Setting up docs dir
+docs_dir: docs/mkdocs
+
+# Setting up theme
+theme:
+  name: material
+
+  # Pointing a additional dir for custom setup
+  custom_dir: docs/assets
+
+  # Setting up a custom icon for site header
+  icon:
+    logo: custom/custom-icon
+
+  # Setting up a color palette
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Clique para alterar para modo noturno
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/weather-night
+        name: Clique para alterar para modo claro
+
+  # Setting up template features
+  features:
+    - navigation.tabs
+    - navigation.top
+    - navigation.instant
+    - navigation.footer
+    - navigation.indexes
+    - content.tabs.link
+    - content.tooltips
+    - search.share
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+
+# Setting up navigation
+nav:
+  - Home:
+    - terraglue: index.md
+
+# Setting up MkDocs extensions
+markdown_extensions:
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.details
+  - footnotes
+  - markdown.extensions.tables
+  - markdown.extensions.footnotes
+  - attr_list
+  - toc:
+      permalink: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+      options:
+        custom_icons:
+          - overrides/.icons
+
+# Custom CSS
+extra_css:
+  - stylesheets/extra.css
+
+# Plugins
+plugins:
+  - mkdocstrings
