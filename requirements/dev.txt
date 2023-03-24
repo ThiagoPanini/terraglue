@@ -3,3 +3,4 @@ moto
 pytest
 pytest-cov
 pyspark
+Faker
