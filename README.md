@@ -32,7 +32,7 @@ The *terraglue* project was created for helping people to improve their learning
 :waning_gibbous_moon: Try *terraglue*!
 
 > **Note**
->  Now the *terraglue* project has an official documentation in readthedocs! Visit the [following link](https://terraglue.readthedocs.io/pt/latest/) and check out usability technical details, practical examples and more!
+>  Now the *terraglue* project has an official documentation in readthedocs! Visit the [following link](https://terraglue.readthedocs.io/en/latest/) and check out usability technical details, practical examples and more!
 
 
 ## Features
