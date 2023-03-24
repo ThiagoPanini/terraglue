@@ -1,14 +1,14 @@
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/feature/terraglue-refactor/docs/assets/imgs/readme/header-readme.png?raw=true" alt="terraglue-logo">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/assets/imgs/header-readme.png?raw=true" alt="terraglue-logo">
 </div>
 
 <div align="center">
   <br>
   
   ![GitHub release (latest by date)](https://img.shields.io/github/v/release/ThiagoPanini/terraglue?color=purple)
-  ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/ThiagoPanini/terraglue?color=purple)
+  ![GitHub Last Commit](https://img.shields.io/github/last-commit/ThiagoPanini/terraglue?color=purple)
   ![CI workflow](https://img.shields.io/github/actions/workflow/status/ThiagoPanini/terraglue/ci-terraglue-main.yml?label=ci)
-  [![codecov](https://codecov.io/github/ThiagoPanini/terraglue/branch/main/graph/badge.svg?token=7HI1YGS4AA)](https://codecov.io/github/ThiagoPanini/terraglue)
+  [![Documentation Status](https://readthedocs.org/projects/terraglue/badge/?version=latest)](https://terraglue.readthedocs.io/pt/latest/?badge=latest)
 
 </div>
 

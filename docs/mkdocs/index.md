@@ -23,7 +23,7 @@ The *terraglue* project was created for helping people to improve their learning
 <div align="center">  
   <br>
 
-  <img src="https://img.shields.io/github/v/release/ThiagoPanini/terraglue?color=purple" alt="Shield github commit activity">
+  <img src="https://img.shields.io/github/v/release/ThiagoPanini/terraglue?color=purple" alt="Shield github release version">
   
   <img src="https://img.shields.io/github/last-commit/ThiagoPanini/terraglue?color=purple" alt="Shield github last commit">
   
