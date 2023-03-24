@@ -68,7 +68,7 @@ nav:
     - Detailed Tutorial: quickstart/detailed-tutorial.md
   - Architecture:
     - Project Architecture: architecture/project-architecture.md
-    - About the Repo: architecture/repo.md
+  - FAQ: faq/faq.md
 
 # Setting up MkDocs extensions
 markdown_extensions:
