@@ -63,6 +63,9 @@ theme:
 nav:
   - Home:
     - terraglue: index.md
+  - Quickstart:
+    - Basic Tutorial: quickstart/basic-tutorial.md
+    - Detailed Tutorial: quickstart/detailed-tutorial.md
 
 # Setting up MkDocs extensions
 markdown_extensions:

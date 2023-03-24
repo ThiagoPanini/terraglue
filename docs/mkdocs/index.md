@@ -52,7 +52,7 @@ ___
 
 ## Read the Docs
 
-- Checkout the Quickstart page for a step by step guide on how to deep dive into *terraglue*
+- Checkout the [Quickstart](./quickstart/basic-tutorial.md) page for a step by step guide on how to deep dive into *terraglue*
     
 
 ## Contacts
