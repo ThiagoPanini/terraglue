@@ -12,7 +12,7 @@ So, assuming users will have the keys mentioned above, the command below is need
 aws configure
 ```
 
-???+ example "Example of configuring AWS credentials"
+??? example "Example of configuring AWS credentials"
     ![](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/quickstart-tutorial/01-aws-configure.png)
 
 It's important to mention that this AWS credentials setup is only needed once! Users should do this setup again only if their credentials change.
@@ -32,12 +32,12 @@ git clone https://github.com/ThiagoPanini/terraglue.git
 git clone git@github.com:ThiagoPanini/terraglue.git
 ```
 
-???+ example "Example of cloning the source repository"
+??? example "Example of cloning the source repository"
     ![](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/quickstart-tutorial/02-git-clone.png)
 
 Once cloned, the remote *terraglue* repository will be available for users in their local environment.
 
-??? tip "Pulling the remote repository"
+???+ tip "Pulling the remote repository"
     The local *terraglue* repository cloned by users is static by default. Maybe new features could be added since the first time users cloned the repo, so it could be a good practice to always run a `git pull` command to obtain the state-of-art of repository features.
 
 

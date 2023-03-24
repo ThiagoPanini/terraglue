@@ -45,7 +45,7 @@ ___
 
 - 🚀 Have a pocket and disposable AWS environment with all infrastructure needed to start developing Glue jobs
 - 🤖 No need to to worry about bucket creation, IAM roles and policies definition or even uploading datasets in your AWS account
-- 📊 Enjoy querying a bunch of public datasets written and catalogged for users to however they want
+- 📊 Possibility to run queries on different public datasets written and catalogged for users to improve their analytics skills
 - 🛠️ Usage of Terraform as IaC tool for providing a consistent infrastructure
 - 🔦 Turn in and turn off whenever wanted to
 
