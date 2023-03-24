@@ -16,38 +16,25 @@ The *terraglue* project was created for helping people to improve their learning
 </div>
 
 <div align="center">
-    <i>sparksnake<br>
-    Python Library</i>
+    <i>terraglue<br>
+    AWS Pocket Infrastructure</i>
 </div>
 
 <div align="center">  
   <br>
-  <a href="https://pypi.org/project/sparksnake/">
-    <img src="https://img.shields.io/pypi/v/sparksnake?color=purple" alt="Shield sparksnake PyPI version">
-  </a>
 
-  <a href="https://pypi.org/project/sparksnake/">
-    <img src="https://img.shields.io/pypi/dm/sparksnake?color=purple" alt="Shield sparksnake PyPI downloads">
-  </a>
-
-  <a href="https://pypi.org/project/sparksnake/">
-    <img src="https://img.shields.io/pypi/status/sparksnake?color=purple" alt="Shield sparksnake PyPI status">
-  </a>
+  <img src="https://img.shields.io/github/v/release/ThiagoPanini/terraglue?color=purple" alt="Shield github commit activity">
   
-  <img src="https://img.shields.io/github/commit-activity/m/ThiagoPanini/sparksnake?color=purple" alt="Shield github commit activity">
+  <img src="https://img.shields.io/github/last-commit/ThiagoPanini/terraglue?color=purple" alt="Shield github last commit">
   
-  <img src="https://img.shields.io/github/last-commit/ThiagoPanini/sparksnake?color=purple" alt="Shield github last commit">
+  <img src="https://img.shields.io/github/actions/workflow/status/ThiagoPanini/terraglue/ci-main.yml?label=ci" alt="Shield github CI workflow">
 
-  <br>
-  
-  <img src="https://img.shields.io/github/actions/workflow/status/ThiagoPanini/sparksnake/ci-main.yml?label=ci" alt="Shield github CI workflow">
-
-  <a href='https://sparksnake.readthedocs.io/pt/latest/?badge=latest'>
-    <img src='https://readthedocs.org/projects/sparksnake/badge/?version=latest' alt='Documentation Status' />
+  <a href='https://terraglue.readthedocs.io/pt/latest/?badge=latest'>
+    <img src='https://readthedocs.org/projects/terraglue/badge/?version=latest' alt='Documentation Status' />
   </a>
 
-  <a href="https://codecov.io/gh/ThiagoPanini/sparksnake" > 
-    <img src="https://codecov.io/gh/ThiagoPanini/sparksnake/branch/main/graph/badge.svg?token=zSdFO9jkD8"/> 
+  <a href="https://codecov.io/gh/ThiagoPanini/terraglue" > 
+    <img src="https://codecov.io/github/ThiagoPanini/terraglue/branch/main/graph/badge.svg?token=7HI1YGS4AA"/> 
   </a>
 
 </div>
@@ -56,55 +43,16 @@ ___
 
 ## Features
 
-- 🤖 Enhanced development experience of Spark Applications to be deployed as jobs in AWS services like Glue and EMR
-- 🌟 Possibility to use common Spark operations for improving ETL steps using custom classes and methods
-- ⚙️ No need to think too much into the hard and complex service setup (e.g. with *sparksnake* you can have all elements for a Glue Job on AWS with a single line of code)
-- 👁️‍🗨️ Application observability improvement with detailed log messages in CloudWatch
-- 🛠️ Exception handling already embedded in library methods
+- 🚀 Have a pocket and disposable AWS environment with all infrastructure needed to start developing Glue jobs
+- 🤖 No need to to worry about bucket creation, IAM roles and policies definition or even uploading datasets in your AWS account
+- 📊 Enjoy querying a bunch of public datasets written and catalogged for users to however they want
+- 🛠️ Usage of Terraform as IaC tool for providing a consistent infrastructure
+- 🔦 Turn in and turn off whenever wanted to
 
 
-## Getting Started
+## Read the Docs
 
-The *sparksnake* latest version is already published in [PyPI](https://pypi.org/project/sparksnake/) and available free of charge for anyone interested in improving the creation of their Spark applications using AWS services such as Glue and EMR. To start your journey, simply perform your installation using the following command:
-
-```bash
-pip install sparksnake
-```
-
-??? tip "About Python virtual environments"
-    In general, it's a good practice create a [virtual environment](https://docs.python.org/3/library/venv.html) before the start of every Python project. Creating a venv for each Python project allows, among other advantages, to have an isolated environment with more refined control over the dependencies used.
-    
-    ??? example "Creating virtual environments"
-        To create a Python virtual environment, run the following code in a folder of your preference (maybe one you can use for organizing all your further virtual environments):
-
-        ```bash
-        python -m venv <venv_name>
-        ```
-
-        Where `<venv_name>` should be replaced by the name chosen for the virtual environment to be created. It is common to have virtual environment names associated with projects (ex: `project_venv`)
-
-
-    ??? example "Accessing virtual environments"
-        Once created, the environment needs to be explicitly accessed by the user to ensure that all subsequent actions related to installing libraries are actually performed inside of the isolated environment created.
-
-        If the operating system used is Windows, then use the command below to access the Python virtual environment:
-
-        ```bash
-        # Accessing venvs on Windows
-        <venv_path>/Scripts/activate
-        ```
-
-        In case of use of a Linux operating system (or Git Bash in Windows), the command has minor changes and is given by:
-
-        ```bash
-        # Accessing venvs on Linux
-        source <venv_path>/Scripts/activate
-        ```
-
-        Where `<venv_path>` is the location reference of the newly created virtual environment. For example, if you created a virtual environment named *test_venv* name in your user directory, then `<venv_path>` can be replaced by `C:\Users\username\test_venv` on Windows or simply `~/test_venv` on Linux.
-        
-    
-    For more information, this [excellent Real Python blog article](https://realpython.com/python-virtual-environments-a-primer/) may shed light on a number of questions involving the creation and use of Python virtual environments.
+- Checkout the Quickstart page for a step by step guide on how to deep dive into *terraglue*
     
 
 ## Contacts
