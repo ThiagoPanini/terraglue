@@ -1,35 +1,35 @@
 ---
 name: Bug Report
-about: Pontuando erros e auxiliando em melhorias
+about: Declaring errors and suggesting improvements
 title: "[BUG]"
 labels: bug
 assignees: ThiagoPanini
 
 ---
 
-:writing_hand: **_Descrição do problema:_**
-TODO: forneça uma visão clara e direta do bug/problema e mencione qual a funcionalidade/módulo/método origem do problema. Adicionalmente, insira abaixo trechos de código que ajudem a identificar o bug/problema.
+:writing_hand: **_Problem description:_**
+ToDo: provide a clear vision of bug reported and point out the impact. Additionaly, insert block codes that help to identify and reproduce the bug.
 ```python
-# Espaço para trechos de código
+# Insert your code here
 ```
 ___
-:lady_beetle: **_Reprodução do problema:_**
-Para reproduzir o bug/problema, é necessário seguir as seguintes etapas:
-1. [ ] Importar o módulo ```package.module```
-2. [ ] Executar a função ```function```
-3. [ ] Estabelecer os parâmetros ```(param_a='a', param_b='b')```
-4. [ ] Visualizar o erro ```Exception e```
+:lady_beetle: **_Reproducing the problem:_**
+To reproduce the bug it's need the take the following steps (example):
+1. [ ] Import module ```package.module```
+2. [ ] Run the function ```function```
+3. [ ] Using paramteres ```(param_a='a', param_b='b')```
+4. [ ] Check the error ```Exception e```
 ___
-:gear: **_Comportamento adequado:_**
-TODO: descrever o que se esperava da funcionalidade.
+:gear: **_Expected behavior:_**
+ToDo: describe the feature expected behavior.
 ___
-:earth_americas: **_Informações adicionais de ambiente:_**
-TODO: forneça detalhes do ambiente utilizado que ajude no entendimento do bug/problema, como por exemplo, sistema operacional, versão da linguagem de programação, entre outros.
+:earth_americas: **_Additional information:_**
+ToDo: if applicable, provide some datails about the environment where the bug showed up. Informations like OS and language version are useful.
 ___
-:camera: **_Screenshots:_** [OPCIONAL]
-TODO: adicione capturas de tela com intuito de auxiliar no entendimento do bug/problema.
+:camera: **_Screenshots:_** [OPTIONAL]
+ToDo: if applicable, provide some screenshots that help to understand the bug.
 ___
-:speech_balloon: **_Possíveis soluções para o problema:_** [OPCIONAL]
-A resolução do bug/problema poderia ser implementada a partir de:
-- Solução A
-- Solução B
+:speech_balloon: **_Possible solutions:_** [OPTIONAL]
+Probably the the solution for this bug would be reached through:
+- Trying step A
+- Trying step B

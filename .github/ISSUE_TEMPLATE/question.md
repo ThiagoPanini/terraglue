@@ -1,10 +1,9 @@
 ---
 name: Question
-about: Dúvidas e questões relacionadas ao projeto
+about: Project questions
 title: "[QUESTION]"
 labels: question
 assignees: ''
 
 ---
-
 

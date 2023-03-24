@@ -1,17 +1,14 @@
 ---
 name: Documentation
-about: Melhorias na documentação do código
+about: Docs improvement
 title: "[DOC]"
 labels: documentation
 assignees: ThiagoPanini
 
 ---
 
-:books: **_Funções, métodos ou objetos alvo:_**
-Elementos de código que necessitam de melhorias na documentação:
-- [ ] Função `function` presente em `pkg/module.py`
-- [ ] Método `method` da classe `class`
-- [ ] Módulo `pkg.module`
-___
-:pencil2: **_Detalhes adicionais:_**
-TODO: forneça uma descrição adicional da issue, templates que julgar adequados para melhorar a documentação do código existente e, se aplicável, indique problemas relacionados a documentação existente.
+:books: **_Target modules, classes or functions:_**
+Project componentes that needs a documentation improvement:
+- [ ] Function `function()` on `pkg/module.py`
+- [ ] Method `method()` from class `class`
+- [ ] Module `pkg.module`
