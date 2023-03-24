@@ -23,7 +23,7 @@ The *terraglue* project was created for helping people to improve their learning
 <div align="center">  
   <br>
 
-  <img src="https://img.shields.io/github/v/release/ThiagoPanini/terraglue?color=purple" alt="Shield github commit activity">
+  <img src="https://img.shields.io/github/v/release/ThiagoPanini/terraglue?color=purple" alt="Shield github release version">
   
   <img src="https://img.shields.io/github/last-commit/ThiagoPanini/terraglue?color=purple" alt="Shield github last commit">
   
@@ -45,14 +45,14 @@ ___
 
 - 🚀 Have a pocket and disposable AWS environment with all infrastructure needed to start developing Glue jobs
 - 🤖 No need to to worry about bucket creation, IAM roles and policies definition or even uploading datasets in your AWS account
-- 📊 Enjoy querying a bunch of public datasets written and catalogged for users to however they want
+- 📊 Possibility to run queries on different public datasets written and catalogged for users to improve their analytics skills
 - 🛠️ Usage of Terraform as IaC tool for providing a consistent infrastructure
 - 🔦 Turn in and turn off whenever wanted to
 
 
 ## Read the Docs
 
-- Checkout the Quickstart page for a step by step guide on how to deep dive into *terraglue*
+- Checkout the [Quickstart](./quickstart/basic-tutorial.md) page for a step by step guide on how to deep dive into *terraglue*
     
 
 ## Contacts
