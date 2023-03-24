@@ -38,11 +38,41 @@ git clone git@github.com:ThiagoPanini/terraglue.git
 Once cloned, the remote *terraglue* repository will be available for users in their local environment.
 
 ???+ tip "Pulling the remote repository"
-    The local *terraglue* repository cloned by users is static by default. Maybe new features could be added since the first time users cloned the repo, so it could be a good practice to always run a `git pull` command to obtain the state-of-art of repository features.
+    The local *terraglue* repository cloned by users is static by default. It means that it's possible that users may not have the latest features included on the remote repo. So, it could be a good practice to always run a `git pull` command to obtain the state-of-art of repository features.
 
 
 ## Instaling Terraform Modules
 
+After cloning the repo, let's navigate to the `infra/` repository folder on the project directory and initialize the terraform modules through the command below:
+
+```bash
+cd terraglue/infra
+terraform init
+```
+
+??? example "Example of initializing terraform modules from terraglue"
+    ![](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/quickstart-tutorial/03-terraform-init.png)
+
+After this operation, the users will be ready to apply the infrastructure deploy at a target AWS environment. But first let's see how the deploy planning is shown.
+
 ## Planning Deploy
 
+Before deploying the infrastructure, it's reasonable to take a look at the deploy plan. It can be reached by running the terraform command below:
+
+```bash
+terraform plan
+```
+
+??? example "Example of showing the plan of infrastructure deploy"
+    ![](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/quickstart-tutorial/04-terraform-plan.png)
+
 ## Deploying the Infrastructure
+
+Finally, we can execute the command for deploying the infrastructure for enabling all terraglue features in an AWS account:
+
+```bash
+terraform apply
+```
+
+??? example "Example of deploying the infrastructure"
+    ![](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/quickstart-tutorial/05-terraform-apply.png)
