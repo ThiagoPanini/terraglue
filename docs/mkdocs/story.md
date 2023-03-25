@@ -57,3 +57,18 @@ So, I found the excellent [Brazilian E-Commerce dataset](https://www.kaggle.com/
 And now my diagram was like:
 
 [![Storage resources with data](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/project-story/terraglue-diagram-resources-data.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/terraglue-diagram-resources-data.png)
+
+## Cataloging Data
+
+Upload data on S3 buckets wasn't enough to have a complete experience on applying analytics. It was important to catalog its metadata on Data Catalog to make them visible on services like Glue and Athena.
+
+So, the next step made embraced the input of Brazilian Ecommerce dataset (which was made for a bunch of different files/tables) on Data Catalog. For this task, I tested two different approaches:
+
+1. Building and running `CREATE TABLE` queries on Athena based on file schema
+2. Manually inputting fields and table properties on Data Catalog
+
+By the way, as Athena proved to be a good service do start looking at catalogged data, I took the oportunity to create a workgroup will all appropriate sets for storing the query results.
+
+And now my diagram was like:
+
+[![Storage resources with data](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/project-story/terraglue-diagram-resources-data.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/terraglue-diagram-resources-data.png)
