@@ -73,7 +73,7 @@ And now my diagram was like:
 
 [![Catalog process using Data Catalog and Athena](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/project-story/terraglue-diagram-resources-catalog.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/terraglue-diagram-resources-catalog.png)
 
-## IAM Roles and Policies
+## Craeting IAM Roles and Policies
 
 A huge milestone was reached at that moment. I had a storage structured, I had data to be used and I had all needed metadata information already catalogged on Data Catalog.
 
@@ -87,3 +87,15 @@ But nothing as a good study and research couldn't solve. And that was the case: 
 And, once again, I could add more pieces on my diagram:
 
 [![IAM role and policies](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/project-story/terraglue-diagram-resources-iam.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/terraglue-diagram-resources-iam.png)
+
+## Creating a Glue Job
+
+Well, after all those manual setup I was finally able to create my first Glue job on AWS to create ETL pipelines using public datasets available on S3 and on Data Catalog.
+
+I was really excited at that moment and the big idea was to simulate a data pipeline that read data from a SoR layer, transform it and put the curated dataset in a SoT layer. After learning a lot about `awsglue` library and elements like `GlueContext` and `DynamicFrame`, I was able to create a Spark application using pyspark that had enough features to reach the aforementioned goal.
+
+[![Final diagram with Glue job](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/project-story/terraglue-diagram-resources-glue.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/terraglue-diagram-resources-glue.png)
+
+And now my diagram was complete!
+
+![Thanos resting on the end of Infinity War movie](https://media.tenor.com/s89PZe54F4IAAAAd/renuu-thanos.gif)
