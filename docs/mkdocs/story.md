@@ -43,20 +43,17 @@ The hands on started by creating S3 buckets to replicate something next to a Dat
 
 [![Storage resources](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/project-story/terraglue-diagram-resources-storage.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/terraglue-diagram-resources-storage.png)
 
-I've got 
+???+ tip "That was just the beginning and a lot of things needed to be done"
+    The image above shows the start of the journey. I will use the same image and approach to add pieces and componentes as long as they show up on story.
 
+    Let's keep going!
 
-Well, I must tell you that everything started a little time ago when 
+## Uploading Files on Buckets
 
-There ain't another way to start this story but telling you that the main challenge was learning AWS Glue for 
+Once the storage structures was created, I started to search for public datasets do be part of my learning path. The idea was to upload some data into the buckets to open de possibility of doing some analytics, like creating ETL jobs or even querying it with Athena.
 
+So, I found the excellent [Brazilian E-Commerce dataset](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) on Kaggle and it fitted perfectly. I was now able to download the data and upload it on the SoR bucket to simulate some raw data that was available for further analysis in an ETL pipeline.
 
-🪄 Once upon a time there was an Analytics Engineer who was starting his learning journey on AWS Glue.
+And now my diagram was like:
 
-He didn't know where to start, so he looked up for learning. He watched some some videos and read some documentation. After a little while, he finally got ready to get his hands dirty by doing something more practical on his personal environment. He had an AWS sandbox account and a noble desire to learn.
-
-At first, the Engineer started by building some storage structures on S3 based on the Data Mesh architecture. So, to reach that goal, he created three buckets on his account, one for SoR (System of Records) data, another for SoT (Source of Truth) data and the last one for Spec (Specialized) data.
-
-In the end, that approach was a big deal for improving his learning skills but the Engineer found out some troubles. He was using an AWS sandbox account that was ephemeral. It meant that the account was automatically shutted off after a few hours and all his progress was erased with it. Well, that didn't sound good but it wasn't a heavy rock to break, so everyday the Engineer launched a new sandbox account and created three new buckets for starting his learning.
-
-Once the buckets were created, the Engineer uploaded public datasets to be part of his study (and that was also part of his daily manually job). But upload data on buckets, for an analytics perspective, was not enough. That's because he needed to input the metadata for the public datasets into the Data Catalog, adding even more manual effort on his daily basis tasks.
+[![Storage resources with data](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/project-story/terraglue-diagram-resources-data.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/terraglue-diagram-resources-data.png)
