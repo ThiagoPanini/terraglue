@@ -12,7 +12,7 @@ The *terraglue* project was created for helping people to improve their learning
 
 
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/feature/terraglue-refactor/docs/assets/imgs/logo.png?raw=true" alt="sparksnake-logo" width=200 height=200>
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/feature/terraglue-refactor/docs/assets/imgs/logo.png?raw=true" alt="terraglue-logo" width=200 height=200>
 </div>
 
 <div align="center">

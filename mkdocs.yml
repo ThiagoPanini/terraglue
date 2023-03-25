@@ -62,7 +62,7 @@ theme:
 # Setting up navigation
 nav:
   - Home:
-    - terraglue: index.md
+    - Home: index.md
     - Project Story: story.md
   - Quickstart:
     - Basic Tutorial: quickstart/basic-tutorial.md
