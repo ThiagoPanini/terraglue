@@ -17,6 +17,10 @@ ___
 This is a very interesting and important question. There are no costs to use terraglue as it is an open source solution shared with the entire community. HOWEVER, it is essential to mention that the resources created by terraglue in your AWS environment may eventually incur costs. Therefore, it is critical that terraglue users understand the potential fees involved with related services before utilizing the solution.
 
 ???+ warning "How do you mean there are costs?"
-    Well, *terraglue* is an IaC project that deploys some infrastructure in an AWS target account. By deploying this infrastructure, users will create and upload data on S3 buckets (at least, a bunch of PutObject requests will be made) and there will be also available a Glue job provided with an ETL example. AWS doesn't charge users for stopped job but, when initialized, some charges may be made to users.
+    Well, *terraglue* is an IaC project that deploys some infrastructure in an AWS target account. By deploying it, users will probably be charged for:
 
+    - S3 data storage
+    - Queries executed on Athena
+    - Jobs executed on Glue
+    
     The final message is: ALWAYS be aware of services costs on AWS and read all the documentation you judge necessary to have a clear view of the situation BEFORE doing anything.

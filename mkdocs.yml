@@ -63,6 +63,7 @@ theme:
 nav:
   - Home:
     - terraglue: index.md
+    - Project Story: story.md
   - Quickstart:
     - Basic Tutorial: quickstart/basic-tutorial.md
     - Detailed Tutorial: quickstart/detailed-tutorial.md

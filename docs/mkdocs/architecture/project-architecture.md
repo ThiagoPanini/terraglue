@@ -17,7 +17,7 @@ In summary, all terraform modules declared on *terraglue* are used to define the
 
 Once deployed, *terraglue* will offer their users all services defined on the following diagram:
 
-[![A diagrama with AWS services deployed](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/diagram-product-view.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/diagram-product-view.png)
+[![A diagram with AWS services deployed](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/diagram-product-view.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/diagram-product-view.png)
 
 
 ## Repository Structure
