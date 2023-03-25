@@ -71,4 +71,19 @@ By the way, as Athena proved to be a good service do start looking at catalogged
 
 And now my diagram was like:
 
-[![Storage resources with data](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/project-story/terraglue-diagram-resources-data.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/terraglue-diagram-resources-data.png)
+[![Catalog process using Data Catalog and Athena](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/project-story/terraglue-diagram-resources-catalog.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/terraglue-diagram-resources-catalog.png)
+
+## IAM Roles and Policies
+
+A huge milestone was reached at that moment. I had a storage structured, I had data to be used and I had all needed metadata information already catalogged on Data Catalog.
+
+???+ question "What was missing to start creating Glue jobs?"
+    IAM roles and policies. Simple as that.
+
+Here I must tell you that that wasn't an easy step to be completed. First of all, it was a little bit difficult to understand all the permission actions needed for running Glue jobs on AWS, logging steps on CloudWatch and all other things.
+
+But nothing as a good study and research couldn't solve. And that was the case: I started looking at docs and I was finally able to create a set of policies for a good IAM role to be assumed by my future and first Glue job on AWS.
+
+And, once again, I could add more pieces on my diagram:
+
+[![IAM role and policies](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/project-story/terraglue-diagram-resources-iam.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/terraglue-diagram-resources-iam.png)
