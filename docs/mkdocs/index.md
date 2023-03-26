@@ -12,7 +12,7 @@ The *terraglue* project was created for helping people to improve their learning
 
 
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/feature/terraglue-refactor/docs/assets/imgs/logo.png?raw=true" alt="sparksnake-logo" width=200 height=200>
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/feature/terraglue-refactor/docs/assets/imgs/logo.png?raw=true" alt="terraglue-logo" width=200 height=200>
 </div>
 
 <div align="center">
@@ -47,12 +47,15 @@ ___
 - 🤖 No need to to worry about bucket creation, IAM roles and policies definition or even uploading datasets in your AWS account
 - 📊 Possibility to run queries on different public datasets written and catalogged for users to improve their analytics skills
 - 🛠️ Usage of Terraform as IaC tool for providing a consistent infrastructure
-- 🔦 Turn in and turn off whenever wanted to
+- 🔦 Destroy everything and recreate all again at a touch of a single command
 
 
 ## Read the Docs
 
-- Checkout the [Quickstart](./quickstart/basic-tutorial.md) page for a step by step guide on how to deep dive into *terraglue*
+- Take a look at the [Project Story](./story.md) page for knowing more about how *terraglue* was madew
+- Checkout the [Quickstart](./quickstart/basic-tutorial.md) page for a step by step guide on how to start using *terraglue*
+- At the [Architecture](./architecture/project-architecture.md) page you will see details for all AWS services provided
+- Still have doubts? Check the [FAQ](./faq/faq.md) page!
     
 
 ## Contacts

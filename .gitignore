@@ -1,9 +1,15 @@
-# Diretório exploratório para Jupyter Notebooks
+# Drawio temporary diagram file
+**.drawio.bkp
+**.drawio.*
+
+# Notebooks dir
 notebooks/
 feature_exploration/
 
-# Diretórios temporários
+# Temp dir
 tmp/
+
+# Auxiliar dirs
 scripts/
 .vscode/
 **.zip

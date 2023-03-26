@@ -62,10 +62,14 @@ theme:
 # Setting up navigation
 nav:
   - Home:
-    - terraglue: index.md
+    - Home: index.md
+    - Project Story: story.md
   - Quickstart:
     - Basic Tutorial: quickstart/basic-tutorial.md
     - Detailed Tutorial: quickstart/detailed-tutorial.md
+  - Architecture:
+    - Project Architecture: architecture/project-architecture.md
+  - FAQ: faq/faq.md
 
 # Setting up MkDocs extensions
 markdown_extensions:
