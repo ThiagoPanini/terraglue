@@ -52,7 +52,8 @@ ___
 
 ## Read the Docs
 
-- Checkout the [Quickstart](./quickstart/basic-tutorial.md) page for a step by step guide on how to deep dive into *terraglue*
+- Take a look at the [Project Story](./story.md) page for knowing more about how *terraglue* was madew
+- Checkout the [Quickstart](./quickstart/basic-tutorial.md) page for a step by step guide on how to start using *terraglue*
 - At the [Architecture](./architecture/project-architecture.md) page you will see details for all AWS services provided
 - Still have doubts? Check the [FAQ](./faq/faq.md) page!
     

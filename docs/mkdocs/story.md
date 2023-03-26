@@ -8,10 +8,10 @@ For everyone reading this page, I ask a poetic licence to tell you a story about
 
 ## How it All Started
 
-First of all, It's important to provide some context on how it all started. I'm an Analytics Engineer working for a financial company who have a lot of data and a number even higher of oportunities on using those data. The company adopted the Data Mesh architecture for giving more autonomy to the data teams for building and sharing their own data through three different layers: SoR (System of Record), SoT (Source of Truth) and Spec (Specialized).
+First of all, It's important to provide some context on how it all started. I'm an Analytics Engineer working for a financial company who have a lot of data and a number even higher of opportunities on using those data. The company adopted the Data Mesh architecture for giving more autonomy to the data teams for building and sharing their own data through three different layers: SoR (System of Record), SoT (Source of Truth) and Spec (Specialized).
 
 ???+ info "Know more about SoR, SoT and Spec"
-    There are a lot of arcticles that explain Data Mesh architecture and the differences between layers SoR, SoT and Spec for storing and sharing data. In fact, this is a really useful way to improve analytics on organizations.
+    There are a lot of articles that explain Data Mesh architecture and the differences between layers SoR, SoT and Spec for storing and sharing data. In fact, this is a really useful way to improve analytics on organizations.
 
     If you want to know a little bit more about it, there are some links that can help you on this mission:
 
@@ -25,7 +25,7 @@ And that's how the story begins: an Analytics Engineer trying his best to deep d
 
 ## First Steps
 
-Well, after deciding to start it all on learning more about AWS Glue for developing ETL jobs, I searched for documentation pages, watched some videos for prepearing myself and talked with other developers to collect thoughts and experiences about the whole thing.
+Well, after deciding to start it all on learning more about AWS Glue for developing ETL jobs, I searched for documentation pages, watched some videos for preparing myself and talked with other developers to collect thoughts and experiences about the whole thing.
 
 After a little while, I found myself ready to start building something useful. In my hands, I had an AWS sandbox account and a noble desire to learn.
 
@@ -108,7 +108,7 @@ As much as this is happy ending story, it doesn't happen just now.
 ???+ danger "The AWS sandbox account problem"
     Well, remember as a said at the beginning of the story that I had in my hands an AWS sandbox account? By sandbox account I mean a temporary environment that shuts down after a few hours.
 
-    And that's was the first big problem: I needed to recreate ALL componentes of the final diagram every single day.
+    And that's was the first big problem: I needed to recreate ALL components of the final diagram every single day.
 
 ???+ danger "The huge manual effort"
     As you can imagine, I spent almost one hour setting up things every time I wanted to practice with Glue. It was a huge manual effort and that was just almost half of the sandbox life time.
@@ -130,7 +130,7 @@ If you came to here I think you would like to know it.
 
 Well, the problems were shown and I needed to think in a solution to just make my life easier for that simple learning task.
 
-The answear was right on my face all the time. If my main problem was spending time recreating infrastructure, why not **automate** the infrastructure creation with an IaC tool? So everytime my sandbox environment shuts down, I can create all again with much less overhead.
+The answer was right on my face all the time. If my main problem was spending time recreating infrastructure, why not **automate** the infrastructure creation with an IaC tool? So every time my sandbox environment shuts down, I can create all again with much less overhead.
 
 That was a fantastic idea and I started to use [Terraform](https://www.terraform.io/) to declare resources used in my architecture. I splitted things into modules and suddenly I had enough code to create buckets, upload data, catalog things, create IAM roles, policies and a preconfigured Glue job!
 
@@ -140,7 +140,11 @@ While creating all this, I just felt that everyone who had the same learning cha
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/feature/terraglue-refactor/docs/assets/imgs/logo.png?raw=true" alt="terraglue-logo" width=200 height=200>
 </div>
 
-And for finishing this story, I just want to show you all a little bit of Terraform code extracted from the *terraglue* project to light up the solution. For a deep look you can always see the entire source code.
+It was really impressive on how I could deploy all the components with just a couple of commands. If I usually spent about 1 hour by creating and configuring every service manually, after *terraglue* that time was reduced to just seconds!
+
+[![Terraglue diagram with IaC modules](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/diagram-user-view.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/diagram-user-view.png)
+
+And before finish this story, I just want to show you a little bit of the Terraform code extracted from *terraglue* project to light up the solution.
 
 ### Storage Module
 
@@ -286,11 +290,11 @@ If we would summarize this story in few topics, I think the best sequence is:
 
 - 🤔 An Analytics Engineer wanted to learn AWS Glue and other analytics services on AWS
 - 🤪 He started to build a complete infrastructure in his AWS sandbox account manually
-- 🥲 Everytime this AWS sandbox account was shut off, he did it all again
+- 🥲 Every time this AWS sandbox account was shut off, he did it all again
 - 😮‍💨 He was tired of doing this all the time so he started to think on how solve this problem
 - 😉 He started to apply Terraform to declare all infrastructure
 - 🤩 He created a pocket AWS environment for learning analytics and called it *terraglue*
 
-And that's the real story about how I faced a huge problem on my learning journey and used Terraform and AWS componentes do take my experience to the next level.
+And that's the real story about how I faced a huge problem on my learning journey and used Terraform and AWS components do take my experience to the next level.
 
 I really hope *terraglue* proves itself useful for everyone who needs to learning more about analytics services on AWS and don't know where to start or even want a pocket environment for exploring things.

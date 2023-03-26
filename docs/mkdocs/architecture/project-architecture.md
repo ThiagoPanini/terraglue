@@ -8,7 +8,7 @@ At the end of the day, *terraglue* is a IaC (Infrastructure as Code) project bui
 
 [![A diagram with user perspective](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/diagram-user-view.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/diagram-user-view.png)
 
-In summary, all terraform modules declared on *terraglue* are used to define the following AWS resources:
+In essence, all terraform modules declared on *terraglue* are used to define the following AWS resources:
 
 - 🪣 S3 buckets for storing data and *assets*
 - 🚨 IAM policies and role for managing access
