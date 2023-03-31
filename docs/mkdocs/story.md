@@ -8,10 +8,10 @@ For everyone reading this page, I ask a poetic licence to tell you a story about
 
 ## How it All Started
 
-First of all, It's important to provide some context on how it all started. I'm an Analytics Engineer working for a financial company who have a lot of data and a number even higher of opportunities on using those data. The company adopted the Data Mesh architecture for giving more autonomy to the data teams for building and sharing their own data through three different layers: SoR (System of Record), SoT (Source of Truth) and Spec (Specialized).
+First of all, It's important to provide some context on how it all started. I'm an Analytics Engineer working for a financial company who have a lot of data and a number even higher of opportunities on using it. The company adopted the Data Mesh architecture for giving more autonomy to the data teams for building and sharing their own datasets through three different layers: SoR (System of Record), SoT (Source of Truth) and Spec (Specialized).
 
 ???+ info "Know more about SoR, SoT and Spec"
-    There are a lot of articles that explain Data Mesh architecture and the differences between layers SoR, SoT and Spec for storing and sharing data. In fact, this is a really useful way to improve analytics on organizations.
+    There are a lot of articles explaining the Data Mesh architecture and the differences between layers SoR, SoT and Spec for storing and sharing data. In fact, this is a really useful way to improve analytics on organizations.
 
     If you want to know a little bit more about it, there are some links that can help you on this mission:
 
@@ -25,14 +25,14 @@ And that's how the story begins: an Analytics Engineer trying his best to deep d
 
 ## First Steps
 
-Well, after deciding to start it all on learning more about AWS Glue for developing ETL jobs, I searched for documentation pages, watched some videos for preparing myself and talked with other developers to collect thoughts and experiences about the whole thing.
+Well, after deciding to start it on learning more about AWS Glue for developing ETL jobs, I searched for documentation pages, watched some videos for preparing myself and talked with other developers to collect thoughts and experiences about the whole thing.
 
 After a little while, I found myself ready to start building something useful. In my hands, I had an AWS sandbox account and a noble desire to learn.
 
 ![Michael B. Jordan on Creed movie](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzBhZjAxNjY0ODUzMmVhYzI4MmJlM2IxYjQ4NzRjMzU2ZGIzNzQyYiZjdD1n/WldnJerxYdPC8/giphy.gif)
 
-???+ info "Important information about this AWS sandbox account"
-    In my case, I was used to explore AWS services using a sandbox account available through subscription in a learning platform. The sandbox account had limited life time and this is a really important information. Keep that in mind. You will know why.
+???+ info "An important information about this AWS sandbox account"
+    The use of an AWS sandbox account can be explained by a subscription that I had in a learning platform. The learning platform allowed subscribers to use an AWS environment for learning purposes and that was really nice. Still, it was an ephemeral environment with an automatic shut off mechanism after a few hours. This behavior is one of the key points of the story. Keep that in mind. You will know why.
 
 ## Creating the Storage Layers
 
@@ -49,7 +49,7 @@ I started to get my hands dirty by creating S3 buckets to replicate something ne
 
 ## Uploading Files on Buckets
 
-Once the storage structures was created, I started to search for public datasets do be part of my learning path. The idea was to upload some data into the buckets to open de possibility of doing some analytics, like creating ETL jobs or even querying it with Athena.
+Once the storage structures was created, I started to search for public datasets do be part of my learning path. The idea was to upload some data into the buckets to make it possible to do some analytics, such as creating ETL jobs or even querying with Athena.
 
 So, I found the excellent [Brazilian E-Commerce dataset](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) on Kaggle and it fitted perfectly. I was now able to download the data and upload it on the SoR bucket to simulate some raw data that was available for further analysis in an ETL pipeline.
 
@@ -59,14 +59,14 @@ And now my diagram was like:
 
 ## Cataloging Data
 
-Upload data on S3 buckets wasn't enough to have a complete experience on applying analytics. It was important to catalog its metadata on Data Catalog to make them visible on services like Glue and Athena.
+Upload data on S3 buckets wasn't enough to have a complete experience on applying analytics. It was important to catalog its metadata on Data Catalog to make them visible for services like Glue and Athena.
 
-So, the next step embraced the input of Brazilian Ecommerce dataset (which was made for a bunch of different files/tables) on Data Catalog. For this task, I tested two different approaches:
+So, the next step embraced the input of all the files of Brazilian Ecommerce dataset as tables on Data Catalog. For this task, I tested two different approaches:
 
 1. Building and running `CREATE TABLE` queries on Athena based on file schema
 2. Manually inputting fields and table properties on Data Catalog
 
-By the way, as Athena proved itself to be a good service do start looking at cataloged data, I took the opportunity to create a workgroup will all appropriate parameters for storing the query results.
+By the way, as Athena proved itself to be a good service do start looking at cataloged data, I took the opportunity to create a workgroup with all appropriate parameters for storing query results.
 
 And now my diagram was like:
 
@@ -74,14 +74,14 @@ And now my diagram was like:
 
 ## Creating IAM Roles and Policies
 
-A huge milestone was reached at that moment. I had a storage structured, I had data to be used and I had all needed metadata information already cataloged on Data Catalog.
+A huge milestone was reached at that moment. I had a storage structure, I had data to be used and I had all metadata information already cataloged on Data Catalog.
 
 ???+ question "What was missing to start creating Glue jobs?"
     IAM roles and policies. Simple as that.
 
 At this point I must tell you that creating IAM roles wasn't an easy step to be completed. First of all, it was a little bit difficult to understand all the permissions needed for running Glue jobs on AWS, logging steps on CloudWatch and all other things.
 
-Suddenly I found myself searching a lot on docs pages and studying about Glue actions to be included in my policy. After a little while, I was able to create a set of policies for a good IAM role to be assumed by my future and first Glue job on AWS.
+Suddenly I found myself searching a lot on docs pages and studying about Glue's actions to be included in my policy. After a while, I was able to create a set of policies for a good IAM role to be assumed by my future and first Glue job on AWS.
 
 And, once again, I added more pieces on my diagram:
 
@@ -120,7 +120,7 @@ Of course you can aske me:
 ???+ question "Why not to build that architecture in your personal account?"
     That was a nice option but the charges was a problem. I was just trying to learn Glue and running jobs multiple times (that's the expectation when you are learning) may incur some unpredictable costs.
 
-Ok, so now I think everyone is trying to figure it out what did I do to solve those problems.
+Ok, so now I think everyone is trying to figure it out what I did to solve those problems.
 
 Yes, I found a way!
 
@@ -130,7 +130,7 @@ If you came to here I think you would like to know it.
 
 Well, the problems were shown and I needed to think in a solution to just make my life easier for that simple learning task.
 
-The answer was right on my face all the time. If my main problem was spending time recreating infrastructure, why not **automate** the infrastructure creation with an IaC tool? So every time my sandbox environment shuts down, I can create all again with much less overhead.
+The answer was right on my face all the time. If my main problem was spending time recreating infrastructure, why not to **automate** the infrastructure creation with an IaC tool? So every time my sandbox environment shutted down, I could create all again with much less overhead.
 
 That was a fantastic idea and I started to use [Terraform](https://www.terraform.io/) to declare resources used in my architecture. I splitted things into modules and suddenly I had enough code to create buckets, upload data, catalog things, create IAM roles, policies and a preconfigured Glue job!
 
@@ -140,7 +140,7 @@ While creating all this, I just felt that everyone who had the same learning cha
     <br><img src="https://github.com/ThiagoPanini/terraglue/blob/feature/terraglue-refactor/docs/assets/imgs/logo.png?raw=true" alt="terraglue-logo" width=200 height=200>
 </div>
 
-It was really impressive on how I could deploy all the components with just a couple of commands. If I usually spent about 1 hour by creating and configuring every service manually, after *terraglue* that time was reduced to just seconds!
+It was really impressive on how I could deploy all the components with just a couple of commands. If I used spent about 1 hour by creating and configuring every service manually, after *terraglue* that time was reduced to just seconds!
 
 [![Terraglue diagram with IaC modules](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/diagram-user-view.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/diagram-user-view.png)
 
@@ -286,15 +286,15 @@ ___
 
 ## Conclusion
 
-If we would summarize this story in few topics, I think the best sequence is:
+If we would summarize this story in a few topics, I think the best sequence would be:
 
 - 🤔 An Analytics Engineer wanted to learn AWS Glue and other analytics services on AWS
 - 🤪 He started to build a complete infrastructure in his AWS sandbox account manually
 - 🥲 Every time this AWS sandbox account was shut off, he did it all again
-- 😮‍💨 He was tired of doing this all the time so he started to think on how solve this problem
+- 😮‍💨 He was tired of doing this all the time so he started to think on how to solve this problem
 - 😉 He started to apply Terraform to declare all infrastructure
 - 🤩 He created a pocket AWS environment for learning analytics and called it *terraglue*
 
 And that's the real story about how I faced a huge problem on my learning journey and used Terraform and AWS components do take my experience to the next level.
 
-I really hope *terraglue* proves itself useful for everyone who needs to learning more about analytics services on AWS and don't know where to start or even want a pocket environment for exploring things.
+I really hope *terraglue* proves itself useful for everyone who needs to learning more about analytics services on AWS. If you don't know where to start or even if you want a pocket environment for exploring things, maybe the *terraglue* is the best fit for you. Give it a try!
