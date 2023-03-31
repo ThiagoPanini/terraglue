@@ -4,7 +4,7 @@
 
 The *terraglue* project was created for helping people to improve their learning journey on AWS Glue service. It accomplishes that by enabling a pocket environment with all necessary componentes to start developing jobs, including S3 buckets, sample data on Data Catalog, IAM roles and policies, a pre configured Athena workgroup and finally an end to end Glue job example that reads, transform and catalog new data.
 
-- Have you ever wanted to learn Glue but you stuck on a complex environment set up?
+- Have you ever wanted to learn Glue but you got stuck on a complex environment set up?
 - Have you ever wanted to test an idea for an ETL in a pocket and disposable environment?
 - Have you ever wanted to go the next level on developing Glue jobs?
 
@@ -48,7 +48,7 @@ ___
 - 📊 Possibility to run queries on different public datasets written and catalogged for users to improve their analytics skills
 - 🛠️ Usage of Terraform as IaC tool for providing a consistent infrastructure
 - 🔦 Destroy everything and recreate all again at a touch of a single command
-
+ter
 
 ## Read the Docs
 
