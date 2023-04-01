@@ -1,29 +1,21 @@
-/* --------------------------------------------------
+/* ----------------------------------------------
 FILE: main.tf @ root module
 
-CONTEXT: Arquivo principal de construção da infra que,
-através das informações contidas nos outros arquivos
-.tf e nos módulos especificados em ./modules, realiza
-a especificação dos elementos a serem implantados
-nos providers declarados.
+This is main Terraform file from the root module.
+It contains all other modules calls with all
+infrastructure needed to deploy the project.
+The modules are:
 
-GOAL: Consolidar as chamdas de todos os módulos utilizados
-neste projeto de IaC para a completa implantação de um
-ambiente analítico capaz de ser utilizado como uma rica
-fonte de aprendizado para a criação de jobs do Glue.
+- ./modules/storage
+- ./modules/catalog
+- ./modules/iam
+- ./modules/glue
 
-MODULES: A organização da infra comporta os módulos:
-  - ./modules/storage
-  - ./modules/catalog
-  - ./modules/iam
-  - ./modules/glue
+Details about each module can be found on each
+one's main.tf file.
+---------------------------------------------- */
 
-Especificações e detalhes sobre o conteúdo de cada
-módulo poderá ser encontrado em seus respectivos
-arquivos main.tf
--------------------------------------------------- */
-
-# Definindo data sources para auxiliar na nomenclatura de variáveis
+# Defining data sources to help local variables
 data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
 data "aws_kms_key" "s3" {
@@ -31,12 +23,12 @@ data "aws_kms_key" "s3" {
 }
 
 
-/* --------------------------------------------------
-------------- MÓDULO TERRAFORM: storage -------------
-      Criando recursos de armazenamento na conta
--------------------------------------------------- */
+/* ----------------------------------------------
+----------- TERRAFORM MODULE: storage -----------
+  Creating storage resources on the AWS account
+---------------------------------------------- */
 
-# Definindo variáveis locais para uso no módulo
+# Defining local variables to be used on the module
 locals {
   account_id  = data.aws_caller_identity.current.account_id
   region_name = data.aws_region.current.name
@@ -50,7 +42,7 @@ locals {
   }
 }
 
-# Chamando módulo storage
+# Calling the module
 module "storage" {
   source = "./modules/storage"
 
@@ -61,17 +53,17 @@ module "storage" {
 }
 
 
-/* --------------------------------------------------
-------------- MÓDULO TERRAFORM: catalog -------------
-        Configurando e preparando o Data Catalog
--------------------------------------------------- */
+/* ----------------------------------------------
+----------- TERRAFORM MODULE: catalog -----------
+ Preparing the Data Catalog with local datasets
+---------------------------------------------- */
 
-# Variáveis locais para um melhor gerenciamento dos recursos do módulo
+# Defining local variables to be used on the module
 locals {
-  # Coletando todos os arquivos presentes no diretório de dados
+  # Getting all files on the data path
   data_files = fileset(var.local_data_path, "**")
 
-  # Coletando databases e nomes de tabelas com base em diretórios
+  # Getting database and tables names based on local folders
   db_names  = [for f in local.data_files : split("/", f)[0]]
   tbl_names = [for f in local.data_files : split("/", f)[1]]
   tbl_keys = [
@@ -79,7 +71,7 @@ locals {
     "${local.db_names[i]}_${local.tbl_names[i]}"
   ]
 
-  # Criando lista de headers de cada um dos arquivos
+  # Creating a list of each file's header
   file_headers = [
     for f in local.data_files : replace([
       for line in split("\n", file("${var.local_data_path}${f}")) :
@@ -87,16 +79,16 @@ locals {
     ][0], "\"", "")
   ]
 
-  # Criando estruturas para mapeamento dos tipos primitivos
+  # Crating a list for mapping column names
   column_names = [for c in local.file_headers : split(",", lower(c))]
 
-  # Criando lista de localizações dos arquivos físicos no s3
+  # Creating a list of s3 locations based on database and table names
   s3_locations = [
     for i in range(length(local.data_files)) :
     "s3://${module.storage.bucket_name_sor}/${local.db_names[i]}/${local.tbl_names[i]}"
   ]
 
-  # Gerando dicionário final com as informações necessárias
+  # Creating a final dictionary will all needed information
   glue_catalog_map = {
     for i in range(length(local.data_files)) :
     local.tbl_keys[i] => {
@@ -108,11 +100,11 @@ locals {
   }
 }
 
-# Chamando módulo analytics
+# Calling the module
 module "catalog" {
   source = "./modules/catalog"
 
-  # Variáveis para criação de entradas no catálogo de dados
+  # Variables for cataloging data
   glue_databases                      = local.db_names
   glue_catalog_map                    = local.glue_catalog_map
   catalog_table_parameters            = var.catalog_table_parameters
@@ -121,7 +113,7 @@ module "catalog" {
   catalog_table_serialization_library = var.catalog_table_serialization_library
   catalog_table_ser_de_parameters     = var.catalog_table_ser_de_parameters
 
-  # Variáveis de configuração do athena para consultas nos dados
+  # Variables for athena configuration
   flag_create_athena_workgroup     = var.flag_create_athena_workgroup
   athena_workgroup_name            = var.athena_workgroup_name
   athena_workgroup_output_location = "s3://${module.storage.bucket_name_athena}"
@@ -132,39 +124,36 @@ module "catalog" {
   ]
 }
 
+/* ----------------------------------------------
+------------- TERRAFORM MODULE: iam -------------
+ Setting up policies and a role for Glue service
+---------------------------------------------- */
 
-/* --------------------------------------------------
---------------- MÓDULO TERRAFORM: iam ---------------
-      Políticas e role de acessos de serviços
--------------------------------------------------- */
-
-# Chamando módulo iam
+# Calling the module
 module "iam" {
   source = "./modules/iam"
 
-  # Variáveis para criação das policies e roles
   iam_policies_path  = var.iam_policies_path
   iam_glue_role_name = var.iam_glue_role_name
 }
 
 
-/* --------------------------------------------------
--------------- MÓDULO TERRAFORM: kms ---------------
-      Criação de chave KMS para criptografia
--------------------------------------------------- */
+/* ----------------------------------------------
+------------- TERRAFORM MODULE: kms -------------
+               Creating crypt keys
+---------------------------------------------- */
 
-# Variáveis locais para um melhor gerenciamento dos recursos do módulo
+# Defining local variables to be used on the module
 locals {
   kms_policy_raw            = file("${var.kms_policy_path}/${var.kms_policy_file_name}")
   kms_policy_accountid_prep = replace(local.kms_policy_raw, "<account_id>", local.account_id)
   kms_policy_region_prep    = replace(local.kms_policy_accountid_prep, "<region>", local.region_name)
 }
 
-# Chamando módulo kms
+# Calling the module
 module "kms" {
   source = "./modules/kms"
 
-  # Variáveis para configuração da chave
   kms_key_usage                = var.kms_key_usage
   kms_customer_master_key_spec = var.kms_customer_master_key_spec
   kms_is_enabled               = var.kms_is_enabled
@@ -173,47 +162,64 @@ module "kms" {
 }
 
 
-/* --------------------------------------------------
--------------- MÓDULO TERRAFORM: glue ---------------
-      Definição e configuração de job do Glue
--------------------------------------------------- */
+/* ----------------------------------------------
+------------ TERRAFORM MODULE: glue -------------
+     Defining a Glue job with all parameters
+---------------------------------------------- */
 
-# Variáveis locais para um melhor gerenciamento dos recursos do módulo
-# https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html
+
+# Defining local variables to be used on the module
 locals {
-  # Coletando módulos Python extra a serem adicionados como arquivos extra no job
+  # Getting extra Python files to be added on the job
   glue_extra_py_files = join(",", [
     for f in setsubtract(fileset(var.glue_app_src_dir, "**.py"), [var.glue_script_file_name]) :
     "s3://${module.storage.bucket_name_glue}/jobs/${var.glue_job_name}/src/${f}"
   ])
 
-  # Modificando dicionário de argumentos e incluindo referências de URIs do s3 para assets
-  glue_job_dynamic_arguments = {
-    "--scriptLocation"        = "s3://${local.bucket_names_map["glue"]}/scripts/"
-    "--spark-event-logs-path" = "s3://${local.bucket_names_map["glue"]}/sparkHistoryLogs/"
-    "--TempDir"               = "s3://${local.bucket_names_map["glue"]}/temporary/"
-    "--OUTPUT_BUCKET"         = local.bucket_names_map["sot"]
-    "--extra-py-files"        = local.glue_extra_py_files
-  }
+  # Defining variables to be used as job arguments
+  output_bucket = local.bucket_names_map["sot"]
+  output_table  = "tbsot_ecommerce_br"
 
-  # Juntando maps e criando dicionário único e definitivo de argumentos do job
-  glue_job_default_arguments = merge(
-    var.glue_job_general_arguments,
-    local.glue_job_dynamic_arguments,
-    var.glue_job_user_arguments
-  )
+  # Defining arguments for Glue job
+  glue_job_arguments = {
+    "--OUTPUT_BUCKET"                    = local.output_bucket
+    "--OUTPUT_DB"                        = "db_ecommerce"
+    "--OUTPUT_TABLE"                     = local.output_table
+    "--OUTPUT_TABLE_URI"                 = "s3://${local.output_bucket}/${local.output_table}"
+    "--CONNECTION_TYPE"                  = "s3"
+    "--UPDATE_BEHAVIOR"                  = "UPDATE_IN_DATABASE"
+    "--PARTITION_NAME"                   = "anomesdia"
+    "--PARTITION_FORMAT"                 = "%Y%m%d"
+    "--DATA_FORMAT"                      = "parquet"
+    "--COMPRESSION"                      = "snappy"
+    "--ENABLE_UPDATE_CATALOG"            = "True"
+    "--NUM_PARTITIONS"                   = 5
+    "--job-language"                     = "python"
+    "--job-bookmark-option"              = "job-bookmark-disable"
+    "--enable-metrics"                   = true
+    "--enable-continuous-cloudwatch-log" = true
+    "--enable-spark-ui"                  = true
+    "--encryption-type"                  = "sse-s3"
+    "--enable-glue-datacatalog"          = true
+    "--enable-job-insights"              = true
+    "--scriptLocation"                   = "s3://${local.bucket_names_map["glue"]}/scripts/"
+    "--spark-event-logs-path"            = "s3://${local.bucket_names_map["glue"]}/sparkHistoryLogs/"
+    "--TempDir"                          = "s3://${local.bucket_names_map["glue"]}/temporary/"
+    "--extra-py-files"                   = local.glue_extra_py_files
+    "--additional-python-modules"        = "sparksnake"
+  }
 }
 
-# Chamando módulo glue
+# Calling the module
 module "glue" {
   source = "./modules/glue"
 
-  # Variáveis para ingestão do script do job no s3
+  # Variables for uploading the script to S3
   glue_app_dir         = var.glue_app_dir
   glue_app_src_dir     = var.glue_app_src_dir
   glue_job_bucket_name = module.storage.bucket_name_glue
 
-  # Variáveis de configuração do job do glue
+  # Variables for job details configuration
   glue_job_name                = var.glue_job_name
   glue_script_file_name        = var.glue_script_file_name
   glue_job_description         = var.glue_job_description
@@ -225,10 +231,10 @@ module "glue" {
   glue_job_number_of_workers   = var.glue_job_number_of_workers
   glue_job_python_version      = var.glue_job_python_version
   glue_job_max_concurrent_runs = var.glue_job_max_concurrent_runs
-  glue_job_default_arguments   = local.glue_job_default_arguments
+  glue_job_default_arguments   = local.glue_job_arguments
   glue_job_trigger_cron_expr   = var.glue_job_trigger_cron_expr
 
-  # Variáveis de configuração de segurança do job
+  # Variables for job security configuration
   glue_apply_security_configuration = var.glue_apply_security_configuration
   glue_cloudwatch_encryption_mode   = var.glue_cloudwatch_encryption_mode
   glue_job_bookmark_encryption_mode = var.glue_job_bookmark_encryption_mode

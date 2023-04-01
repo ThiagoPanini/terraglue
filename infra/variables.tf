@@ -1,5 +1,8 @@
-/* --------------------------------------------------
+/* ----------------------------------------------
 FILE: variables.tf @ root module
+
+This file contains all variables used on this IaC
+project. 
 
 CONTEXT: Arquivo de especificação de variáveis a serem
 utilizadas no módulo root desta especificação de infra
@@ -233,7 +236,7 @@ variable "glue_job_worker_type" {
 variable "glue_job_number_of_workers" {
   description = "Número de workers utilizados para processamento e execução do job"
   type        = number
-  default     = 10
+  default     = 3
 }
 
 variable "glue_job_python_version" {
@@ -267,7 +270,7 @@ variable "glue_job_user_arguments" {
   description = "Conjunto de argumentos personalizados do usuário a serem associados ao job do glue"
   type        = map(string)
   default = {
-    "--OUTPUT_DB"             = "ra8"
+    "--OUTPUT_DB"             = "db_ecommerce"
     "--OUTPUT_TABLE"          = "tbsot_ecommerce_br"
     "--CONNECTION_TYPE"       = "s3"
     "--UPDATE_BEHAVIOR"       = "UPDATE_IN_DATABASE"
