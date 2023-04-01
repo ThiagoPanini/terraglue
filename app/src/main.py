@@ -131,7 +131,7 @@ df_sot_repartitioned = spark_manager.repartition_dataframe(
     num_partitions=spark_manager.args["NUM_PARTITIONS"]
 )
 
-# Defining an URI for output table partition 
+# Defining an URI for output table partition
 s3_partition_uri = f"{spark_manager.args['OUTPUT_TABLE_URI']}/"\
     f"{spark_manager.args['PARTITION_NAME']}={partition_value}"
 
