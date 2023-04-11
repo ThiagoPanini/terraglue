@@ -8,7 +8,7 @@ The *terraglue* project was created for helping people to improve their learning
 - Have you ever wanted to test an idea for an ETL in a pocket and disposable environment?
 - Have you ever wanted to go the next level on developing Glue jobs?
 
-:waning_gibbous_moon: Try *terraglue*!
+🌖 Try *terraglue*!
 
 
 <div align="center">
