@@ -11,9 +11,9 @@ Then, the policies can be used in other Terraform file of
 this module, such as iam.tf and kms.tf.
 -------------------------------------------------------- */
 
-# Creating IAM policies using JSON files in the module
-resource "aws_iam_policy" "project_policies" {
-  for_each = fileset(local.iam_policies_path, "**")
+# Creating IAM policies to be used in a IAM role for a Glue job
+resource "aws_iam_policy" "glue" {
+  for_each = fileset(local.glue_policies_path, "**")
   name     = split(".", each.value)[0]
-  policy   = file("${local.iam_policies_path}/${each.value}")
+  policy   = file("${local.glue_policies_path}/${each.value}")
 }

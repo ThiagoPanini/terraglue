@@ -4,7 +4,7 @@ FILE: kms.tf
 This file is used to declare a KMS key with a custom policy
 to be used in the Glue job security configuration
 -------------------------------------------------------- */
-
+/*
 # Creating a KMS key
 resource "aws_kms_key" "glue_cmk" {
   count                    = var.flag_create_kms_key ? 1 : 0
@@ -25,3 +25,4 @@ resource "aws_kms_alias" "glue_cmk" {
     aws_kms_key.glue_cmk
   ]
 }
+*/

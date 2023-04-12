@@ -24,10 +24,10 @@ resource "aws_iam_role" "glue_job_role" {
   name               = var.glue_role_name
   assume_role_policy = data.aws_iam_policy_document.glue_trust.json
   managed_policy_arns = [
-    for p in aws_iam_policy.project_policies : p.arn
+    for p in aws_iam_policy.glue : p.arn
   ]
 
   depends_on = [
-    aws_iam_policy.project_policies
+    aws_iam_policy.glue
   ]
 }
