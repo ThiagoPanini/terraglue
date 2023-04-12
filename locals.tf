@@ -18,4 +18,11 @@ locals {
 
   # Getting all files to be uploaded do S3 as useful elements for the Glue job
   glue_files = fileset(path.module, "${var.glue_app_dir}{${join(",", var.subfolders_to_upload)}}/*{${join(",", var.file_extensions_to_upload)}}")
+
+  # Tests if users want to create a KMS key
+  kms_key_arn = var.flag_create_kms_key ? aws_kms_key.glue_cmk[0].arn : var.kms_key_arn
+}
+
+output "kms_key_arn" {
+  value = local.kms_key_arn
 }

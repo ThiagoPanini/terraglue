@@ -38,10 +38,22 @@ variable "flag_create_kms_key" {
   default     = true
 }
 
+variable "kms_key_arn" {
+  description = "ARN of a valid KMS key to be used in encryption process in case of flag_create_kms_key is false"
+  type        = string
+  default     = ""
+}
+
 
 /* --------------------------------------------------------
 --------------------- VARIABLES: glue ---------------------
 -------------------------------------------------------- */
+
+variable "glue_job_name" {
+  description = "A name reference for the Glue job to be created"
+  type        = string
+  default     = "terraglue-sample-job"
+}
 
 variable "glue_app_dir" {
   description = "Reference for the application directory where all the needed files to run the Glue job are stored"
@@ -77,5 +89,23 @@ variable "glue_scripts_s3_bucket_prefix" {
   description = "An optional S3 prefix to organize Glue application files"
   type        = string
   # ToDo: Remove default to force users to pass it
-  default = "gluejobsotecommerce"
+  default = "terraglue-sample-job"
+}
+
+variable "glue_cloudwatch_encryption_mode" {
+  description = "Encryption definition for CloudWatch logs generated on the Glue job in order to set the job security configuration"
+  type        = string
+  default     = "SSE-KMS"
+}
+
+variable "glue_job_bookmark_encryption_mode" {
+  description = "Encryption definition for job bookmarks on Glue job in order to set the job security configuration"
+  type        = string
+  default     = "DISABLED"
+}
+
+variable "glue_s3_encryption_mode" {
+  description = "Encryption definition for s3 data generated on the Glue job in order to set the job security configuration"
+  type        = string
+  default     = "SSE-KMS"
 }
