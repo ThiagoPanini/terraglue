@@ -21,8 +21,11 @@ data "aws_iam_policy_document" "glue_trust" {
 
 # Creating role for Glue Crawler with all policies created previously
 resource "aws_iam_role" "glue_job_role" {
+  count = var.flag_create_iam_role && var.mode == "production" ? 1 : 0
+
   name               = var.glue_role_name
   assume_role_policy = data.aws_iam_policy_document.glue_trust.json
+
   managed_policy_arns = [
     for p in aws_iam_policy.glue : p.arn
   ]
