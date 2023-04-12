@@ -19,11 +19,11 @@ variable "aws_provider_config" {
 variable "mode" {
   description = "Defines an operation mode that enables users to choose to use the module for learning or production/development purposes"
   type        = string
-  default     = "production"
+  default     = "custom"
 
   validation {
-    condition     = contains(["learning", "production"], var.mode)
-    error_message = "Acceptable values for mode variable are: 'learning', 'production'"
+    condition     = contains(["learning", "custom"], var.mode)
+    error_message = "Acceptable values for mode variable are: 'learning', 'custom'"
   }
 }
 

@@ -13,7 +13,7 @@ this module, such as iam.tf and kms.tf.
 
 # Creating IAM policies to be used in a IAM role for a Glue job
 resource "aws_iam_policy" "glue" {
-  for_each = var.flag_create_iam_role && var.mode == "production" ? fileset(local.glue_policies_path, "**") : toset([])
+  for_each = var.mode == "learning" || var.flag_create_iam_role ? fileset(local.glue_policies_path, "**") : toset([])
   name     = split(".", each.value)[0]
   policy   = file("${local.glue_policies_path}/${each.value}")
 }
