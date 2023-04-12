@@ -11,8 +11,11 @@ deployed in this infrastructure project
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
-# Defining local variables to be used on the module
+# Defining local values to be used on the module
 locals {
   # Referencing a policies folder where the JSON files for policies are located
   iam_policies_path = "${path.module}/policy/"
+
+  # Getting all files to be uploaded do S3 as useful elements for the Glue job
+  glue_files = fileset(path.module, "${var.glue_app_dir}{${join(",", var.subfolders_to_upload)}}/*{${join(",", var.file_extensions_to_upload)}}")
 }

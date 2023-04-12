@@ -8,4 +8,10 @@ other componentes and resources already declared in other
 Terrafom files, such as IAM roles.
 -------------------------------------------------------- */
 
-# Defining a Glue job
+# Uploading the Spark application script to S3
+resource "aws_s3_object" "python_scripts" {
+  for_each = local.glue_files
+  bucket   = var.glue_scripts_s3_bucket
+  key      = "${var.glue_scripts_s3_bucket_prefix}/${each.value}"
+  source   = "${path.module}/${each.value}"
+}
