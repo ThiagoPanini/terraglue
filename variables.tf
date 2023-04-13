@@ -29,7 +29,7 @@ variable "aws_provider_config" {
 variable "mode" {
   description = "Defines an operation mode that enables users to choose to use the module for learning or production/development purposes"
   type        = string
-  default     = "production"
+  default     = "learning"
 
   validation {
     condition     = contains(["learning", "production"], var.mode)
@@ -259,7 +259,7 @@ variable "job_output_bucket_name" {
   default     = ""
 }
 
-variable "job_output_db" {
+variable "job_output_database" {
   description = "The name of the Glue database for the Glue job when calling the module on learning mode"
   type        = string
   default     = ""

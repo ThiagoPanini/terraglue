@@ -34,7 +34,7 @@ locals {
   glue_files = var.mode == "learning" ? local.glue_files_learning_mode : local.glue_files_production_mode
 
   # Assigning the local source of glue files according to module mode
-  glue_files_root_source = var.mode == "learning" ? path.root : path.module
+  glue_files_root_source = var.mode == "learning" ? path.module : path.root
 
   # Defining the key of each glue file to be stored in S3
   glue_files_key = "${var.glue_scripts_bucket_prefix}${var.glue_job_name}"
