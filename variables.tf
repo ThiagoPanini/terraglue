@@ -19,11 +19,11 @@ variable "aws_provider_config" {
 variable "mode" {
   description = "Defines an operation mode that enables users to choose to use the module for learning or production/development purposes"
   type        = string
-  default     = "custom"
+  default     = "learning"
 
   validation {
-    condition     = contains(["learning", "custom"], var.mode)
-    error_message = "Acceptable values for mode variable are: 'learning', 'custom'"
+    condition     = contains(["learning", "production"], var.mode)
+    error_message = "Acceptable values for mode variable are: 'learning', 'production'"
   }
 }
 
@@ -39,9 +39,9 @@ variable "flag_create_iam_role" {
 }
 
 variable "glue_policies_path" {
-  description = "Location of JSON files to be used to create IAM policies for a Glue IAM role. This variable is used just in case of var.flag_create_iam_role is true"
+  description = "Folder where JSON files are located in order to create IAM policies for a Glue IAM role. Users should pass this variable in case of var.flag_create_iam_role is true"
   type        = string
-  default     = "policy/iam"
+  default     = "policy/glue"
 }
 
 variable "glue_role_name" {
@@ -65,6 +65,12 @@ variable "flag_create_kms_key" {
   description = "Flag that enables the creation of a KMS key to be used in the Glue job security configuration"
   type        = bool
   default     = false
+}
+
+variable "kms_policies_path" {
+  description = "Folder where JSON files are located in order to create IAM policies for a KMS key. Users should pass this variable in case of var.flag_create_kms_key is true"
+  type        = string
+  default     = "policy/kms"
 }
 
 variable "kms_key_arn" {
