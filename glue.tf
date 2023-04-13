@@ -12,8 +12,8 @@ Terrafom files, such as IAM roles.
 resource "aws_s3_object" "python_scripts" {
   for_each = local.glue_files
   bucket   = var.glue_scripts_bucket_name
-  key      = "${var.glue_scripts_bucket_prefix}/${each.value}"
-  source   = "${path.module}/${each.value}"
+  key      = "${local.glue_files_key}/${each.value}"
+  source   = "${local.glue_files_root_source}/${each.value}"
 }
 
 # Defining a Glue security configuration
@@ -51,7 +51,7 @@ resource "aws_glue_job" "job" {
 
   # Setting script location and python version
   command {
-    script_location = "s3://${var.glue_scripts_bucket_name}/${var.glue_scripts_bucket_prefix}/${var.glue_job_name}/${var.glue_main_script_path}"
+    script_location = local.glue_script_location
     python_version  = var.glue_job_python_version
   }
 }
