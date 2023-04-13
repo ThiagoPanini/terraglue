@@ -44,33 +44,33 @@ ARGV_LIST = [
 
 # Defining a dictionary with all data to be read and used on job
 DATA_DICT = {
-    "tbl_orders": {
-        "database": "db_ecommerce",
-        "table_name": "tbl_orders",
+    "orders": {
+        "database": "db_datadelivery_sor",
+        "table_name": "tbl_brecommerce_orders",
         "transformation_ctx": "dyf_orders",
         "create_temp_view": True
     },
-    "tbl_order_items": {
-        "database": "db_ecommerce",
-        "table_name": "tbl_order_items",
+    "order_items": {
+        "database": "db_datadelivery_sor",
+        "table_name": "tbl_brecommerce_order_items",
         "transformation_ctx": "dyf_order_items",
         "create_temp_view": True
     },
-    "tbl_customers": {
-        "database": "db_ecommerce",
-        "table_name": "tbl_customers",
+    "customers": {
+        "database": "db_datadelivery_sor",
+        "table_name": "tbl_brecommerce_customers",
         "transformation_ctx": "dyf_customers",
         "create_temp_view": True
     },
-    "tbl_payments": {
-        "database": "db_ecommerce",
-        "table_name": "tbl_payments",
+    "payments": {
+        "database": "db_datadelivery_sor",
+        "table_name": "tbl_brecommerce_payments",
         "transformation_ctx": "dyf_payments",
         "create_temp_view": True
     },
-    "tbl_reviews": {
-        "database": "db_ecommerce",
-        "table_name": "tbl_reviews",
+    "reviews": {
+        "database": "db_datadelivery_sor",
+        "table_name": "tbl_brecommerce_reviews",
         "transformation_ctx": "dyf_reviews",
         "create_temp_view": True
     }
@@ -90,11 +90,11 @@ spark_manager.init_job()
 dfs_dict = spark_manager.generate_dataframes_dict()
 
 # Indexing data do get individual DataFrames
-df_orders = dfs_dict["tbl_orders"]
-df_order_items = dfs_dict["tbl_order_items"]
-df_customers = dfs_dict["tbl_customers"]
-df_payments = dfs_dict["tbl_payments"]
-df_reviews = dfs_dict["tbl_reviews"]
+df_orders = dfs_dict["orders"]
+df_order_items = dfs_dict["order_items"]
+df_customers = dfs_dict["customers"]
+df_payments = dfs_dict["payments"]
+df_reviews = dfs_dict["reviews"]
 
 # Transforming all raw DataFrames
 df_orders_prep = transform_orders(df=df_orders)

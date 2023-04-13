@@ -31,7 +31,7 @@ def transform_orders(df: DataFrame) -> DataFrame:
     Here are the steps taken:
 
     1. Cast date attributes presented as string columns on the raw DataFrame
-    2. Extact date attributes from the order_purchase_timestamp column in
+    2. Extact date attributes from the order_purchase_ts column in
     order to get more information about customers behavior on buying online.
 
     Examples:
@@ -50,7 +50,7 @@ def transform_orders(df: DataFrame) -> DataFrame:
     try:
         # Creating a list of date attributes do be casted
         date_cols = [
-            "order_purchase_timestamp",
+            "order_purchase_ts",
             "order_approved_at",
             "order_delivered_carrier_date",
             "order_delivered_customer_date",
@@ -63,7 +63,7 @@ def transform_orders(df: DataFrame) -> DataFrame:
         # Iterating over date cols and calling a sparksnake method
         df_orders_date_cast = df
         for date_col in date_cols:
-            df_orders_date_cast = SparkETLManager.extract_date_attributes(
+            df_orders_date_cast = SparkETLManager.date_transform(
                 df=df_orders_date_cast,
                 date_col=date_col,
                 date_col_type="timestamp",
@@ -72,9 +72,9 @@ def transform_orders(df: DataFrame) -> DataFrame:
             )
 
         # Extracting date attributes from order purchase date
-        df_orders_prep = SparkETLManager.extract_date_attributes(
+        df_orders_prep = SparkETLManager.date_transform(
             df=df_orders_date_cast,
-            date_col="order_purchase_timestamp",
+            date_col="order_purchase_ts",
             convert_string_to_date=False,
             year=True,
             quarter=True,
@@ -119,7 +119,7 @@ def transform_order_items(df: DataFrame,
     logger.info("Preparing a transformation DAG for df_order_items DataFrame")
     try:
         # Casting the shipping limit column to timestamp
-        df_order_items_stats = SparkETLManager.extract_aggregate_statistics(
+        df_order_items_stats = SparkETLManager.agg_data(
             df=df,
             spark_session=spark_session,
             numeric_col="price",
@@ -218,7 +218,7 @@ def transform_payments(df: DataFrame,
             .drop("count")
 
         # Extracting some statistical attributes from the raw data
-        df_payments_aggreg = SparkETLManager.extract_aggregate_statistics(
+        df_payments_aggreg = SparkETLManager.agg_data(
             df=df,
             spark_session=spark_session,
             group_by="order_id",
@@ -383,18 +383,18 @@ def transform_sot(**kwargs) -> DataFrame:
             "order_id",
             "customer_id",
             "order_status",
-            "order_purchase_timestamp",
+            "order_purchase_ts",
             "order_approved_at",
             "order_delivered_carrier_date",
             "order_delivered_customer_date",
             "order_estimated_delivery_date",
-            "year_order_purchase_timestamp",
-            "quarter_order_purchase_timestamp",
-            "month_order_purchase_timestamp",
-            "dayofmonth_order_purchase_timestamp",
-            "dayofweek_order_purchase_timestamp",
-            "dayofyear_order_purchase_timestamp",
-            "weekofyear_order_purchase_timestamp",
+            "year_order_purchase_ts",
+            "quarter_order_purchase_ts",
+            "month_order_purchase_ts",
+            "dayofmonth_order_purchase_ts",
+            "dayofweek_order_purchase_ts",
+            "dayofyear_order_purchase_ts",
+            "weekofyear_order_purchase_ts",
             "qty_order_items",
             "sum_price_order",
             "avg_price_order",
