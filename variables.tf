@@ -111,7 +111,7 @@ variable "glue_scripts_bucket_name" {
   description = "Bucket name where Glue application files will be stored"
   type        = string
   # ToDo: Remove default to force users to pass it
-  default = "datadelivery-glue-assets-164538582220-us-east-1"
+  default = "datadelivery-glue-assets-287606573774-us-east-1"
 }
 
 variable "glue_scripts_bucket_prefix" {
