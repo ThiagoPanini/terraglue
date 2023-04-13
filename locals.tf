@@ -55,7 +55,7 @@ locals {
   # Creating a map of custom arguments to be used in case of calling the mode with learning mode
   glue_job_custom_args = {
     "--OUTPUT_BUCKET"                    = var.job_output_bucket_name
-    "--OUTPUT_DB"                        = var.job_output_db
+    "--OUTPUT_DB"                        = var.job_output_database
     "--OUTPUT_TABLE"                     = "tbsot_ecommerce_data"
     "--OUTPUT_TABLE_URI"                 = "s3://${var.job_output_bucket_name}/tbsot_ecommerce_data"
     "--CONNECTION_TYPE"                  = "s3"
@@ -110,5 +110,5 @@ locals {
 
   # Validating output bucket and database variables when learning mode is called
   validate_output_bucket_name = (var.mode == "learning" && var.job_output_bucket_name == "") ? tobool("When calling the module with learning mode, it's necessary to provide a valid bucket name for the job_output_bucket_name variable") : true
-  validate_output_db          = (var.mode == "learning" && var.job_output_db == "") ? tobool("When calling the module with learning mode, it's necessary to provide a database name for the job_output_db variable") : true
+  validate_output_database    = (var.mode == "learning" && var.job_output_database == "") ? tobool("When calling the module with learning mode, it's necessary to provide a database name for the job_output_db variable") : true
 }

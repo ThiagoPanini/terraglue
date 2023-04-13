@@ -121,8 +121,6 @@ variable "file_extensions_to_upload" {
 variable "glue_scripts_bucket_name" {
   description = "Bucket name where Glue application files will be stored"
   type        = string
-  # ToDo: Remove default to force users to pass it
-  default = "datadelivery-glue-assets-287606573774-us-east-1"
 }
 
 variable "glue_scripts_bucket_prefix" {
@@ -256,12 +254,12 @@ variable "glue_job_args" {
 variable "job_output_bucket_name" {
   description = "The name of the S3 output bucket for the Glue job when calling the module on learning mode"
   type        = string
-  default     = ""
+  default     = "a"
 }
 
 variable "job_output_database" {
   description = "The name of the Glue database for the Glue job when calling the module on learning mode"
   type        = string
-  default     = ""
+  default     = "a"
 }
 
