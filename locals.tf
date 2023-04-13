@@ -29,4 +29,33 @@ locals {
   # Getting all files to be uploaded do S3 as useful elements for the Glue job
   glue_files = fileset(path.module, "${var.glue_app_dir}{${join(",", var.subfolders_to_upload)}}/*{${join(",", var.file_extensions_to_upload)}}")
   */
+
+  /* --------------------------------------------------------
+  ------------------ VALIDATING VARIABLES -------------------
+  -----------------------------------------------------------
+
+  According to discussions in the issue #25609 of the source
+  Terraform project (the official one), Terraform can't handle
+  variables validation using a condition that references other
+  variable but the one which is been validated.
+
+  It means that if users want to apply a validate condition
+  in a Terraform variable (e.g. "x") that uses information about
+  another Terraform variable (e.g. "y"), the error below is
+  thrown:
+
+  The condition for variable "x" can only refer to the variable
+  itself, using var.y.
+
+  So, according to
+  https://github.com/hashicorp/terraform/issues/25609,
+  @gdsotirov provided a temporary solution that uses the
+  output clause with its new precondition block (since 
+  Terraform v1.2.0) to apply custom condition checks in
+  Terraform variables.
+
+  Workaround using locals:
+  https://github.com/hashicorp/terraform/issues/25609#issuecomment-1057614400
+  -------------------------------------------------------- */
+  validate_glue_role = (var.mode != "learning" && var.flag_create_iam_role == false && var.glue_role_arn == "") ? tobool("The module was configured to not create an IAM role (var.flag_create_iam_role = false) but it wasn't passed any IAM role ARN to be assumed by the Glue job.") : true
 }
