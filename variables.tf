@@ -85,13 +85,13 @@ variable "kms_key_arn" {
 -------------------------------------------------------- */
 
 variable "glue_app_dir" {
-  description = "Reference for the application directory where all the needed files to run the Glue job are stored. It must end with a '/' charactere"
+  description = "Application directory where Glue subfolders and files that should be uploaded do S3 are located"
   type        = string
-  default     = "app/"
+  default     = "app"
 
   validation {
-    condition     = can(regex("^[0-9A-Za-z]+/$", var.glue_app_dir))
-    error_message = "The application dir value must end with '/' and only a-z, A-Z and 0-9 are allowed."
+    condition     = can(regex("^[0-9A-Za-z]+$", var.glue_app_dir))
+    error_message = "The application dir value has special characteres. Only a-z, A-Z and 0-9 characteres are allowed."
   }
 }
 
@@ -121,9 +121,10 @@ variable "glue_scripts_bucket_prefix" {
   default = ""
 }
 
-variable "glue_script_file_name" {
+variable "glue_main_script_path" {
   description = "Name of the python file to be assumed as the main Spark application script for the Glue job"
-  default     = "main.py"
+  type        = string
+  default     = "app/src/main.py"
 }
 
 variable "glue_cloudwatch_encryption_mode" {

@@ -19,21 +19,20 @@ locals {
   # If in learning mode, considers the path.module value to reference the JSON policy for KMS key. Else, considers the user input
   kms_policies_path = var.mode == "learning" ? "${path.module}/policy/kms/" : var.kms_policies_path
 
+  # Assigning the IAM role and KMS key ARN according to module variables
+  glue_role_arn = var.mode == "learning" || var.flag_create_iam_role ? aws_iam_role.glue_job_role[0].arn : var.glue_role_arn
+  kms_key_arn   = var.mode == "learning" || var.flag_create_kms_key ? aws_kms_key.glue_cmk[0].arn : var.kms_key_arn
 
+  # Defining a pattern to fileset Terraform function in order to collect all application subfolders and files to upload to S3
+  fileset_pattern = "${var.glue_app_dir}/{${join(",", var.subfolders_to_upload)}}/*{${join(",", var.file_extensions_to_upload)}}"
 
-  /*
-  # Checks if users want to create a KMS key and assign the ARN of the KMS key resource created if so
-  iam_role_arn = var.flag_create_iam_role ? aws_kms_key.glue_cmk[0].arn : var.kms_key_arn
-
-  # Checks if users want to create a KMS key and assign the ARN of the KMS key resource created if so
-  kms_key_arn = var.flag_create_kms_key ? aws_kms_key.glue_cmk[0].arn : var.kms_key_arn
-
-  # Referencing a policies folder where the JSON files for policies are located
-  iam_policies_path = "${path.module}/policy/"
+  # Getting all Glue files to be uploaded to S3 according to module mode
+  glue_files_learning_mode   = fileset(path.module, local.fileset_pattern)
+  glue_files_production_mode = fileset(path.root, local.fileset_pattern)
 
   # Getting all files to be uploaded do S3 as useful elements for the Glue job
-  glue_files = fileset(path.module, "${var.glue_app_dir}{${join(",", var.subfolders_to_upload)}}/*{${join(",", var.file_extensions_to_upload)}}")
-  */
+  glue_files = var.mode == "learning" ? local.glue_files_learning_mode : local.glue_files_production_mode
+
 
   /* --------------------------------------------------------
   ------------------ VALIDATING VARIABLES -------------------
