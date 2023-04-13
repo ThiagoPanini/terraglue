@@ -34,7 +34,6 @@ resource "aws_glue_security_configuration" "glue_sc" {
       s3_encryption_mode = var.glue_s3_encryption_mode
       kms_key_arn        = local.kms_key_arn
     }
-
   }
 }
 
@@ -52,9 +51,7 @@ resource "aws_glue_job" "job" {
 
   # Setting script location and python version
   command {
-    # Ajustar script location para caso glue_scripts_bucket_prefix = "" não termos 2 barras
-    # Opção a ser testada: chumbar var.glue_job_name e assumir q todo job vai ter seu prefixo no bucket (parece OK)
-    script_location = "s3://${var.glue_scripts_bucket_name}/${var.glue_job_name}/${var.glue_main_script_path}"
+    script_location = "s3://${var.glue_scripts_bucket_name}/${var.glue_scripts_bucket_prefix}/${var.glue_job_name}/${var.glue_main_script_path}"
     python_version  = var.glue_job_python_version
   }
 }

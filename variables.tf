@@ -117,8 +117,12 @@ variable "glue_scripts_bucket_name" {
 variable "glue_scripts_bucket_prefix" {
   description = "An optional S3 prefix to organize Glue application files"
   type        = string
-  # ToDo: Change default value to ""
-  default = ""
+  default     = "jobs/"
+
+  validation {
+    condition     = var.glue_scripts_bucket_prefix == "" || substr(var.glue_scripts_bucket_prefix, -1, -1) == "/"
+    error_message = "The application dir value has special characteres. Only a-z, A-Z and 0-9 characteres are allowed."
+  }
 }
 
 variable "glue_main_script_path" {
