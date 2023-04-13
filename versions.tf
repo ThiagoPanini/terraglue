@@ -6,7 +6,7 @@ providers version to be used on deploying the infrastructure.
 -------------------------------------------------------- */
 
 terraform {
-  required_version = ">=1.0"
+  required_version = ">=1.4"
 
   required_providers {
     aws = {
