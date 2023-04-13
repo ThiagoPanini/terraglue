@@ -18,7 +18,8 @@ resource "aws_s3_object" "python_scripts" {
 
 # Defining a Glue security configuration
 resource "aws_glue_security_configuration" "glue_sc" {
-  name = "${var.glue_job_name}-security-config"
+  count = var.glue_apply_security_configuration ? 1 : 0
+  name  = "${var.glue_job_name}-security-config"
 
   encryption_configuration {
     cloudwatch_encryption {
@@ -54,4 +55,14 @@ resource "aws_glue_job" "job" {
     script_location = local.glue_script_location
     python_version  = var.glue_job_python_version
   }
+
+  # Setting execution properties
+  execution_property {
+    max_concurrent_runs = var.glue_job_max_concurrent_runs
+  }
+
+  # Setting job arguments
+  default_arguments = local.glue_job_args
+
+  security_configuration = var.glue_apply_security_configuration ? aws_glue_security_configuration.glue_sc[0].name : ""
 }
