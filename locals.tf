@@ -62,7 +62,7 @@ locals {
     "--UPDATE_BEHAVIOR"                  = "UPDATE_IN_DATABASE"
     "--PARTITION_NAME"                   = "anomesdia"
     "--PARTITION_FORMAT"                 = "%Y%m%d"
-    "--DATA_FORMAT"                      = "parquet"
+    "--OUTPUT_DATA_FORMAT"               = "parquet"
     "--COMPRESSION"                      = "snappy"
     "--ENABLE_UPDATE_CATALOG"            = "True"
     "--NUM_PARTITIONS"                   = 5
