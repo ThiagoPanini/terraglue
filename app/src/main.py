@@ -96,14 +96,25 @@ df_customers = dfs_dict["customers"]
 df_payments = dfs_dict["payments"]
 df_reviews = dfs_dict["reviews"]
 
-# Transforming all raw DataFrames
+# Transforming DataFrame: orders
 df_orders_prep = transform_orders(df=df_orders)
-df_order_items_prep = transform_order_items(df=df_order_items)
+
+# Transforming DataFrame: order_items
+df_order_items_prep = transform_order_items(
+    df=df_order_items,
+    spark_session=spark_manager.spark
+)
+
+# Transforming DataFrame: customers
 df_customers_prep = transform_customers(df=df_customers)
+
+# Transforming DataFrame: payments
 df_payments_prep = transform_payments(
     df=df_payments,
     spark_session=spark_manager.spark
 )
+
+# Transforming DataFrame: reviews
 df_reviews_prep = transform_reviews(df=df_reviews)
 
 # Joining all DataFrames and preparing the SoT table
@@ -121,6 +132,7 @@ partition_value = int(datetime.now().strftime(
 
 # Adding a partition column
 df_sot_partitioned = spark_manager.add_partition_column(
+    df=df_sot_prep,
     partition_name=spark_manager.args["PARTITION_NAME"],
     partition_value=partition_value
 )

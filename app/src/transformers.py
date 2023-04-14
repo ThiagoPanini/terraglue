@@ -15,7 +15,7 @@ from sparksnake.utils.log import log_config
 from sparksnake.manager import SparkETLManager
 
 from pyspark.sql import DataFrame, SparkSession
-from pyspark.sql.functions import col
+from pyspark.sql.functions import col, sum, mean, max, min, count, round
 
 
 # Setting up a logger object
@@ -52,9 +52,9 @@ def transform_orders(df: DataFrame) -> DataFrame:
         date_cols = [
             "order_purchase_ts",
             "order_approved_at",
-            "order_delivered_carrier_date",
-            "order_delivered_customer_date",
-            "order_estimated_delivery_date"
+            "order_deliv_carrier_dt",
+            "order_deliv_customer_dt",
+            "order_estim_deliv_dt"
         ]
 
         # Defining a common date format
@@ -119,20 +119,27 @@ def transform_order_items(df: DataFrame,
     logger.info("Preparing a transformation DAG for df_order_items DataFrame")
     try:
         # Casting the shipping limit column to timestamp
-        df_order_items_stats = SparkETLManager.agg_data(
-            df=df,
-            spark_session=spark_session,
-            numeric_col="price",
-            group_by="order_id",
-            round_result=True,
-            n_round=2,
-            sum=True,
-            mean=True,
-            min=True,
-            max=True
+        df_order_items_stats = df.groupBy("order_id").agg(
+            count("product_id").alias("qty_order_items"),
+            round(sum("price"), 2).alias("sum_order_price"),
+            round(mean("price"), 2).alias("mean_order_price"),
+            round(max("price"), 2).alias("max_order_price"),
+            round(min("price"), 2).alias("min_order_price"),
+            round(mean("freight_value"), 2).alias("mean_order_freight_value"),
         )
 
-        return df_order_items_stats
+        # Selecting attributes
+        df_order_items_prep = df_order_items_stats.selectExpr(
+            "order_id",
+            "qty_order_items",
+            "sum_order_price",
+            "mean_order_price",
+            "max_order_price",
+            "min_order_price",
+            "mean_order_freight_value"
+        )
+
+        return df_order_items_prep
 
     except Exception as e:
         logger.error("Error on preparing a transformation DAG for order_items "
@@ -227,8 +234,7 @@ def transform_payments(df: DataFrame,
             n_round=2,
             count=True,
             sum=True,
-            mean=True,
-            countDistinct=True
+            mean=True
         )
 
         # Joining both DataFrames
@@ -241,10 +247,9 @@ def transform_payments(df: DataFrame,
         # Modifying the column order to get a final transformation DAG
         df_payments_prep = df_payments_join.select(
             "order_id",
-            "installments",
-            "sum_payments",
-            "avg_payment_value",
-            "distinct_payment_types",
+            "sum_payment_value",
+            "mean_payment_value",
+            "count_payment_value",
             "most_common_payment_type"
         )
 
@@ -385,9 +390,9 @@ def transform_sot(**kwargs) -> DataFrame:
             "order_status",
             "order_purchase_ts",
             "order_approved_at",
-            "order_delivered_carrier_date",
-            "order_delivered_customer_date",
-            "order_estimated_delivery_date",
+            "order_deliv_carrier_dt",
+            "order_deliv_customer_dt",
+            "order_estim_deliv_dt",
             "year_order_purchase_ts",
             "quarter_order_purchase_ts",
             "month_order_purchase_ts",
@@ -396,25 +401,23 @@ def transform_sot(**kwargs) -> DataFrame:
             "dayofyear_order_purchase_ts",
             "weekofyear_order_purchase_ts",
             "qty_order_items",
-            "sum_price_order",
-            "avg_price_order",
-            "min_price_order_item",
-            "max_price_order_item",
-            "avg_freight_value_order",
-            "max_order_shipping_limit_date",
+            "sum_order_price",
+            "mean_order_price",
+            "max_order_price",
+            "min_order_price",
+            "mean_order_freight_value",
             "customer_city",
             "customer_state",
-            "installments",
-            "sum_payments",
-            "avg_payment_value",
-            "distinct_payment_types",
+            "sum_payment_value",
+            "mean_payment_value",
+            "count_payment_value",
             "most_common_payment_type",
             "review_best_score",
             "review_comment_message"
         )
 
     except Exception as e:
-        logger.error("Error on preparing a transformation DAG for reviews "
+        logger.error("Error on preparing a transformation DAG for SoT "
                      f"dataset. Exception: {e}")
         raise e
 
