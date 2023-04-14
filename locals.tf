@@ -28,11 +28,9 @@ locals {
   kms_key_arn   = var.mode == "learning" || var.flag_create_kms_key ? aws_kms_key.glue_cmk[0].arn : var.kms_key_arn
 
   # Replacing dummy values on KMS key JSON policy if flag_create_kms_key is true
-  /*
   kms_policy_raw             = var.mode == "learning" || var.flag_create_kms_key ? file("${local.kms_policies_path}/${fileset(local.kms_policies_path, "**.json")}") : ""
   kms_policy_account_id_prep = var.mode == "learning" || var.flag_create_kms_key ? replace(local.kms_policy_raw, "<account_id>", local.account_id) : ""
   kms_policy_prep            = var.mode == "learning" || var.flag_create_kms_key ? replace(local.kms_policy_account_id_prep, "<region>", local.region_name) : ""
-  */
 
   # Defining a pattern to fileset Terraform function in order to collect all application subfolders and files to upload to S3
   fileset_pattern = "${var.glue_app_dir}/{${join(",", var.subfolders_to_upload)}}/*{${join(",", var.file_extensions_to_upload)}}"
