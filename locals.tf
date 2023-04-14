@@ -13,6 +13,10 @@ data "aws_region" "current" {}
 
 # Defining local values to be used on the module
 locals {
+  # Extracting account id and region name for further usage
+  account_id  = data.aws_caller_identity.current.account_id
+  region_name = data.aws_region.current.name
+
   # If in learning mode, considers the path.module value to reference the JSON policy for Glue job. Else, considers the user input
   glue_policies_path = var.mode == "learning" ? "${path.module}/policy/glue/" : var.glue_policies_path
 
@@ -22,6 +26,13 @@ locals {
   # Assigning the IAM role and KMS key ARN according to module variables
   glue_role_arn = var.mode == "learning" || var.flag_create_iam_role ? aws_iam_role.glue_job_role[0].arn : var.glue_role_arn
   kms_key_arn   = var.mode == "learning" || var.flag_create_kms_key ? aws_kms_key.glue_cmk[0].arn : var.kms_key_arn
+
+  # Replacing dummy values on KMS key JSON policy if flag_create_kms_key is true
+  /*
+  kms_policy_raw             = var.mode == "learning" || var.flag_create_kms_key ? file("${local.kms_policies_path}/${fileset(local.kms_policies_path, "**.json")}") : ""
+  kms_policy_account_id_prep = var.mode == "learning" || var.flag_create_kms_key ? replace(local.kms_policy_raw, "<account_id>", local.account_id) : ""
+  kms_policy_prep            = var.mode == "learning" || var.flag_create_kms_key ? replace(local.kms_policy_account_id_prep, "<region>", local.region_name) : ""
+  */
 
   # Defining a pattern to fileset Terraform function in order to collect all application subfolders and files to upload to S3
   fileset_pattern = "${var.glue_app_dir}/{${join(",", var.subfolders_to_upload)}}/*{${join(",", var.file_extensions_to_upload)}}"
@@ -112,3 +123,9 @@ locals {
   validate_output_bucket_name = (var.mode == "learning" && var.job_output_bucket_name == "") ? tobool("When calling the module with learning mode, it's necessary to provide a valid bucket name for the job_output_bucket_name variable") : true
   validate_output_database    = (var.mode == "learning" && var.job_output_database == "") ? tobool("When calling the module with learning mode, it's necessary to provide a database name for the job_output_db variable") : true
 }
+
+
+output "kms_key_files" {
+  value = file("${local.kms_policies_path}/${tolist(fileset(local.kms_policies_path, "*.json"))[0]}")
+}
+

@@ -13,6 +13,7 @@ resource "aws_kms_key" "glue_cmk" {
   customer_master_key_spec = "SYMMETRIC_DEFAULT"
   is_enabled               = true
   enable_key_rotation      = false
+  policy                   = file("${local.kms_policies_path}/${tolist(fileset(local.kms_policies_path, "*.json"))[0]}")
 }
 
 # Defining a key alias
