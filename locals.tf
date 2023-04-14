@@ -28,7 +28,7 @@ locals {
   kms_key_arn   = var.mode == "learning" || var.flag_create_kms_key ? aws_kms_key.glue_cmk[0].arn : var.kms_key_arn
 
   # Replacing dummy values on KMS key JSON policy if flag_create_kms_key is true
-  kms_policy_raw             = var.mode == "learning" || var.flag_create_kms_key ? file("${local.kms_policies_path}/${fileset(local.kms_policies_path, "**.json")}") : ""
+  kms_policy_raw             = var.mode == "learning" || var.flag_create_kms_key ? file("${local.kms_policies_path}/${tolist(fileset(local.kms_policies_path, "*.json"))[0]}") : ""
   kms_policy_account_id_prep = var.mode == "learning" || var.flag_create_kms_key ? replace(local.kms_policy_raw, "<account_id>", local.account_id) : ""
   kms_policy_prep            = var.mode == "learning" || var.flag_create_kms_key ? replace(local.kms_policy_account_id_prep, "<region>", local.region_name) : ""
 
@@ -121,9 +121,3 @@ locals {
   validate_output_bucket_name = (var.mode == "learning" && var.job_output_bucket_name == "") ? tobool("When calling the module with learning mode, it's necessary to provide a valid bucket name for the job_output_bucket_name variable") : true
   validate_output_database    = (var.mode == "learning" && var.job_output_database == "") ? tobool("When calling the module with learning mode, it's necessary to provide a database name for the job_output_db variable") : true
 }
-
-
-output "kms_key_files" {
-  value = file("${local.kms_policies_path}/${tolist(fileset(local.kms_policies_path, "*.json"))[0]}")
-}
-
