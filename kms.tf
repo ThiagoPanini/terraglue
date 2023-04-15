@@ -19,7 +19,7 @@ resource "aws_kms_key" "glue_cmk" {
 # Defining a key alias
 resource "aws_kms_alias" "glue_cmk" {
   count         = var.mode == "learning" || var.flag_create_kms_key ? 1 : 0
-  name          = "alias/kms-glue-s3"
+  name          = var.kms_key_alias
   target_key_id = aws_kms_key.glue_cmk[count.index].key_id
 
   depends_on = [
