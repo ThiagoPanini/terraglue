@@ -58,7 +58,7 @@ def transform_orders(df: DataFrame) -> DataFrame:
         ]
 
         # Defining a common date format
-        date_fmt = 'yyyy-MM-dd HH:mm:ss'
+        date_fmt = "dd/MM/yyyy HH:mm"
 
         # Iterating over date cols and calling a sparksnake method
         df_orders_date_cast = df
