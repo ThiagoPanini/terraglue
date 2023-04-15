@@ -32,11 +32,12 @@ ARGV_LIST = [
     "OUTPUT_BUCKET",
     "OUTPUT_DB",
     "OUTPUT_TABLE",
+    "OUTPUT_TABLE_URI",
     "CONNECTION_TYPE",
     "UPDATE_BEHAVIOR",
     "PARTITION_NAME",
     "PARTITION_FORMAT",
-    "DATA_FORMAT",
+    "OUTPUT_DATA_FORMAT",
     "COMPRESSION",
     "ENABLE_UPDATE_CATALOG",
     "NUM_PARTITIONS"
@@ -44,33 +45,33 @@ ARGV_LIST = [
 
 # Defining a dictionary with all data to be read and used on job
 DATA_DICT = {
-    "tbl_orders": {
-        "database": "db_ecommerce",
-        "table_name": "tbl_orders",
+    "orders": {
+        "database": "db_datadelivery_sor",
+        "table_name": "tbl_brecommerce_orders",
         "transformation_ctx": "dyf_orders",
         "create_temp_view": True
     },
-    "tbl_order_items": {
-        "database": "db_ecommerce",
-        "table_name": "tbl_order_items",
+    "order_items": {
+        "database": "db_datadelivery_sor",
+        "table_name": "tbl_brecommerce_order_items",
         "transformation_ctx": "dyf_order_items",
         "create_temp_view": True
     },
-    "tbl_customers": {
-        "database": "db_ecommerce",
-        "table_name": "tbl_customers",
+    "customers": {
+        "database": "db_datadelivery_sor",
+        "table_name": "tbl_brecommerce_customers",
         "transformation_ctx": "dyf_customers",
         "create_temp_view": True
     },
-    "tbl_payments": {
-        "database": "db_ecommerce",
-        "table_name": "tbl_payments",
+    "payments": {
+        "database": "db_datadelivery_sor",
+        "table_name": "tbl_brecommerce_payments",
         "transformation_ctx": "dyf_payments",
         "create_temp_view": True
     },
-    "tbl_reviews": {
-        "database": "db_ecommerce",
-        "table_name": "tbl_reviews",
+    "reviews": {
+        "database": "db_datadelivery_sor",
+        "table_name": "tbl_brecommerce_reviews",
         "transformation_ctx": "dyf_reviews",
         "create_temp_view": True
     }
@@ -90,20 +91,31 @@ spark_manager.init_job()
 dfs_dict = spark_manager.generate_dataframes_dict()
 
 # Indexing data do get individual DataFrames
-df_orders = dfs_dict["tbl_orders"]
-df_order_items = dfs_dict["tbl_order_items"]
-df_customers = dfs_dict["tbl_customers"]
-df_payments = dfs_dict["tbl_payments"]
-df_reviews = dfs_dict["tbl_reviews"]
+df_orders = dfs_dict["orders"]
+df_order_items = dfs_dict["order_items"]
+df_customers = dfs_dict["customers"]
+df_payments = dfs_dict["payments"]
+df_reviews = dfs_dict["reviews"]
 
-# Transforming all raw DataFrames
+# Transforming DataFrame: orders
 df_orders_prep = transform_orders(df=df_orders)
-df_order_items_prep = transform_order_items(df=df_order_items)
+
+# Transforming DataFrame: order_items
+df_order_items_prep = transform_order_items(
+    df=df_order_items,
+    spark_session=spark_manager.spark
+)
+
+# Transforming DataFrame: customers
 df_customers_prep = transform_customers(df=df_customers)
+
+# Transforming DataFrame: payments
 df_payments_prep = transform_payments(
     df=df_payments,
     spark_session=spark_manager.spark
 )
+
+# Transforming DataFrame: reviews
 df_reviews_prep = transform_reviews(df=df_reviews)
 
 # Joining all DataFrames and preparing the SoT table
@@ -121,6 +133,7 @@ partition_value = int(datetime.now().strftime(
 
 # Adding a partition column
 df_sot_partitioned = spark_manager.add_partition_column(
+    df=df_sot_prep,
     partition_name=spark_manager.args["PARTITION_NAME"],
     partition_value=partition_value
 )

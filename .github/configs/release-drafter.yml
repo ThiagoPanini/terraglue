@@ -14,7 +14,7 @@ categories:
       - feature 🚀
       - enhancement 🍀
 
-  - title: 💎 Novas Funcionalidades
+  - title: 💎 New Functions
     labels:
       - new-function 💎
 
@@ -35,6 +35,7 @@ categories:
       - tests 🛡️
 
   - title: ⚙️ Configuration and Maintenance
+    labels:
       - config ⚙️
 
   - title: 🖍️ Documentation

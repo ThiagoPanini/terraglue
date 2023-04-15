@@ -1,4 +1,4 @@
-name: "🚀 CI Release Drafter"
+name: "🚀 CI release drafter"
 
 on:
   push:

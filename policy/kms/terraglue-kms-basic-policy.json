@@ -1,0 +1,51 @@
+{
+    "Version": "2012-10-17",
+    "Id": "key-default-1",
+    "Statement": [
+        {
+            "Sid": "Enable IAM User permissions for root",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::<account_id>:root"
+            },
+            "Action": "kms:*",
+            "Resource": "*"
+        },
+        {
+            "Sid": "Allow access through S3 for all principals in the account that are authorized to use S3",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": [
+                "kms:Encrypt",
+                "kms:Decrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:DescribeKey"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "kms:CallerAccount": "<account_id>",
+                    "kms:ViaService": "s3.<region>.amazonaws.com"
+                }
+            }
+        },
+        {
+            "Sid": "Enable CloudWatchLogs usage of key",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "logs.<region>.amazonaws.com"
+            },
+            "Action": [
+                "kms:Encrypt",
+                "kms:Decrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:DescribeKey"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

@@ -1,0 +1,72 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "GlueFullAccess",
+            "Effect": "Allow",
+            "Action": [
+                "glue:*"    
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "GlueS3Access",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetBucketLocation",
+                "s3:ListBucket",
+                "s3:ListAllMyBuckets",
+                "s3:GetBucketAcl",
+                "s3:CreateBucket",
+                "s3:PutBucketPublicAccessBlock",
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::*"
+            ]
+        },
+        {
+            "Sid": "GlueIAMAccess",
+            "Effect": "Allow",
+            "Action": [
+                "iam:ListRolePolicies",
+                "iam:GetRole",
+                "iam:GetRolePolicy"		
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "GlueCloudWatchLogsAccess",
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:PutMetricData",
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "logs:AssociateKmsKey"
+            ],
+            "Resource": "arn:aws:logs:*:*:/aws-glue/*"
+        },
+        {
+            "Sid": "GlueEC2NetworkAcess",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeVpcEndpoints",
+                "ec2:DescribeRouteTables",
+                "ec2:CreateNetworkInterface",
+                "ec2:DeleteNetworkInterface",				
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeVpcAttribute",
+                "ec2:CreateTags",
+                "ec2:DeleteTags"              
+            ],
+            "Resource": "*"
+        }
+    ]
+}
