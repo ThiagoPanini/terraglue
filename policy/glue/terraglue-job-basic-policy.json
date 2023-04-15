@@ -2,14 +2,59 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "GlueOpsPermissions",
+            "Sid": "GlueFullAccess",
             "Effect": "Allow",
             "Action": [
-                "glue:*",
+                "glue:*"    
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "GlueS3Access",
+            "Effect": "Allow",
+            "Action": [
                 "s3:GetBucketLocation",
                 "s3:ListBucket",
                 "s3:ListAllMyBuckets",
                 "s3:GetBucketAcl",
+                "s3:CreateBucket",
+                "s3:PutBucketPublicAccessBlock",
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::*"
+            ]
+        },
+        {
+            "Sid": "GlueIAMAccess",
+            "Effect": "Allow",
+            "Action": [
+                "iam:ListRolePolicies",
+                "iam:GetRole",
+                "iam:GetRolePolicy"		
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "GlueCloudWatchLogsAccess",
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:PutMetricData",
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "logs:AssociateKmsKey"
+            ],
+            "Resource": "arn:aws:logs:*:*:/aws-glue/*"
+        },
+        {
+            "Sid": "GlueEC2NetworkAcess",
+            "Effect": "Allow",
+            "Action": [
                 "ec2:DescribeVpcEndpoints",
                 "ec2:DescribeRouteTables",
                 "ec2:CreateNetworkInterface",
@@ -18,74 +63,8 @@
                 "ec2:DescribeSecurityGroups",
                 "ec2:DescribeSubnets",
                 "ec2:DescribeVpcAttribute",
-                "iam:ListRolePolicies",
-                "iam:GetRole",
-                "iam:GetRolePolicy",
-                "cloudwatch:PutMetricData"                
-            ],
-            "Resource": [
-                "*"
-            ]
-        },
-        {
-            "Sid": "GlueCreateS3Bucket",
-            "Effect": "Allow",
-            "Action": [
-                "s3:CreateBucket",
-                "s3:PutBucketPublicAccessBlock"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "GlueCloudWatchLogs",
-            "Effect": "Allow",
-            "Action": [
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents",
-                "logs:AssociateKmsKey"                
-            ],
-            "Resource": [
-                "arn:aws:logs:*:*:/aws-glue/*"
-            ]
-        },
-        {
-            "Sid": "GlueEC2Permissions",
-            "Effect": "Allow",
-            "Action": [
                 "ec2:CreateTags",
-                "ec2:DeleteTags"
-            ],
-            "Condition": {
-                "ForAllValues:StringEquals": {
-                    "aws:TagKeys": [
-                        "aws-glue-service-resource"
-                    ]
-                }
-            },
-            "Resource": [
-                "arn:aws:ec2:*:*:network-interface/*",
-                "arn:aws:ec2:*:*:security-group/*",
-                "arn:aws:ec2:*:*:instance/*"
-            ]
-        },
-        {
-            "Sid": "GlueS3ReadAndWrite",
-            "Effect": "Allow",
-            "Action": [
-                "s3:ListBucket",
-                "s3:GetObject",
-                "s3:PutObject",
-                "s3:DeleteObject"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "GlueKMSEncryption",
-            "Effect": "Allow",
-            "Action": [
-                "kms:Decrypt",
-                "kms:DescribeKey"
+                "ec2:DeleteTags"              
             ],
             "Resource": "*"
         }
