@@ -52,7 +52,7 @@ When **terraglue** module is called in a Terraform project, an operation mode mu
 
 The *learning* mode helps users to understand more about Glue jobs on AWS by providing a complete example with all resources needed to start exploring Glue. It works as following:
 
-> "🤖 Learning mode"
+> 🤖 **Learning mode**
 >
 > 1. A sample pyspark application is uploaded in a given S3 bucket to be the main script for the Glue job
 > 2. An auxiliar python file is also uploaded in S3 with useful transformation functions for the job
@@ -62,7 +62,7 @@ The *learning* mode helps users to understand more about Glue jobs on AWS by pro
 
 By the other hand, the *production* mode enables users to configure and deploy their own Glue jobs in AWS. The under the hood operation depends on how users configure variables on module call. In summary, it works as following:
 
-> "🚀 Production mode"
+> 🚀 **Production mode**
 >
 > 1. In this mode, users have the chance to use all the terraglue module variables to customize the deploy
 > 2. A custom Glue job is deployed in the target AWS account using the variables passed by users on module call
