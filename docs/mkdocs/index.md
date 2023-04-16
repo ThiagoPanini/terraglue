@@ -45,20 +45,20 @@ ___
 
 ## How Does it Work?
 
-When users want to call **terraglue** module from the GitHub source, an operation mode must be chosen. According to this decision, different things happens in the target AWS account.
+When **terraglue** module is called in a Terraform project, an operation mode must be chosen. There are two options: *"learning"* mode and *"production"* mode. According to this decision, different things can happen in the target AWS account.
+
+The *learning* mode helps users to understand more about Glue jobs on AWS by providing a complete example with all resources needed to start exploring Glue. It works as following:
 
 ???+ info "🤖 Learning mode"
-    The learning mode helps users to understand more about Glue jobs on AWS by providing a complete example with all resources needed to start exploring Glue. It works as following:
-
-    1. A pyspark application is uploaded in a given S3 bucket to be the main script for the Glue job
+    1. A sample pyspark application is uploaded in a given S3 bucket to be the main script for the Glue job
     2. An auxiliar python file is also uploaded in S3 with useful transformation functions for the job
     3. An IAM role is created with basic permissions to run a Glue job
     4. A KMS key is created to be used in the job security configuration
     5. Finally, a preconfigured Glue job is deployed in order to provide users a example of a SoT table creation using Brazilian E-Commerce data from [datadelivery](https://datadelivery.readthedocs.io/en/latest/)
 
-???+ info "🚀 Production mode"
-    The production mode enables users to configure and deploy their own Glue jobs in AWS. Its operation depends on how users configure variables on module call. In summary, it works as following:
+By the other hand, the *production* mode enables users to configure and deploy their own Glue jobs in AWS. The under the hood operation depends on how users configure variables on module call. In summary, it works as following:
 
+???+ info "🚀 Production mode"
     1. In this mode, users have the chance to use all the terraglue module variables to customize the deploy
     2. A custom Glue job is deployed in the target AWS account using the variables passed by users on module call
 
@@ -70,7 +70,9 @@ The *terraglue* Terraform module isn't alone. There are other complementary open
 
 ## Read the Docs
 
-- Work in progress
+- If you like stories, check ouy the [Project Story](story.md) to see how terraglue was born
+
+Work in progress...
 
 ## Contacts
 
