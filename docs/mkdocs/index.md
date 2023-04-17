@@ -2,22 +2,17 @@
 
 ## Overview
 
-The *terraglue* project was created for helping people to improve their learning journey on AWS Glue service. It accomplishes that by enabling a pocket environment with all necessary componentes to start developing jobs, including S3 buckets, sample data on Data Catalog, IAM roles and policies, a pre configured Athena workgroup and finally an end to end Glue job example that reads, transform and catalog new data.
+Hi everyone! Welcome to the official documentation page for **terraglue**, an open source Terraform module developed in order to provide an easy way to deploy a Glue job in any AWS account.
 
-- Have you ever wanted to learn Glue but you got stuck on a complex environment set up?
-- Have you ever wanted to test an idea for an ETL in a pocket and disposable environment?
+- Are you using Glue for the first time and want to see an end to end ETL example in AWS?
+- Do you already have a Spark application and want to deploy it as a Glue job in AWS?
+- Do you want to automate the Glue job setup using an IaC tool such as Terraform?
 - Have you ever wanted to go the next level on developing Glue jobs?
 
 🌖 Try *terraglue*!
 
-
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/feature/terraglue-refactor/docs/assets/imgs/logo.png?raw=true" alt="terraglue-logo" width=200 height=200>
-</div>
-
-<div align="center">
-    <i>terraglue<br>
-    AWS Pocket Infrastructure</i>
+    <br><img src="https://github.com/ThiagoPanini/terraglue/raw/main/docs/assets/imgs/header-readme.png?raw=true" alt="terraglue-logo">
 </div>
 
 <div align="center">  
@@ -29,7 +24,7 @@ The *terraglue* project was created for helping people to improve their learning
   
   <img src="https://img.shields.io/github/actions/workflow/status/ThiagoPanini/terraglue/ci-main.yml?label=ci" alt="Shield github CI workflow">
 
-  <a href='https://terraglue.readthedocs.io/pt/latest/?badge=latest'>
+  <a href='https://terraglue.readthedocs.io/en/latest/?badge=latest'>
     <img src='https://readthedocs.org/projects/terraglue/badge/?version=latest' alt='Documentation Status' />
   </a>
 
@@ -43,20 +38,44 @@ ___
 
 ## Features
 
-- 🚀 Have a pocket and disposable AWS environment with all infrastructure needed to start developing Glue jobs
-- 🤖 No need to to worry about bucket creation, IAM roles and policies definition or even uploading datasets in your AWS account
-- 📊 Possibility to run queries on different public datasets written and catalogged for users to improve their analytics skills
-- 🛠️ Usage of Terraform as IaC tool for providing a consistent infrastructure
-- 🔦 Destroy everything and recreate all again at a touch of a single command
-ter
+- ✌️ Available in two different operation modes: "learning" and "production"
+- 🤖 Possibility to deploy a preconfigured Glue job with a complete end-to-end ETL example when using "learning" mode
+- 🚀 Possibility to deploy a custom Glue job according to user needs when using "production" mode
+- 👉 Have your Glue job ready and running at the touch of a Terraform module call
+
+
+## How Does it Work?
+
+When **terraglue** module is called in a Terraform project, an operation mode must be chosen. There are two options: *"learning"* mode and *"production"* mode. According to this decision, different things can happen in the target AWS account.
+
+The *learning* mode helps users to understand more about Glue jobs on AWS by providing a complete example with all resources needed to start exploring Glue. It works as following:
+
+???+ info "🤖 Learning mode"
+    1. A sample pyspark application is uploaded in a given S3 bucket to be the main script for the Glue job
+    2. An auxiliar python file is also uploaded in S3 with useful transformation functions for the job
+    3. An IAM role is created with basic permissions to run a Glue job
+    4. A KMS key is created to be used in the job security configuration
+    5. Finally, a preconfigured Glue job is deployed in order to provide users a example of a SoT table creation using Brazilian E-Commerce data from [datadelivery](https://datadelivery.readthedocs.io/en/latest/)
+
+By the other hand, the *production* mode enables users to configure and deploy their own Glue jobs in AWS. The under the hood operation depends on how users configure variables on module call. In summary, it works as following:
+
+???+ info "🚀 Production mode"
+    1. In this mode, users have the chance to use all the terraglue module variables to customize the deploy
+    2. A custom Glue job is deployed in the target AWS account using the variables passed by users on module call
+
+
+## Combining Solutions
+
+The *terraglue* Terraform module isn't alone. There are other complementary open source solutions that can be put together to enable the full power of learning analytics on AWS. [Check it out](https://github.com/ThiagoPanini) if you think they could be useful for you!
+
+![A diagram showing how its possible to use other solutions such as datadelivery, terraglue and sparksnake](https://github.com/ThiagoPanini/datadelivery/blob/main/docs/assets/imgs/products-overview-v2.png?raw=true)
+
 
 ## Read the Docs
 
-- Take a look at the [Project Story](./story.md) page for knowing more about how *terraglue* was madew
-- Checkout the [Quickstart](./quickstart/basic-tutorial.md) page for a step by step guide on how to start using *terraglue*
-- At the [Architecture](./architecture/project-architecture.md) page you will see details for all AWS services provided
-- Still have doubts? Check the [FAQ](./faq/faq.md) page!
-    
+- If you like stories, check ouy the [Project Story](story.md) to see how terraglue was born
+- To take the first steps on terraglue, don't forget to check the [Quickstart](./quickstart/gettingstarted.md) section
+
 
 ## Contacts
 

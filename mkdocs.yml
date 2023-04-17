@@ -1,10 +1,9 @@
 # Project main info
 site_name: terraglue
-site_url: https://github.com/ThiagoPanini/terraglue
+site_url: https://terraglue.readthedocs.io/en/latest/
 site_author: Thiago Panini
 site_description: >-
-  A pocket AWS infrastructure environment for helping people to
-  learn more about Glue
+  Providing an easy way to deploy a Glue job in any AWS account using Terraform
 
 # Source repo info
 repo_name: ThiagoPanini/terraglue
@@ -36,14 +35,14 @@ theme:
       accent: indigo
       toggle:
         icon: material/weather-sunny
-        name: Clique para alterar para modo noturno
+        name: Tap for dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: deep purple
       accent: deep purple
       toggle:
         icon: material/weather-night
-        name: Clique para alterar para modo claro
+        name: Tap for light mode
 
   # Setting up template features
   features:
@@ -65,11 +64,14 @@ nav:
     - Home: index.md
     - Project Story: story.md
   - Quickstart:
-    - Basic Tutorial: quickstart/basic-tutorial.md
-    - Detailed Tutorial: quickstart/detailed-tutorial.md
-  - Architecture:
-    - Project Architecture: architecture/project-architecture.md
-  - FAQ: faq/faq.md
+    - Getting Started: quickstart/gettingstarted.md
+  - Demos:
+    - About Demos: demos/about.md
+    - Learning Mode: demos/learning-mode.md
+    - Production Mode: demos/production-mode.md
+  - Variables:
+    - Module Variables: variables/variables.md
+    - Validations: variables/validations.md
 
 # Setting up MkDocs extensions
 markdown_extensions:

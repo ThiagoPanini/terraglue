@@ -31,11 +31,10 @@ After a little while, I found myself ready to start building something useful. I
 
 ![Michael B. Jordan on Creed movie](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzBhZjAxNjY0ODUzMmVhYzI4MmJlM2IxYjQ4NzRjMzU2ZGIzNzQyYiZjdD1n/WldnJerxYdPC8/giphy.gif)
 
-???+ info "An important information about this AWS sandbox account"
+???+ info "An important information about the sandbox account"
     The use of an AWS sandbox account was due to a subscription that I had in a learning platform. This platform allowed subscribers to use an AWS environment for learning purposes and that was really nice. However, it was an ephemeral environment with an automatic shut off mechanism after a few hours. This behavior is one of the key points of the story. Keep that in mind. You will know why.
 
 ## Creating the Storage Layers
-
 
 I started to get my hands dirty by creating S3 buckets to replicate something next to a Data Lake storage architecture in a Data Mesh approach. So, one day I just logged in my sandbox AWS account and created the following buckets:
 
@@ -45,7 +44,7 @@ I started to get my hands dirty by creating S3 buckets to replicate something ne
 - A bucket to store Glue assets
 - A bucket to store Athena query results
 
-[![Storage resources](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/project-story/terraglue-diagram-resources-storage.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/terraglue-diagram-resources-storage.png)
+[![Storage resources](https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/assets/imgs/project-story/terraglue-diagram-resources-storage.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/assets/imgs/architecture/terraglue-diagram-resources-storage.png)
 
 
 ## Uploading Files on Buckets
@@ -56,7 +55,7 @@ So, I found the excellent [Brazilian E-Commerce dataset](https://www.kaggle.com/
 
 And now my diagram was like:
 
-[![Storage resources with data](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/project-story/terraglue-diagram-resources-data.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/terraglue-diagram-resources-data.png)
+[![Storage resources with data](https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/assets/imgs/project-story/terraglue-diagram-resources-data.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/assets/imgs/architecture/terraglue-diagram-resources-data.png)
 
 ## Cataloging Data
 
@@ -71,7 +70,7 @@ By the way, as Athena proved itself to be a good service to start looking at cat
 
 And now my diagram was like:
 
-[![Catalog process using Data Catalog and Athena](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/project-story/terraglue-diagram-resources-catalog.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/terraglue-diagram-resources-catalog.png)
+[![Catalog process using Data Catalog and Athena](https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/assets/imgs/project-story/terraglue-diagram-resources-catalog.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/assets/imgs/architecture/terraglue-diagram-resources-catalog.png)
 
 ## Creating IAM Roles and Policies
 
@@ -86,7 +85,7 @@ Suddenly I found myself searching a lot on docs pages and studying about Glue's 
 
 And, once again, I added more pieces on my diagram:
 
-[![IAM role and policies](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/project-story/terraglue-diagram-resources-iam.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/terraglue-diagram-resources-iam.png)
+[![IAM role and policies](https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/assets/imgs/project-story/terraglue-diagram-resources-iam.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/assets/imgs/architecture/terraglue-diagram-resources-iam.png)
 
 ## Creating a Glue Job
 
@@ -94,7 +93,7 @@ Well, after all those manual setup I was finally able to create my first Glue jo
 
 I was really excited at that moment and the big idea was to simulate a data pipeline that read data from a SoR layer, transform it and put the curated dataset in a SoT layer. After learning a lot about `awsglue` library and elements like `GlueContext` and `DynamicFrame`, I was able to create a Spark application using pyspark that had enough features to reach the aforementioned goal.
 
-[![Final diagram with Glue job](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/project-story/terraglue-diagram-resources-glue.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/terraglue-diagram-resources-glue.png)
+[![Final diagram with Glue job](https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/assets/imgs/project-story/terraglue-diagram-resources-glue.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/assets/imgs/architecture/terraglue-diagram-resources-glue.png)
 
 And now my diagram was complete!
 
@@ -104,17 +103,17 @@ ___
 
 ## Not Yet: A Real Big Problem
 
-Even this is happy ending story, it's not over yet.
+As much as this is happy ending story, it doesn't happen just now.
 
 ???+ danger "The AWS sandbox account problem"
     Well, remember as a said at the beginning of the story that I had in my hands an AWS sandbox account? By sandbox account I mean a temporary environment that shuts down after a few hours.
 
-    And that was the first big problem: I needed to recreate ALL components of the final diagram every single day.
+And that's was the first big problem: I needed to recreate ALL components of the final diagram every single day.
 
 ???+ danger "The huge manual effort"
     As you can imagine, I spent almost one hour setting up things every time I wanted to practice with Glue. It was a huge manual effort and that was just almost half of the sandbox life time.
 
-    I had to do something about it.
+Something needed to be done.
 
 Of course you can aske me:
 
@@ -138,12 +137,12 @@ That was a fantastic idea and I started to use [Terraform](https://www.terraform
 While creating all this, I just felt that everyone who had the same learning challenges that made me come to this point would enjoy the project. So I prepared it, documented it and called it [terraglue](https://terraglue.readthedocs.io/en/latest/?badge=latest).
 
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/assets/imgs/header-readme.png?raw=true" alt="terraglue-logo">
+<br><img src="https://github.com/ThiagoPanini/terraglue/blob/main/docs/assets/imgs/header-readme.png?raw=true" alt="terraglue-logo">
 </div>
 
 It was really impressive how I could deploy all the components with just a couple of commands. If I used spent about 1 hour to create and configure every service manually, after *terraglue* that time was reduced to just seconds!
 
-[![Terraglue diagram with IaC modules](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/diagram-user-view.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/feature/terraglue-refactor/docs/assets/imgs/architecture/diagram-user-view.png)
+[![Terraglue diagram with IaC modules](https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/assets/imgs/architecture/diagram-user-view.png)](https://raw.githubusercontent.com/ThiagoPanini/terraglue/main/docs/assets/imgs/architecture/diagram-user-view.png)
 
 ## A Constant Evolution with New Solutions
 
