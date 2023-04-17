@@ -64,11 +64,14 @@ nav:
     - Home: index.md
     - Project Story: story.md
   - Quickstart:
-    - Basic Tutorial: quickstart/basic-tutorial.md
-    - Detailed Tutorial: quickstart/detailed-tutorial.md
-  - Architecture:
-    - Project Architecture: architecture/project-architecture.md
-  - FAQ: faq/faq.md
+    - Getting Started: quickstart/gettingstarted.md
+  - Demos:
+    - About Demos: demos/about.md
+    - Learning Mode: demos/learning-mode.md
+    - Production Mode: demos/production-mode.md
+  - Variables:
+    - Module Variables: variables/variables.md
+    - Validations: variables/validations.md
 
 # Setting up MkDocs extensions
 markdown_extensions:

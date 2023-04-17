@@ -43,6 +43,7 @@ ___
 - 🚀 Possibility to deploy a custom Glue job according to user needs when using "production" mode
 - 👉 Have your Glue job ready and running at the touch of a Terraform module call
 
+
 ## How Does it Work?
 
 When **terraglue** module is called in a Terraform project, an operation mode must be chosen. There are two options: *"learning"* mode and *"production"* mode. According to this decision, different things can happen in the target AWS account.
@@ -62,17 +63,19 @@ By the other hand, the *production* mode enables users to configure and deploy t
     1. In this mode, users have the chance to use all the terraglue module variables to customize the deploy
     2. A custom Glue job is deployed in the target AWS account using the variables passed by users on module call
 
+
 ## Combining Solutions
 
 The *terraglue* Terraform module isn't alone. There are other complementary open source solutions that can be put together to enable the full power of learning analytics on AWS. [Check it out](https://github.com/ThiagoPanini) if you think they could be useful for you!
 
 ![A diagram showing how its possible to use other solutions such as datadelivery, terraglue and sparksnake](https://github.com/ThiagoPanini/datadelivery/blob/main/docs/assets/imgs/products-overview-v2.png?raw=true)
 
+
 ## Read the Docs
 
 - If you like stories, check ouy the [Project Story](story.md) to see how terraglue was born
+- To take the first steps on terraglue, don't forget to check the [Quickstart](./quickstart/gettingstarted.md) section
 
-Work in progress...
 
 ## Contacts
 
