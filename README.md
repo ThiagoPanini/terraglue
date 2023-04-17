@@ -18,8 +18,6 @@
 - [Features](#features)
 - [How Does it Work?](#how-does-it-work)
 - [Combining Solutions](#combining-solutions)
-- [Read the Docs](#read-the-docs)
-- [Contacts](#contacts)
 - [References](#references)
 
 ___
@@ -72,16 +70,6 @@ By the other hand, the *production* mode enables users to configure and deploy t
 The *terraglue* Terraform module isn't alone. There are other complementary open source solutions that can be put together to enable the full power of learning analytics on AWS. [Check it out](https://github.com/ThiagoPanini) if you think they could be useful for you!
 
 ![A diagram showing how its possible to use other solutions such as datadelivery, terraglue and sparksnake](https://github.com/ThiagoPanini/datadelivery/blob/main/docs/assets/imgs/products-overview-v2.png?raw=true)
-
-## Read the Docs
-
-- Work in progress
-
-## Contacts
-
-- :fontawesome-brands-github: [@ThiagoPanini](https://github.com/ThiagoPanini)
-- :fontawesome-brands-linkedin: [Thiago Panini](https://www.linkedin.com/in/thiago-panini/)
-- :fontawesome-brands-hashnode: [panini-tech-lab](https://panini.hashnode.dev/)
 
 ___
 
