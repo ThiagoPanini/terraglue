@@ -66,7 +66,7 @@ nav:
   - Quickstart:
     - Getting Started: quickstart/gettingstarted.md
   - Demos:
-    - About Demos: demos/about.md
+    - About The Demos: demos/about.md
     - Production Mode: demos/production-mode.md
     - Learning Mode: demos/learning-mode.md
   - Variables:

@@ -1,4 +1,4 @@
-# About Demos
+# About The Demos
 
 This is the page that everyone has been waiting for! In this section, users will be able to watch complete video demos showing how to extract the full power of terraglue!
 
