@@ -9,7 +9,7 @@ When calling the *terraglue* module from GitHub, users can set some variables to
 
     - :material-alert-decagram:{ .mdx-pulse .warning } signs that this variable is requried regardless of which operation mode was chosen
     - :star:{ .heart } signs that this variable is required in some situations and conditions
-    - :rotating_light: signs that maybe you want to change this variable when using the **production** mode
+    - :rotating_light:{ .heart } signs that maybe you want to change this variable when using the **production** mode
 
 
 ## General Variables
@@ -72,15 +72,15 @@ Finally, we reached the set of variables created to make it possible to customiz
 
 | **Variable** | **Type** | **Description** | **Default** |
 | :-- | :-- | :-- | :-- |
-| :rotating_light: glue_job_name | `string` | A name reference for the Glue job to be created | terraglue-sample-job |
-| :rotating_light: glue_job_description | `string` | A short description for the Glue job | An example of a Glue job from the terraglue source Terraform module |
+| :rotating_light:{ .heart } glue_job_name | `string` | A name reference for the Glue job to be created | terraglue-sample-job |
+| :rotating_light:{ .heart } glue_job_description | `string` | A short description for the Glue job | An example of a Glue job from the terraglue source Terraform module |
 | glue_job_version | `string` | Glue version for the job to be created | "4.0" |
-| :rotating_light: glue_job_max_retries | `string` | Max retries in cases of running the job with failures | "0" |
-| :rotating_light: glue_job_timeout | `number` | Timeout (in minutes) for job execution | 10 |
-| :rotating_light: glue_job_worker_type | `string` | Node/worker type to process data in AWS managed Glue cluster | "G.1X" |
-| :rotating_light: glue_job_number_of_workers | `number` | Number of workers to process data in AWS managed Glue cluster | 3 |
+| :rotating_light:{ .heart } glue_job_max_retries | `string` | Max retries in cases of running the job with failures | "0" |
+| :rotating_light:{ .heart } glue_job_timeout | `number` | Timeout (in minutes) for job execution | 10 |
+| :rotating_light:{ .heart } glue_job_worker_type | `string` | Node/worker type to process data in AWS managed Glue cluster | "G.1X" |
+| :rotating_light:{ .heart } glue_job_number_of_workers | `number` | Number of workers to process data in AWS managed Glue cluster | 3 |
 | glue_job_python_version | `string` | Python version to be used in the job | "3" |
-| :rotating_light: glue_job_max_concurrent_runs | `number` | Max number of concurrent runs for the job | 2 |
-| :rotating_light: glue_job_args | `map` | A map of all job arguments to be deployed within the Glue job | [Check the source](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/variables.tf#L244) |
+| :rotating_light:{ .heart } glue_job_max_concurrent_runs | `number` | Max number of concurrent runs for the job | 2 |
+| :rotating_light:{ .heart } glue_job_args | `map` | A map of all job arguments to be deployed within the Glue job | [Check the source](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/variables.tf#L244) |
 | :star:{ .heart } job_output_bucket_name | `string` | The name of the S3 output bucket for the Glue job when calling the module on learning mode | "" but ***Required*** on learning mode |
 | :star:{ .heart } job_output_database | `string` | The name of the Glue database for the Glue job when calling the module on learning mode | "" but ***Required*** on learning mode |
