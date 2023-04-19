@@ -75,6 +75,7 @@ The *terraglue* Terraform module isn't alone. There are other complementary open
 
 - If you like stories, check ouy the [Project Story](story.md) to see how terraglue was born
 - To take the first steps on terraglue, don't forget to check the [Quickstart](./quickstart/gettingstarted.md) section
+- Don't forget to check the [Variables](./variables/variables.md) section to see different ways to customize terraglue
 
 
 ## Contacts
