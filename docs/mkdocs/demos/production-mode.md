@@ -125,7 +125,7 @@ For this demo, let's set the following configurations:
 - Inform terraglue the name of the IAM role to be created
 
 ??? example "Setting up IAM variables on terraglue"
-
+    [![A gif showing how to configure IAM variables on terraglue](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-03-iam.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-03-iam.gif?raw=true)
 
     ___
 
@@ -157,7 +157,7 @@ Well, the next step in this demo will handle KMS key configuration that affects 
 - Inform terraglue the ARN of the existing KMS key (collected from the `aws_kms_key` Terraform data source declared at the beginning of the project)
 
 ??? example "Setting up KMS variables on terraglue"
-
+    [![A gif showing how to configure KMS variables on terraglue](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-04-kms.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-04-kms.gif?raw=true)
 
     ___
 
