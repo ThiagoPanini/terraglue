@@ -116,8 +116,6 @@ This section is all about showing how to call the terraglue module directly from
 
 So, let's start customizing terraglue by setting some IAM variables to guide how the module will handle the IAM role needed to be assumed by the Glue job.
 
-The module has some variables to help users to set this configuration and those can be found [in this link](../variables/variables.md#iam-configuration).
-
 For this demo, let's set the following configurations:
 
 - Inform terraglue that we want to create an IAM role in this project
@@ -148,6 +146,8 @@ For this demo, let's set the following configurations:
       glue_role_name       = "terraglue-demo-glue-role"
     }
     ```
+
+    :material-alert-decagram:{ .mdx-pulse .warning } To see more about all IAM configuration variables available on terraglue, [check this link](../variables/variables.md#iam-configuration).
 
 ### Setting Up KMS Variables
 
@@ -183,6 +183,53 @@ Well, the next step in this demo will handle KMS key configuration that affects 
       flag_create_kms_key = false
       kms_key_arn         = data.aws_kms_key.glue.arn
     }
+    ```
+
+    :material-alert-decagram:{ .mdx-pulse .warning } To see more about all KMS configuration variables available on terraglue, [check this link](../variables/variables.md#kms-key-configuration).
+
+### Setting Up S3 Scripts Location
+
+After the successfully configuration of IAM and KMS variables, it's time to set up a bucket reference which will be considered by terraglue to store all Glue scripts files in the project.
+
+Basically, this is the step where users provide a bucket name to host the files located in the `app/` project folder in order to be used in the Glue job.
+
+In this demo, we will use the `aws_caller_identity` and `aws_region` data sources collected at the beginning of the project to build a bucket name without hard coding informations such as account ID and AWS region.
+
+glue_scripts_bucket_name = "datadelivery-glue-assets-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+
+??? example "Setting up a s3 bucket name to store scripts files"
+    [![A gif showing how to configure S3 variables on terraglue](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-05-s3.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-05-s3.gif?raw=true)
+
+    ___
+
+    💻 **Terraform code**:
+    ```json
+    # Collecting data sources
+    data "aws_caller_identity" "current" {}
+    data "aws_region" "current" {}
+    data "aws_kms_key" "glue" {
+      key_id = "alias/kms-glue"
+    }
+
+    # Calling terraglue module in production mode
+    module "terraglue" {
+      source = "git::https://github.com/ThiagoPanini/terraglue?ref=main"
+
+      # Setting up IAM variables
+      flag_create_iam_role = true
+      glue_policies_path   = "policy"
+      glue_role_name       = "terraglue-demo-glue-role"
+
+      # Setting up KMS variables
+      flag_create_kms_key = false
+      kms_key_arn         = data.aws_kms_key.glue.arn
+
+      # Setting up S3 scripts location
+      glue_scripts_bucket_name = "datadelivery-glue-assets-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+    }
+    ```
+
+    :material-alert-decagram:{ .mdx-pulse .warning } To see more about all S3 configuration variables available on terraglue, [check this link](../variables/variables.md#s3-files).
 
 ___
 
