@@ -49,9 +49,22 @@ So, let's take our `main.tf` file and get the three Terraform data sources state
 
 - A [aws_caller_identity](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) data source to extract the user account id
 - A [aws_region](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) data source to get the target AWS region
-- A [aws_kms_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/kms_key) data source to get a KMS key by its alias
+- A [aws_kms_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/kms_key) data source to get a KMS key by its alias (assuming that there is a KMS key alias in the target AWS account)
 
 ??? example "Collecting Terraform data sources"
+    [![A video demo showing how to get Terraform data sources](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-01-datasources.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-01-datasources.gif?raw=true)
+
+    ___
+
+    💻 **Terraform code**:
+    ```json
+    # Collecting data sources
+    data "aws_caller_identity" "current" {}
+    data "aws_region" "current" {}
+    data "aws_kms_key" "glue" {
+      key_id = "alias/kms-glue"
+    }
+    ```
 
 And now we are ready to call the **terraglue** module and start customizing it through its variables.
 
@@ -61,6 +74,7 @@ In order to provide a clear vision for users, this demo will be divided into mul
 
 - Calling the module from GitHub
 - Setting up IAM variables
+- Setting up KMS variables
 - Setting up S3 scripts location
 - Setting up the Glue job
 - Setting up job arguments
@@ -68,6 +82,107 @@ In order to provide a clear vision for users, this demo will be divided into mul
 By following all demos from each topic, users will be able to fully understand terraglue and all its different ways to deploy Glue jobs.
 
 ### Calling the module from GitHub
+
+This section is all about showing how to call the terraglue module directly from GitHub.
+
+??? example "Calling the terraglue module directly from GitHub"
+    [![A gif showing how to call the terraglue module from the GitHub](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-02-module.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-02-module.gif?raw=true)
+
+    ___
+
+    💻 **Terraform code**:
+    ```json
+    # Collecting data sources
+    data "aws_caller_identity" "current" {}
+    data "aws_region" "current" {}
+    data "aws_kms_key" "glue" {
+      key_id = "alias/kms-glue"
+    }
+
+    # Calling terraglue module in production mode
+    module "terraglue" {
+      source = "git::https://github.com/ThiagoPanini/terraglue?ref=main"
+    }
+    ```
+
+    ___
+
+    ???+ info "There are more things to setup before deploying terraglue"
+        As stated before along this documentation, terraglue has a lot of variables and most of them have default values. But still there are some things to configure and customize before deploying it in a target AWS account.
+
+        And that's why we should follow the next sections to see its configurations taking place.
+
+### Setting Up IAM Variables
+
+So, let's start customizing terraglue by setting some IAM variables to guide how the module will handle the IAM role needed to be assumed by the Glue job.
+
+The module has some variables to help users to set this configuration and those can be found [in this link](../variables/variables.md#iam-configuration).
+
+For this demo, let's set the following configurations:
+
+- Inform terraglue that we want to create an IAM role in this project
+- Inform terraglue that the IAM policies that will be part of this role are located in the `policy/` folder
+- Inform terraglue the name of the IAM role to be created
+
+??? example "Setting up IAM variables on terraglue"
+
+
+    ___
+
+    💻 **Terraform code**:
+    ```json
+    # Collecting data sources
+    data "aws_caller_identity" "current" {}
+    data "aws_region" "current" {}
+    data "aws_kms_key" "glue" {
+      key_id = "alias/kms-glue"
+    }
+
+    # Calling terraglue module in production mode
+    module "terraglue" {
+      source = "git::https://github.com/ThiagoPanini/terraglue?ref=main"
+
+      # Setting up IAM variables
+      flag_create_iam_role = true
+      glue_policies_path   = "policy"
+      glue_role_name       = "terraglue-demo-glue-role"
+    }
+    ```
+
+### Setting Up KMS Variables
+
+Well, the next step in this demo will handle KMS key configuration that affects our Glue job. In this project, we will apply the following KMS configurations on terraglue:
+
+- Inform terraglue to now create a KMS key during project deploy (we sill use an existing key)
+- Inform terraglue the ARN of the existing KMS key (collected from the `aws_kms_key` Terraform data source declared at the beginning of the project)
+
+??? example "Setting up KMS variables on terraglue"
+
+
+    ___
+
+    💻 **Terraform code**:
+    ```json
+    # Collecting data sources
+    data "aws_caller_identity" "current" {}
+    data "aws_region" "current" {}
+    data "aws_kms_key" "glue" {
+      key_id = "alias/kms-glue"
+    }
+
+    # Calling terraglue module in production mode
+    module "terraglue" {
+      source = "git::https://github.com/ThiagoPanini/terraglue?ref=main"
+
+      # Setting up IAM variables
+      flag_create_iam_role = true
+      glue_policies_path   = "policy"
+      glue_role_name       = "terraglue-demo-glue-role"
+
+      # Setting up KMS variables
+      flag_create_kms_key = false
+      kms_key_arn         = data.aws_kms_key.glue.arn
+    }
 
 ___
 
