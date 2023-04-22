@@ -382,3 +382,7 @@ Well, to finish this demo page, let's see all the resources that were deployed b
 
 ??? example "A little tour through all deployed resources by terraglue"
     [![A gif showing different AWS console pages in order to show all the deployed resources by terraglue](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-10-resources.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-10-resources.gif?raw=true)
+
+___
+
+✅ I hope all the demos can help you somehow on using terraglue to configure and deploy your own Glue job in AWS. Keep reading the docs to become a master user in terraglue!
