@@ -34,7 +34,7 @@ Let's see it in a tree?
 │   main.tf
 ```
 
-???+ question "Do I need to follow this exactly project structure work with terraglue?"
+??? question "Do I need to follow this exactly project structure in order to work with terraglue?"
     No, you don't and that's one of the coolest terraglue features. You can take any Terraform project in any structure and call terraglue without any worries.
 
     You will just need to pay attention to the module variables you pass during the call. To see a full list of all acceptable variables, check the [Variables](../variables/variables.md) section. The [Validations](../variables/validations.md) section is also a good page to read in order to be aware of some input variable conditions based on specific scenarios.
@@ -68,7 +68,7 @@ So, let's take our `main.tf` file and get the three Terraform data sources state
 
 And now we are ready to call the **terraglue** module and start customizing it through its variables.
 
-## Calling The Terraglue Module
+## Configuring Terraglue
 
 In order to provide a clear vision for users, this demo will be divided into multiple records in different sections. The idea is to delivery a step by step guide showing all customizations applied to terraglue module call using the following topics:
 
@@ -81,7 +81,7 @@ In order to provide a clear vision for users, this demo will be divided into mul
 
 By following all demos from each topic, users will be able to fully understand terraglue and all its different ways to deploy Glue jobs.
 
-### Calling The Module From GitHub
+### Calling The Source Module
 
 This section is all about showing how to call the terraglue module directly from GitHub.
 
@@ -347,7 +347,29 @@ In this step, users are free to set all Glue acceptable arguments. A full list c
     }
     ```
 
+And with this subsection we reach the end of the demos related to terraglue module configuration. 
+
 ___
 
-???+ warning "Work in progress"
-    Content will be updated here as soon as possible!
+## Running Terraform Commands
+
+After all this configuration journey, we now just need to plan and apply the deployment using the respective Terraform commands.
+
+### Terraform plan
+
+Well, now it's time to see the deployment plan using the `terraform plan` command.
+
+Here we will be able to see all the resources that will be deployed with the configuration we chose.
+
+??? example "Running the terraform plan command"
+  [![A gif showing how to run terraform plan Terraform comand](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-08-plan.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-08-plan.gif?raw=true)
+
+### Terraform apply
+
+And now we can finally deploy the infrastructure declared using the `terraform apply` command.
+
+??? example "Running the terraform apply command"
+  [![A gif showing how to run terraform apply Terraform comand](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-09-apply.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-09-apply.gif?raw=true)
+  
+
+## Deployed Resources

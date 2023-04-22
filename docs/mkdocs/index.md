@@ -39,8 +39,8 @@ ___
 ## Features
 
 - ✌️ Available in two different operation modes: "learning" and "production"
-- 🤖 Possibility to deploy a preconfigured Glue job with a complete end-to-end ETL example when using "learning" mode
-- 🚀 Possibility to deploy a custom Glue job according to user needs when using "production" mode
+- 🤖 Enable users to deploy a preconfigured Glue job with a complete end-to-end ETL example when using "learning" mode
+- 🚀 Enable users to deploy a custom Glue job according to user needs when using "production" mode
 - 👉 Have your Glue job ready and running at the touch of a Terraform module call
 
 
