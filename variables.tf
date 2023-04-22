@@ -265,10 +265,12 @@ variable "glue_job_args" {
 variable "job_output_bucket_name" {
   description = "The name of the S3 output bucket for the Glue job when calling the module on learning mode"
   type        = string
+  default     = ""
 }
 
 variable "job_output_database" {
   description = "The name of the Glue database for the Glue job when calling the module on learning mode"
   type        = string
+  default     = ""
 }
 

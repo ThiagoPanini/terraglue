@@ -39,8 +39,8 @@ ___
 ## Features
 
 - ✌️ Available in two different operation modes: "learning" and "production"
-- 🤖 Possibility to deploy a preconfigured Glue job with a complete end-to-end ETL example when using "learning" mode
-- 🚀 Possibility to deploy a custom Glue job according to user needs when using "production" mode
+- 🤖 Enable users to deploy a preconfigured Glue job with a complete end-to-end ETL example when using "learning" mode
+- 🚀 Enable users to deploy a custom Glue job according to user needs when using "production" mode
 - 👉 Have your Glue job ready and running at the touch of a Terraform module call
 
 
@@ -75,6 +75,7 @@ The *terraglue* Terraform module isn't alone. There are other complementary open
 
 - If you like stories, check ouy the [Project Story](story.md) to see how terraglue was born
 - To take the first steps on terraglue, don't forget to check the [Quickstart](./quickstart/gettingstarted.md) section
+- Don't forget to check the [Variables](./variables/variables.md) section to see different ways to customize terraglue
 
 
 ## Contacts
