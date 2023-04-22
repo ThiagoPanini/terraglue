@@ -1,6 +1,6 @@
 # Production Mode
 
-So, let's take a deep dive on how an user can call the terraglue module to deploy it's own Glue job in AWS.
+Let's take a deep dive on how an user can call the terraglue module to deploy it's own Glue job in AWS.
 
 For this task, let's suppose we want to:
 
@@ -43,7 +43,7 @@ If you need more information about the structure of a Terraform project you can 
 
 ## Collecting Terraform Data Sources
 
-Once we structured the Terraform project, let's start by collecting some [Terraform data sources](https://developer.hashicorp.com/terraform/language/data-sources) that will be used along the project. To get and use Terraform data sources can improve the development of a Terraform project in a lot of aspects. In the end, this is not a required step, but it can be considered as a good practice according to which resources will be declared and which configurations will be applied.
+Once we structured the Terraform project, let's start by collecting some [Terraform data sources](https://developer.hashicorp.com/terraform/language/data-sources) that will be used along the project. Terraform data sources can improve the development of a Terraform project in a lot of aspects. In the end, this is not a required step, but it can be considered as a good practice according to which resources will be declared and which configurations will be applied.
 
 So, let's take our `main.tf` file and get the three Terraform data sources stated balow:
 
