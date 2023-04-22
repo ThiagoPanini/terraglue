@@ -57,7 +57,7 @@ So, let's take our `main.tf` file and get the three Terraform data sources state
     ___
 
     💻 **Terraform code**:
-    ```json
+    ```python
     # Collecting data sources
     data "aws_caller_identity" "current" {}
     data "aws_region" "current" {}
@@ -91,7 +91,7 @@ This section is all about showing how to call the terraglue module directly from
     ___
 
     💻 **Terraform code**:
-    ```json
+    ```python
     # Collecting data sources
     data "aws_caller_identity" "current" {}
     data "aws_region" "current" {}
@@ -131,7 +131,7 @@ For this demo, let's set the following configurations:
     ___
 
     💻 **Terraform code**:
-    ```json
+    ```python
     # Collecting data sources
     data "aws_caller_identity" "current" {}
     data "aws_region" "current" {}
@@ -165,7 +165,7 @@ Well, the next step in this demo will handle KMS key configuration that affects 
     ___
 
     💻 **Terraform code**:
-    ```json
+    ```python
     # Collecting data sources
     data "aws_caller_identity" "current" {}
     data "aws_region" "current" {}
@@ -204,7 +204,7 @@ In this demo, we will use the `aws_caller_identity` and `aws_region` data source
     ___
 
     💻 **Terraform code**:
-    ```json
+    ```python
     # Collecting data sources
     data "aws_caller_identity" "current" {}
     data "aws_region" "current" {}
@@ -244,12 +244,12 @@ The idea with this variables block is:
 - Inform terraglue to use 5 workers
 
 ??? example "Setting up a Glue job"
-
+    [![A gif showing how to configure Glue job variables on terraglue](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-06-gluejob.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-06-gluejob.gif?raw=true)
 
     ___
 
     💻 **Terraform code**:
-    ```json
+    ```python
     # Collecting data sources
     data "aws_caller_identity" "current" {}
     data "aws_region" "current" {}
@@ -282,6 +282,70 @@ The idea with this variables block is:
     ```
 
     :material-alert-decagram:{ .mdx-pulse .warning } To see more about all Glue configuration variables available on terraglue, [check this link](../variables/variables.md#job).
+
+### Setting Up Job Arguments
+
+And finally, it's important to show how users can input their own Glue job arguments on terraglue. In fact, it can be done through the `glue_job_args` module variable that accepts a `map` object with all user arguments in order to customize the Glue job.
+
+The main key points about the job arguments declared in this demo are:
+
+- Set `--job-bookmark-option` in order to disable job bookmarks from the job
+- Set `--additional-python-modules` in order to use the [sparksnake](https://sparksnake.readthedocs.io/en/latest/) Python package as an additional python module
+- Set `--extra-py-files` in order to add a utils.py file uploaded in this same project as an extra Python file to be used in the job
+
+In this step, users are free to set all Glue acceptable arguments. A full list can be found in the [AWS official documentation about job parameters](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html).
+
+??? example "Setting up Glue job arguments"
+    [![A gif showing how to configure Glue job arguments on terraglue](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-07-jobargs.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-07-jobargs.gif?raw=true)
+
+    ___
+
+    💻 **Terraform code**:
+    ```python
+    # Collecting data sources
+    data "aws_caller_identity" "current" {}
+    data "aws_region" "current" {}
+    data "aws_kms_key" "glue" {
+      key_id = "alias/kms-glue"
+    }
+
+    # Calling terraglue module in production mode
+    module "terraglue" {
+      source = "git::https://github.com/ThiagoPanini/terraglue?ref=main"
+
+      # Setting up IAM variables
+      flag_create_iam_role = true
+      glue_policies_path   = "policy"
+      glue_role_name       = "terraglue-demo-glue-role"
+
+      # Setting up KMS variables
+      flag_create_kms_key = false
+      kms_key_arn         = data.aws_kms_key.glue.arn
+
+      # Setting up S3 scripts location
+      glue_scripts_bucket_name = "datadelivery-glue-assets-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+
+      # Setting up Glue
+      glue_job_name              = "terraglue-sample-job"
+      glue_job_description       = "A sample job using terraglue with production mode"
+      glue_job_worker_type       = "G.1X"
+      glue_job_number_of_workers = 5
+
+      # Setting up job args
+      glue_job_args = {
+        "--job-language"                     = "python"
+        "--job-bookmark-option"              = "job-bookmark-disable"
+        "--enable-metrics"                   = true
+        "--enable-continuous-cloudwatch-log" = true
+        "--enable-spark-ui"                  = true
+        "--encryption-type"                  = "sse-s3"
+        "--enable-glue-datacatalog"          = true
+        "--enable-job-insights"              = true
+        "--additional-python-modules"        = "sparksnake"
+        "--extra-py-files"                   = "s3://datadelivery-glue-assets-${data.aws_caller_identity.current.  account_id}-${data.aws_region.current.name}/jobs/  terraglue-sample-job/app/src/utils.py"
+      }
+    }
+    ```
 
 ___
 
