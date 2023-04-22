@@ -68,7 +68,7 @@ So, let's take our `main.tf` file and get the three Terraform data sources state
 
 And now we are ready to call the **terraglue** module and start customizing it through its variables.
 
-## Calling the terraglue Module
+## Calling The Terraglue Module
 
 In order to provide a clear vision for users, this demo will be divided into multiple records in different sections. The idea is to delivery a step by step guide showing all customizations applied to terraglue module call using the following topics:
 
@@ -81,7 +81,7 @@ In order to provide a clear vision for users, this demo will be divided into mul
 
 By following all demos from each topic, users will be able to fully understand terraglue and all its different ways to deploy Glue jobs.
 
-### Calling the module from GitHub
+### Calling The Module From GitHub
 
 This section is all about showing how to call the terraglue module directly from GitHub.
 
@@ -108,9 +108,12 @@ This section is all about showing how to call the terraglue module directly from
     ___
 
     ???+ info "There are more things to setup before deploying terraglue"
-        As stated before along this documentation, terraglue has a lot of variables and most of them have default values. But still there are some things to configure and customize before deploying it in a target AWS account.
+        As stated before in this documentation, terraglue has a lot of variables and most of them has default values. But still there are some things to configure and customize before deploying it in a target AWS account.
 
-        And that's why we should follow the next sections to see its configurations taking place.
+        Optionally, users can initialize the terraglue module declared through `terraform init` command in order to get a simple but huge feature: the autocomplete text in variable names from the module. This can make things a lot easier whe configuring terraglue in the next sections.
+
+        [![A demo gif showing the execution of the terraform init command](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-02b-init.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-02b-init.gif?raw=true)
+ 
 
 ### Setting Up IAM Variables
 
@@ -195,8 +198,6 @@ Basically, this is the step where users provide a bucket name to host the files 
 
 In this demo, we will use the `aws_caller_identity` and `aws_region` data sources collected at the beginning of the project to build a bucket name without hard coding informations such as account ID and AWS region.
 
-glue_scripts_bucket_name = "datadelivery-glue-assets-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-
 ??? example "Setting up a s3 bucket name to store scripts files"
     [![A gif showing how to configure S3 variables on terraglue](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-05-s3.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-05-s3.gif?raw=true)
 
@@ -230,6 +231,57 @@ glue_scripts_bucket_name = "datadelivery-glue-assets-${data.aws_caller_identity.
     ```
 
     :material-alert-decagram:{ .mdx-pulse .warning } To see more about all S3 configuration variables available on terraglue, [check this link](../variables/variables.md#s3-files).
+
+### Setting Up A Glue Job
+
+And here we probably have the most important configuration set of a terraglue module call: the Glue job set up.
+
+The idea with this variables block is:
+
+- Inform terraglue to associate a name to the Glue job
+- Inform terraglue to associate a description to the Glue job
+- Inform terraglue to use G.1X workers
+- Inform terraglue to use 5 workers
+
+??? example "Setting up a Glue job"
+
+
+    ___
+
+    💻 **Terraform code**:
+    ```json
+    # Collecting data sources
+    data "aws_caller_identity" "current" {}
+    data "aws_region" "current" {}
+    data "aws_kms_key" "glue" {
+      key_id = "alias/kms-glue"
+    }
+
+    # Calling terraglue module in production mode
+    module "terraglue" {
+      source = "git::https://github.com/ThiagoPanini/terraglue?ref=main"
+
+      # Setting up IAM variables
+      flag_create_iam_role = true
+      glue_policies_path   = "policy"
+      glue_role_name       = "terraglue-demo-glue-role"
+
+      # Setting up KMS variables
+      flag_create_kms_key = false
+      kms_key_arn         = data.aws_kms_key.glue.arn
+
+      # Setting up S3 scripts location
+      glue_scripts_bucket_name = "datadelivery-glue-assets-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+
+      # Setting up Glue
+      glue_job_name              = "terraglue-sample-job"
+      glue_job_description       = "A sample job using terraglue with production mode"
+      glue_job_worker_type       = "G.1X"
+      glue_job_number_of_workers = 5
+    }
+    ```
+
+    :material-alert-decagram:{ .mdx-pulse .warning } To see more about all Glue configuration variables available on terraglue, [check this link](../variables/variables.md#job).
 
 ___
 
