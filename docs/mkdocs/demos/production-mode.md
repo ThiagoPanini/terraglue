@@ -362,14 +362,23 @@ Well, now it's time to see the deployment plan using the `terraform plan` comman
 Here we will be able to see all the resources that will be deployed with the configuration we chose.
 
 ??? example "Running the terraform plan command"
-  [![A gif showing how to run terraform plan Terraform comand](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-08-plan.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-08-plan.gif?raw=true)
+    [![A gif showing how to run terraform plan Terraform comand](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-08-plan.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-08-plan.gif?raw=true)
 
 ### Terraform apply
 
 And now we can finally deploy the infrastructure declared using the `terraform apply` command.
 
 ??? example "Running the terraform apply command"
-  [![A gif showing how to run terraform apply Terraform comand](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-09-apply.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-09-apply.gif?raw=true)
+    [![A gif showing how to run terraform apply Terraform comand](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-09-apply.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-09-apply.gif?raw=true)
   
 
 ## Deployed Resources
+
+Well, to finish this demo page, let's see all the resources that were deployed by terraglue module call. In essence, we are talking about:
+
+- An IAM role with permissions specified by a JSON file provided by users in the Terraform project
+- Python scripts in a given S3 bucket to be used in a Glue job
+- A Glue job with parameters and arguments chosen by users
+
+??? example "A little tour through all deployed resources by terraglue"
+    [![A gif showing different AWS console pages in order to show all the deployed resources by terraglue](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-10-resources.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-10-resources.gif?raw=true)
