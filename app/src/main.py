@@ -161,6 +161,6 @@ spark_manager.write_and_catalog_data(
     connection_type=spark_manager.args["CONNECTION_TYPE"],
     update_behavior=spark_manager.args["UPDATE_BEHAVIOR"],
     compression=spark_manager.args["COMPRESSION"],
-    enable_update_catalog=spark_manager.args["ENABLE_UPDATE_CATALOG"],
+    enable_update_catalog=bool(spark_manager.args["ENABLE_UPDATE_CATALOG"]),
     output_data_format=spark_manager.args["OUTPUT_DATA_FORMAT"]
 )

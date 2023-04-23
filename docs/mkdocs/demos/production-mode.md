@@ -1,6 +1,6 @@
 # Production Mode
 
-So, let's take a deep dive on how an user can call the terraglue module to deploy it's own Glue job in AWS.
+Let's take a deep dive on how an user can call the terraglue module to deploy it's own Glue job in AWS.
 
 For this task, let's suppose we want to:
 
@@ -43,7 +43,7 @@ If you need more information about the structure of a Terraform project you can 
 
 ## Collecting Terraform Data Sources
 
-Once we structured the Terraform project, let's start by collecting some [Terraform data sources](https://developer.hashicorp.com/terraform/language/data-sources) that will be used along the project. To get and use Terraform data sources can improve the development of a Terraform project in a lot of aspects. In the end, this is not a required step, but it can be considered as a good practice according to which resources will be declared and which configurations will be applied.
+Once we structured the Terraform project, let's start by collecting some [Terraform data sources](https://developer.hashicorp.com/terraform/language/data-sources) that will be used along the project. Terraform data sources can improve the development of a Terraform project in a lot of aspects. In the end, this is not a required step, but it can be considered as a good practice according to which resources will be declared and which configurations will be applied.
 
 So, let's take our `main.tf` file and get the three Terraform data sources stated balow:
 
@@ -52,7 +52,7 @@ So, let's take our `main.tf` file and get the three Terraform data sources state
 - A [aws_kms_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/kms_key) data source to get a KMS key by its alias (assuming that there is a KMS key alias in the target AWS account)
 
 ??? example "Collecting Terraform data sources"
-    [![A video demo showing how to get Terraform data sources](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-01-datasources.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-01-datasources.gif?raw=true)
+    [![A video demo showing how to get Terraform data sources](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-01-datasources.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-01-datasources.gif?raw=true)
 
     ___
 
@@ -86,7 +86,7 @@ By following all demos from each topic, users will be able to fully understand t
 This section is all about showing how to call the terraglue module directly from GitHub.
 
 ??? example "Calling the terraglue module directly from GitHub"
-    [![A gif showing how to call the terraglue module from the GitHub](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-02-module.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-02-module.gif?raw=true)
+    [![A gif showing how to call the terraglue module from the GitHub](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-02-module.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-02-module.gif?raw=true)
 
     ___
 
@@ -112,7 +112,7 @@ This section is all about showing how to call the terraglue module directly from
 
         Optionally, users can initialize the terraglue module declared through `terraform init` command in order to get a simple but huge feature: the autocomplete text in variable names from the module. This can make things a lot easier whe configuring terraglue in the next sections.
 
-        [![A demo gif showing the execution of the terraform init command](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-02b-init.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-02b-init.gif?raw=true)
+        [![A demo gif showing the execution of the terraform init command](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-02b-init.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-02b-init.gif?raw=true)
  
 
 ### Setting Up IAM Variables
@@ -126,7 +126,7 @@ For this demo, let's set the following configurations:
 - Inform terraglue the name of the IAM role to be created
 
 ??? example "Setting up IAM variables on terraglue"
-    [![A gif showing how to configure IAM variables on terraglue](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-03-iam.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-03-iam.gif?raw=true)
+    [![A gif showing how to configure IAM variables on terraglue](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-03-iam.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-03-iam.gif?raw=true)
 
     ___
 
@@ -160,7 +160,7 @@ Well, the next step in this demo will handle KMS key configuration that affects 
 - Inform terraglue the ARN of the existing KMS key (collected from the `aws_kms_key` Terraform data source declared at the beginning of the project)
 
 ??? example "Setting up KMS variables on terraglue"
-    [![A gif showing how to configure KMS variables on terraglue](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-04-kms.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-04-kms.gif?raw=true)
+    [![A gif showing how to configure KMS variables on terraglue](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-04-kms.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-04-kms.gif?raw=true)
 
     ___
 
@@ -199,7 +199,7 @@ Basically, this is the step where users provide a bucket name to host the files 
 In this demo, we will use the `aws_caller_identity` and `aws_region` data sources collected at the beginning of the project to build a bucket name without hard coding informations such as account ID and AWS region.
 
 ??? example "Setting up a s3 bucket name to store scripts files"
-    [![A gif showing how to configure S3 variables on terraglue](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-05-s3.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-05-s3.gif?raw=true)
+    [![A gif showing how to configure S3 variables on terraglue](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-05-s3.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-05-s3.gif?raw=true)
 
     ___
 
@@ -244,7 +244,7 @@ The idea with this variables block is:
 - Inform terraglue to use 5 workers
 
 ??? example "Setting up a Glue job"
-    [![A gif showing how to configure Glue job variables on terraglue](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-06-gluejob.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-06-gluejob.gif?raw=true)
+    [![A gif showing how to configure Glue job variables on terraglue](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-06-gluejob.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-06-gluejob.gif?raw=true)
 
     ___
 
@@ -296,7 +296,7 @@ The main key points about the job arguments declared in this demo are:
 In this step, users are free to set all Glue acceptable arguments. A full list can be found in the [AWS official documentation about job parameters](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html).
 
 ??? example "Setting up Glue job arguments"
-    [![A gif showing how to configure Glue job arguments on terraglue](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-07-jobargs.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-07-jobargs.gif?raw=true)
+    [![A gif showing how to configure Glue job arguments on terraglue](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-07-jobargs.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-07-jobargs.gif?raw=true)
 
     ___
 
@@ -357,19 +357,17 @@ After all this configuration journey, we now just need to plan and apply the dep
 
 ### Terraform plan
 
-Well, now it's time to see the deployment plan using the `terraform plan` command.
-
-Here we will be able to see all the resources that will be deployed with the configuration we chose.
+With `terraform plan` command, we will be able to see all the resources that will be deployed with the configuration we chose.
 
 ??? example "Running the terraform plan command"
-    [![A gif showing how to run terraform plan Terraform comand](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-08-plan.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-08-plan.gif?raw=true)
+    [![A gif showing how to run terraform plan Terraform comand](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-08-plan.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-08-plan.gif?raw=true)
 
 ### Terraform apply
 
 And now we can finally deploy the infrastructure declared using the `terraform apply` command.
 
 ??? example "Running the terraform apply command"
-    [![A gif showing how to run terraform apply Terraform comand](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-09-apply.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-09-apply.gif?raw=true)
+    [![A gif showing how to run terraform apply Terraform comand](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-09-apply.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-09-apply.gif?raw=true)
   
 
 ## Deployed Resources
@@ -381,7 +379,7 @@ Well, to finish this demo page, let's see all the resources that were deployed b
 - A Glue job with parameters and arguments chosen by users
 
 ??? example "A little tour through all deployed resources by terraglue"
-    [![A gif showing different AWS console pages in order to show all the deployed resources by terraglue](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-10-resources.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-10-resources.gif?raw=true)
+    [![A gif showing different AWS console pages in order to show all the deployed resources by terraglue](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-10-resources.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/2.0.x/docs/assets/gifs/terraglue-production-10-resources.gif?raw=true)
 
 ___
 
