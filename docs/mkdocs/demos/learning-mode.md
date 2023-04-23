@@ -139,7 +139,33 @@ The next step is to run the Terraform commands to deploy the resources in the ta
 
 ## Running Terraform Commands
 
+After all this configuration journey, we now just need to plan and apply the deployment using the respective Terraform commands.
+
+### Terraform plan
+
+With `terraform plan` command, we will be able to see all the resources that will be deployed with the configuration we chose.
+
+??? example "Running the terraform plan command"
+    [![A gif showing how to run terraform plan Terraform comand]()]()
+
+### Terraform apply
+
+And now we can finally deploy the infrastructure declared using the `terraform apply` command.
+
+??? example "Running the terraform apply command"
+    [![A gif showing how to run terraform apply Terraform comand]()]()
+  
+
 ## Deployed Resources
+
+In the end, to finish this demo, let's navigate through all resources deployed in the target AWS account to see a preconfigured Glue job in scene!
+
+??? example "A little tour through all deployed resources by terraglue"
+    [![A gif showing different AWS console pages in order to show all the deployed resources by terraglue]()]()
+
+___
+
+✅ I hope all the demos can help you somehow on using terraglue to learn more about how a Glue job works in practice. Keep reading the docs to become a master user in terraglue!
 
 ___
 

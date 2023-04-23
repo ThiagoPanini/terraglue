@@ -357,9 +357,7 @@ After all this configuration journey, we now just need to plan and apply the dep
 
 ### Terraform plan
 
-Well, now it's time to see the deployment plan using the `terraform plan` command.
-
-Here we will be able to see all the resources that will be deployed with the configuration we chose.
+With `terraform plan` command, we will be able to see all the resources that will be deployed with the configuration we chose.
 
 ??? example "Running the terraform plan command"
     [![A gif showing how to run terraform plan Terraform comand](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-08-plan.gif?raw=true)](https://github.com/ThiagoPanini/terraglue/blob/feature/improve-docs/docs/assets/gifs/terraglue-production-08-plan.gif?raw=true)
