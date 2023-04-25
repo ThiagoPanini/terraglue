@@ -1,2 +1,6 @@
 flake8
 sparksnake
+pytest
+pytest-cov
+Faker
+moto
