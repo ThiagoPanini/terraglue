@@ -13,14 +13,53 @@ ___
 
 # Importing libraries
 import json
+import os
 
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType,\
     IntegerType, DecimalType, FloatType, DateType, TimestampType, BooleanType
 
 
+# Initializing findspark in case of using a Windows platform
+if os.name == "nt":
+    import findspark
+    findspark.init()
+
 # Getting the active SparkSession
 spark = SparkSession.builder.getOrCreate()
+
+
+# Creating a Python dictionary based on the read of a JSON file
+def get_json_data_info(json_path: str, json_main_key: str = "source") -> list:
+    """Reads a JSON file with predefined data from job data sources.
+
+    This functions receives a path from a JSON file and a main key in order to
+    return a Python list object gotten after executing the json.load() method.
+
+    Example:
+        ```python
+        json_data_info = get_json_data_info(
+            json_path="../configs/source_schemas.json",
+            json_main_key="source"
+        )
+        ```
+
+    Args:
+        json_path (str):
+            The path for the JSON file provided by user with all information
+            needed to create Spark DataFrames for all source data for the job
+
+        json_main_key (str):
+            The main key of the JSON file according to how the JSON file was
+            configured
+
+    Returns:
+        A Python list containing all information of data sources put in\
+        the JSON file.
+    """
+
+    with open(json_path, "r") as f:
+        return json.load(f)[json_main_key]
 
 
 # Parsing a string for a dtype into a valid Spark dtype
@@ -120,7 +159,7 @@ def create_spark_schema_from_schema_info(schema_info: list) -> StructType:
 
 # Creating a dictionary with DataFrames to mock all sources
 def create_spark_dataframe_from_json_info(
-    json_path: str,
+    json_path: dict,
     spark: SparkSession = spark,
 ) -> dict:
     """Creates a dictionary of Spark DataFrames based on inputs on a JSON file.
@@ -153,8 +192,10 @@ def create_spark_dataframe_from_json_info(
     """
 
     # Reading JSON file with all schemas definition
-    with open(json_path, "r") as f:
-        json_data_info = json.load(f)["source"]
+    json_data_info = get_json_data_info(
+        json_path=json_path,
+        json_main_key="source"
+    )
 
     # Creating an empty dict to store all source DataFrames
     sources_dataframes = {}

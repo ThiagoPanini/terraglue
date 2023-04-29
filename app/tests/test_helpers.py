@@ -11,11 +11,26 @@ ___
 import pytest
 
 from tests.helpers.dataframes import parse_string_to_spark_dtype,\
-    create_spark_schema_from_schema_info
+    create_spark_schema_from_schema_info,\
+    create_spark_dataframe_from_json_info
 
 from pyspark.sql import DataFrame
 from pyspark.sql.types import StructType, StringType, IntegerType,\
     DecimalType, FloatType, DateType, TimestampType, BooleanType
+
+
+@pytest.mark.dataframes
+@pytest.mark.get_json_data_info
+def test_get_json_data_info_function_returns_a_python_list(
+    json_data_info_source
+):
+    """
+    G: given that users want to read the preconfigured JSON file
+    W: when the function get_json_data_info() is called
+    T: then the result must be a Python list
+    """
+
+    assert type(json_data_info_source) is list
 
 
 @pytest.mark.dataframes
@@ -140,7 +155,7 @@ def test_typeerror_exception_when_passing_a_incorrect_dtype_string_reference():
 @pytest.mark.dataframes
 @pytest.mark.create_spark_schema_from_schema_info
 def test_spark_schema_generated_by_function_is_a_structype_object(
-    json_data_info
+    json_data_info_source
 ):
     """
     G: given that users want to generate a valid Spark schema based on infos
@@ -151,7 +166,7 @@ def test_spark_schema_generated_by_function_is_a_structype_object(
     """
 
     # Getting the first element for the JSON file
-    sample_source_info = json_data_info[0]
+    sample_source_info = json_data_info_source[0]
 
     # Getting a Spark schema from schema info extracted from JSON file
     schema = create_spark_schema_from_schema_info(
@@ -196,3 +211,69 @@ def test_dataframes_dict_has_spark_dataframes_as_dictionary_values(
     dict_key = list(source_dataframes_dict.keys())[0]
 
     assert type(source_dataframes_dict[dict_key]) is DataFrame
+
+
+@pytest.mark.dataframes
+@pytest.mark.create_spark_dataframe_from_json_info
+def test_user_defined_sample_data_on_json_file_are_contained_on_df_rows(
+    source_dataframes_dict,
+    json_data_info_source,
+    df_key: str = "df_orders"
+):
+    """
+    G: given that users want to generate Spark DataFrames based on a
+       preconfigured JSON file in a specific format
+    W: when the function create_spark_dataframe_from_json_info() is called
+       with a path for reading the preconfigured JSON file and considering that
+       there are at least one data source defined by user in the JSON file to
+       use a predefined sample data in order to create a Spark DataFrame
+    T: then the returned DataFrame for that source data must has its rows
+       composed by user defined sample data on JSON file
+    """
+
+    # Getting a DataFrame that was configured with user defined sample data
+    df_sample = source_dataframes_dict[df_key]
+
+    # Collecting all rows from this DataFrame
+    rows = [[value for value in row] for row in df_sample.collect()]
+
+    # Getting user defined sample data from JSON file
+    user_defined_rows = json_data_info_source[0]["data"]
+
+    # Checking if DataFrame rows are equal to user defined sample rows
+    assert rows == user_defined_rows
+
+
+@pytest.mark.dataframes
+@pytest.mark.create_spark_dataframe_from_json_info
+@pytest.mark.skip(reason="Work in progress")
+def test_source_data_with_empty_flag_on_json_generates_empty_dataframes(
+    json_data_info_source,
+    df_key: str = "df_orders"
+):
+    """
+    G: given that users want to generate Spark DataFrames based on a
+       preconfigured JSON file in a specific format
+    W: when the function create_spark_dataframe_from_json_info() is called
+       with a path for reading the preconfigured JSON file and considering that
+       there are at least one data source defined by user in the JSON file to
+       create an empty DataFrame (key empty: true)
+    T: then the returned DataFrame for that data source must have one row
+       full of nulls
+    """
+
+    # Making a copy of json_data_info_source dict and changing the empty flag
+    json_data_info_source_copy = json_data_info_source.copy()
+    json_data_info_source_copy["empty"] = True
+
+    # Generating the sources DataFrames dict by calling the function
+    source_dataframes_dict = create_spark_dataframe_from_json_info()
+
+    # Getting a DataFrame that was configured with user defined sample data
+    df_sample = source_dataframes_dict[df_key]
+
+    # Collecting all rows from this DataFrame
+    rows = [[value for value in row] for row in df_sample.collect()]
+
+    # Checking if DataFrame rows are equal to user defined sample rows
+    assert len(rows) == 0
