@@ -22,5 +22,5 @@ def test_df_orders_transformation_generates_the_expected_dataframe_schema(
     W:
     T:
     """
-    
+
     ...

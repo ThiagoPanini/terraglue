@@ -16,7 +16,7 @@ import json
 
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType,\
-     IntegerType, DecimalType, FloatType, DateType, TimestampType, BooleanType
+    IntegerType, DecimalType, FloatType, DateType, TimestampType, BooleanType
 
 
 # Getting the active SparkSession
@@ -69,7 +69,7 @@ def parse_string_to_spark_dtype(dtype: str):
 
 
 # Creating a valid Spark DataFrame schema from a list with fields information
-def create_spark_schema_from_dict(schema_list: list) -> StructType:
+def create_spark_schema_from_schema_info(schema_info: list) -> StructType:
     """Generates a StructType Spark schema based on a list of fields info.
 
     This function receives a preconfigured Python list extracted from a JSON
@@ -95,11 +95,11 @@ def create_spark_schema_from_dict(schema_list: list) -> StructType:
         ]
 
         # Returning a valid Spark schema object based on a dictionary
-        schema = create_spark_schema_from_dict(schema_list)
+        schema = create_spark_schema_from_dict(schema_info)
         ```
 
     Args:
-        schema_list (list): A list with information about DataFrame fields
+        schema_info (list): A list with information about fields of a DataFrame
 
     Returns:
         A StructType object structured in such a way that makes it possible to\
@@ -112,18 +112,18 @@ def create_spark_schema_from_dict(schema_list: list) -> StructType:
             field_info["attribute"],
             parse_string_to_spark_dtype(field_info["dtype"])(),
             nullable=field_info["nullable"]
-        ) for field_info in schema_list
+        ) for field_info in schema_info
     ])
 
     return schema
 
 
 # Creating a dictionary with DataFrames to mock all sources
-def create_source_dataframes(
-    source_schemas_json_path: str,
+def create_spark_dataframe_from_json_info(
+    json_path: str,
     spark: SparkSession = spark,
 ) -> dict:
-    """Creates a dictionary of Spark DataFrames based on inputs on a JSON FILE.
+    """Creates a dictionary of Spark DataFrames based on inputs on a JSON file.
 
     This function receives the path for a user defined JSON file containing
     all information needed to specify all the sources to be on the Glue job
@@ -136,11 +136,11 @@ def create_source_dataframes(
         json_path = "../configs/source_schemas.json"
 
         # Getting a dictionary of Spark DataFrames based on user configs
-        source_dataframes = create_source_dataframes(json_path)
+        source_dataframes = create_spark_dataframe_from_json_info(json_path)
         ```
 
     Args:
-        source_schemas_json_path (str):
+        json_path (str):
             The path for the JSON file provided by user with all information
             needed to create Spark DataFrames for all source data for the job
 
@@ -153,7 +153,7 @@ def create_source_dataframes(
     """
 
     # Reading JSON file with all schemas definition
-    with open(source_schemas_json_path, "r") as f:
+    with open(json_path, "r") as f:
         json_data_info = json.load(f)["source"]
 
     # Creating an empty dict to store all source DataFrames
@@ -162,7 +162,7 @@ def create_source_dataframes(
     # Iterating over all source schemas in order to create Spark DataFrames
     for source_data in json_data_info:
         # Returning a valid Spark DataFrame schema
-        schema = create_spark_schema_from_dict(source_data["schema"])
+        schema = create_spark_schema_from_schema_info(source_data["schema"])
 
         # Checking if users want to create an empty DataFrame
         if source_data["empty"]:
