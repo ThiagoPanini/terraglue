@@ -13,19 +13,15 @@ ___
 
 # Importing libraries
 import json
-import os
+import findspark
 
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType,\
     IntegerType, DecimalType, FloatType, DateType, TimestampType, BooleanType
 
 
-# Initializing findspark in case of using a Windows platform
-if os.name == "nt":
-    import findspark
-    findspark.init()
-
 # Getting the active SparkSession
+findspark.init()
 spark = SparkSession.builder.getOrCreate()
 
 
@@ -159,7 +155,7 @@ def create_spark_schema_from_schema_info(schema_info: list) -> StructType:
 
 # Creating a dictionary with DataFrames to mock all sources
 def create_spark_dataframe_from_json_info(
-    json_path: dict,
+    json_path: str,
     spark: SparkSession = spark,
 ) -> dict:
     """Creates a dictionary of Spark DataFrames based on inputs on a JSON file.

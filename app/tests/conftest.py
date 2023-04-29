@@ -9,6 +9,7 @@ ___
 # Importing libraries
 import pytest
 import os
+import findspark
 
 from pyspark.sql import SparkSession, DataFrame
 
@@ -18,27 +19,14 @@ from tests.helpers.dataframes import create_spark_dataframe_from_json_info,\
 # from src.transformers import transform_orders
 
 
-# Initializing findspark in case of using a Windows platform
-if os.name == "nt":
-    import findspark
-    findspark.init()
-
 # Creating a SparkSession object
+findspark.init()
 spark = SparkSession.builder.getOrCreate()
 
 # Defining paths for JSON files with infos to create Spark DataFrames
 SOURCE_JSON_SCHEMAS_PATH = os.path.join(
     os.getcwd(), "app/tests/configs/source_schemas.json"
 )
-
-
-# A JSON file loaded with source schema definition
-@pytest.fixture()
-def json_data_info_source() -> dict:
-    return get_json_data_info(
-        json_path=SOURCE_JSON_SCHEMAS_PATH,
-        json_main_key="source"
-    )
 
 
 # A dictionary with all source DataFrames to be used on the Glue job
@@ -48,6 +36,12 @@ def source_dataframes_dict() -> dict:
         json_path=SOURCE_JSON_SCHEMAS_PATH,
         spark=spark
     )
+
+
+# A DataFrame object extracted from JSON for test purposes only
+@pytest.fixture()
+def df_test_null_data(source_dataframes_dict: dict) -> DataFrame:
+    return source_dataframes_dict["df_test_null_data"]
 
 
 # A df_orders sample DataFrame
