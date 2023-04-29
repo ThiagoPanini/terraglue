@@ -1,5 +1,6 @@
 flake8
 sparksnake
+findspark
 pytest
 pytest-cov
 Faker
