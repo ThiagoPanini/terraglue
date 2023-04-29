@@ -63,6 +63,9 @@ def parse_string_to_spark_dtype(dtype: str):
         return TimestampType
     elif dtype_prep == "boolean":
         return BooleanType
+    else:
+        raise TypeError(f"Data type {dtype} is not valid or currently "
+                        "parseable into a native Spark dtype")
 
 
 # Creating a valid Spark DataFrame schema from a list with fields information

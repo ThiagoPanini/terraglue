@@ -11,10 +11,9 @@ ___
 # Importing libraries
 import pytest
 
-from pyspark.sql import DataFrame
-
 
 @pytest.mark.transformers
+@pytest.mark.skip(reason="Work in progress")
 def test_df_orders_transformation_generates_the_expected_dataframe_schema(
     df_orders_prep
 ):
@@ -23,3 +22,5 @@ def test_df_orders_transformation_generates_the_expected_dataframe_schema(
     W:
     T:
     """
+    
+    ...
