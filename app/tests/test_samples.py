@@ -10,12 +10,13 @@ ___
 # Importing libraries
 import pytest
 
-from samples.data import SAMPLES_DICT
+from tests.samples.data import SAMPLES_DICT
 
 from pyspark.sql import DataFrame
 
 
 @pytest.mark.dataframes
+@pytest.mark.skip(reason="Changing to helpers.dataframe module")
 def test_function_to_get_dataframe_samples_generates_a_python_dictionary(
     samples_dfs_dict
 ):
@@ -28,6 +29,7 @@ def test_function_to_get_dataframe_samples_generates_a_python_dictionary(
 
 
 @pytest.mark.dataframes
+@pytest.mark.skip(reason="Changing to helpers.dataframe module")
 def test_table_keys_defined_by_user_are_contained_on_samples_dfs_dictionary(
     samples_dfs_dict
 ):
@@ -41,6 +43,7 @@ def test_table_keys_defined_by_user_are_contained_on_samples_dfs_dictionary(
 
 
 @pytest.mark.dataframes
+@pytest.mark.skip(reason="Changing to helpers.dataframe module")
 def test_all_elements_on_samples_dfs_dictionary_are_spark_dataframes(
     samples_dfs_dict
 ):

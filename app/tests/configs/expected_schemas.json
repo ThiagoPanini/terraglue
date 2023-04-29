@@ -1,0 +1,14 @@
+{
+    "expected": [
+        {
+            "dataframe_reference": "df_orders_prep",
+            "schema": [
+                {
+                    "attribute": "idx",
+                    "dtype": "int",
+                    "nullable": false
+                }
+            ]
+        }
+    ]
+}

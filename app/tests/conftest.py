@@ -8,27 +8,42 @@ ___
 
 # Importing libraries
 import pytest
+import os
 
 from pyspark.sql import SparkSession, DataFrame
 
-from samples.dataframes import generate_samples_dataframes
-from samples.data import SAMPLES_DICT
+from tests.helpers.dataframes import create_source_dataframes
+
+# from src.transformers import transform_orders
 
 
 # Creating a SparkSession object
 spark = SparkSession.builder.getOrCreate()
 
+# Defining paths for JSON files with infos to create Spark DataFrames
+SOURCE_JSON_SCHEMAS_PATH = os.path.join(
+    os.getcwd(), "app/tests/configs/source_schemas.json"
+)
 
-# A  dictionary with DataFrames samples to be used on tests
+
+# A dictionary with all source DataFrames to be used on the Glue job
 @pytest.fixture()
-def samples_dfs_dict() -> dict:
-    return generate_samples_dataframes(
-        spark=spark,
-        samples_dict=SAMPLES_DICT
+def source_dataframes_dict() -> dict:
+    return create_source_dataframes(
+        source_schemas_json_path=SOURCE_JSON_SCHEMAS_PATH,
+        spark=spark
     )
 
 
-# A tbl_brecommerce_orders sample DataFrame
+# A df_orders sample DataFrame
 @pytest.fixture()
-def df_orders(samples_dfs_dict: dict) -> DataFrame:
-    return samples_dfs_dict["tbl_brecommerce_orders"]
+def df_orders(source_dataframes_dict: dict) -> DataFrame:
+    return source_dataframes_dict["df_orders"]
+
+
+# A df_orders_prep generated running the transform_orders function
+"""
+@pytest.fixture()
+def df_orders_prep(df_orders) -> DataFrame:
+    return transform_orders(df=df_orders)
+"""
