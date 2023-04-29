@@ -13,8 +13,7 @@ import findspark
 
 from pyspark.sql import SparkSession, DataFrame
 
-from tests.helpers.dataframes import create_spark_dataframe_from_json_info,\
-    get_json_data_info
+from tests.helpers.dataframes import create_spark_dataframe_from_json_info
 
 # from src.transformers import transform_orders
 
