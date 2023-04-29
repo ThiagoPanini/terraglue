@@ -31,7 +31,13 @@ def test_get_json_data_info_function_returns_a_python_list(
     T: then the result must be a Python list
     """
 
-    assert type(json_data_info_source) is list
+    # Reading the preconfigured JSON file
+    json_data_info = get_json_data_info(
+        json_path=SOURCE_JSON_SCHEMAS_PATH,
+        json_main_key="source"
+    )
+
+    assert type(json_data_info) is list
 
 
 @pytest.mark.dataframes
@@ -246,7 +252,7 @@ def test_user_defined_sample_data_on_json_file_are_contained_on_df_rows(
         json_path=SOURCE_JSON_SCHEMAS_PATH,
         json_main_key="source"
     )
-    
+
     # Getting user defined sample data from JSON file
     user_defined_rows = json_data_info[0]["data"]
 

@@ -11,16 +11,18 @@ ___
 # Importing libraries
 import pytest
 
+from pyspark.sql import DataFrame
+
 
 @pytest.mark.transformers
-@pytest.mark.skip(reason="Work in progress")
-def test_df_orders_transformation_generates_the_expected_dataframe_schema(
+@pytest.mark.transform_orders
+def test_df_orders_transformation_generates_a_spark_dataframe_object(
     df_orders_prep
 ):
     """
-    G:
-    W:
-    T:
+    G: given that users want to transform the df_orders DataFrame
+    W: when the function transform_orders() is called
+    T: then the return must be a Spark DataFrame
     """
 
-    ...
+    assert type(df_orders_prep) is DataFrame

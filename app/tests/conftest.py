@@ -15,7 +15,7 @@ from pyspark.sql import SparkSession, DataFrame
 
 from tests.helpers.dataframes import create_spark_dataframe_from_json_info
 
-# from src.transformers import transform_orders
+from src.transformers import transform_orders
 
 
 # Creating a SparkSession object
@@ -50,8 +50,6 @@ def df_orders(source_dataframes_dict: dict) -> DataFrame:
 
 
 # A df_orders_prep generated running the transform_orders function
-"""
 @pytest.fixture()
 def df_orders_prep(df_orders) -> DataFrame:
     return transform_orders(df=df_orders)
-"""
