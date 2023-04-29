@@ -64,6 +64,44 @@
                 [9, "76c6e866289321a7c93b82b54852dc33", "f54a9f0e6b351c431402b8461ea51999", "delivered", "23/01/2017 18:29", "25/01/2017 02:50", "26/01/2017 14:16", "02/02/2017 14:08", "06/03/2017 00:00"],
                 [10, "e69bfb5eb88e0ed6a785585b27e16dbf", "31ad1d1b63eb9962463f764d4e6e0c9d", "delivered", "29/07/2017 11:55", "29/07/2017 12:05", "10/08/2017 19:45", "16/08/2017 17:14", "23/08/2017 00:00"]
             ]
+        },
+        {
+            "name": "a_dataframe_created_with_null_data",
+            "dataframe_reference": "df_test_null_data",
+            "schema": [
+                {
+                    "attribute": "dummy_string",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "dummy_int",
+                    "dtype": "int",
+                    "nullable": true
+                }
+            ],
+            "empty": true,
+            "fake_data": false,
+            "data": []
+        },
+        {
+            "name": "a_dataframe_created_with_fake_data",
+            "dataframe_reference": "df_test_fake_data",
+            "schema": [
+                {
+                    "attribute": "dummy_string",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "dummy_int",
+                    "dtype": "int",
+                    "nullable": true
+                }
+            ],
+            "empty": false,
+            "fake_data": true,
+            "data": []
         }
     ]
 }
