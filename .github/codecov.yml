@@ -1,0 +1,14 @@
+ignore:
+  - setup.py
+coverage:
+  status:
+    patch:
+      default:
+        target: 0%
+        threshold: 5%
+        if_ci_failed: error
+    project:
+      default:
+        target: 0%
+        threshold: 5%
+        if_ci_failed: error

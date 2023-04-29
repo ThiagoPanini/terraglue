@@ -85,6 +85,25 @@ def transform_orders(df: DataFrame) -> DataFrame:
             weekofyear=True
         )
 
+        # Selecting attributes
+        df_orders_prep = df_orders_prep.selectExpr(
+            "order_id",
+            "customer_id",
+            "order_status",
+            "order_approved_at",
+            "order_deliv_carrier_dt",
+            "order_deliv_customer_dt",
+            "order_estim_deliv_dt",
+            "order_purchase_ts",
+            "year_order_purchase_ts",
+            "quarter_order_purchase_ts",
+            "month_order_purchase_ts",
+            "dayofmonth_order_purchase_ts",
+            "dayofweek_order_purchase_ts",
+            "dayofyear_order_purchase_ts",
+            "weekofyear_order_purchase_ts"
+        )
+
         return df_orders_prep
 
     except Exception as e:
