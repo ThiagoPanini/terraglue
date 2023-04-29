@@ -22,9 +22,7 @@ from pyspark.sql.types import StructType, StringType, IntegerType,\
 
 @pytest.mark.dataframes
 @pytest.mark.get_json_data_info
-def test_get_json_data_info_function_returns_a_python_list(
-    json_data_info_source
-):
+def test_get_json_data_info_function_returns_a_python_list():
     """
     G: given that users want to read the preconfigured JSON file
     W: when the function get_json_data_info() is called
