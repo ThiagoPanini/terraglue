@@ -1,14 +1,87 @@
 {
-    "expected": [
+    "dataframes": [
         {
             "dataframe_reference": "df_orders_prep",
             "schema": [
                 {
-                    "attribute": "idx",
+                    "attribute": "order_id",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "customer_id",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "order_status",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "order_approved_at",
+                    "dtype": "timestamp",
+                    "nullable": true
+                },
+                {
+                    "attribute": "order_deliv_carrier_dt",
+                    "dtype": "timestamp",
+                    "nullable": true
+                },
+                {
+                    "attribute": "order_deliv_customer_dt",
+                    "dtype": "timestamp",
+                    "nullable": true
+                },
+                {
+                    "attribute": "order_estim_deliv_dt",
+                    "dtype": "timestamp",
+                    "nullable": true
+                },
+                {
+                    "attribute": "order_purchase_ts",
+                    "dtype": "date",
+                    "nullable": true
+                },
+                {
+                    "attribute": "year_order_purchase_ts",
                     "dtype": "int",
-                    "nullable": false
+                    "nullable": true
+                },
+                {
+                    "attribute": "quarter_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "month_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "dayofmonth_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "dayofweek_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "dayofyear_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "weekofyear_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
                 }
-            ]
+            ],
+            "empty": true,
+            "fake_data": false,
+            "data": []
         }
     ]
 }

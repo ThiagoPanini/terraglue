@@ -22,9 +22,15 @@ from src.transformers import transform_orders
 findspark.init()
 spark = SparkSession.builder.getOrCreate()
 
+# Defining local paths where JSON files are stored
+CONFIGS_PATH = "app/tests/configs"
+
 # Defining paths for JSON files with infos to create Spark DataFrames
 SOURCE_JSON_SCHEMAS_PATH = os.path.join(
-    os.getcwd(), "app/tests/configs/source_schemas.json"
+    os.getcwd(), CONFIGS_PATH, "source_schemas.json"
+)
+EXPECTED_JSON_SCHEMAS_PATH = os.path.join(
+    os.getcwd(), CONFIGS_PATH, "expected_schemas.json"
 )
 
 
@@ -33,6 +39,15 @@ SOURCE_JSON_SCHEMAS_PATH = os.path.join(
 def source_dataframes_dict() -> dict:
     return create_spark_dataframe_from_json_info(
         json_path=SOURCE_JSON_SCHEMAS_PATH,
+        spark=spark
+    )
+
+
+# A dictionary with all expected DataFrames returned from transformation funcs
+@pytest.fixture()
+def expected_dataframes_dict() -> dict:
+    return create_spark_dataframe_from_json_info(
+        json_path=EXPECTED_JSON_SCHEMAS_PATH,
         spark=spark
     )
 

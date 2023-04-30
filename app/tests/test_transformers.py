@@ -26,3 +26,22 @@ def test_df_orders_transformation_generates_a_spark_dataframe_object(
     """
 
     assert type(df_orders_prep) is DataFrame
+
+
+@pytest.mark.transformers
+@pytest.mark.transform_orders
+def test_df_orders_transformation_generates_the_expected_dataframe_schema(
+    expected_dataframes_dict,
+    df_orders_prep
+):
+    """
+    G: given that users want to transform the df_orders DataFrame
+    W: when the function transform_orders() is called
+    T: then the schema of the resulting DataFrame must match the expected
+       schema provided by users in the JSON file
+    """
+
+    # Unpacking the expected DataFrame object to be tested
+    df_prep_expected = expected_dataframes_dict["df_orders_prep"]
+
+    assert df_prep_expected.schema == df_orders_prep.schema
