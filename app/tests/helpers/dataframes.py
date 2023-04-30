@@ -26,7 +26,10 @@ spark = SparkSession.builder.getOrCreate()
 
 
 # Creating a Python dictionary based on the read of a JSON file
-def get_json_data_info(json_path: str, json_main_key: str = "source") -> list:
+def get_json_data_info(
+    json_path: str,
+    json_main_key: str = "dataframes"
+) -> list:
     """Reads a JSON file with predefined data from job data sources.
 
     This functions receives a path from a JSON file and a main key in order to
@@ -36,7 +39,7 @@ def get_json_data_info(json_path: str, json_main_key: str = "source") -> list:
         ```python
         json_data_info = get_json_data_info(
             json_path="../configs/source_schemas.json",
-            json_main_key="source"
+            json_main_key="dataframes"
         )
         ```
 
@@ -156,6 +159,7 @@ def create_spark_schema_from_schema_info(schema_info: list) -> StructType:
 # Creating a dictionary with DataFrames to mock all sources
 def create_spark_dataframe_from_json_info(
     json_path: str,
+    json_main_key: str = "dataframes",
     spark: SparkSession = spark,
 ) -> dict:
     """Creates a dictionary of Spark DataFrames based on inputs on a JSON file.
@@ -190,7 +194,7 @@ def create_spark_dataframe_from_json_info(
     # Reading JSON file with all schemas definition
     json_data_info = get_json_data_info(
         json_path=json_path,
-        json_main_key="source"
+        json_main_key=json_main_key
     )
 
     # Creating an empty dict to store all source DataFrames
