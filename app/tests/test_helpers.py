@@ -32,7 +32,7 @@ def test_get_json_data_info_function_returns_a_python_list():
     # Reading the preconfigured JSON file
     json_data_info = get_json_data_info(
         json_path=SOURCE_JSON_SCHEMAS_PATH,
-        json_main_key="source"
+        json_main_key="dataframes"
     )
 
     assert type(json_data_info) is list
@@ -171,7 +171,7 @@ def test_spark_schema_generated_by_function_is_a_structype_object():
     # Reading the preconfigured JSON file
     json_data_info = get_json_data_info(
         json_path=SOURCE_JSON_SCHEMAS_PATH,
-        json_main_key="source"
+        json_main_key="dataframes"
     )
 
     # Getting the first element for the JSON file
@@ -248,7 +248,7 @@ def test_user_defined_sample_data_on_json_file_are_contained_on_df_rows(
     # Reading the preconfigured JSON file
     json_data_info = get_json_data_info(
         json_path=SOURCE_JSON_SCHEMAS_PATH,
-        json_main_key="source"
+        json_main_key="dataframes"
     )
 
     # Getting user defined sample data from JSON file

@@ -1,5 +1,5 @@
 {
-    "source": [
+    "dataframes": [
         {
             "name": "tbl_brecommerce_orders",
             "dataframe_reference": "df_orders",
