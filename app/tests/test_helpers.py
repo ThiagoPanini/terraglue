@@ -11,7 +11,8 @@ ___
 import pytest
 
 from tests.helpers.dataframes import parse_string_to_spark_dtype,\
-    create_spark_schema_from_schema_info, get_json_data_info
+    create_spark_schema_from_schema_info, get_json_data_info,\
+    compare_dataframe_schemas
 
 from tests.conftest import SOURCE_JSON_SCHEMAS_PATH
 
@@ -322,3 +323,61 @@ def test_source_data_with_empty_flag_on_json_generates_empty_dataframes(
     # Checking if there is only one row and if this row only has null data
     assert len(rows) == 1
     assert list(set(rows[0]))[0] is None
+
+
+@pytest.mark.dataframes
+@pytest.mark.compare_dataframe_schemas
+def test_compare_equal_schemas_returns_true_when_nullable_is_false(df_orders):
+    """
+    G: given that users want to compare two Spark dataframe schemas
+    W: when two different DataFrames are compared with nullable flag is False
+    T: then the result must be True
+    """
+
+    assert compare_dataframe_schemas(df_orders, df_orders,
+                                     compare_nullable_info=False)
+
+
+@pytest.mark.dataframes
+@pytest.mark.compare_dataframe_schemas
+def test_compare_different_schemas_returns_false_when_nullable_is_false(
+    df_orders,
+    df_customers
+):
+    """
+    G: given that users want to compare two Spark dataframe schemas
+    W: when two different DataFrames are compared with nullable flag is False
+    T: then the result must be False
+    """
+
+    assert not compare_dataframe_schemas(df_orders, df_customers,
+                                         compare_nullable_info=False)
+
+
+@pytest.mark.dataframes
+@pytest.mark.compare_dataframe_schemas
+def test_compare_equal_schemas_returns_true_when_nullable_is_true(df_orders):
+    """
+    G: given that users want to compare two Spark dataframe schemas
+    W: when two different DataFrames are compared with nullable flag is True
+    T: then the result must be True
+    """
+
+    assert compare_dataframe_schemas(df_orders, df_orders,
+                                     compare_nullable_info=True)
+
+
+@pytest.mark.dataframes
+@pytest.mark.compare_dataframe_schemas
+def test_compare_different_schemas_returns_false_when_nullable_is_true(
+    df_orders,
+    df_customers
+):
+    """
+    G: given that users want to compare two Spark dataframe schemas
+    W: when two different DataFrames are compared with nullable flag is True
+    T: then the result must be False
+    """
+
+    assert not compare_dataframe_schemas(df_orders, df_customers,
+                                         compare_nullable_info=True)
