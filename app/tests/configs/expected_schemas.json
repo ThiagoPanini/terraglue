@@ -2,6 +2,8 @@
     "dataframes": [
         {
             "dataframe_reference": "df_orders_prep",
+            "empty": true,
+            "fake_data": false,
             "schema": [
                 {
                     "attribute": "order_id",
@@ -79,8 +81,49 @@
                     "nullable": true
                 }
             ],
+            "data": []
+        },
+        {
+            "dataframe_reference": "df_order_items_prep",
             "empty": true,
             "fake_data": false,
+            "schema": [
+                {
+                    "attribute": "order_id",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "qty_order_items",
+                    "dtype": "bigint",
+                    "nullable": true
+                },
+                {
+                    "attribute": "sum_order_price",
+                    "dtype": "double",
+                    "nullable": true
+                },
+                {
+                    "attribute": "mean_order_price",
+                    "dtype": "double",
+                    "nullable": true
+                },
+                {
+                    "attribute": "max_order_price",
+                    "dtype": "double",
+                    "nullable": true
+                },
+                {
+                    "attribute": "min_order_price",
+                    "dtype": "double",
+                    "nullable": true
+                },
+                {
+                    "attribute": "mean_order_freight_value",
+                    "dtype": "double",
+                    "nullable": true
+                }
+            ],
             "data": []
         }
     ]

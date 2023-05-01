@@ -74,4 +74,4 @@ def df_order_items(source_dataframes_dict: dict) -> DataFrame:
 # A df_order_items_prep generated running the transform_orders function
 @pytest.fixture()
 def df_order_items_prep(df_order_items) -> DataFrame:
-    return transform_order_items(df=df_order_items)
+    return transform_order_items(df=df_order_items, spark_session=spark)
