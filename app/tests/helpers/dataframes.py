@@ -15,7 +15,7 @@ ___
 import json
 import findspark
 
-from pyspark.sql import SparkSession
+from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql.types import StructType, StructField, StringType,\
     IntegerType, LongType, DecimalType, FloatType, DoubleType, BooleanType,\
     DateType, TimestampType
@@ -229,3 +229,24 @@ def create_spark_dataframe_from_json_info(
         )
 
     return sources_dataframes
+
+
+# Comparing Spark schemas based on custom conditions
+def compare_dataframe_schemas(
+    df1: DataFrame,
+    df2: DataFrame,
+    compare_nullable_info: bool = False
+) -> bool:
+    """
+    """
+
+    # Extracting infos to be compared based on user conditions
+    if not compare_nullable_info:
+        df1_schema = [[col.name, col.dataType] for col in df1.schema]
+        df2_schema = [[col.name, col.dataType] for col in df2.schema]
+    else:
+        df1_schema = df1.schema
+        df2_schema = df2.schema
+
+    # Checking if schemas are equal
+    return df1_schema == df2_schema
