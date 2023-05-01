@@ -52,12 +52,6 @@ def expected_dataframes_dict() -> dict:
     )
 
 
-# A DataFrame object extracted from JSON for test purposes only
-@pytest.fixture()
-def df_test_null_data(source_dataframes_dict: dict) -> DataFrame:
-    return source_dataframes_dict["df_test_null_data"]
-
-
 # A df_orders sample DataFrame
 @pytest.fixture()
 def df_orders(source_dataframes_dict: dict) -> DataFrame:

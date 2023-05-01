@@ -260,7 +260,8 @@ def test_user_defined_sample_data_on_json_file_are_contained_on_df_rows(
 
 @pytest.mark.dataframes
 def test_source_data_with_empty_flag_on_json_generates_empty_dataframes(
-    df_test_null_data
+    source_dataframes_dict,
+    df_null_key: str = "df_test_null_data"
 ):
     """
     G: given that users want to generate Spark DataFrames based on a
@@ -272,6 +273,9 @@ def test_source_data_with_empty_flag_on_json_generates_empty_dataframes(
     T: then the returned DataFrame for that data source must have one row
        full of nulls
     """
+
+    # Unpacking the null DataFrame created for test purposes
+    df_test_null_data = source_dataframes_dict[df_null_key]
 
     # Collecting all rows from this DataFrame
     rows = [[value for value in row] for row in df_test_null_data.collect()]
