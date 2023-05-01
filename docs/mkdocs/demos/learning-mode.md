@@ -132,6 +132,11 @@ The only thing that is required when calling terraglue on learning mode is the s
       # Setting up output variables
       job_output_bucket_name = "datadelivery-sot-data-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
       job_output_database = "db_datadelivery_sot"
+
+      # Ensuring terraglue will be deployed only after datadelivery
+      depends_on = [
+        module.datadelivery
+      ]
     }
     ```
 
