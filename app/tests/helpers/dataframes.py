@@ -13,17 +13,13 @@ ___
 
 # Importing libraries
 import json
-import findspark
 
 from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql.types import StructType, StructField, StringType,\
     IntegerType, LongType, DecimalType, FloatType, DoubleType, BooleanType,\
     DateType, TimestampType
 
-
-# Getting the active SparkSession
-findspark.init()
-spark = SparkSession.builder.getOrCreate()
+from tests.conftest import spark
 
 
 # Creating a Python dictionary based on the read of a JSON file
