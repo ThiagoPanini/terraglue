@@ -20,7 +20,8 @@ from src.transformers import transform_orders,\
     transform_order_items,\
     transform_customers,\
     transform_payments,\
-    transform_reviews
+    transform_reviews,\
+    transform_sot
 
 
 @pytest.mark.transform_orders
@@ -69,7 +70,7 @@ def test_exception_on_transforming_df_orders_dataframe():
 
 @pytest.mark.transform_order_items
 def test_df_order_items_transformation_generates_a_spark_dataframe_object(
-    df_order_items
+    df_order_items_prep
 ):
     """
     G: given that users want to transform the df_order_items DataFrame
@@ -77,7 +78,7 @@ def test_df_order_items_transformation_generates_a_spark_dataframe_object(
     T: then the return must be a Spark DataFrame
     """
 
-    assert type(df_order_items) is DataFrame
+    assert type(df_order_items_prep) is DataFrame
 
 
 @pytest.mark.transform_order_items
@@ -113,7 +114,7 @@ def test_exception_on_transforming_df_order_items_dataframe():
 
 @pytest.mark.transform_customers
 def test_df_customers_transformation_generates_a_spark_dataframe_object(
-    df_customers
+    df_customers_prep
 ):
     """
     G: given that users want to transform the df_customers DataFrame
@@ -121,7 +122,7 @@ def test_df_customers_transformation_generates_a_spark_dataframe_object(
     T: then the return must be a Spark DataFrame
     """
 
-    assert type(df_customers) is DataFrame
+    assert type(df_customers_prep) is DataFrame
 
 
 @pytest.mark.transform_customers
@@ -157,7 +158,7 @@ def test_exception_on_transforming_df_customers_dataframe():
 
 @pytest.mark.transform_payments
 def test_df_payments_transformation_generates_a_spark_dataframe_object(
-    df_payments
+    df_payments_prep
 ):
     """
     G: given that users want to transform the df_payments DataFrame
@@ -165,7 +166,7 @@ def test_df_payments_transformation_generates_a_spark_dataframe_object(
     T: then the return must be a Spark DataFrame
     """
 
-    assert type(df_payments) is DataFrame
+    assert type(df_payments_prep) is DataFrame
 
 
 @pytest.mark.transform_payments
@@ -201,7 +202,7 @@ def test_exception_on_transforming_df_payments_dataframe():
 
 @pytest.mark.transform_reviews
 def test_df_reviews_transformation_generates_a_spark_dataframe_object(
-    df_reviews
+    df_reviews_prep
 ):
     """
     G: given that users want to transform the df_reviews DataFrame
@@ -209,7 +210,7 @@ def test_df_reviews_transformation_generates_a_spark_dataframe_object(
     T: then the return must be a Spark DataFrame
     """
 
-    assert type(df_reviews) is DataFrame
+    assert type(df_reviews_prep) is DataFrame
 
 
 @pytest.mark.transform_reviews
@@ -241,3 +242,47 @@ def test_exception_on_transforming_df_reviews_dataframe():
 
     with pytest.raises(Exception):
         _ = transform_reviews(df=None)
+
+
+@pytest.mark.transform_sot
+def test_df_sot_transformation_generates_a_spark_dataframe_object(
+    df_sot_prep
+):
+    """
+    G: given that users want to generate the final DataFrame for the job
+    W: when the function transform_sot() is called
+    T: then the return must be a Spark DataFrame
+    """
+
+    assert type(df_sot_prep) is DataFrame
+
+
+@pytest.mark.transform_sot
+def test_df_sot_transformation_generates_the_expected_dataframe_schema(
+    expected_dataframes_dict,
+    df_sot_prep
+):
+    """
+    G: given that users want to generate the final DataFrame for the job
+    W: when the function transform_sot() is called
+    T: then the schema of the resulting DataFrame must match the expected
+       schema provided by users in the JSON file
+    """
+
+    # Unpacking the expected DataFrame object to be tested
+    df_prep_expected = expected_dataframes_dict["df_sot_prep"]
+
+    assert compare_dataframe_schemas(df_sot_prep, df_prep_expected)
+
+
+@pytest.mark.transform_sot
+@pytest.mark.exception
+def test_exception_on_transforming_df_sot_dataframe():
+    """
+    G: given that users want to generate the final DataFrame for the job
+    W: when the function transform_sot() is called with a wrong arg
+    T: then an Exception must be raised
+    """
+
+    with pytest.raises(Exception):
+        _ = transform_sot(df=None)

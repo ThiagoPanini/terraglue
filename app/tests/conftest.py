@@ -19,7 +19,8 @@ from src.transformers import transform_orders,\
     transform_order_items,\
     transform_customers,\
     transform_payments,\
-    transform_reviews
+    transform_reviews,\
+    transform_sot
 
 
 # Creating a SparkSession object
@@ -114,3 +115,16 @@ def df_reviews(source_dataframes_dict: dict) -> DataFrame:
 @pytest.fixture()
 def df_reviews_prep(df_reviews) -> DataFrame:
     return transform_reviews(df=df_reviews)
+
+
+# A df_sot_prep generated running the transform_sot function
+@pytest.fixture()
+def df_sot_prep(df_orders_prep, df_order_items_prep, df_customers_prep,
+                df_payments_prep, df_reviews_prep) -> DataFrame:
+    return transform_sot(
+        df_orders_prep=df_orders_prep,
+        df_order_items_prep=df_order_items_prep,
+        df_customers_prep=df_customers_prep,
+        df_payments_prep=df_payments_prep,
+        df_reviews_prep=df_reviews_prep
+    )
