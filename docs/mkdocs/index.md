@@ -29,6 +29,10 @@ Hi everyone! Welcome to the official documentation page for **terraglue**, an op
   </a>
 
   <a href="https://codecov.io/gh/ThiagoPanini/terraglue" > 
+  <img src="https://codecov.io/gh/ThiagoPanini/terraglue/branch/main/graph/badge.svg?token=7HI1YGS4AA"/> 
+  </a>
+
+  <a href="https://codecov.io/gh/ThiagoPanini/terraglue" > 
     <img src="https://codecov.io/github/ThiagoPanini/terraglue/branch/main/graph/badge.svg?token=7HI1YGS4AA"/> 
   </a>
 
