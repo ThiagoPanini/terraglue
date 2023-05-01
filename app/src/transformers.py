@@ -113,8 +113,7 @@ def transform_orders(df: DataFrame) -> DataFrame:
 
 
 # Transformation method: df_order_items
-def transform_order_items(df: DataFrame,
-                          spark_session: SparkSession) -> DataFrame:
+def transform_order_items(df: DataFrame) -> DataFrame:
     """Creates a DAG to transform order items data.
 
     This function is responsible for applying the business rules to the
@@ -205,8 +204,10 @@ def transform_customers(df: DataFrame) -> DataFrame:
 
 
 # Transformation method: df_payments
-def transform_payments(df: DataFrame,
-                       spark_session: SparkSession) -> DataFrame:
+def transform_payments(
+    df: DataFrame,
+    spark_session: SparkSession
+) -> DataFrame:
     """Creates a DAG to transform payments data.
 
     This function is responsible for applying the business rules to the

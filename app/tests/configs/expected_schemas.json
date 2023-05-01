@@ -1,14 +1,362 @@
 {
-    "expected": [
+    "dataframes": [
         {
             "dataframe_reference": "df_orders_prep",
+            "empty": true,
+            "fake_data": false,
             "schema": [
                 {
-                    "attribute": "idx",
+                    "attribute": "order_id",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "customer_id",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "order_status",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "order_approved_at",
+                    "dtype": "timestamp",
+                    "nullable": true
+                },
+                {
+                    "attribute": "order_deliv_carrier_dt",
+                    "dtype": "timestamp",
+                    "nullable": true
+                },
+                {
+                    "attribute": "order_deliv_customer_dt",
+                    "dtype": "timestamp",
+                    "nullable": true
+                },
+                {
+                    "attribute": "order_estim_deliv_dt",
+                    "dtype": "timestamp",
+                    "nullable": true
+                },
+                {
+                    "attribute": "order_purchase_ts",
+                    "dtype": "date",
+                    "nullable": true
+                },
+                {
+                    "attribute": "year_order_purchase_ts",
                     "dtype": "int",
-                    "nullable": false
+                    "nullable": true
+                },
+                {
+                    "attribute": "quarter_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "month_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "dayofmonth_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "dayofweek_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "dayofyear_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "weekofyear_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
                 }
-            ]
+            ],
+            "data": []
+        },
+        {
+            "dataframe_reference": "df_order_items_prep",
+            "empty": true,
+            "fake_data": false,
+            "schema": [
+                {
+                    "attribute": "order_id",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "qty_order_items",
+                    "dtype": "bigint",
+                    "nullable": true
+                },
+                {
+                    "attribute": "sum_order_price",
+                    "dtype": "double",
+                    "nullable": true
+                },
+                {
+                    "attribute": "mean_order_price",
+                    "dtype": "double",
+                    "nullable": true
+                },
+                {
+                    "attribute": "max_order_price",
+                    "dtype": "double",
+                    "nullable": true
+                },
+                {
+                    "attribute": "min_order_price",
+                    "dtype": "double",
+                    "nullable": true
+                },
+                {
+                    "attribute": "mean_order_freight_value",
+                    "dtype": "double",
+                    "nullable": true
+                }
+            ],
+            "data": []
+        },
+        {
+            "dataframe_reference": "df_customers_prep",
+            "empty": true,
+            "fake_data": false,
+            "schema": [
+                {
+                    "attribute": "customer_id",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "customer_city",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "customer_state",
+                    "dtype": "string",
+                    "nullable": true
+                }
+            ],
+            "data": []
+        },
+        {
+            "dataframe_reference": "df_payments_prep",
+            "empty": true,
+            "fake_data": false,
+            "schema": [
+                {
+                    "attribute": "order_id",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "sum_payment_value",
+                    "dtype": "double",
+                    "nullable": true
+                },
+                {
+                    "attribute": "mean_payment_value",
+                    "dtype": "double",
+                    "nullable": true
+                },
+                {
+                    "attribute": "count_payment_value",
+                    "dtype": "bigint",
+                    "nullable": true
+                },
+                {
+                    "attribute": "most_common_payment_type",
+                    "dtype": "string",
+                    "nullable": true
+                }
+            ],
+            "data": []
+        },
+        {
+            "dataframe_reference": "df_reviews_prep",
+            "empty": true,
+            "fake_data": false,
+            "schema": [
+                {
+                    "attribute": "order_id",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "review_best_score",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "review_comment_message",
+                    "dtype": "string",
+                    "nullable": true
+                }
+            ],
+            "data": []
+        },
+        {
+            "dataframe_reference": "df_sot_prep",
+            "empty": true,
+            "fake_data": false,
+            "schema": [
+                {
+                    "attribute": "order_id",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "customer_id",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "order_status",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "order_purchase_ts",
+                    "dtype": "date",
+                    "nullable": true
+                },
+                {
+                    "attribute": "order_approved_at",
+                    "dtype": "timestamp",
+                    "nullable": true
+                },
+                {
+                    "attribute": "order_deliv_carrier_dt",
+                    "dtype": "timestamp",
+                    "nullable": true
+                },
+                {
+                    "attribute": "order_deliv_customer_dt",
+                    "dtype": "timestamp",
+                    "nullable": true
+                },
+                {
+                    "attribute": "order_estim_deliv_dt",
+                    "dtype": "timestamp",
+                    "nullable": true
+                },
+                {
+                    "attribute": "year_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "quarter_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "month_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "dayofmonth_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "dayofweek_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "dayofyear_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "weekofyear_order_purchase_ts",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "qty_order_items",
+                    "dtype": "bigint",
+                    "nullable": true
+                },
+                {
+                    "attribute": "sum_order_price",
+                    "dtype": "double",
+                    "nullable": true
+                },
+                {
+                    "attribute": "mean_order_price",
+                    "dtype": "double",
+                    "nullable": true
+                },
+                {
+                    "attribute": "max_order_price",
+                    "dtype": "double",
+                    "nullable": true
+                },
+                {
+                    "attribute": "min_order_price",
+                    "dtype": "double",
+                    "nullable": true
+                },
+                {
+                    "attribute": "mean_order_freight_value",
+                    "dtype": "double",
+                    "nullable": true
+                },
+                {
+                    "attribute": "customer_city",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "customer_state",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "sum_payment_value",
+                    "dtype": "double",
+                    "nullable": true
+                },
+                {
+                    "attribute": "mean_payment_value",
+                    "dtype": "double",
+                    "nullable": true
+                },
+                {
+                    "attribute": "count_payment_value",
+                    "dtype": "bigint",
+                    "nullable": true
+                },
+                {
+                    "attribute": "most_common_payment_type",
+                    "dtype": "string",
+                    "nullable": true
+                },
+                {
+                    "attribute": "review_best_score",
+                    "dtype": "int",
+                    "nullable": true
+                },
+                {
+                    "attribute": "review_comment_message",
+                    "dtype": "string",
+                    "nullable": true
+                }
+            ],
+            "data": []
         }
     ]
 }
