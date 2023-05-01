@@ -285,4 +285,10 @@ def test_exception_on_transforming_df_sot_dataframe():
     """
 
     with pytest.raises(Exception):
-        _ = transform_sot(df=None)
+        _ = transform_sot(
+            df_orders_prep=None,
+            df_order_items_prep=None,
+            df_customers_prep=None,
+            df_payments_prep=None,
+            df_reviews_prep=None
+        )
