@@ -17,7 +17,7 @@ import findspark
 
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType,\
-    IntegerType, DecimalType, FloatType, DoubleType, BooleanType,\
+    IntegerType, LongType, DecimalType, FloatType, DoubleType, BooleanType,\
     DateType, TimestampType
 
 
@@ -92,6 +92,8 @@ def parse_string_to_spark_dtype(dtype: str):
         return StringType
     elif dtype_prep in ("int", "integer"):
         return IntegerType
+    elif dtype_prep in ("bigint", "long"):
+        return LongType
     elif dtype_prep == "decimal":
         return DecimalType
     elif dtype_prep == "float":

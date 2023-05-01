@@ -16,9 +16,8 @@ from tests.helpers.dataframes import parse_string_to_spark_dtype,\
 from tests.conftest import SOURCE_JSON_SCHEMAS_PATH
 
 from pyspark.sql import DataFrame
-from pyspark.sql.types import StructType, StringType,\
-    IntegerType, DecimalType, FloatType, DoubleType, BooleanType,\
-    DateType, TimestampType
+from pyspark.sql.types import StructType, StringType, IntegerType, LongType,\
+    DecimalType, FloatType, DoubleType, BooleanType, DateType, TimestampType
 
 
 @pytest.mark.dataframes
@@ -80,6 +79,32 @@ def test_integer_reference_is_parsed_to_spark_integertype():
 
 @pytest.mark.dataframes
 @pytest.mark.parse_string_to_spark_dtype
+def test_bigint_reference_is_parsed_to_spark_longtype():
+    """
+    G: given that users want to parse a "bigint" reference to a Spark dtype
+    W: when the function parse_string_to_spark_dtype() is called with
+       dtype="bigint" argument
+    T: then the return object must be a LongType Spark object
+    """
+
+    assert parse_string_to_spark_dtype(dtype="bigint") is LongType
+
+
+@pytest.mark.dataframes
+@pytest.mark.parse_string_to_spark_dtype
+def test_long_reference_is_parsed_to_spark_longtype():
+    """
+    G: given that users want to parse a "long" reference to a Spark dtype
+    W: when the function parse_string_to_spark_dtype() is called with
+       dtype="long" argument
+    T: then the return object must be a LongType Spark object
+    """
+
+    assert parse_string_to_spark_dtype(dtype="long") is LongType
+
+
+@pytest.mark.dataframes
+@pytest.mark.parse_string_to_spark_dtype
 def test_decimal_reference_is_parsed_to_spark_decimaltype():
     """
     G: given that users want to parse a "decimal" reference to a Spark dtype
@@ -93,7 +118,7 @@ def test_decimal_reference_is_parsed_to_spark_decimaltype():
 
 @pytest.mark.dataframes
 @pytest.mark.parse_string_to_spark_dtype
-def test_float_reference_is_parsed_to_spark_decimaltype():
+def test_float_reference_is_parsed_to_spark_floattype():
     """
     G: given that users want to parse a "float" reference to a Spark dtype
     W: when the function parse_string_to_spark_dtype() is called with
@@ -106,7 +131,7 @@ def test_float_reference_is_parsed_to_spark_decimaltype():
 
 @pytest.mark.dataframes
 @pytest.mark.parse_string_to_spark_dtype
-def test_double_reference_is_parsed_to_spark_decimaltype():
+def test_double_reference_is_parsed_to_spark_doubletype():
     """
     G: given that users want to parse a "double" reference to a Spark dtype
     W: when the function parse_string_to_spark_dtype() is called with
@@ -119,7 +144,7 @@ def test_double_reference_is_parsed_to_spark_decimaltype():
 
 @pytest.mark.dataframes
 @pytest.mark.parse_string_to_spark_dtype
-def test_boolean_reference_is_parsed_to_spark_decimaltype():
+def test_boolean_reference_is_parsed_to_spark_booleantype():
     """
     G: given that users want to parse a "boolean" reference to a Spark dtype
     W: when the function parse_string_to_spark_dtype() is called with
@@ -132,7 +157,7 @@ def test_boolean_reference_is_parsed_to_spark_decimaltype():
 
 @pytest.mark.dataframes
 @pytest.mark.parse_string_to_spark_dtype
-def test_date_reference_is_parsed_to_spark_decimaltype():
+def test_date_reference_is_parsed_to_spark_datetype():
     """
     G: given that users want to parse a "date" reference to a Spark dtype
     W: when the function parse_string_to_spark_dtype() is called with
@@ -145,7 +170,7 @@ def test_date_reference_is_parsed_to_spark_decimaltype():
 
 @pytest.mark.dataframes
 @pytest.mark.parse_string_to_spark_dtype
-def test_timestamp_reference_is_parsed_to_spark_decimaltype():
+def test_timestamp_reference_is_parsed_to_spark_timestamptype():
     """
     G: given that users want to parse a "timestamp" reference to a Spark dtype
     W: when the function parse_string_to_spark_dtype() is called with
