@@ -108,7 +108,7 @@ def test_exception_on_transforming_df_order_items_dataframe():
     """
 
     with pytest.raises(Exception):
-        _ = transform_order_items(df=None, spark_session=spark)
+        _ = transform_order_items(df=None)
 
 
 @pytest.mark.transform_customers
@@ -152,7 +152,7 @@ def test_exception_on_transforming_df_customers_dataframe():
     """
 
     with pytest.raises(Exception):
-        _ = transform_customers(df=None, spark_session=spark)
+        _ = transform_customers(df=None)
 
 
 @pytest.mark.transform_payments
@@ -240,4 +240,4 @@ def test_exception_on_transforming_df_reviews_dataframe():
     """
 
     with pytest.raises(Exception):
-        _ = transform_reviews(df=None, spark_session=spark)
+        _ = transform_reviews(df=None)
