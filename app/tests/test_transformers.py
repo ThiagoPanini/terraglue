@@ -153,3 +153,91 @@ def test_exception_on_transforming_df_customers_dataframe():
 
     with pytest.raises(Exception):
         _ = transform_customers(df=None, spark_session=spark)
+
+
+@pytest.mark.transform_payments
+def test_df_payments_transformation_generates_a_spark_dataframe_object(
+    df_payments
+):
+    """
+    G: given that users want to transform the df_payments DataFrame
+    W: when the function transform_payments() is called
+    T: then the return must be a Spark DataFrame
+    """
+
+    assert type(df_payments) is DataFrame
+
+
+@pytest.mark.transform_payments
+def test_df_payments_transformation_generates_the_expected_dataframe_schema(
+    expected_dataframes_dict,
+    df_payments_prep
+):
+    """
+    G: given that users want to transform the df_payments DataFrame
+    W: when the function transform_payments() is called
+    T: then the schema of the resulting DataFrame must match the expected
+       schema provided by users in the JSON file
+    """
+
+    # Unpacking the expected DataFrame object to be tested
+    df_prep_expected = expected_dataframes_dict["df_payments_prep"]
+
+    assert compare_dataframe_schemas(df_payments_prep, df_prep_expected)
+
+
+@pytest.mark.transform_payments
+@pytest.mark.exception
+def test_exception_on_transforming_df_payments_dataframe():
+    """
+    G: given that users want to transform the df_payments DataFrame
+    W: when the function transform_payments() is called with a wrong arg
+    T: then an Exception must be raised
+    """
+
+    with pytest.raises(Exception):
+        _ = transform_payments(df=None, spark_session=spark)
+
+
+@pytest.mark.transform_reviews
+def test_df_reviews_transformation_generates_a_spark_dataframe_object(
+    df_reviews
+):
+    """
+    G: given that users want to transform the df_reviews DataFrame
+    W: when the function transform_reviews() is called
+    T: then the return must be a Spark DataFrame
+    """
+
+    assert type(df_reviews) is DataFrame
+
+
+@pytest.mark.transform_reviews
+def test_df_reviews_transformation_generates_the_expected_dataframe_schema(
+    expected_dataframes_dict,
+    df_reviews_prep
+):
+    """
+    G: given that users want to transform the df_reviews DataFrame
+    W: when the function transform_reviews() is called
+    T: then the schema of the resulting DataFrame must match the expected
+       schema provided by users in the JSON file
+    """
+
+    # Unpacking the expected DataFrame object to be tested
+    df_prep_expected = expected_dataframes_dict["df_reviews_prep"]
+
+    assert compare_dataframe_schemas(df_reviews_prep, df_prep_expected)
+
+
+@pytest.mark.transform_reviews
+@pytest.mark.exception
+def test_exception_on_transforming_df_reviews_dataframe():
+    """
+    G: given that users want to transform the df_reviews DataFrame
+    W: when the function transform_reviews() is called with a wrong arg
+    T: then an Exception must be raised
+    """
+
+    with pytest.raises(Exception):
+        _ = transform_reviews(df=None, spark_session=spark)
