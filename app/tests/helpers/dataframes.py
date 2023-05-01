@@ -17,7 +17,8 @@ import findspark
 
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType,\
-    IntegerType, DecimalType, FloatType, DateType, TimestampType, BooleanType
+    IntegerType, DecimalType, FloatType, DoubleType, BooleanType,\
+    DateType, TimestampType
 
 
 # Getting the active SparkSession
@@ -95,12 +96,14 @@ def parse_string_to_spark_dtype(dtype: str):
         return DecimalType
     elif dtype_prep == "float":
         return FloatType
+    elif dtype_prep == "double":
+        return DoubleType
+    elif dtype_prep == "boolean":
+        return BooleanType
     elif dtype_prep == "date":
         return DateType
     elif dtype == "timestamp":
         return TimestampType
-    elif dtype_prep == "boolean":
-        return BooleanType
     else:
         raise TypeError(f"Data type {dtype} is not valid or currently "
                         "parseable into a native Spark dtype")

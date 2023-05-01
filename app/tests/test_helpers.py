@@ -16,8 +16,9 @@ from tests.helpers.dataframes import parse_string_to_spark_dtype,\
 from tests.conftest import SOURCE_JSON_SCHEMAS_PATH
 
 from pyspark.sql import DataFrame
-from pyspark.sql.types import StructType, StringType, IntegerType,\
-    DecimalType, FloatType, DateType, TimestampType, BooleanType
+from pyspark.sql.types import StructType, StringType,\
+    IntegerType, DecimalType, FloatType, DoubleType, BooleanType,\
+    DateType, TimestampType
 
 
 @pytest.mark.dataframes
@@ -105,6 +106,32 @@ def test_float_reference_is_parsed_to_spark_decimaltype():
 
 @pytest.mark.dataframes
 @pytest.mark.parse_string_to_spark_dtype
+def test_double_reference_is_parsed_to_spark_decimaltype():
+    """
+    G: given that users want to parse a "double" reference to a Spark dtype
+    W: when the function parse_string_to_spark_dtype() is called with
+       dtype="double" argument
+    T: then the return object must be a DoubleType Spark object
+    """
+
+    assert parse_string_to_spark_dtype(dtype="double") is DoubleType
+
+
+@pytest.mark.dataframes
+@pytest.mark.parse_string_to_spark_dtype
+def test_boolean_reference_is_parsed_to_spark_decimaltype():
+    """
+    G: given that users want to parse a "boolean" reference to a Spark dtype
+    W: when the function parse_string_to_spark_dtype() is called with
+       dtype="boolean" argument
+    T: then the return object must be a BooleanType Spark object
+    """
+
+    assert parse_string_to_spark_dtype(dtype="boolean") is BooleanType
+
+
+@pytest.mark.dataframes
+@pytest.mark.parse_string_to_spark_dtype
 def test_date_reference_is_parsed_to_spark_decimaltype():
     """
     G: given that users want to parse a "date" reference to a Spark dtype
@@ -127,19 +154,6 @@ def test_timestamp_reference_is_parsed_to_spark_decimaltype():
     """
 
     assert parse_string_to_spark_dtype(dtype="timestamp") is TimestampType
-
-
-@pytest.mark.dataframes
-@pytest.mark.parse_string_to_spark_dtype
-def test_boolean_reference_is_parsed_to_spark_decimaltype():
-    """
-    G: given that users want to parse a "boolean" reference to a Spark dtype
-    W: when the function parse_string_to_spark_dtype() is called with
-       dtype="boolean" argument
-    T: then the return object must be a BooleanType Spark object
-    """
-
-    assert parse_string_to_spark_dtype(dtype="boolean") is BooleanType
 
 
 @pytest.mark.dataframes
