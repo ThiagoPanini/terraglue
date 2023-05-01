@@ -237,7 +237,42 @@ def compare_dataframe_schemas(
     df2: DataFrame,
     compare_nullable_info: bool = False
 ) -> bool:
-    """
+    """Compares the schema from two Spark DataFrames with custom options.
+
+    This function helps users to compare two Spark DataFrames schemas based on
+    custom conditions provided in order to help the comparison.
+
+    The schema of a Spark DataFrame is made of three main elements:
+    column name, column type and a boolean information telling if the field
+    accepts null values. In some cases, this third element can cause errors
+    when comparing two DataFrame schemas. Imagine that a Spark DataFrame is
+    created from a transformation function and there is no way to configure
+    if a field accepts a null value without (think of an aggregation step that
+    can create null values for some rows... or not). So, when comparing schemas
+    from two DataFrames, maybe we are interested only on column names and data
+    types, and not if an attribute is nullable or not.
+
+    This function uses a flag in order to provide two ways to compare Spark
+    DataFrame schemas:
+        1. Removing the "nullable" info from schema
+        2. Comparing native DataFrame.schema attributes without any changes
+
+    Example:
+        ```python
+        compare_dataframe_schemas(df1, df2, compare_nullable_info=False)
+        # Result is True or False
+        ```
+
+    Args:
+        df1 (pyspark.sql.DataFrame): the first Spark DataFrame to be compared
+        df2 (pyspark.sql.DataFrame): the second Spark DataFrame to be compared
+        compare_nullable_info (bool):
+            a boolean flag that leads to compare the schemas including the
+            nullable information or not.
+
+    Return:
+        The function returns True if both DataFrame schemas are equal or\
+        False if it isn't.
     """
 
     # Extracting infos to be compared based on user conditions
