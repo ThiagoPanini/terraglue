@@ -14,6 +14,7 @@ import pytest
 from pyspark.sql import DataFrame
 
 from tests.helpers.dataframes import compare_dataframe_schemas
+from tests.conftest import spark
 
 from src.transformers import transform_orders,\
     transform_order_items
@@ -104,4 +105,4 @@ def test_exception_on_transforming_df_order_items_dataframe():
     """
 
     with pytest.raises(Exception):
-        _ = transform_order_items(df=None)
+        _ = transform_order_items(df=None, spark_session=spark)
