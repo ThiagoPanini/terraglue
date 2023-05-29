@@ -101,10 +101,7 @@ df_reviews = dfs_dict["reviews"]
 df_orders_prep = transform_orders(df=df_orders)
 
 # Transforming DataFrame: order_items
-df_order_items_prep = transform_order_items(
-    df=df_order_items,
-    spark_session=spark_manager.spark
-)
+df_order_items_prep = transform_order_items(df=df_order_items)
 
 # Transforming DataFrame: customers
 df_customers_prep = transform_customers(df=df_customers)
