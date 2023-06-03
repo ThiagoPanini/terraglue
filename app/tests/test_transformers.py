@@ -40,5 +40,39 @@ def test_df_orders_transformation_generates_the_expected_schema(
     T: Then the schema of the returned DataFrame must match the expected
     """
 
-    assert compare_schemas(df1=df_orders_prep, df2=df_orders_expected,
-                           compare_nullable_info=False)
+    assert compare_schemas(
+        df1=df_orders_prep,
+        df2=df_orders_expected,
+        compare_nullable_info=False
+    )
+
+
+@pytest.mark.transform_order_items
+def test_df_order_items_transformation_generates_a_spark_dataframe_object(
+    df_order_items_prep
+):
+    """
+    G: Given that users want to transform the df_orders DataFrame
+    W: When the function transform_orders() is called
+    T: Then the return must be a Spark DataFrame
+    """
+
+    assert type(df_order_items_prep) is DataFrame
+
+
+@pytest.mark.transform_order_items
+def test_df_order_items_transformation_generates_the_expected_schema(
+    df_order_items_prep,
+    df_order_items_expected
+):
+    """
+    G: Given that users want to transform the df_orders DataFrame
+    W: When the function transform_orders() is called
+    T: Then the schema of the returned DataFrame must match the expected
+    """
+
+    assert compare_schemas(
+        df1=df_order_items_prep,
+        df2=df_order_items_expected,
+        compare_nullable_info=False
+    )

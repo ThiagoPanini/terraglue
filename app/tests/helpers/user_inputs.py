@@ -194,7 +194,7 @@ SOURCE_DATAFRAMES_DICT = {
                 "nullable": True
             }
         ],
-        "data": [                
+        "data": [
             ["e481f51cbdc54678b7cc49136f2d6af7", 1, "credit_card", 1, 18.12],
             ["e69bfb5eb88e0ed6a785585b27e16dbf", 2, "voucher", 1, 161.42],
             ["a4591c265e18cb1dcee52889e2d8acc3", 1, "credit_card", 6, 175.26],
@@ -246,7 +246,7 @@ SOURCE_DATAFRAMES_DICT = {
                 "nullable": True
             }
         ],
-        "data": [                
+        "data": [
             ["7bc2406110b926393aa56f80a40eba40", "73fc7af87114b39712e6da79b0a377eb", 4, "", "", "2018-01-18 00:00:00", "2018-01-18 21:46:59"],
             ["80e641a11e56f04c1ad469d5645fdfde", "a548910a1c6147796b98fdf73dbeba33", 5, "", "", "2018-03-10 00:00:00", "2018-03-11 03:05:13"],
             ["228ce5500dc1d8e020d8d1322874b6f0", "f9e4b658b201a9f2ecdecbb34bed034b", 5, "", "", "2018-02-17 00:00:00", "2018-02-18 14:36:24"],

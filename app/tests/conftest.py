@@ -17,7 +17,8 @@ from pyspark.sql import SparkSession, DataFrame
 from tests.helpers.user_inputs import SOURCE_DATAFRAMES_DICT,\
     EXPECTED_DATAFRAMES_DICT
 
-from src.transformers import transform_orders
+from src.transformers import transform_orders,\
+    transform_order_items
 
 
 # Getting the active SparkSession object (or creating one)
@@ -52,6 +53,10 @@ def dataframes_dict(spark_session: SparkSession):
     return dataframes_dict
 
 
+""" ------------------------------------------------
+       Fixture block for df_orders DataFrame
+------------------------------------------------ """
+
 # A DataFrame object for the source df_orders DataFrame
 @pytest.fixture()
 def df_orders(dataframes_dict: dict) -> DataFrame:
@@ -68,3 +73,25 @@ def df_orders_expected(dataframes_dict: dict) -> DataFrame:
 @pytest.fixture()
 def df_orders_prep(df_orders: DataFrame) -> DataFrame:
     return transform_orders(df=df_orders)
+
+
+""" ------------------------------------------------
+      Fixture block for df_order_items DataFrame
+------------------------------------------------ """
+
+# A DataFrame object for the source df_order_items DataFrame
+@pytest.fixture()
+def df_order_items(dataframes_dict: dict) -> DataFrame:
+    return dataframes_dict["source"]["df_order_items"]
+
+
+# A DataFrame object with the expected schema for df_order_items
+@pytest.fixture()
+def df_order_items_expected(dataframes_dict: dict) -> DataFrame:
+    return dataframes_dict["expected"]["df_order_items_prep"]
+
+
+# A DataFrame object that is the result of the df_orders transformation
+@pytest.fixture()
+def df_order_items_prep(df_order_items: DataFrame) -> DataFrame:
+    return transform_order_items(df=df_order_items)
