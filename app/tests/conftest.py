@@ -57,6 +57,7 @@ def dataframes_dict(spark_session: SparkSession):
        Fixture block for df_orders DataFrame
 ------------------------------------------------ """
 
+
 # A DataFrame object for the source df_orders DataFrame
 @pytest.fixture()
 def df_orders(dataframes_dict: dict) -> DataFrame:
@@ -78,6 +79,7 @@ def df_orders_prep(df_orders: DataFrame) -> DataFrame:
 """ ------------------------------------------------
       Fixture block for df_order_items DataFrame
 ------------------------------------------------ """
+
 
 # A DataFrame object for the source df_order_items DataFrame
 @pytest.fixture()
