@@ -18,7 +18,8 @@ from tests.helpers.user_inputs import SOURCE_DATAFRAMES_DICT,\
     EXPECTED_DATAFRAMES_DICT
 
 from src.transformers import transform_orders,\
-    transform_order_items
+    transform_order_items,\
+    transform_customers
 
 
 # Getting the active SparkSession object (or creating one)
@@ -97,3 +98,26 @@ def df_order_items_expected(dataframes_dict: dict) -> DataFrame:
 @pytest.fixture()
 def df_order_items_prep(df_order_items: DataFrame) -> DataFrame:
     return transform_order_items(df=df_order_items)
+
+
+""" ------------------------------------------------
+      Fixture block for df_customers DataFrame
+------------------------------------------------ """
+
+
+# A DataFrame object for the source df_customers DataFrame
+@pytest.fixture()
+def df_customers(dataframes_dict: dict) -> DataFrame:
+    return dataframes_dict["source"]["df_customers"]
+
+
+# A DataFrame object with the expected schema for df_customers
+@pytest.fixture()
+def df_customers_expected(dataframes_dict: dict) -> DataFrame:
+    return dataframes_dict["expected"]["df_customers_prep"]
+
+
+# A DataFrame object that is the result of the df_customers transformation
+@pytest.fixture()
+def df_customers_prep(df_customers: DataFrame) -> DataFrame:
+    return transform_customers(df=df_customers)
