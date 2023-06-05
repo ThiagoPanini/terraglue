@@ -19,7 +19,10 @@ from tests.helpers.user_inputs import SOURCE_DATAFRAMES_DICT,\
 
 from src.transformers import transform_orders,\
     transform_order_items,\
-    transform_customers
+    transform_customers,\
+    transform_payments,\
+    transform_reviews,\
+    transform_sot
 
 
 # Getting the active SparkSession object (or creating one)
@@ -121,3 +124,81 @@ def df_customers_expected(dataframes_dict: dict) -> DataFrame:
 @pytest.fixture()
 def df_customers_prep(df_customers: DataFrame) -> DataFrame:
     return transform_customers(df=df_customers)
+
+
+""" ------------------------------------------------
+      Fixture block for df_payments DataFrame
+------------------------------------------------ """
+
+
+# A DataFrame object for the source df_payments DataFrame
+@pytest.fixture()
+def df_payments(dataframes_dict: dict) -> DataFrame:
+    return dataframes_dict["source"]["df_payments"]
+
+
+# A DataFrame object with the expected schema for df_payments
+@pytest.fixture()
+def df_payments_expected(dataframes_dict: dict) -> DataFrame:
+    return dataframes_dict["expected"]["df_payments_prep"]
+
+
+# A DataFrame object that is the result of the df_payments transformation
+@pytest.fixture()
+def df_payments_prep(
+    df_payments: DataFrame,
+    spark_session: SparkSession
+) -> DataFrame:
+    return transform_payments(df=df_payments, spark_session=spark_session)
+
+
+""" ------------------------------------------------
+      Fixture block for df_reviews DataFrame
+------------------------------------------------ """
+
+
+# A DataFrame object for the source df_reviews DataFrame
+@pytest.fixture()
+def df_reviews(dataframes_dict: dict) -> DataFrame:
+    return dataframes_dict["source"]["df_reviews"]
+
+
+# A DataFrame object with the expected schema for df_reviews
+@pytest.fixture()
+def df_reviews_expected(dataframes_dict: dict) -> DataFrame:
+    return dataframes_dict["expected"]["df_reviews_prep"]
+
+
+# A DataFrame object that is the result of the df_reviews transformation
+@pytest.fixture()
+def df_reviews_prep(df_reviews: DataFrame) -> DataFrame:
+    return transform_reviews(df=df_reviews)
+
+
+""" ------------------------------------------------
+        Fixture block for df_sot DataFrame
+------------------------------------------------ """
+
+
+# A DataFrame object with the expected schema for df_sot
+@pytest.fixture()
+def df_sot_expected(dataframes_dict: dict) -> DataFrame:
+    return dataframes_dict["expected"]["df_sot_prep"]
+
+
+# A DataFrame object that is the result of the df_sot transformation
+@pytest.fixture()
+def df_sot_prep(
+    df_orders_prep: DataFrame,
+    df_order_items_prep: DataFrame,
+    df_customers_prep: DataFrame,
+    df_payments_prep: DataFrame,
+    df_reviews_prep: DataFrame
+) -> DataFrame:
+    return transform_sot(
+        df_orders_prep=df_orders_prep,
+        df_order_items_prep=df_order_items_prep,
+        df_customers_prep=df_customers_prep,
+        df_payments_prep=df_payments_prep,
+        df_reviews_prep=df_reviews_prep
+    )

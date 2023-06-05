@@ -17,7 +17,10 @@ from sparksnake.tester.dataframes import compare_schemas
 
 from src.transformers import transform_orders,\
     transform_order_items,\
-    transform_customers
+    transform_customers,\
+    transform_payments,\
+    transform_reviews,\
+    transform_sot
 
 
 @pytest.mark.transform_orders
@@ -147,3 +150,138 @@ def test_error_on_calling_transform_customers_function():
     """
     with pytest.raises(Exception):
         _ = transform_customers(df=None)
+
+
+@pytest.mark.transform_payments
+def test_df_payments_transformation_generates_a_spark_dataframe_object(
+    df_payments_prep
+):
+    """
+    G: Given that users want to transform the df_payments DataFrame
+    W: When the function transform_payments() is called
+    T: Then the return must be a Spark DataFrame
+    """
+
+    assert type(df_payments_prep) is DataFrame
+
+
+@pytest.mark.transform_payments
+def test_df_payments_transformation_generates_the_expected_schema(
+    df_payments_prep,
+    df_payments_expected
+):
+    """
+    G: Given that users want to transform the df_payments DataFrame
+    W: When the function transform_payments() is called
+    T: Then the schema of the returned DataFrame must match the expected
+    """
+
+    assert compare_schemas(
+        df1=df_payments_prep,
+        df2=df_payments_expected,
+        compare_nullable_info=False
+    )
+
+
+@pytest.mark.transform_payments
+def test_error_on_calling_transform_payments_function():
+    """
+    G: Given that users want to transform the df_payments DataFrame
+    W: When the function transform_payments() is called with an invalid
+       argument (i.e. an object different than a Spark DataFrame)
+    T: Then an Exception must be raised
+    """
+    with pytest.raises(Exception):
+        _ = transform_payments(df=None, spark_session=None)
+
+
+@pytest.mark.transform_reviews
+def test_df_reviews_transformation_generates_a_spark_dataframe_object(
+    df_reviews_prep
+):
+    """
+    G: Given that users want to transform the df_reviews DataFrame
+    W: When the function transform_reviews() is called
+    T: Then the return must be a Spark DataFrame
+    """
+
+    assert type(df_reviews_prep) is DataFrame
+
+
+@pytest.mark.transform_reviews
+def test_df_reviews_transformation_generates_the_expected_schema(
+    df_reviews_prep,
+    df_reviews_expected
+):
+    """
+    G: Given that users want to transform the df_reviews DataFrame
+    W: When the function transform_reviews() is called
+    T: Then the schema of the returned DataFrame must match the expected
+    """
+
+    assert compare_schemas(
+        df1=df_reviews_prep,
+        df2=df_reviews_expected,
+        compare_nullable_info=False
+    )
+
+
+@pytest.mark.transform_reviews
+def test_error_on_calling_transform_reviews_function():
+    """
+    G: Given that users want to transform the df_reviews DataFrame
+    W: When the function transform_reviews() is called with an invalid
+       argument (i.e. an object different than a Spark DataFrame)
+    T: Then an Exception must be raised
+    """
+    with pytest.raises(Exception):
+        _ = transform_reviews(df=None)
+
+
+@pytest.mark.transform_sot
+def test_df_sot_transformation_generates_a_spark_dataframe_object(
+    df_sot_prep
+):
+    """
+    G: Given that users want to transform the df_sot DataFrame
+    W: When the function transform_sot() is called
+    T: Then the return must be a Spark DataFrame
+    """
+
+    assert type(df_sot_prep) is DataFrame
+
+
+@pytest.mark.transform_sot
+def test_df_sot_transformation_generates_the_expected_schema(
+    df_sot_prep,
+    df_sot_expected
+):
+    """
+    G: Given that users want to transform the df_sot DataFrame
+    W: When the function transform_sot() is called
+    T: Then the schema of the returned DataFrame must match the expected
+    """
+
+    assert compare_schemas(
+        df1=df_sot_prep,
+        df2=df_sot_expected,
+        compare_nullable_info=False
+    )
+
+
+@pytest.mark.transform_sot
+def test_error_on_calling_transform_sot_function():
+    """
+    G: Given that users want to transform the df_sot DataFrame
+    W: When the function transform_sot() is called with an invalid
+       argument (i.e. an object different than a Spark DataFrame)
+    T: Then an Exception must be raised
+    """
+    with pytest.raises(Exception):
+        _ = transform_sot(
+            df_orders_prep=None,
+            df_order_items_prep=None,
+            df_customers_prep=None,
+            df_payments_prep=None,
+            df_reviews_prep=None
+        )
