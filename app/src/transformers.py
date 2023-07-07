@@ -249,7 +249,7 @@ def transform_payments(
             df=df,
             spark_session=spark_session,
             group_by="order_id",
-            numeric_col="payment_value",
+            agg_col="payment_value",
             round_result=True,
             n_round=2,
             count=True,
