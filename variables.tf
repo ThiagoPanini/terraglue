@@ -17,15 +17,6 @@ This variable file can be summarized by the following topics:
   3.4 Glue variables to handle required info on learning mode
 -------------------------------------------------------- */
 
-variable "aws_provider_config" {
-  description = "References a local file where AWS credentials are stored"
-  type        = map(any)
-  default = {
-    "config"      = ["~/.aws/config"]
-    "credentials" = ["~/.aws/credentials"]
-  }
-}
-
 variable "mode" {
   description = "Defines an operation mode that enables users to choose to use the module for learning or production/development purposes"
   type        = string
@@ -141,7 +132,7 @@ variable "glue_scripts_bucket_prefix" {
 
   validation {
     condition     = var.glue_scripts_bucket_prefix == "" || substr(var.glue_scripts_bucket_prefix, -1, -1) == "/"
-    error_message = "The application dir value has special characteres. Only a-z, A-Z and 0-9 characteres are allowed."
+    error_message = "The prefix to store the glue scripts must not be empty and it must end with '/'."
   }
 }
 
