@@ -24,8 +24,8 @@ locals {
   kms_policies_path = var.mode == "learning" ? "${path.module}/policy/kms/" : var.kms_policies_path
 
   # Assigning the IAM role and KMS key ARN according to module variables
-  glue_role_arn = var.flag_create_iam_role ? aws_iam_role.glue_job_role[0].arn : var.glue_role_arn
-  kms_key_arn   = var.flag_create_kms_key ? aws_kms_key.glue_cmk[0].arn : var.kms_key_arn
+  glue_role_arn = var.mode == "learning" || var.flag_create_iam_role ? aws_iam_role.glue_job_role[0].arn : var.glue_role_arn
+  kms_key_arn   = var.mode == "learning" || var.flag_create_kms_key ? aws_kms_key.glue_cmk[0].arn : var.kms_key_arn
 
   # Replacing dummy values on KMS key JSON policy if flag_create_kms_key is true
   kms_policy_raw             = var.mode == "learning" || var.flag_create_kms_key ? file("${local.kms_policies_path}/${tolist(fileset(local.kms_policies_path, "*.json"))[0]}") : ""
