@@ -15,6 +15,9 @@ repo_url: https://github.com/ThiagoPanini/terraglue
 copyright: |
   Copyright &copy; 2023-2024 <a href="https://github.com/ThiagoPanini"  target="_blank" rel="noopener">Thiago Panini</a>
 
+# Setting up docs dir
+docs_dir: docs/mkdocs
+
 # Configurações extras da documentação
 extra:
   # Redes sociais no footer
@@ -95,16 +98,17 @@ theme:
 # Navegação
 nav:
   - Home:
-    - datadelivery: index.md
-    
+    - Home: index.md
+    - Project Story: story.md
   - Quickstart:
-    - Overview: quickstart/overview.md
-    - Variáveis do Módulo: quickstart/variaveis.md
-    - Detalhes Adicionais:
-      - Arquitetura: quickstart/arquitetura.md
-      - Design: quickstart/design.md
-
-  - Contribuindo: contribuindo/contribuindo.md
+    - Getting Started: quickstart/gettingstarted.md
+  - Demos:
+    - About The Demos: demos/about.md
+    - Production Mode: demos/production-mode.md
+    - Learning Mode: demos/learning-mode.md
+  - Variables:
+    - Module Variables: variables/variables.md
+    - Validations: variables/validations.md
 
 # Configurando extensões
 markdown_extensions:
@@ -134,7 +138,7 @@ markdown_extensions:
 # Plugins
 plugins:
   - search:
-      lang: pt
+      lang: en
   - mkdocstrings
   - drawio_file
   - glightbox
