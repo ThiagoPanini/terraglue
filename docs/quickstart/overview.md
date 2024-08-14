@@ -1,7 +1,7 @@
 # Facilitando a Criação de Jobs Glue na AWS
 
 <div align="center">
-    <br><img src="https://github.com/ThiagoPanini/datadelivery/blob/v1.0.x/docs/_assets/imgs/logo/logo-com-nome.png?raw=true" width=280 alt="datadelivery-logo">
+    <br><img src="https://github.com/ThiagoPanini/terraglue/blob/v2.1.x/docs/_assets/imgs/logo/logo-com-nome.png?raw=true" width=280 alt="datadelivery-logo">
 </div>
 
 <div align="center">
@@ -22,7 +22,30 @@
     <img src="https://img.shields.io/badge/github-grey?style=for-the-badge&logo=github&logoColor=B252D0">
   </a>
 
+  <br>
+
+  <a href="">
+    <img src="https://img.shields.io/github/v/release/ThiagoPanini/terraglue?color=purple">
+  </a>
+
+  <a href="">
+    <img src="https://img.shields.io/github/last-commit/ThiagoPanini/terraglue?color=purple">
+  </a>
+
+  <a href="">
+    <img src="https://img.shields.io/github/actions/workflow/status/ThiagoPanini/terraglue/ci-main.yml?label=ci">
+  </a>
+
+  <a href="https://codecov.io/gh/ThiagoPanini/terraglue/branch/main/graph/badge.svg?token=7HI1YGS4AA">
+    <img src="https://codecov.io/gh/ThiagoPanini/terraglue">
+  </a>
+
+  <a href="https://readthedocs.org/projects/terraglue/badge/?version=latest">
+    <img src="https://terraglue.readthedocs.io/en/latest/?badge=latest">
+  </a>
+
 </div>
+
 
 ## Visão Geral
 

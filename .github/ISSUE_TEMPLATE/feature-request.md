@@ -1,29 +1,42 @@
 ---
 name: Feature Request
-about: Request of new features for project
+about: Requisição de novas funcionalidades
 title: "[FEATURE]"
 labels: feature
 assignees: ThiagoPanini
 
 ---
 
-:rocket: **_Feature needed:_**
-ToDo: provide details about the new feature requested and how would be its behavior along the project.
+🚀 **_Funcionalidade requerida:_**
+
+ToDo: forneça detalhes sobre as funcionalidades requeridas.
+
 ___
-:trophy: **_Feature benefits:_**
-With this new features, user would:
-* Enhance...
-* Improve...
-* Ensure that...
-* Increase...
+
+🏆 **_Benefícios da nova funcionalidade:_**
+
+Possíveis benefícios atrelados à nova funcionalidade
+* Aprimoramento...
+* Melhoria...
+* Garantia de que...
+* Aumento...
 * ...
+
 ___
-:books: **_Complexity:_**
-The best category that fits into the development of this new feature is:
-- [Extreme/High/Medium/Low] complexity
+
+🧙‍♂️ **_Complexidade:_**
+
+- [ ] Extrema
+- [ ] Alta
+- [ ] Média
+- [ ] Baixa
+
 ___
-:bulb: **_Ideas on how to develop it:_**
-To develop this new feature, would be possible to:
-- Search for...
-- Apply...
-- Try...
+
+💡 **_Ideias de desenvolvimento:_** [OPCIONAL]
+
+Alguns caminhos promissores para o desenvolvimento desta nova funcionalidade seriam:
+
+- Procurar por...
+- Aplicar...
+- Tentar...

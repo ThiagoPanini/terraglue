@@ -1,16 +1,28 @@
-:bookmark_tabs: **_PR details:_**
-ToDo: provide a detailed description for the Pull Request opened and ensure users can understand the main changes considered.
+📑 **_Detalhes do Pull Request:_**
+
+ToDo: forneça uma breve descrição sobre o PR aberto e garanta que os demais usuários interessados possam entender facilmente as alterações propostas.
+
 ___
-:link: **_Chained issues_**
-This PR eventually will close the following issues:
-- #.
-___
-:hammer: **_Tasks done:_**
-- Task A
-- Task B
+
+🔨 **_Atividades/features contempladas:_**
+
+- Atividade A
+- Melhoria B
 - ...
+
 ___
-:heavy_check_mark: **_Checklist:_**
-- [ ] New code followed the best practices
-- [ ] New features were tested properly
-- [ ] There is no chance new features would compromise the project
+
+🔗 **_Issues vinculadas_**
+
+Este PR eventualmente está atrelado às seguintes *issues*:
+
+- [ ] Nenhuma *issue vinculada*
+- [ ] #
+
+___
+
+✅ **_Checklist:_**
+
+- [ ] As novas parcelas de código seguiram as boas práticas de desenvolvimento
+- [ ] Novas funcionalidades foram testadas adequadamente
+- [ ] Espera-se que as novas funcionalidades não comprometam a solução como um todo
