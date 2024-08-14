@@ -1,50 +1,84 @@
-# Project main info
+# Informações principais do projeto
 site_name: terraglue
-site_url: https://terraglue.readthedocs.io/en/latest/
+site_url: https://terraglue.readthedocs.io/pt/latest/
 site_author: Thiago Panini
-site_description: >-
-  Providing an easy way to deploy a Glue job in any AWS account using Terraform
+site_description : >-
+  Um módulo Terraform open source capaz de permitir a
+  fácil implantação de jobs Glue para realização de
+  processos de ETL na AWS.
 
-# Source repo info
+# Informações do repositório com o código fonte
 repo_name: ThiagoPanini/terraglue
 repo_url: https://github.com/ThiagoPanini/terraglue
 
 # Copyright
 copyright: |
-  Copyright &copy; 2023 <a href="https://github.com/ThiagoPanini"  target="_blank" rel="noopener">ThiagoPanini</a>
+  Copyright &copy; 2023-2024 <a href="https://github.com/ThiagoPanini"  target="_blank" rel="noopener">Thiago Panini</a>
 
-# Setting up docs dir
-docs_dir: docs/mkdocs
+# Configurações extras da documentação
+extra:
+  # Redes sociais no footer
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ThiagoPanini
+      name: Thiago Panini no Github
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/thiago-panini/
+      name: Thiago Panini no LinkedIn
+    - icon: fontawesome/brands/hashnode
+      link: https://panini.hashnode.dev/
+      name: Blog panini-tech-lab no Hashnode
+  
+  # Google Analytics
+  analytics:
+    provider: google
+    property: G-THYKY7057T
+    feedback:
+      title: Esta página foi útil?
+      ratings:
+        - icon: material/thumb-up-outline
+          name: Yes, awesome!
+          data: 1
+          note: >-
+            Obrigado pelo seu feedback!
+        - icon: material/thumb-down-outline
+          name: No, it needs improvements!
+          data: 0
+          note: >-
+            Obrigado pelo seu feedback!
 
-# Setting up theme
+# Configuração do tema
 theme:
   name: material
 
-  # Pointing a additional dir for custom setup
-  custom_dir: docs/assets
+  # Diretório adicional para customização do tema
+  custom_dir: docs/_overrides
 
-  # Setting up a custom icon for site header
+  # Customizando ícone no header da página
   icon:
-    logo: custom/custom-icon
+    logo: custom/custom-icon-32px
+  
+  # Customizando favicon (ícone da aba)
+  favicon: _assets/imgs/logo/logo-sem-nome.png
 
-  # Setting up a color palette
+  # Configurando paleta de cores
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
-      accent: indigo
+      primary: white
+      accent: white
       toggle:
         icon: material/weather-sunny
-        name: Tap for dark mode
+        name: Toque para modo escuro
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: deep purple
-      accent: deep purple
+      primary: black
+      accent: black
       toggle:
         icon: material/weather-night
-        name: Tap for light mode
+        name: Toque para modo claro
 
-  # Setting up template features
+  # Configurando features da documentação
   features:
     - navigation.tabs
     - navigation.top
@@ -58,22 +92,21 @@ theme:
     - search.suggest
     - content.code.copy
 
-# Setting up navigation
+# Navegação
 nav:
   - Home:
-    - Home: index.md
-    - Project Story: story.md
+    - datadelivery: index.md
+    
   - Quickstart:
-    - Getting Started: quickstart/gettingstarted.md
-  - Demos:
-    - About The Demos: demos/about.md
-    - Production Mode: demos/production-mode.md
-    - Learning Mode: demos/learning-mode.md
-  - Variables:
-    - Module Variables: variables/variables.md
-    - Validations: variables/validations.md
+    - Overview: quickstart/overview.md
+    - Variáveis do Módulo: quickstart/variaveis.md
+    - Detalhes Adicionais:
+      - Arquitetura: quickstart/arquitetura.md
+      - Design: quickstart/design.md
 
-# Setting up MkDocs extensions
+  - Contribuindo: contribuindo/contribuindo.md
+
+# Configurando extensões
 markdown_extensions:
   - pymdownx.tasklist:
       custom_checkbox: true
@@ -90,18 +123,28 @@ markdown_extensions:
   - toc:
       permalink: true
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
       options:
         custom_icons:
           - overrides/.icons
-
-# Custom CSS
-extra_css:
-  - stylesheets/extra.css
+  - attr_list
+  - md_in_html
 
 # Plugins
 plugins:
   - search:
-      lang: en
+      lang: pt
   - mkdocstrings
+  - drawio_file
+  - glightbox
+  - git-committers:
+      repository: ThiagoPanini/datadelivery
+      branch: main
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: timeago
+
+# Custom CSS
+extra_css:
+  - assets/stylesheets/extra.css
